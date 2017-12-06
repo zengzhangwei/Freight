@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_province"
+                style="@style/AddressTextStyle"
+                android:layout_marginLeft="16dp"
+                android:text="@string/province" />
+
+            <TextView
+                android:id="@+id/tv_city"
+                style="@style/AddressTextStyle"
+                android:layout_marginLeft="8dp"
+                android:text="@string/city" />
+
+            <TextView
+                android:id="@+id/tv_district"
+                style="@style/AddressTextStyle"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="16dp"
+                android:text="@string/district" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="#3a9ae4" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/address_rlv"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:background="#ffffff"
+            android:numColumns="3">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/TextPhotoStyle"
+        android:text="@string/choose_photo_mode" />
+
+    <TextView style="@style/LineTextStyle" />
+
+    <TextView
+        android:id="@+id/tv_camera"
+        style="@style/TextPhotoStyle"
+        android:text="@string/camera" />
+
+    <TextView style="@style/LineTextStyle" />
+
+    <TextView
+        android:id="@+id/tv_photo"
+        style="@style/TextPhotoStyle"
+        android:text="@string/photo" />
+
+    <TextView style="@style/LineTextStyle" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        style="@style/TextPhotoStyle"
+        android:text="@string/cancel"
+        android:textColor="#646464" />
+
+    <TextView style="@style/LineTextStyle" />
+</LinearLayout>

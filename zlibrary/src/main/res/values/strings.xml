@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ZLibrary</string>
+    <string name="choose_photo_mode">照片选取方式</string>
+    <string name="camera">拍照</string>
+    <string name="photo">相册</string>
+    <string name="cancel">取消</string>
+    <string name="province">省</string>
+    <string name="city">市</string>
+    <string name="district">区</string>
+</resources>

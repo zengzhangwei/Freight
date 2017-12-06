@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextPhotoStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#3ab3df</item>
+        <item name="android:layout_height">38dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="LineTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.8dp</item>
+        <item name="android:background">#EFEFEF</item>
+    </style>
+
+    <style name="WindowAnim">
+        <item name="android:windowEnterAnimation">@anim/bottom_info_anim</item>
+        <item name="android:windowExitAnimation">@anim/bottom_exit_anim</item>
+    </style>
+
+    <style name="AddressTextStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/text_shape</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_selector_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+</resources>
