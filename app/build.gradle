@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
@@ -9,6 +9,7 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -19,14 +20,27 @@ android {
     }
 }
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.4.0'
+    }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile project(':zlibrary')
     compile 'com.zhy:autolayout:1.4.5'
     compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:support-v4:26.+'
+    compile 'com.jakewharton:butterknife:8.4.0'
     testCompile 'junit:junit:4.12'
-    compile project(':zlibrary')
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }

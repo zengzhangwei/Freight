@@ -1,0 +1,201 @@
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.zl.freight.ui.fragment.SendGoodsFragment">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/SendGoodsTextStyle"
+            android:drawableLeft="@mipmap/icon_depart_tag"
+            android:text="@string/depart_place" />
+
+        <TextView
+            style="@style/TextStyle_right"
+            android:text="@string/touch_choose" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="@dimen/dp_18"
+        android:background="@color/light_grey" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/SendGoodsTextStyle"
+            android:drawableLeft="@mipmap/icon_arrive_tag"
+            android:text="@string/destination" />
+
+        <TextView
+            style="@style/TextStyle_right"
+            android:text="@string/touch_choose" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/bg_color" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/SendGoodsTextStyle"
+            android:drawableLeft="@mipmap/icon_vehicle"
+            android:text="@string/car_length_type" />
+
+        <TextView
+            style="@style/TextStyle_right"
+            android:text="@string/touch_choose" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="@dimen/dp_18"
+        android:background="@color/light_grey" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/SendGoodsTextStyle"
+            android:drawableLeft="@mipmap/icon_cargo_type"
+            android:text="@string/goods_type" />
+
+        <TextView
+            style="@style/TextStyle_right"
+            android:text="@string/touch_choose" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="@dimen/dp_18"
+        android:background="@color/light_grey" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/SendGoodsTextStyle"
+            android:drawableLeft="@mipmap/icon_cargo_weight"
+            android:text="@string/goods_weight" />
+
+        <EditText
+            style="@style/TextStyle_right"
+            android:text="@string/touch_output" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/bg_color" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/SendGoodsTextStyle"
+            android:drawableLeft="@mipmap/icon_cargo_price"
+            android:text="@string/freight_money" />
+
+        <TextView
+            style="@style/TextStyle_right"
+            android:text="@string/touch_output" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="@dimen/dp_18"
+        android:background="@color/light_grey" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/SendGoodsTextStyle"
+            android:drawableLeft="@mipmap/icon_cargo_load_time"
+            android:text="@string/loading_time" />
+
+        <TextView
+            style="@style/TextStyle_right"
+            android:text="@string/touch_choose" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="@dimen/dp_18"
+        android:background="@color/light_grey" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/SendGoodsTextStyle"
+            android:drawableLeft="@mipmap/icon_cargo_remark"
+            android:text="@string/content" />
+
+        <TextView
+            style="@style/TextStyle_right"
+            android:text="装卸方式、付款方式、备注" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="@dimen/dp_18"
+        android:background="@color/light_grey" />
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color">
+
+        <TextView
+            android:layout_width="520px"
+            android:layout_height="@dimen/dp_48"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="@dimen/dp_18"
+            android:text="@string/enture_publish"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@drawable/bg_blue_round" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

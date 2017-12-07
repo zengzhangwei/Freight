@@ -1,18 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.zl.freight.ui.activity.MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/main_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_4">
+
+            <ImageView
+                android:id="@+id/main_usericon"
+                android:layout_width="@dimen/dp_52"
+                android:layout_height="@dimen/dp_52"
+                android:layout_marginLeft="@dimen/dp_4"
+                android:padding="@dimen/dp_4"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <TextView
+                android:id="@+id/main_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_toRightOf="@id/main_usericon"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_16"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/main_img_share"
+                style="@style/main_title_image_style"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_4"
+                android:padding="@dimen/dp_6"
+                app:srcCompat="@drawable/ic_share_white" />
+
+            <ImageView
+                android:id="@+id/main_img_weChat"
+                style="@style/main_title_image_style"
+                android:layout_marginRight="@dimen/dp_4"
+                android:layout_toLeftOf="@id/main_img_share"
+                android:padding="@dimen/dp_4"
+                app:srcCompat="@drawable/ic_wechat" />
+
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!--<android.support.design.widget.AppBarLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true">-->
+
+    <!--<com.zhy.autolayout.AutoLinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/dp_48"-->
+    <!--android:background="@color/bg_color">-->
+
+    <!--<com.zhy.autolayout.AutoLinearLayout-->
+    <!--style="@style/MainTabStyle">-->
+
+    <!--<ImageView-->
+    <!--android:layout_marginTop="@dimen/dp_4"-->
+    <!--android:layout_width="@dimen/dp_28"-->
+    <!--android:layout_height="@dimen/dp_28" />-->
+    <!---->
+    <!---->
+    <!---->
+    <!--</com.zhy.autolayout.AutoLinearLayout>-->
+
+    <!--<com.zhy.autolayout.AutoLinearLayout-->
+    <!--style="@style/MainTabStyle">-->
+
+    <!--</com.zhy.autolayout.AutoLinearLayout>-->
+
+    <!--<com.zhy.autolayout.AutoLinearLayout-->
+    <!--style="@style/MainTabStyle">-->
+
+    <!--</com.zhy.autolayout.AutoLinearLayout>-->
+
+    <!--<com.zhy.autolayout.AutoLinearLayout-->
+    <!--style="@style/MainTabStyle">-->
+
+    <!--</com.zhy.autolayout.AutoLinearLayout>-->
+
+    <!--<com.zhy.autolayout.AutoLinearLayout-->
+    <!--style="@style/MainTabStyle">-->
+
+    <!--</com.zhy.autolayout.AutoLinearLayout>-->
+    <!---->
+    <!---->
+    <!--</com.zhy.autolayout.AutoLinearLayout>-->
+
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/main_bottom"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg_color"
+        app:itemIconTint="@color/main_bottom_color_selector"
+        app:itemTextColor="@color/main_bottom_color_selector"
+        app:menu="@menu/main_menu"></android.support.design.widget.BottomNavigationView>
 
-</android.support.constraint.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/main_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/main_bottom"
+        android:layout_below="@id/main_title"></RelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -19,7 +19,7 @@ import com.zl.zlibrary.utils.ImageLoader;
 public class ViewHolder extends RecyclerView.ViewHolder {
 
     private SparseArray<View> mViews;
-    private View mConvertView;
+    public View mConvertView;
     private Context mContext;
 
     public ViewHolder(Context context, View itemView, ViewGroup parent) {

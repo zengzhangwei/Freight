@@ -1,0 +1,94 @@
+package com.zl.freight.ui.fragment;
+
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.zl.freight.R;
+import com.zl.zlibrary.adapter.RecyclerAdapter;
+import com.zl.zlibrary.adapter.ViewHolder;
+import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.ImageLoader;
+import com.zl.zlibrary.view.MRefreshRecyclerView;
+
+import java.util.Arrays;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
+/**
+ * @author zhanglei
+ * @date 17/12/7
+ * 头条页面
+ */
+public class TopLineFragment extends BaseFragment {
+
+    @BindView(R.id.top_rlv)
+    MRefreshRecyclerView topRlv;
+    Unbinder unbinder;
+    private List<String> mList = Arrays.asList("http://image.3761.com/pic/85241434675216.jpg",
+            "http://image.3761.com/pic/5111434675216.jpg",
+            "http://image.3761.com/pic/58601434675217.jpg",
+            "http://image.3761.com/pic/43701434675217.jpg",
+            "http://image.3761.com/pic/1191434675217.jpg",
+            "http://image.3761.com/pic/34951434675217.jpg");
+    private RecyclerAdapter<String> mAdapter;
+
+    public TopLineFragment() {
+        // Required empty public constructor
+    }
+
+    public static TopLineFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        TopLineFragment fragment = new TopLineFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_top_line, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        initView();
+        initListener();
+        return view;
+    }
+
+    private void initListener() {
+        mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                showToast("" + position);
+            }
+        });
+    }
+
+    private void initView() {
+        mAdapter = new RecyclerAdapter<String>(mActivity, mList, R.layout.top_item) {
+            @Override
+            protected void convert(ViewHolder holder, String s, int position) {
+                ImageView view = holder.getView(R.id.iv_top_icon);
+                ImageLoader.loadImageUrl(TopLineFragment.this, s, view);
+            }
+        };
+        topRlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
+        topRlv.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+}

@@ -1,0 +1,12 @@
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zl.freight.ui.fragment.FindGoodsFragment">
+
+   <com.zl.zlibrary.view.MRefreshRecyclerView
+       android:id="@+id/find_goods_rlv"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"></com.zl.zlibrary.view.MRefreshRecyclerView>
+
+</com.zhy.autolayout.AutoRelativeLayout>

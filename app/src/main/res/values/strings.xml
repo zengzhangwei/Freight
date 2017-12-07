@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">货运宝</string>
+    <string name="app_name">车多多</string>
+    <string name="top_line">头条</string>
+    <string name="send_goods">发货</string>
+    <string name="find_goods">找货</string>
+    <string name="person">用户</string>
+    <string name="store">商城</string>
+    <string name="call">打电话</string>
+    <string name="depart_place">出发地</string>
+    <string name="destination">目的地</string>
+    <string name="car_length_type">车长车型</string>
+    <string name="goods_type">货物类型</string>
+    <string name="goods_weight">货物重量</string>
+    <string name="freight_money">运费金额</string>
+    <string name="loading_time">装车时间</string>
+    <string name="content">备注信息</string>
+    <string name="tonne">吨</string>
+    <string name="square">方</string>
+    <string name="yuan">元</string>
+    <string name="touch_choose">点击选择</string>
+    <string name="touch_output">点击输入</string>
+    <string name="enture_publish">确定发布</string>
+    <string name="my_order">我的订单</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="data">13米 不限车型 / 100吨  重货 \n装车时间12月7日全天  一装一卸</string>
 </resources>

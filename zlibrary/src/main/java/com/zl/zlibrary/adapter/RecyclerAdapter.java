@@ -2,6 +2,7 @@ package com.zl.zlibrary.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -28,7 +29,15 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        holder.mConvertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onItemClick(view, position);
+                }
+            }
+        });
         convert(holder, list.get(position), position);
     }
 
@@ -38,4 +47,14 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<ViewHolder
     }
 
     protected abstract void convert(ViewHolder holder, T t, int position);
+
+    private OnItemClickListener listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
 }
