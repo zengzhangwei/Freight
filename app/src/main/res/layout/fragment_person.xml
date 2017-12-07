@@ -71,8 +71,7 @@
             <ImageView
                 android:layout_width="86px"
                 android:layout_height="86px"
-                android:padding="20px"
-                android:src="@mipmap/ic_log" />
+                android:padding="20px" />
 
             <TextView
                 style="@style/TextStyle"
@@ -98,8 +97,7 @@
             <ImageView
                 android:layout_width="86px"
                 android:layout_height="86px"
-                android:padding="20px"
-                android:src="@mipmap/my_order" />
+                android:padding="20px" />
 
             <TextView
                 style="@style/TextStyle"
@@ -123,8 +121,7 @@
             <ImageView
                 android:layout_width="86px"
                 android:layout_height="86px"
-                android:padding="20px"
-                android:src="@mipmap/ic_yu_yue" />
+                android:padding="20px" />
 
             <TextView
                 style="@style/TextStyle"
@@ -148,8 +145,7 @@
             <ImageView
                 android:layout_width="86px"
                 android:layout_height="86px"
-                android:padding="20px"
-                android:src="@mipmap/ic_update_pwd" />
+                android:padding="20px" />
 
             <TextView
                 style="@style/TextStyle"
