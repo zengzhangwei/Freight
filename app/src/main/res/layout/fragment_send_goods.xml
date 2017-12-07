@@ -18,7 +18,7 @@
 
         <TextView
             style="@style/TextStyle_right"
-            android:text="@string/touch_choose" />
+            android:hint="@string/touch_choose" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
@@ -36,11 +36,11 @@
         <TextView
             style="@style/SendGoodsTextStyle"
             android:drawableLeft="@mipmap/icon_arrive_tag"
-            android:text="@string/destination" />
+            android:hint="@string/destination" />
 
         <TextView
             style="@style/TextStyle_right"
-            android:text="@string/touch_choose" />
+            android:hint="@string/touch_choose" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
@@ -61,7 +61,7 @@
 
         <TextView
             style="@style/TextStyle_right"
-            android:text="@string/touch_choose" />
+            android:hint="@string/touch_choose" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
@@ -83,7 +83,7 @@
 
         <TextView
             style="@style/TextStyle_right"
-            android:text="@string/touch_choose" />
+            android:hint="@string/touch_choose" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
@@ -104,9 +104,37 @@
             android:text="@string/goods_weight" />
 
         <EditText
-            style="@style/TextStyle_right"
-            android:text="@string/touch_output" />
+            android:layout_width="250px"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textSize="@dimen/dp_14"
+            android:textCursorDrawable="@null"
+            android:hint="@string/touch_output" />
 
+        <TextView
+            android:layout_width="0.8dp"
+            android:background="@color/light_grey"
+            android:layout_height="@dimen/dp_36" />
+
+        <TextView
+            android:id="@+id/tv_tonne"
+            android:layout_width="@dimen/dp_48"
+            android:background="@drawable/text_bg_selector"
+            android:textColor="@color/text_selector_color"
+            android:text="@string/tonne"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_height="@dimen/dp_32" />
+
+        <TextView
+            android:id="@+id/tv_square"
+            android:layout_width="@dimen/dp_48"
+            android:background="@drawable/text_bg_selector"
+            android:textColor="@color/text_selector_color"
+            android:text="@string/square"
+            android:gravity="center"
+            android:layout_height="@dimen/dp_32" />
     </com.zhy.autolayout.AutoLinearLayout>
 
     <TextView
@@ -124,10 +152,22 @@
             android:drawableLeft="@mipmap/icon_cargo_price"
             android:text="@string/freight_money" />
 
-        <TextView
-            style="@style/TextStyle_right"
-            android:text="@string/touch_output" />
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="460px"
+            android:textCursorDrawable="@null"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:hint="@string/touch_output"
+            android:textSize="@dimen/dp_14" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/yuan"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_14"
+            />
     </com.zhy.autolayout.AutoLinearLayout>
 
     <TextView
@@ -148,7 +188,7 @@
 
         <TextView
             style="@style/TextStyle_right"
-            android:text="@string/touch_choose" />
+            android:hint="@string/touch_choose" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
@@ -170,7 +210,7 @@
 
         <TextView
             style="@style/TextStyle_right"
-            android:text="装卸方式、付款方式、备注" />
+            android:hint="装卸方式、付款方式、备注" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 

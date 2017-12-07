@@ -17,6 +17,10 @@
     <dimen name="dp_28">56px</dimen>
     <dimen name="dp_30">60px</dimen>
     <dimen name="dp_32">64px</dimen>
+    <dimen name="dp_34">68px</dimen>
+    <dimen name="dp_36">72px</dimen>
+    <dimen name="dp_38">76px</dimen>
+    <dimen name="dp_40">80px</dimen>
     <dimen name="dp_48">96px</dimen>
     <dimen name="dp_50">100px</dimen>
     <dimen name="dp_52">104px</dimen>

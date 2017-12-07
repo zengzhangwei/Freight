@@ -2,11 +2,12 @@ package com.zl.freight.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zl.freight.R;
@@ -40,6 +41,12 @@ public class MainActivity extends BaseActivity {
     ImageView mainImgWeChat;
     @BindView(R.id.main_bottom)
     BottomNavigationView mainBottom;
+    @BindView(R.id.tv_car_type)
+    TextView tvCarType;
+    @BindView(R.id.main_title)
+    AppBarLayout mainTitle;
+    @BindView(R.id.main_rl)
+    RelativeLayout mainRl;
     private FragmentHelper helper;
     //找货
     private FindGoodsFragment findGoodsFragment;
@@ -65,6 +72,13 @@ public class MainActivity extends BaseActivity {
         mainBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if (item.getItemId() == R.id.find_goods) {
+                    tvCarType.setVisibility(View.VISIBLE);
+                } else {
+                    tvCarType.setVisibility(View.GONE);
+                }
+
                 switch (item.getItemId()) {
                     case R.id.top_line:
                         helper.showFragment(topLineFragment);

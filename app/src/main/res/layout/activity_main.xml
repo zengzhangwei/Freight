@@ -48,7 +48,22 @@
                 android:layout_marginRight="@dimen/dp_4"
                 android:layout_toLeftOf="@id/main_img_share"
                 android:padding="@dimen/dp_4"
+                android:visibility="gone"
                 app:srcCompat="@drawable/ic_wechat" />
+
+            <TextView
+                android:id="@+id/tv_car_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_14"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/dp_6"
+                android:text="@string/car_length_type"
+                android:layout_toLeftOf="@id/main_img_share"
+                android:layout_centerVertical="true"
+                android:drawableRight="@mipmap/jiao"
+                />
 
         </com.zhy.autolayout.AutoRelativeLayout>
 

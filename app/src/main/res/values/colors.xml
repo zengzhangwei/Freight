@@ -14,6 +14,6 @@
     <color name="light_grey">#E0E0E0</color>
     <color name="goods_tv_color">#012806</color>
     <color name="blue">#4994df</color>
-
+    <color name="hint_color">#686868</color>
 
 </resources>

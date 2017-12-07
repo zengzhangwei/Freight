@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
+        android:layout_margin="@dimen/dp_8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -56,9 +57,10 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_16"
         android:background="@color/white"
         android:orientation="vertical"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_8"
         android:paddingLeft="@dimen/dp_16">
 
         <com.zhy.autolayout.AutoLinearLayout
@@ -166,8 +168,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/dp_16"
-        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_8"
         android:layout_marginTop="140px"
         android:background="@color/colorPrimary"
         android:gravity="center"
