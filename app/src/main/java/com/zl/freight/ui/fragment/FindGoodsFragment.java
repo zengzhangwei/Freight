@@ -12,6 +12,7 @@ import com.zl.freight.R;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.SystemUtils;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
 
 import java.util.ArrayList;
@@ -71,7 +72,12 @@ public class FindGoodsFragment extends BaseFragment {
         mAdapter = new RecyclerAdapter<String>(mActivity, mList, R.layout.goods_item) {
             @Override
             protected void convert(ViewHolder holder, String s, int position) {
-
+                holder.getView(R.id.iv_phone).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SystemUtils.call(mActivity,"15075993917");
+                    }
+                });
             }
         };
         findGoodsRlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));

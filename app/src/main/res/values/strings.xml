@@ -25,6 +25,14 @@
     <string name="user_check">用户审核</string>
     <string name="info_query">统计查询</string>
     <string name="new_push">广告及新闻发布</string>
+    <string name="car_length">车长</string>
+    <string name="car_type">车型</string>
+    <string name="choose_address">选择地址</string>
+    <string name="use_car_type">用车类型</string>
+    <string name="carload">整车</string>
+    <string name="breakbulk">零担</string>
+    <string name="else_type">其他类型</string>
+    <string name="ok">确认</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

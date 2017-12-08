@@ -1,5 +1,7 @@
 package com.zl.freight.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -12,11 +14,13 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.fragment.FindGoodsFragment;
 import com.zl.freight.ui.fragment.PersonFragment;
 import com.zl.freight.ui.fragment.SendGoodsFragment;
 import com.zl.freight.ui.fragment.StoreFragment;
 import com.zl.freight.ui.fragment.TopLineFragment;
+import com.zl.freight.utils.ShareUtils;
 import com.zl.zlibrary.utils.FragmentHelper;
 
 import butterknife.BindView;
@@ -58,6 +62,7 @@ public class MainActivity extends BaseActivity {
     private StoreFragment storeFragment;
     //头条
     private TopLineFragment topLineFragment;
+    private CarLengthDialog carLengthDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +121,10 @@ public class MainActivity extends BaseActivity {
                 .commit();
         helper.showFragment(findGoodsFragment);
         mainBottom.setSelectedItemId(R.id.find_goods);
+        carLengthDialog = new CarLengthDialog(mActivity);
     }
 
-    @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.main_img_weChat})
+    @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.tv_car_type, R.id.main_img_weChat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //进入用户中心页面
@@ -127,11 +133,15 @@ public class MainActivity extends BaseActivity {
                 break;
             //分享应用
             case R.id.main_img_share:
-
+                ShareUtils.share(mActivity);
                 break;
             //关注微信公众号
             case R.id.main_img_weChat:
 
+                break;
+            //显示车长车宽选择器
+            case R.id.tv_car_type:
+                carLengthDialog.show(view);
                 break;
         }
     }

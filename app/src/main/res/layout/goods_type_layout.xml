@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dp_16">
+
+    <include
+        android:id="@+id/gt_title"
+        layout="@layout/car_length_type_title_layout" />
+
+    <ListView
+        android:id="@+id/gt_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginBottom="@dimen/dp_4"
+        android:layout_marginTop="@dimen/dp_4"
+        android:background="@color/light_grey" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_use_car_type"
+            style="@style/TextCarTypeDialogStyle"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:text="@string/else_type" />
+
+        <EditText
+            android:layout_width="340px"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:background="@drawable/grey_line_shape"
+            android:hint="点击输入（最多四个字）"
+            android:paddingLeft="@dimen/dp_6"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/dp_14" />
+
+        <TextView
+            android:layout_width="130px"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:text="@string/ok"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_14" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

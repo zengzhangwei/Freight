@@ -1,6 +1,7 @@
 package com.zl.freight.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.zl.freight.R;
+import com.zl.freight.ui.activity.AddressChooseActivity;
+import com.zl.freight.ui.dialog.GoodsTypeDialog;
+import com.zl.freight.ui.dialog.SGCarLengthDialog;
+import com.zl.zlibrary.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +26,7 @@ import butterknife.Unbinder;
  * @date 17/12/7
  * 发货界面
  */
-public class SendGoodsFragment extends Fragment {
+public class SendGoodsFragment extends BaseFragment {
 
 
     @BindView(R.id.tv_tonne)
@@ -29,8 +34,26 @@ public class SendGoodsFragment extends Fragment {
     @BindView(R.id.tv_square)
     TextView tvSquare;
     Unbinder unbinder;
-    @BindView(R.id.editText)
-    EditText editText;
+    @BindView(R.id.tv_choose_start)
+    TextView tvChooseStart;
+    @BindView(R.id.tv_choose_end)
+    TextView tvChooseEnd;
+    @BindView(R.id.tv_choose_length)
+    TextView tvChooseLength;
+    @BindView(R.id.tv_choose_type)
+    TextView tvChooseType;
+    @BindView(R.id.et_weight)
+    EditText etWeight;
+    @BindView(R.id.et_money)
+    EditText etMoney;
+    @BindView(R.id.tv_choose_time)
+    TextView tvChooseTime;
+    @BindView(R.id.tv_choose_content)
+    TextView tvChooseContent;
+    @BindView(R.id.tv_ok_push)
+    TextView tvOkPush;
+    private SGCarLengthDialog dialog;
+    private GoodsTypeDialog goodsTypeDialog;
 
     public SendGoodsFragment() {
         // Required empty public constructor
@@ -57,6 +80,8 @@ public class SendGoodsFragment extends Fragment {
 
     private void initView() {
         tvTonne.setSelected(true);
+        dialog = new SGCarLengthDialog(mActivity);
+        goodsTypeDialog = new GoodsTypeDialog(mActivity);
     }
 
     @Override
@@ -65,16 +90,43 @@ public class SendGoodsFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_tonne, R.id.tv_square})
+    @OnClick({R.id.tv_tonne, R.id.tv_square, R.id.tv_choose_start, R.id.tv_choose_end, R.id.tv_choose_length, R.id.tv_choose_type, R.id.tv_choose_time, R.id.tv_choose_content, R.id.tv_ok_push})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            //选择吨
             case R.id.tv_tonne:
                 tvTonne.setSelected(true);
                 tvSquare.setSelected(false);
                 break;
+            //选择方
             case R.id.tv_square:
                 tvTonne.setSelected(false);
                 tvSquare.setSelected(true);
+                break;
+            //选择始发地
+            case R.id.tv_choose_start:
+                startActivity(new Intent(mActivity, AddressChooseActivity.class));
+                break;
+            //选择目的地
+            case R.id.tv_choose_end:
+                startActivity(new Intent(mActivity, AddressChooseActivity.class));
+                break;
+            //选择货车长度
+            case R.id.tv_choose_length:
+                dialog.show(view);
+                break;
+            //选择货物类型
+            case R.id.tv_choose_type:
+                goodsTypeDialog.show(view);
+                break;
+            //选择装货时间
+            case R.id.tv_choose_time:
+                break;
+            //选择备注
+            case R.id.tv_choose_content:
+                break;
+            //确认发布
+            case R.id.tv_ok_push:
                 break;
         }
     }

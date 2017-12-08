@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="@dimen/dp_6"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_type_item"
+        android:layout_width="match_parent"
+        android:background="@drawable/grey_line_shape"
+        android:text="12.3"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textSize="@dimen/dp_14"
+        android:layout_height="@dimen/dp_40" />
+
+</com.zhy.autolayout.AutoLinearLayout>

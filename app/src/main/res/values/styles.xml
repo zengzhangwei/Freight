@@ -57,4 +57,20 @@
         <item name="android:drawableRight">@mipmap/icon_right</item>
         <item name="android:checkable">true</item>
     </style>
+
+    <style name="TextCarTypeDialogStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dp_16</item>
+        <item name="android:layout_marginLeft">@dimen/dp_4</item>
+        <item name="android:layout_marginBottom">@dimen/dp_16</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/dp_14</item>
+    </style>
+
+    <style name="SimpleTextViewType">
+        <item name="android:textSize">@dimen/dp_14</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>
