@@ -21,6 +21,10 @@
     <string name="touch_output">点击输入</string>
     <string name="enture_publish">确定发布</string>
     <string name="my_order">我的订单</string>
+    <string name="my_money">我的钱包</string>
+    <string name="user_check">用户审核</string>
+    <string name="info_query">统计查询</string>
+    <string name="new_push">广告及新闻发布</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

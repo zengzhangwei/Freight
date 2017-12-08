@@ -64,7 +64,7 @@
         android:paddingLeft="@dimen/dp_16">
 
         <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_chakangengduo"
+            android:id="@+id/linear_my_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -78,7 +78,7 @@
             <TextView
                 style="@style/TextStyle"
                 android:layout_gravity="center_vertical"
-                android:text="我的订单" />
+                android:text="@string/my_order" />
 
         </com.zhy.autolayout.AutoLinearLayout>
 
@@ -90,7 +90,7 @@
 
 
         <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_caijijilu"
+            android:id="@+id/linear_my_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -104,7 +104,7 @@
             <TextView
                 style="@style/TextStyle"
                 android:layout_gravity="center_vertical"
-                android:text="采集记录" />
+                android:text="@string/my_money" />
 
         </com.zhy.autolayout.AutoLinearLayout>
 
@@ -128,7 +128,7 @@
             <TextView
                 style="@style/TextStyle"
                 android:layout_gravity="center_vertical"
-                android:text="发卡列表" />
+                android:text="@string/user_check" />
 
         </com.zhy.autolayout.AutoLinearLayout>
 
@@ -138,7 +138,7 @@
             android:background="@color/light_grey" />
 
         <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_updatePwd"
+            android:id="@+id/linear_info_query"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -152,7 +152,7 @@
             <TextView
                 style="@style/TextStyle"
                 android:layout_gravity="center_vertical"
-                android:text="修改登录密码" />
+                android:text="@string/info_query" />
 
         </com.zhy.autolayout.AutoLinearLayout>
 
@@ -160,6 +160,25 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/light_grey" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/linear_news_push"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="86px"
+                android:layout_height="86px"
+                android:padding="20px" />
+
+            <TextView
+                style="@style/TextStyle"
+                android:layout_gravity="center_vertical"
+                android:text="@string/new_push" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
 
     </com.zhy.autolayout.AutoLinearLayout>
 
