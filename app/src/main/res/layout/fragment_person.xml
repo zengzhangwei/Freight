@@ -6,9 +6,9 @@
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_margin="@dimen/dp_8"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_8">
 
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
@@ -36,9 +36,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp_16"
-                    android:textSize="@dimen/dp_18"
                     android:layout_toRightOf="@id/user_icon"
-                    android:text="张磊" />
+                    android:text="张磊"
+                    android:textSize="@dimen/dp_18" />
 
                 <ImageView
                     android:layout_width="@dimen/dp_22"
@@ -57,10 +57,10 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
         android:layout_marginLeft="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_8"
+        android:background="@color/white"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/dp_16">
 
         <com.zhy.autolayout.AutoLinearLayout
@@ -73,7 +73,8 @@
             <ImageView
                 android:layout_width="86px"
                 android:layout_height="86px"
-                android:padding="20px" />
+                android:padding="18px"
+                android:src="@mipmap/icon_order" />
 
             <TextView
                 style="@style/TextStyle"
@@ -99,7 +100,8 @@
             <ImageView
                 android:layout_width="86px"
                 android:layout_height="86px"
-                android:padding="20px" />
+                android:padding="18px"
+                android:src="@mipmap/icon_my_money" />
 
             <TextView
                 style="@style/TextStyle"
@@ -123,7 +125,8 @@
             <ImageView
                 android:layout_width="86px"
                 android:layout_height="86px"
-                android:padding="20px" />
+                android:padding="18px"
+                android:src="@mipmap/icon_user_check" />
 
             <TextView
                 style="@style/TextStyle"
@@ -145,9 +148,11 @@
             android:gravity="center_vertical">
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="86px"
                 android:layout_height="86px"
-                android:padding="20px" />
+                android:padding="18px"
+                android:src="@mipmap/icon_query" />
 
             <TextView
                 style="@style/TextStyle"
@@ -171,7 +176,8 @@
             <ImageView
                 android:layout_width="86px"
                 android:layout_height="86px"
-                android:padding="20px" />
+                android:padding="18px"
+                android:src="@mipmap/icon_news_push" />
 
             <TextView
                 style="@style/TextStyle"
