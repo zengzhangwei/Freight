@@ -37,7 +37,7 @@
         <TextView
             style="@style/SendGoodsTextStyle"
             android:drawableLeft="@mipmap/icon_arrive_tag"
-            android:hint="@string/destination" />
+            android:text="@string/destination" />
 
         <TextView
             android:id="@+id/tv_choose_end"

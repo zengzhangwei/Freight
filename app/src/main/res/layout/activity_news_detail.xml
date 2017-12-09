@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zl.freight.ui.activity.NewsDetailActivity">
+
+    <include layout="@layout/title_layout" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_news_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_16"
+                android:text="邢台惊险吸水龙卷风，多名市民被卷入空中"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_18"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_news_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_16" />
+
+            <TextView
+                android:id="@+id/tv_news_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:lineSpacingMultiplier="1.2"
+                android:padding="@dimen/dp_16"
+                android:text="ImageView的高度是和图片的高度一样的，998px。ImageView的宽度和屏幕宽度一样，1080px。
+由于ImageView默认的scaleType是fitCenter，将图片按比例扩大（或缩放）到视图的宽（或高）然后居中显示，所以图片宽度没有充满屏幕的原因就是，ImageView的高度不够，它限制了图片的放大倍数"
+                android:textColor="@color/text_black_cc"
+                android:textSize="@dimen/dp_16" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </ScrollView>
+
+</com.zhy.autolayout.AutoLinearLayout>

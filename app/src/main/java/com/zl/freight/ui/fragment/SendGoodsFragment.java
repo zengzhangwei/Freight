@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.ui.activity.AddressChooseActivity;
+import com.zl.freight.ui.dialog.ChooseTimeDialog;
 import com.zl.freight.ui.dialog.GoodsTypeDialog;
+import com.zl.freight.ui.dialog.RemarkDialog;
 import com.zl.freight.ui.dialog.SGCarLengthDialog;
 import com.zl.zlibrary.base.BaseFragment;
 
@@ -54,6 +56,8 @@ public class SendGoodsFragment extends BaseFragment {
     TextView tvOkPush;
     private SGCarLengthDialog dialog;
     private GoodsTypeDialog goodsTypeDialog;
+    private RemarkDialog remarkDialog;
+    private ChooseTimeDialog timeDialog;
 
     public SendGoodsFragment() {
         // Required empty public constructor
@@ -82,6 +86,8 @@ public class SendGoodsFragment extends BaseFragment {
         tvTonne.setSelected(true);
         dialog = new SGCarLengthDialog(mActivity);
         goodsTypeDialog = new GoodsTypeDialog(mActivity);
+        remarkDialog = new RemarkDialog(mActivity);
+        timeDialog = new ChooseTimeDialog(mActivity);
     }
 
     @Override
@@ -121,9 +127,11 @@ public class SendGoodsFragment extends BaseFragment {
                 break;
             //选择装货时间
             case R.id.tv_choose_time:
+                timeDialog.showDialog(view);
                 break;
             //选择备注
             case R.id.tv_choose_content:
+                remarkDialog.show(view);
                 break;
             //确认发布
             case R.id.tv_ok_push:

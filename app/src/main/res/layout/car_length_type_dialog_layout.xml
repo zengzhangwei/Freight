@@ -37,7 +37,7 @@
                     android:layout_height="@dimen/dp_40"
                     android:layout_marginLeft="@dimen/dp_4"
                     android:layout_marginRight="@dimen/dp_8"
-                    android:background="@drawable/grey_line_shape"
+                    android:background="@drawable/text_bg_check_selector"
                     android:gravity="center"
                     android:text="@string/carload"
                     android:textColor="@color/black"
@@ -47,7 +47,7 @@
                     android:id="@+id/tv_breakbulk"
                     android:layout_width="160px"
                     android:layout_height="@dimen/dp_40"
-                    android:background="@drawable/grey_line_shape"
+                    android:background="@drawable/text_bg_check_selector"
                     android:gravity="center"
                     android:text="@string/breakbulk"
                     android:textColor="@color/black"
@@ -88,14 +88,8 @@
 
             <TextView
                 android:id="@+id/tv_ok"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_48"
-                android:layout_marginTop="@dimen/dp_16"
-                android:background="@color/blue"
-                android:gravity="center"
-                android:text="确定"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dp_16" />
+                style="@style/TextButtonStyle"
+                android:text="确定" />
 
         </com.zhy.autolayout.AutoLinearLayout>
 

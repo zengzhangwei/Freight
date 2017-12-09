@@ -33,8 +33,28 @@
     <string name="breakbulk">零担</string>
     <string name="else_type">其他类型</string>
     <string name="ok">确认</string>
+    <string name="load_unload_mode">装卸方式</string>
+    <string name="pay_mode">支付方式</string>
+    <string name="remark">备注</string>
+    <string name="limit_50size">限50字</string>
+    <string name="please_input_title">请输入标题</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="data">13米 不限车型 / 100吨  重货 \n装车时间12月7日全天  一装一卸</string>
+
+    <string-array name="load_unload_mode_list">
+        <item>一装一卸</item>
+        <item>一装两卸</item>
+        <item>一装多卸</item>
+        <item>两装一卸</item>
+        <item>两装两卸</item>
+        <item>两装多卸</item>
+    </string-array>
+
+    <string-array name="pay_mode_list">
+        <item>全现金</item>
+        <item>需回单</item>
+        <item>三段付</item>
+    </string-array>
 </resources>

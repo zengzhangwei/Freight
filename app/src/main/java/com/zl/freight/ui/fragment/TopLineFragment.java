@@ -1,8 +1,11 @@
 package com.zl.freight.ui.fragment;
 
 
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.zl.freight.R;
+import com.zl.freight.ui.activity.NewsDetailActivity;
+import com.zl.freight.ui.activity.PublishNewsActivity;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
@@ -21,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -33,6 +39,8 @@ public class TopLineFragment extends BaseFragment {
     @BindView(R.id.top_rlv)
     MRefreshRecyclerView topRlv;
     Unbinder unbinder;
+    @BindView(R.id.ft_fab)
+    FloatingActionButton ftFab;
     private List<String> mList = Arrays.asList("http://image.3761.com/pic/85241434675216.jpg",
             "http://image.3761.com/pic/5111434675216.jpg",
             "http://image.3761.com/pic/58601434675217.jpg",
@@ -69,7 +77,15 @@ public class TopLineFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                showToast("" + position);
+                View img = view.findViewById(R.id.iv_top_icon);
+                Intent intent = new Intent(mActivity, NewsDetailActivity.class);
+                intent.putExtra("url", mList.get(position));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, img, NewsDetailActivity.PICTURE);
+                    startActivity(intent, options.toBundle());
+                } else {
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -90,5 +106,10 @@ public class TopLineFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.ft_fab)
+    public void onViewClicked() {
+        startActivity(new Intent(mActivity, PublishNewsActivity.class));
     }
 }

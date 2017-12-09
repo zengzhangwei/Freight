@@ -1,0 +1,77 @@
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.zl.freight.ui.fragment.NewPushFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_16">
+
+            <EditText
+                android:id="@+id/tv_title_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="请输入标题"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_18"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_add_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/click" />
+
+            <EditText
+                android:id="@+id/tv_news_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:background="@color/white"
+                android:hint="输入文章内容"
+                android:lineSpacingMultiplier="1.2"
+                android:textColor="@color/text_black_cc"
+                android:textSize="@dimen/dp_16" />
+
+            <EditText
+                android:id="@+id/tv_web_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:background="@color/white"
+                android:hint="输入网页连接"
+                android:lineSpacingMultiplier="1.2"
+                android:textColor="@color/text_black_cc"
+                android:textSize="@dimen/dp_16" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/np_tab_push"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/dp_16"
+        app:srcCompat="@drawable/ic_send" />
+
+</com.zhy.autolayout.AutoRelativeLayout>

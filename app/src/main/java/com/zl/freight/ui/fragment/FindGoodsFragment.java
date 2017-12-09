@@ -12,6 +12,7 @@ import com.zl.freight.R;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.ImageLoader;
 import com.zl.zlibrary.utils.SystemUtils;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
 
@@ -21,6 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * @author zhanglei
@@ -72,6 +74,8 @@ public class FindGoodsFragment extends BaseFragment {
         mAdapter = new RecyclerAdapter<String>(mActivity, mList, R.layout.goods_item) {
             @Override
             protected void convert(ViewHolder holder, String s, int position) {
+                CircleImageView imageView = holder.getView(R.id.iv_user_icon);
+                ImageLoader.loadImageUrl(mActivity,"http://image.3761.com/pic/5111434675216.jpg",imageView);
                 holder.getView(R.id.iv_phone).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

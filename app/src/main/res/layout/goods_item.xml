@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_car_data">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_user_icon"
                 android:layout_width="@dimen/dp_32"
                 android:layout_height="@dimen/dp_32"
@@ -87,7 +87,7 @@
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.4"
+        android:layout_weight="0.3"
         android:background="@color/white">
 
         <TextView
