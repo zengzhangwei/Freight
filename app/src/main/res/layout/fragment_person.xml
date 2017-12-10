@@ -116,7 +116,7 @@
             android:background="@color/light_grey" />
 
         <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_fakaliebiao"
+            android:id="@+id/linear_user_check"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -148,7 +148,6 @@
             android:gravity="center_vertical">
 
             <ImageView
-                android:id="@+id/imageView"
                 android:layout_width="86px"
                 android:layout_height="86px"
                 android:padding="18px"
