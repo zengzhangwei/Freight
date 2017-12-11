@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zl.freight.ui.activity.InfoQueryActivity">
+
+    <include layout="@layout/title_layout" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_16"
+        android:background="@drawable/grey_line_shape"
+        android:orientation="vertical">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/send_goods_count"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_16" />
+
+            <TextView
+                android:layout_width="0.8dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_grey" />
+
+            <TextView
+                android:id="@+id/tv_send_goods_count"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="@color/text_black_cc"
+                android:textSize="@dimen/dp_14" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@color/light_grey" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/get_goods_count"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_16" />
+
+            <TextView
+                android:layout_width="0.8dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_grey" />
+
+            <TextView
+                android:id="@+id/tv_get_goods_count"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="@color/text_black_cc"
+                android:textSize="@dimen/dp_14" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@color/light_grey" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/top_up_money"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_16" />
+
+            <TextView
+                android:layout_width="0.8dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_grey" />
+
+            <TextView
+                android:id="@+id/tv_top_up_money"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="@color/text_black_cc"
+                android:textSize="@dimen/dp_14" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@color/light_grey" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

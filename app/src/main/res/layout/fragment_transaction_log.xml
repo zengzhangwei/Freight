@@ -1,0 +1,17 @@
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.zl.freight.ui.fragment.TransactionLogFragment">
+
+    <include layout="@layout/title_layout" />
+
+    <com.zl.zlibrary.view.MRefreshRecyclerView
+        android:id="@+id/log_mrl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.zl.zlibrary.view.MRefreshRecyclerView>
+
+</com.zhy.autolayout.AutoLinearLayout>

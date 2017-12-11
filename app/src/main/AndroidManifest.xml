@@ -57,7 +57,10 @@
         <activity android:name=".ui.activity.ShipperActivity" />
         <activity android:name=".ui.activity.AddressChooseActivity" />
         <activity android:name=".ui.activity.NewsDetailActivity" />
-        <activity android:name=".ui.activity.PublishNewsActivity"></activity>
+        <activity android:name=".ui.activity.PublishNewsActivity" />
+        <activity android:name=".ui.activity.InfoQueryActivity" />
+        <activity android:name=".ui.activity.EditPersonDataActivity" />
+        <activity android:name=".ui.activity.MyMoneyActivity"></activity>
     </application>
 
 </manifest>

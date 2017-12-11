@@ -17,6 +17,7 @@
 
 
             <com.zhy.autolayout.AutoRelativeLayout
+                android:id="@+id/arl_person"
                 android:layout_width="match_parent"
                 android:layout_height="200px"
                 android:background="@color/colorPrimary">

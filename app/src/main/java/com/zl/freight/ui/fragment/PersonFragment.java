@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
+import com.zl.freight.ui.activity.EditPersonDataActivity;
+import com.zl.freight.ui.activity.InfoQueryActivity;
+import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.activity.PublishNewsActivity;
 import com.zl.zlibrary.base.BaseFragment;
 
@@ -89,16 +92,20 @@ public class PersonFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.linear_my_order, R.id.linear_my_money, R.id.linear_user_check, R.id.linear_info_query, R.id.linear_news_push})
+    @OnClick({R.id.arl_person, R.id.linear_my_order, R.id.linear_my_money, R.id.linear_user_check, R.id.linear_info_query, R.id.linear_news_push})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            //个人信息
+            case R.id.arl_person:
+                startActivity(new Intent(mActivity, EditPersonDataActivity.class));
+                break;
             //我的订单
             case R.id.linear_my_order:
 
                 break;
             //我的钱包
             case R.id.linear_my_money:
-
+                startActivity(new Intent(mActivity, MyMoneyActivity.class));
                 break;
             //用户审核
             case R.id.linear_user_check:
@@ -106,7 +113,7 @@ public class PersonFragment extends BaseFragment {
                 break;
             //统计查询
             case R.id.linear_info_query:
-
+                startActivity(new Intent(mActivity, InfoQueryActivity.class));
                 break;
             //发布新闻和广告
             case R.id.linear_news_push:

@@ -1,9 +1,11 @@
 package com.zl.freight.ui.activity;
 
-import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class PublishNewsActivity extends BaseActivity {
     private NewPushFragment newPushFragment;
     private WebPushFragment webPushFragment;
     private FragmentHelper fragmentHelper;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +104,29 @@ public class PublishNewsActivity extends BaseActivity {
 
     private void initView() {
         tvTitle.setText("文章发布");
+        alertDialog = new AlertDialog.Builder(mActivity).setMessage("确认放弃编辑吗，退出将不会保存").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        }).setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        }).create();
     }
 
     @OnClick(R.id.iv_back)
     public void onViewClicked() {
-        finish();
+        alertDialog.show();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            alertDialog.show();
+        }
+        return true;
     }
 }

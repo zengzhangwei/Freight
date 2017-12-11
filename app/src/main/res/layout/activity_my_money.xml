@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.zl.freight.ui.activity.MyMoneyActivity">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <include layout="@layout/title_layout" />
+
+        <ImageView
+            android:layout_width="190px"
+            android:layout_height="190px"
+            android:layout_marginTop="@dimen/dp_20"
+            app:srcCompat="@drawable/ic_my_money" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="@string/my_balance"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_18" />
+
+        <TextView
+            android:id="@+id/tv_money_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="￥73.81"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_30"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_top_up_bt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_34"
+            android:background="@drawable/green_round_shape"
+            android:gravity="center"
+            android:text="充值"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_16" />
+
+        <TextView
+            android:id="@+id/tv_ti_xian_bt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@drawable/grey_line_round_shape"
+            android:gravity="center"
+            android:text="提现"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_16" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <!--Fragment的父容器-->
+    <RelativeLayout
+        android:id="@+id/my_money_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </RelativeLayout>
+
+</com.zhy.autolayout.AutoRelativeLayout>
