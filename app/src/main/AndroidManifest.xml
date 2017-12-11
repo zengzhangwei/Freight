@@ -43,16 +43,16 @@
             android:name="design_height"
             android:value="1280" />
 
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.MainActivity"></activity>
+        <activity android:name=".ui.activity.LauncherActivity" />
+        <activity android:name=".ui.activity.RoleChooseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.LauncherActivity" />
-        <activity android:name=".ui.activity.RoleChooseActivity" />
-        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.LoginActivity"></activity>
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.ShipperActivity" />
         <activity android:name=".ui.activity.AddressChooseActivity" />
@@ -60,7 +60,8 @@
         <activity android:name=".ui.activity.PublishNewsActivity" />
         <activity android:name=".ui.activity.InfoQueryActivity" />
         <activity android:name=".ui.activity.EditPersonDataActivity" />
-        <activity android:name=".ui.activity.MyMoneyActivity"></activity>
+        <activity android:name=".ui.activity.MyMoneyActivity" />
+        <activity android:name=".ui.activity.GoodsMainActivity"></activity>
     </application>
 
 </manifest>

@@ -62,7 +62,7 @@ public class MyMoneyActivity extends BaseActivity {
                 break;
             //交易记录
             case R.id.tv_title_right:
-                getSupportFragmentManager().beginTransaction().replace(R.id.my_money_rl, logFragment).commit();
+                getSupportFragmentManager().beginTransaction().addToBackStack("132").replace(R.id.my_money_rl, logFragment).commit();
                 break;
             //充值
             case R.id.tv_top_up_bt:

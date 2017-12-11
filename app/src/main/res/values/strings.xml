@@ -43,10 +43,14 @@
     <string name="get_goods_count">接货量</string>
     <string name="top_up_money">充值总额</string>
     <string name="with_time_query">按时间查询</string>
+    <string name="driver_in">司机入口</string>
+    <string name="goods_master_in">货主入口</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="data">13米 不限车型 / 100吨  重货 \n装车时间12月7日全天  一装一卸</string>
+    <string name="forget_password">忘记密码?</string>
+    <string name="random_see_see">随便看看</string>
 
     <string-array name="load_unload_mode_list">
         <item>一装一卸</item>

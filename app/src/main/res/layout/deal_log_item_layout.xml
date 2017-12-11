@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/dp_16"
+    android:paddingRight="@dimen/dp_16"
+    android:paddingTop="@dimen/dp_16">
+
+    <TextView
+        android:id="@+id/tv_deal_log_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="支付宝支付"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dp_16" />
+
+    <TextView
+        android:id="@+id/tv_deal_log_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_deal_log_title"
+        android:layout_marginTop="@dimen/dp_8"
+        android:text="2017-12-11 18:00"
+        android:textSize="@dimen/dp_14" />
+
+    <TextView
+        android:id="@+id/tv_deal_log_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="+17.28"
+        android:textSize="@dimen/dp_16" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_below="@id/tv_deal_log_time"
+        android:layout_marginTop="@dimen/dp_16"
+        android:background="@color/light_grey" />
+
+</com.zhy.autolayout.AutoRelativeLayout>

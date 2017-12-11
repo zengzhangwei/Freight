@@ -16,6 +16,7 @@ import com.zl.freight.ui.activity.EditPersonDataActivity;
 import com.zl.freight.ui.activity.InfoQueryActivity;
 import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.activity.PublishNewsActivity;
+import com.zl.freight.ui.activity.RoleChooseActivity;
 import com.zl.zlibrary.base.BaseFragment;
 
 import butterknife.BindView;
@@ -92,7 +93,8 @@ public class PersonFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.arl_person, R.id.linear_my_order, R.id.linear_my_money, R.id.linear_user_check, R.id.linear_info_query, R.id.linear_news_push})
+    @OnClick({R.id.arl_person, R.id.linear_my_order, R.id.linear_my_money, R.id.linear_user_check,
+            R.id.linear_info_query, R.id.linear_news_push, R.id.btn_exit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //个人信息
@@ -118,6 +120,11 @@ public class PersonFragment extends BaseFragment {
             //发布新闻和广告
             case R.id.linear_news_push:
                 startActivity(new Intent(mActivity, PublishNewsActivity.class));
+                break;
+            //退出当前帐号
+            case R.id.btn_exit:
+                startActivity(new Intent(mActivity, RoleChooseActivity.class));
+                mActivity.finish();
                 break;
         }
     }

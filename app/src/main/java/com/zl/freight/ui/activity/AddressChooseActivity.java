@@ -14,7 +14,7 @@ import butterknife.OnClick;
 
 /**
  * @author zhanglei
- * @date 地址选择器（从地图上选择）
+ * 地址选择器（从地图上选择）
  */
 public class AddressChooseActivity extends BaseActivity {
 
