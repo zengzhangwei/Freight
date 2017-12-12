@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.zl.freight"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -43,6 +43,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
+    compile 'com.blankj:utilcode:1.7.1'
+    compile 'com.foamtrace:photopicker:1.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }

@@ -17,6 +17,7 @@ import com.zl.freight.ui.activity.InfoQueryActivity;
 import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.activity.PublishNewsActivity;
 import com.zl.freight.ui.activity.RoleChooseActivity;
+import com.zl.freight.ui.activity.UserCheckActivity;
 import com.zl.zlibrary.base.BaseFragment;
 
 import butterknife.BindView;
@@ -111,7 +112,7 @@ public class PersonFragment extends BaseFragment {
                 break;
             //用户审核
             case R.id.linear_user_check:
-
+                startActivity(new Intent(mActivity, UserCheckActivity.class));
                 break;
             //统计查询
             case R.id.linear_info_query:

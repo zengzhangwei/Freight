@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.view.View;
 import android.widget.Toast;
 
 import com.zhy.autolayout.AutoLayoutActivity;
@@ -28,5 +29,16 @@ public class BaseActivity extends AutoLayoutActivity {
 
     protected void showToast(String message) {
         Toast.makeText(mActivity, message, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * 找到控件
+     *
+     * @param viewId
+     * @param <T>
+     * @return
+     */
+    protected <T extends View> T getView(Integer viewId) {
+        return (T) findViewById(viewId);
     }
 }

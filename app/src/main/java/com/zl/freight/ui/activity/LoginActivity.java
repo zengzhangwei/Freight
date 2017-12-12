@@ -70,7 +70,12 @@ public class LoginActivity extends BaseActivity {
                 break;
             //注册
             case R.id.tv_title_right:
-                Intent intent = new Intent(mActivity, RegisterActivity.class);
+                Intent intent;
+                if (role.equals("车主")) {
+                    intent = new Intent(mActivity, RegisterActivity.class);
+                } else {
+                    intent = new Intent(mActivity, GoodsRegisterActivity.class);
+                }
                 startActivity(intent);
                 break;
             //随便看看

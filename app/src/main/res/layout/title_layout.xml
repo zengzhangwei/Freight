@@ -1,43 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.design.widget.AppBarLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48">
+        android:layout_height="48dp">
 
-        <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dp_8"
+            app:srcCompat="@drawable/ic_arrow_back" />
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="@dimen/dp_48"
-                android:layout_height="match_parent"
-                android:padding="@dimen/dp_8"
-                app:srcCompat="@drawable/ic_arrow_back" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_18" />
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Title"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dp_18" />
+        <TextView
+            android:id="@+id/tv_title_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_8"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_14" />
+    </com.zhy.autolayout.AutoRelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_title_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/dp_8"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dp_14" />
-        </com.zhy.autolayout.AutoRelativeLayout>
-
-    </android.support.design.widget.AppBarLayout>
-</com.zhy.autolayout.AutoRelativeLayout>
+</android.support.design.widget.AppBarLayout>

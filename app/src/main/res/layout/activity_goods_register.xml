@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.zl.freight.ui.activity.GoodsRegisterActivity">
+
+    <include
+        android:id="@+id/gr_title"
+        layout="@layout/title_layout" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/gr_title"
+        android:fillViewport="true">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_16">
+
+            <include layout="@layout/register_fragment_layout" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:text="@string/upload_photo_remark"
+                android:textSize="@dimen/dp_12" />
+
+            <ImageView
+                android:id="@+id/iv_hours_photo"
+                android:layout_width="match_parent"
+                android:layout_height="300px"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@drawable/xu_line_shape"
+                android:padding="@dimen/dp_2"
+                android:src="@mipmap/icon_hours" />
+
+            <GridView
+                android:id="@+id/gr_img_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:horizontalSpacing="3dp"
+                android:visibility="gone"
+                android:numColumns="3"></GridView>
+
+            <TextView
+                android:id="@+id/tv_commit_register"
+                style="@style/TextButtonStyle"
+                android:text="提交注册" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/tab_add_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/dp_16"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_add_white" />
+
+</com.zhy.autolayout.AutoRelativeLayout>

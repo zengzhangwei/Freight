@@ -93,4 +93,17 @@
         <item name="colorButtonNormal">@color/text_greyDark</item>
         <item name="colorControlHighlight">#22000000</item>
     </style>
+
+    <style name="PhotoPickerTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="actionMenuTextAppearance">@style/ActionMenuTextStyle</item>
+        <!--<item name="actionBarTheme">@style/actionBarTheme</item>-->
+        <!--<item name="actionBarPopupTheme">@style/actionBarPopupTheme</item>-->
+    </style>
+    <!-- 设置ActionBar菜单字体 -->
+    <style name="ActionMenuTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="android:textSize">@dimen/action_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>

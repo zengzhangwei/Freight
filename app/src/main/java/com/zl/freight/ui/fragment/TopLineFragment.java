@@ -15,10 +15,10 @@ import android.widget.ImageView;
 import com.zl.freight.R;
 import com.zl.freight.ui.activity.NewsDetailActivity;
 import com.zl.freight.ui.activity.PublishNewsActivity;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
-import com.zl.zlibrary.utils.ImageLoader;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
 
 import java.util.Arrays;

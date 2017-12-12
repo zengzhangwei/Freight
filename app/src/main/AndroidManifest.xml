@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 添加可以向外拨打电话的权限 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".APP"
@@ -43,7 +44,7 @@
             android:name="design_height"
             android:value="1280" />
 
-        <activity android:name=".ui.activity.MainActivity"></activity>
+        <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.LauncherActivity" />
         <activity android:name=".ui.activity.RoleChooseActivity">
             <intent-filter>
@@ -52,7 +53,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.LoginActivity"></activity>
+        <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.ShipperActivity" />
         <activity android:name=".ui.activity.AddressChooseActivity" />
@@ -61,7 +62,17 @@
         <activity android:name=".ui.activity.InfoQueryActivity" />
         <activity android:name=".ui.activity.EditPersonDataActivity" />
         <activity android:name=".ui.activity.MyMoneyActivity" />
-        <activity android:name=".ui.activity.GoodsMainActivity"></activity>
+        <activity android:name=".ui.activity.GoodsMainActivity" />
+        <activity android:name=".ui.activity.GoodsRegisterActivity" />
+        <!-- 图片选择器 -->
+        <activity
+            android:name="com.foamtrace.photopicker.PhotoPickerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/PhotoPickerTheme" />
+        <activity
+            android:name="com.foamtrace.photopicker.PhotoPreviewActivity"
+            android:theme="@style/PhotoPickerTheme" />
+        <activity android:name=".ui.activity.UserCheckActivity"></activity>
     </application>
 
 </manifest>
