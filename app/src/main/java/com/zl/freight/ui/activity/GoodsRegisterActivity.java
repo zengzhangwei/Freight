@@ -24,10 +24,8 @@ import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.ImageFactory;
 import com.zl.zlibrary.utils.MiPictureHelper;
-import com.zl.zlibrary.view.MyGridView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,8 +45,6 @@ public class GoodsRegisterActivity extends BaseActivity {
     TextView tvTitleRight;
     @BindView(R.id.et_input_name)
     EditText etInputName;
-    @BindView(R.id.tv_choose_sex)
-    TextView tvChooseSex;
     @BindView(R.id.et_input_phone)
     EditText etInputPhone;
     @BindView(R.id.et_input_code)
@@ -95,13 +91,6 @@ public class GoodsRegisterActivity extends BaseActivity {
             }
         };
         grImgGrid.setAdapter(mAdapter);
-        sexDialog = new AlertDialog.Builder(mActivity).setTitle("选择性别").setSingleChoiceItems(sexs, 0, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                sexDialog.dismiss();
-                tvChooseSex.setText(i == 0 ? "男" : "女");
-            }
-        }).create();
         typeDialog = new AlertDialog.Builder(mActivity).setTitle("选择类别").setSingleChoiceItems(personTypes, 1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -144,7 +133,7 @@ public class GoodsRegisterActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.tv_title_right, R.id.tv_choose_sex, R.id.tab_add_icon, R.id.iv_hours_photo, R.id.tv_commit_register})
+    @OnClick({R.id.iv_back, R.id.tv_title_right, R.id.tab_add_icon, R.id.iv_hours_photo, R.id.tv_commit_register})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -154,10 +143,6 @@ public class GoodsRegisterActivity extends BaseActivity {
             //切换身份
             case R.id.tv_title_right:
                 typeDialog.show();
-                break;
-            //选择性别
-            case R.id.tv_choose_sex:
-                sexDialog.show();
                 break;
             //添加图片
             case R.id.tab_add_icon:
@@ -179,15 +164,9 @@ public class GoodsRegisterActivity extends BaseActivity {
         String phone = etInputPhone.getText().toString().trim();
         String code = etInputCode.getText().toString().trim();
         String password = etInputPassword.getText().toString().trim();
-        String sex = tvChooseSex.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
             showToast("请输入真实姓名");
-            return;
-        }
-
-        if (TextUtils.isEmpty(sex)) {
-            showToast("请选择性别");
             return;
         }
 

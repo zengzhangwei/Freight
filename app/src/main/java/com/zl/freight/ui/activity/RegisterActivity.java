@@ -37,8 +37,6 @@ public class RegisterActivity extends BaseActivity {
     TextView tvTitleRight;
     @BindView(R.id.et_input_name)
     EditText etInputName;
-    @BindView(R.id.tv_choose_sex)
-    TextView tvChooseSex;
     @BindView(R.id.et_input_phone)
     EditText etInputPhone;
     @BindView(R.id.et_input_code)
@@ -91,13 +89,6 @@ public class RegisterActivity extends BaseActivity {
         tvTitle.setText("司机注册");
         tvTitleRight.setText("提交");
         photoDialog = new PhotoDialog(mActivity);
-        sexDialog = new AlertDialog.Builder(mActivity).setTitle("选择性别").setSingleChoiceItems(sexs, 0, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                sexDialog.dismiss();
-                tvChooseSex.setText(i == 0 ? "男" : "女");
-            }
-        }).create();
     }
 
     @Override
@@ -147,7 +138,7 @@ public class RegisterActivity extends BaseActivity {
         image.setImageBitmap(BitmapFactory.decodeByteArray(getimage, 0, getimage.length));
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_title_right, R.id.tv_choose_sex, R.id.iv_person_photo, R.id.iv_hand_photo,
+    @OnClick({R.id.iv_back, R.id.tv_title_right,R.id.iv_person_photo, R.id.iv_hand_photo,
             R.id.iv_driving_photo, R.id.iv_run_photo, R.id.iv_car_front_photo, R.id.iv_car_back_photo, R.id.tv_send_code})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -158,10 +149,6 @@ public class RegisterActivity extends BaseActivity {
             //提交注册信息
             case R.id.tv_title_right:
                 commit();
-                break;
-            //选择性别
-            case R.id.tv_choose_sex:
-                sexDialog.show();
                 break;
             //上传身份证照片
             case R.id.iv_person_photo:
@@ -203,15 +190,9 @@ public class RegisterActivity extends BaseActivity {
         String code = etInputCode.getText().toString().trim();
         String password = etInputPassword.getText().toString().trim();
         String content = etCarContent.getText().toString().trim();
-        String sex = tvChooseSex.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
             showToast("请输入真实姓名");
-            return;
-        }
-
-        if (TextUtils.isEmpty(sex)) {
-            showToast("请选择性别");
             return;
         }
 

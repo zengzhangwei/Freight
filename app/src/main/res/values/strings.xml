@@ -51,7 +51,7 @@
     <string name="data">13米 不限车型 / 100吨  重货 \n装车时间12月7日全天  一装一卸</string>
     <string name="forget_password">忘记密码?</string>
     <string name="random_see_see">随便看看</string>
-    <string name="upload_photo_remark">若有注册公司，可提供三证照片（营业执照、公司实体照等...），若没有实体公司，可提供店面实体照片。默认为非公司形式，若要切换类别请点击右上角的切换按钮。</string>
+    <string name="upload_photo_remark">若有注册公司，可提供三证照片（营业执照、公司实体照等...），若没有实体公司，可提供店面实体照片。</string>
     <string name="send_code">发送验证码</string>
 
     <string-array name="load_unload_mode_list">

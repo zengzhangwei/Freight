@@ -1,6 +1,7 @@
 package com.zl.freight.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zl.freight.R;
+import com.zl.freight.ui.activity.UserCheckDetailActivity;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
@@ -55,7 +57,17 @@ public class UserCheckListFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
         initView();
         initData();
+        initListener();
         return view;
+    }
+
+    private void initListener() {
+        mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                startActivity(new Intent(mActivity, UserCheckDetailActivity.class));
+            }
+        });
     }
 
     private void initData() {

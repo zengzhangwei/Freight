@@ -42,17 +42,17 @@
             android:layout_width="170px"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/dp_8"
-            android:text="性别"
+            android:text="身份证号"
             android:textColor="@color/black"
             android:textSize="@dimen/dp_18" />
 
-        <TextView
-            android:id="@+id/tv_choose_sex"
+        <EditText
+            android:id="@+id/et_person_code"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_44"
             android:background="@color/white"
-            android:gravity="center_vertical"
-            android:hint="请选择性别"
+            android:hint="请输入身份证号"
+            android:maxLength="18"
             android:paddingLeft="@dimen/dp_32"
             android:textSize="@dimen/dp_16" />
 
@@ -151,8 +151,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_44"
             android:background="@color/white"
-            android:hint="请输入密码(6-12位字符)"
-            android:inputType="textPassword"
+            android:hint="请输入密码(6位纯数字密码)"
+            android:inputType="numberPassword"
             android:paddingLeft="@dimen/dp_32"
             android:textSize="@dimen/dp_16" />
 

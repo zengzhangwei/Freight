@@ -1,6 +1,5 @@
 package com.zl.freight.ui.activity;
 
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
@@ -12,6 +11,11 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.utils.ImageLoader;
 
+/**
+ * @author zhanglei
+ * @date 17/12/13
+ * 图片预览页
+ */
 public class PictureActivity extends BaseActivity {
 
     public static final String PICTURE = "picture";
@@ -25,14 +29,16 @@ public class PictureActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
+        initView();
+        initListener();
     }
 
     protected void initView() {
-        img = getView(R.id.picture_img);
-        ViewCompat.setTransitionName(img, PICTURE);
         toolbar = getView(R.id.picture_toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back));
         setSupportActionBar(toolbar);
+        img = getView(R.id.picture_img);
+        ViewCompat.setTransitionName(img, PICTURE);
         url = getIntent().getStringExtra("url");
         ImageLoader.loadImageUrl(mActivity, url, img);
     }

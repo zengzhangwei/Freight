@@ -1,16 +1,14 @@
 package com.zl.freight.ui.activity;
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.ViewCompat;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
-import com.zl.zlibrary.utils.ImageLoader;
+import com.zl.freight.utils.ImageLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
