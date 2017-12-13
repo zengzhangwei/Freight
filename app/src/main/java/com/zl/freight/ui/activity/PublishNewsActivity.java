@@ -27,14 +27,14 @@ import butterknife.OnClick;
  */
 public class PublishNewsActivity extends BaseActivity {
 
-    @BindView(R.id.iv_back)
-    ImageView ivBack;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
-    @BindView(R.id.pn_tab)
-    TabLayout pnTab;
     @BindView(R.id.pn_rl)
     RelativeLayout pnRl;
+    @BindView(R.id.iv_uc_back)
+    ImageView ivUcBack;
+    @BindView(R.id.tv_uc_title)
+    TextView tvUcTitle;
+    @BindView(R.id.uc_tab)
+    TabLayout ucTab;
     private NewPushFragment newPushFragment;
     private WebPushFragment webPushFragment;
     private FragmentHelper fragmentHelper;
@@ -53,7 +53,7 @@ public class PublishNewsActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        int position = pnTab.getSelectedTabPosition();
+        int position = ucTab.getSelectedTabPosition();
         if (position == 0) {
             newPushFragment.onActivityResult(requestCode, resultCode, data);
         } else {
@@ -62,7 +62,7 @@ public class PublishNewsActivity extends BaseActivity {
     }
 
     private void initListener() {
-        pnTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        ucTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
@@ -88,12 +88,12 @@ public class PublishNewsActivity extends BaseActivity {
     }
 
     private void initData() {
-        TabLayout.Tab tab1 = pnTab.newTab();
-        TabLayout.Tab tab2 = pnTab.newTab();
+        TabLayout.Tab tab1 = ucTab.newTab();
+        TabLayout.Tab tab2 = ucTab.newTab();
         tab1.setText("文章编辑");
         tab2.setText("发布网页");
-        pnTab.addTab(tab1);
-        pnTab.addTab(tab2);
+        ucTab.addTab(tab1);
+        ucTab.addTab(tab2);
         newPushFragment = NewPushFragment.newInstance();
         webPushFragment = WebPushFragment.newInstance();
         fragmentHelper = FragmentHelper.builder(mActivity).attach(R.id.pn_rl)
@@ -103,7 +103,7 @@ public class PublishNewsActivity extends BaseActivity {
     }
 
     private void initView() {
-        tvTitle.setText("文章发布");
+        tvUcTitle.setText("文章发布");
         alertDialog = new AlertDialog.Builder(mActivity).setMessage("确认放弃编辑吗，退出将不会保存").setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -117,16 +117,16 @@ public class PublishNewsActivity extends BaseActivity {
         }).create();
     }
 
-    @OnClick(R.id.iv_back)
-    public void onViewClicked() {
-        alertDialog.show();
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             alertDialog.show();
         }
         return true;
+    }
+
+    @OnClick(R.id.iv_uc_back)
+    public void onViewClicked() {
+        alertDialog.show();
     }
 }

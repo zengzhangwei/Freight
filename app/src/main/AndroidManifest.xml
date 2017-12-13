@@ -44,6 +44,12 @@
             android:name="design_height"
             android:value="1280" />
 
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
+
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.LauncherActivity" />
         <activity android:name=".ui.activity.RoleChooseActivity">
