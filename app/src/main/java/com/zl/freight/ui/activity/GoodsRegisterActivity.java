@@ -1,15 +1,11 @@
 package com.zl.freight.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,13 +13,13 @@ import com.blankj.utilcode.util.RegexUtils;
 import com.foamtrace.photopicker.PhotoPickerActivity;
 import com.foamtrace.photopicker.SelectModel;
 import com.foamtrace.photopicker.intent.PhotoPickerIntent;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
-import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.ImageFactory;
-import com.zl.zlibrary.utils.MiPictureHelper;
+import com.zl.zlibrary.view.MyGridView;
 
 import java.util.ArrayList;
 
@@ -49,26 +45,30 @@ public class GoodsRegisterActivity extends BaseActivity {
     EditText etInputPhone;
     @BindView(R.id.et_input_code)
     EditText etInputCode;
-    @BindView(R.id.iv_hours_photo)
-    ImageView ivHoursPhoto;
     @BindView(R.id.gr_img_grid)
-    GridView grImgGrid;
+    MyGridView grImgGrid;
     @BindView(R.id.tab_add_icon)
     FloatingActionButton tabAddIcon;
     @BindView(R.id.tv_send_code)
     TextView tvSendCode;
     @BindView(R.id.et_input_password)
     EditText etInputPassword;
-    @BindView(R.id.tv_commit_register)
-    TextView tvCommitRegister;
+    @BindView(R.id.tv_register_add_icon)
+    TextView tvRegisterAddIcon;
+    @BindView(R.id.tv_register_commit)
+    TextView tvRegisterCommit;
+    @BindView(R.id.user_goods_register_bottom)
+    AutoLinearLayout userGoodsRegisterBottom;
+    @BindView(R.id.et_person_code)
+    EditText etPersonCode;
+    @BindView(R.id.tv_choose_address)
+    TextView tvChooseAddress;
+    @BindView(R.id.et_company_content)
+    EditText etCompanyContent;
+    @BindView(R.id.et_company_name)
+    EditText etCompanyName;
 
-    private String[] sexs = {"男", "女"};
-    private String[] personTypes = {"公司性质", "个人性质"};
-    private AlertDialog sexDialog, typeDialog;
-    private PhotoDialog photoDialog;
-    private int type = 1;
     private ArrayList<String> photoList = new ArrayList<>();
-    private String imagePath = "";
     private final int REQUEST_CAMERA_CODE = 0x427;
     private UniversalAdapter<String> mAdapter;
 
@@ -82,7 +82,6 @@ public class GoodsRegisterActivity extends BaseActivity {
 
     private void initView() {
         tvTitle.setText("货主注册");
-        tvTitleRight.setText("切换");
         mAdapter = new UniversalAdapter<String>(mActivity, photoList, R.layout.image_item_layout) {
             @Override
             public void convert(UniversalViewHolder holder, int position, String s) {
@@ -91,23 +90,6 @@ public class GoodsRegisterActivity extends BaseActivity {
             }
         };
         grImgGrid.setAdapter(mAdapter);
-        typeDialog = new AlertDialog.Builder(mActivity).setTitle("选择类别").setSingleChoiceItems(personTypes, 1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                typeDialog.dismiss();
-                type = i;
-                if (i == 0) {
-                    grImgGrid.setVisibility(View.VISIBLE);
-                    tabAddIcon.setVisibility(View.VISIBLE);
-                    ivHoursPhoto.setVisibility(View.GONE);
-                } else {
-                    grImgGrid.setVisibility(View.GONE);
-                    tabAddIcon.setVisibility(View.GONE);
-                    ivHoursPhoto.setVisibility(View.VISIBLE);
-                }
-            }
-        }).create();
-        photoDialog = new PhotoDialog(mActivity);
     }
 
     @Override
@@ -115,14 +97,6 @@ public class GoodsRegisterActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == mActivity.RESULT_OK) {
             switch (requestCode) {
-                case PhotoDialog.PICK_FROM_CAMERA:
-                    imagePath = photoDialog.imagePath;
-                    setImage();
-                    break;
-                case PhotoDialog.SELECT_PHOTO:
-                    imagePath = MiPictureHelper.getPath(mActivity, data.getData());
-                    setImage();
-                    break;
                 case REQUEST_CAMERA_CODE:
                     photoList.clear();
                     photoList.addAll(data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT));
@@ -133,28 +107,24 @@ public class GoodsRegisterActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.tv_title_right, R.id.tab_add_icon, R.id.iv_hours_photo, R.id.tv_commit_register})
+    @OnClick({R.id.iv_back, R.id.tab_add_icon, R.id.tv_register_commit, R.id.tv_register_add_icon, R.id.tv_choose_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
             case R.id.iv_back:
                 finish();
                 break;
-            //切换身份
-            case R.id.tv_title_right:
-                typeDialog.show();
-                break;
             //添加图片
-            case R.id.tab_add_icon:
+            case R.id.tv_register_add_icon:
                 openAlbum();
                 break;
-            //添加店面实体图片
-            case R.id.iv_hours_photo:
-                photoDialog.show(view);
-                break;
-            //提交注册信息
-            case R.id.tv_commit_register:
+            //提交注册
+            case R.id.tv_register_commit:
                 commit();
+                break;
+            //选择地址
+            case R.id.tv_choose_address:
+                startActivity(new Intent(mActivity, AddressChooseActivity.class));
                 break;
         }
     }
@@ -164,6 +134,8 @@ public class GoodsRegisterActivity extends BaseActivity {
         String phone = etInputPhone.getText().toString().trim();
         String code = etInputCode.getText().toString().trim();
         String password = etInputPassword.getText().toString().trim();
+        String content = etCompanyContent.getText().toString().trim();
+        String companyName = etCompanyName.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
             showToast("请输入真实姓名");
@@ -184,28 +156,25 @@ public class GoodsRegisterActivity extends BaseActivity {
             showToast("请输入验证码");
             return;
         }
+
         if (TextUtils.isEmpty(password)) {
             showToast("请输入密码");
             return;
         }
 
-        if (password.length() < 6 || password.length() > 12) {
+        if (password.length() != 6) {
             showToast("密码长度不符合标准");
             return;
         }
 
-
-        if (type == 0) {//公司性质
-
-        } else {//个人性质
-
+        if (TextUtils.isEmpty(companyName)) {
+            showToast("请输入公司名称");
+            return;
         }
 
-    }
+        if (!TextUtils.isEmpty(content)) {
 
-    private void setImage() {
-        byte[] getimage = ImageFactory.getimage(imagePath);
-        ivHoursPhoto.setImageBitmap(BitmapFactory.decodeByteArray(getimage, 0, getimage.length));
+        }
     }
 
     /**

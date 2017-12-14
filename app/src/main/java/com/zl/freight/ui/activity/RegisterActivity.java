@@ -1,6 +1,5 @@
 package com.zl.freight.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;

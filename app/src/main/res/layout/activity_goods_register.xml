@@ -12,9 +12,45 @@
         android:id="@+id/gr_title"
         layout="@layout/title_layout" />
 
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/user_goods_register_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="@dimen/dp_6"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_6">
+
+        <TextView
+            android:id="@+id/tv_register_add_icon"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_40"
+            android:layout_weight="1"
+            android:background="@drawable/blue_simle_round_shape"
+            android:gravity="center"
+            android:text="添加图片"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_16" />
+
+        <TextView
+            android:id="@+id/tv_register_commit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_weight="1"
+            android:background="@drawable/red_simle_round_shape"
+            android:gravity="center"
+            android:text="提交注册"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_16" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/user_goods_register_bottom"
         android:layout_below="@id/gr_title"
         android:fillViewport="true">
 
@@ -26,8 +62,6 @@
             android:orientation="vertical"
             android:padding="@dimen/dp_16">
 
-            <include layout="@layout/register_fragment_layout" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,28 +69,86 @@
                 android:text="@string/upload_photo_remark"
                 android:textSize="@dimen/dp_12" />
 
-            <ImageView
-                android:id="@+id/iv_hours_photo"
-                android:layout_width="match_parent"
-                android:layout_height="300px"
-                android:layout_marginTop="@dimen/dp_6"
-                android:background="@drawable/xu_line_shape"
-                android:padding="@dimen/dp_2"
-                android:src="@mipmap/icon_hours" />
+            <include layout="@layout/register_fragment_layout" />
 
-            <GridView
-                android:id="@+id/gr_img_grid"
+            <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_6"
-                android:horizontalSpacing="3dp"
-                android:visibility="gone"
-                android:numColumns="3"></GridView>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="170px"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_8"
+                    android:text="公司名称"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_18" />
+
+                <EditText
+                    android:id="@+id/et_company_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_44"
+                    android:background="@color/white"
+                    android:hint="请输入公司名称"
+                    android:inputType="numberPassword"
+                    android:paddingLeft="@dimen/dp_32"
+                    android:textSize="@dimen/dp_16" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
 
             <TextView
-                android:id="@+id/tv_commit_register"
-                style="@style/TextButtonStyle"
-                android:text="提交注册" />
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="@color/black" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="170px"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_8"
+                    android:text="公司地址"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_18" />
+
+                <TextView
+                    android:id="@+id/tv_choose_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_44"
+                    android:background="@color/white"
+                    android:drawableRight="@mipmap/icon_right"
+                    android:gravity="center_vertical"
+                    android:hint="请选择公司地址"
+                    android:paddingLeft="@dimen/dp_32"
+                    android:textSize="@dimen/dp_16" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="@color/black" />
+
+            <EditText
+                android:id="@+id/et_company_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="@drawable/xu_line_shape"
+                android:gravity="top"
+                android:hint="公司描述"
+                android:minHeight="200px"
+                android:padding="@dimen/dp_8"
+                android:textSize="@dimen/dp_14" />
+
+            <com.zl.zlibrary.view.MyGridView
+                android:id="@+id/gr_img_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp_6"
+                android:horizontalSpacing="3dp"
+                android:numColumns="3"></com.zl.zlibrary.view.MyGridView>
 
         </com.zhy.autolayout.AutoLinearLayout>
 
