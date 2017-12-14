@@ -15,6 +15,7 @@ import com.zl.freight.R;
 import com.zl.freight.ui.activity.EditPersonDataActivity;
 import com.zl.freight.ui.activity.InfoQueryActivity;
 import com.zl.freight.ui.activity.MyMoneyActivity;
+import com.zl.freight.ui.activity.MyOrderActivity;
 import com.zl.freight.ui.activity.PublishNewsActivity;
 import com.zl.freight.ui.activity.RoleChooseActivity;
 import com.zl.freight.ui.activity.UserCheckActivity;
@@ -104,7 +105,7 @@ public class PersonFragment extends BaseFragment {
                 break;
             //我的订单
             case R.id.linear_my_order:
-
+                startActivity(new Intent(mActivity, MyOrderActivity.class));
                 break;
             //我的钱包
             case R.id.linear_my_money:

@@ -47,7 +47,7 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"></service>
+            android:process=":remote" />
 
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.LauncherActivity" />
@@ -79,7 +79,8 @@
             android:name="com.foamtrace.photopicker.PhotoPreviewActivity"
             android:theme="@style/PhotoPickerTheme" />
         <activity android:name=".ui.activity.UserCheckActivity" />
-        <activity android:name=".ui.activity.UserCheckDetailActivity"></activity>
+        <activity android:name=".ui.activity.UserCheckDetailActivity" />
+        <activity android:name=".ui.activity.MyOrderActivity"></activity>
     </application>
 
 </manifest>
