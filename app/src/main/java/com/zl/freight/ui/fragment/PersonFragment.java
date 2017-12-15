@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.ui.activity.EditPersonDataActivity;
+import com.zl.freight.ui.activity.GoodsOrderActivity;
 import com.zl.freight.ui.activity.InfoQueryActivity;
 import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.activity.MyOrderActivity;
@@ -105,7 +106,8 @@ public class PersonFragment extends BaseFragment {
                 break;
             //我的订单
             case R.id.linear_my_order:
-                startActivity(new Intent(mActivity, MyOrderActivity.class));
+                //TODO 在这进行司机和货主订单的区分
+                startActivity(new Intent(mActivity, GoodsOrderActivity.class));
                 break;
             //我的钱包
             case R.id.linear_my_money:

@@ -84,11 +84,14 @@ public class LoginActivity extends BaseActivity {
                 break;
             //忘记密码
             case R.id.tv_forget_password:
-
+                startActivity(new Intent(mActivity, ForgetPasswordActivity.class));
                 break;
         }
     }
 
+    /**
+     * 根据角色的不同进入不同的主页
+     */
     private void startMain() {
         if (role.equals(RoleChooseActivity.DRIVER)) {
             startActivity(new Intent(mActivity, MainActivity.class));

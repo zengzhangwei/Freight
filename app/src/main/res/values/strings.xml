@@ -50,6 +50,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="data">13米 不限车型 / 100吨  重货 \n装车时间12月7日全天  一装一卸</string>
     <string name="forget_password">忘记密码?</string>
+    <string name="update_password">修改密码</string>
     <string name="random_see_see">随便看看</string>
     <string name="upload_photo_remark">若有注册公司，可提供三证照片（营业执照、公司实体照等...），若没有实体公司，可提供店面实体照片。</string>
     <string name="send_code">发送验证码</string>
@@ -62,6 +63,7 @@
     <string name="goods_master">货主</string>
     <string name="relation_goods_master">联系货主</string>
     <string name="start_navigation">开始导航</string>
+    <string name="commit_update">提交修改</string>
 
     <string-array name="load_unload_mode_list">
         <item>一装一卸</item>

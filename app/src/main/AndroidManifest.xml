@@ -86,7 +86,12 @@
         <activity android:name=".ui.activity.GoodsDetailActivity" />
         <activity
             android:name=".ui.activity.LookGoodsLocationActivity"
-            android:theme="@style/AddressTheme"></activity>
+            android:theme="@style/AddressTheme" />
+        <activity android:name=".ui.activity.ForgetPasswordActivity" />
+        <activity android:name=".ui.activity.GoodsOrderActivity" />
+        <activity android:name=".ui.activity.LookDriverActivity"
+            android:theme="@style/AddressTheme"
+            ></activity>
     </application>
 
 </manifest>

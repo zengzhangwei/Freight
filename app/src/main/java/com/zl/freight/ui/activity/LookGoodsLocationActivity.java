@@ -1,8 +1,8 @@
 package com.zl.freight.ui.activity;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +45,7 @@ public class LookGoodsLocationActivity extends BaseActivity {
     TextView tvStartNavigation;
     private BaiduMap mBaiduMap;
     private LocationUtils locationUtils;
+    private double latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +72,13 @@ public class LookGoodsLocationActivity extends BaseActivity {
     }
 
     private void initView() {
+        latitude = getIntent().getDoubleExtra("latitude", 0);
+        longitude = getIntent().getDoubleExtra("longitude", 0);
+        tvTitle.setText("货源位置");
         mBaiduMap = lglaMap.getMap();
-        drawGoodsEnd();
         locationUtils = new LocationUtils(mActivity);
         locationUtils.startLocation();
+        drawGoodsEnd();
     }
 
     /**
@@ -82,11 +86,11 @@ public class LookGoodsLocationActivity extends BaseActivity {
      */
     private void drawGoodsEnd() {
         //定义Maker坐标点
-        LatLng point = new LatLng(39.963175, 116.400244);
+        LatLng point = new LatLng(latitude, longitude);
 
         //构建Marker图标
         BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.ic_location_on_red);
+                .fromResource(R.mipmap.icon_red_location);
 
         //构建MarkerOption，用于在地图上添加Marker
         OverlayOptions option = new MarkerOptions()
@@ -97,19 +101,18 @@ public class LookGoodsLocationActivity extends BaseActivity {
         mBaiduMap.addOverlay(option);
 
         //创建InfoWindow展示的view
-        Button button = new Button(getApplicationContext());
+        TextView button = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.text_layout, null);
         button.setText("货源地");
-
         //定义用于显示该InfoWindow的坐标点
-        LatLng pt = new LatLng(39.86923, 116.397428);
+        LatLng pt = new LatLng(latitude, longitude);
 
         //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-        InfoWindow mInfoWindow = new InfoWindow(button, pt, -47);
+        InfoWindow mInfoWindow = new InfoWindow(button, pt, -90);
 
         //显示InfoWindow
         mBaiduMap.showInfoWindow(mInfoWindow);
 
-        setLoactionCenter(39.963175, 116.400244);
+        setLoactionCenter(latitude, longitude);
     }
 
     /**
@@ -124,7 +127,7 @@ public class LookGoodsLocationActivity extends BaseActivity {
 
         //构建Marker图标
         BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.ic_location_on_blue);
+                .fromResource(R.mipmap.icon_blue_location);
 
         //构建MarkerOption，用于在地图上添加Marker
         OverlayOptions option = new MarkerOptions()
@@ -133,6 +136,18 @@ public class LookGoodsLocationActivity extends BaseActivity {
 
         //在地图上添加Marker，并显示
         mBaiduMap.addOverlay(option);
+
+        //创建InfoWindow展示的view
+        TextView button = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.text_layout, null);
+        button.setText("当前位置");
+        //定义用于显示该InfoWindow的坐标点
+        LatLng pt = new LatLng(latitude, longitude);
+
+        //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
+        InfoWindow mInfoWindow = new InfoWindow(button, pt, -90);
+
+        //显示InfoWindow
+        mBaiduMap.showInfoWindow(mInfoWindow);
     }
 
     @Override

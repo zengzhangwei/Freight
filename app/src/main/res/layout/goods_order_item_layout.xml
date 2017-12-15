@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/tv_order_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="运  单  号：0551503621"
+            android:textSize="@dimen/dp_14" />
+
+        <TextView
+            android:id="@+id/tv_order_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_order_number"
+            android:layout_marginTop="@dimen/dp_6"
+            android:text="下单时间：0551503621"
+            android:textSize="@dimen/dp_14" />
+
+        <TextView
+            android:id="@+id/tv_order_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="已取消"
+            android:textSize="@dimen/dp_16" />
+
+        <TextView
+            android:id="@+id/tv_order_top_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_below="@id/tv_order_time"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@color/light_grey" />
+
+        <TextView
+            android:id="@+id/tv_order_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_order_top_line"
+
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_12"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_18"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_arrows"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_10"
+            android:layout_below="@id/tv_order_top_line"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_12"
+            android:src="@mipmap/icon_direction_short" />
+
+        <TextView
+            android:id="@+id/tv_order_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/tv_order_start"
+            android:layout_marginRight="@dimen/dp_8"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_18"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_order_goods_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_arrows"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="普货/10吨"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/dp_16" />
+
+        <TextView
+            android:id="@+id/tv_order_bottom_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_below="@id/tv_order_start"
+            android:layout_marginTop="@dimen/dp_16"
+            android:background="@color/light_grey" />
+
+        <TextView
+            android:id="@+id/tv_look_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_order_bottom_line"
+            android:layout_marginTop="@dimen/dp_12"
+            android:background="@drawable/blue_shape"
+            android:padding="@dimen/dp_6"
+            android:text="查看司机位置"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_call_driver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_order_bottom_line"
+            android:layout_marginTop="@dimen/dp_12"
+            android:background="@drawable/grey_line_shape"
+            android:padding="@dimen/dp_6"
+            android:text="联系司机" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_18"
+        android:background="@color/bg_color" />
+
+</com.zhy.autolayout.AutoLinearLayout>

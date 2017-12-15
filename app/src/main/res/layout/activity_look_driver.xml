@@ -7,27 +7,14 @@
     tools:context="com.zl.freight.ui.activity.LookGoodsLocationActivity">
 
     <include
-        android:id="@+id/lgla_title"
+        android:id="@+id/lda_title"
         layout="@layout/title_layout" />
 
-    <TextView
-        android:id="@+id/tv_start_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:gravity="center"
-        android:text="@string/start_navigation"
-        android:textColor="@color/black"
-        android:textSize="@dimen/dp_16" />
-
-
     <com.baidu.mapapi.map.MapView
-        android:layout_above="@id/tv_start_navigation"
-        android:id="@+id/lgla_map"
+        android:id="@+id/lda_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/lgla_title"></com.baidu.mapapi.map.MapView>
+        android:layout_below="@id/lda_title"></com.baidu.mapapi.map.MapView>
 
 
 </com.zhy.autolayout.AutoRelativeLayout>
