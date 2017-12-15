@@ -71,6 +71,9 @@ public class GoodsRegisterActivity extends BaseActivity {
     private ArrayList<String> photoList = new ArrayList<>();
     private final int REQUEST_CAMERA_CODE = 0x427;
     private UniversalAdapter<String> mAdapter;
+    private double latitude;
+    private double longitude;
+    private String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,12 @@ public class GoodsRegisterActivity extends BaseActivity {
                     photoList.addAll(data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT));
                     mAdapter.notifyDataSetChanged();
                     break;
+                case 666:
+                    latitude = data.getDoubleExtra("latitude", 0);
+                    longitude = data.getDoubleExtra("longitude", 0);
+                    address = data.getStringExtra("address");
+                    tvChooseAddress.setText(address);
+                    break;
             }
         }
     }
@@ -124,10 +133,11 @@ public class GoodsRegisterActivity extends BaseActivity {
                 break;
             //选择地址
             case R.id.tv_choose_address:
-                startActivity(new Intent(mActivity, AddressChooseActivity.class));
+                startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), 666);
                 break;
         }
     }
+
 
     private void commit() {
         String name = etInputName.getText().toString().trim();

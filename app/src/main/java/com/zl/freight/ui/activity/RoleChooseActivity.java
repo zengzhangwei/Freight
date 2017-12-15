@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.utils.NavigationUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

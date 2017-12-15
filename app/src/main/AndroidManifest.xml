@@ -62,7 +62,9 @@
         <activity android:name=".ui.activity.PictureActivity" />
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.ShipperActivity" />
-        <activity android:name=".ui.activity.AddressChooseActivity" />
+        <activity
+            android:name=".ui.activity.AddressChooseActivity"
+            android:theme="@style/AddressTheme" />
         <activity android:name=".ui.activity.NewsDetailActivity" />
         <activity android:name=".ui.activity.PublishNewsActivity" />
         <activity android:name=".ui.activity.InfoQueryActivity" />
@@ -80,7 +82,11 @@
             android:theme="@style/PhotoPickerTheme" />
         <activity android:name=".ui.activity.UserCheckActivity" />
         <activity android:name=".ui.activity.UserCheckDetailActivity" />
-        <activity android:name=".ui.activity.MyOrderActivity"></activity>
+        <activity android:name=".ui.activity.MyOrderActivity" />
+        <activity android:name=".ui.activity.GoodsDetailActivity" />
+        <activity
+            android:name=".ui.activity.LookGoodsLocationActivity"
+            android:theme="@style/AddressTheme"></activity>
     </application>
 
 </manifest>

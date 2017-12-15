@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zl.freight.ui.activity.LookGoodsLocationActivity">
+
+    <include
+        android:id="@+id/lgla_title"
+        layout="@layout/title_layout" />
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/lgla_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/lgla_title"></com.baidu.mapapi.map.MapView>
+
+    <TextView
+        android:id="@+id/tv_start_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_42"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="@string/start_navigation"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dp_16" />
+
+</com.zhy.autolayout.AutoRelativeLayout>

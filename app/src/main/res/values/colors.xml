@@ -9,11 +9,11 @@
     <color name="text_black_cc">#1b1b1b</color>
     <color name="text_grey">#BDBDBD</color>
     <color name="text_greyDark">#afafaf</color>
-    <color name="bg_color">#fff1f1f1</color>
+    <color name="bg_color">#F2F6F9</color>
     <color name="white">#FFFFFF</color>
     <color name="light_grey">#E0E0E0</color>
     <color name="goods_tv_color">#012806</color>
-    <color name="blue">#FF3398FE</color>
+    <color name="blue">#4CA0F8</color>
     <color name="red">#ce2538</color>
     <color name="hint_color">#686868</color>
     <color name="color_green">#079605</color>

@@ -9,9 +9,85 @@
 
     <include layout="@layout/title_layout" />
 
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/ac_map"
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.baidu.mapapi.map.MapView>
+        android:layout_height="match_parent">
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/ac_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.baidu.mapapi.map.MapView>
+
+        <ImageView
+            android:id="@+id/iv_location_logo"
+            android:layout_width="@dimen/dp_36"
+            android:layout_height="@dimen/dp_48"
+            android:layout_centerInParent="true"
+            android:paddingBottom="@dimen/dp_12"
+            app:srcCompat="@drawable/ic_location" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/iv_location_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dp_2">
+
+            <TextView
+                android:id="@+id/tv_location_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_8"
+                android:text="时代电子附近..."
+                android:textSize="11sp" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_8">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/search_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_color_round_shape">
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/dp_6"
+                    app:srcCompat="@drawable/ic_search" />
+
+                <EditText
+                    android:id="@+id/et_search_data"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center_horizontal"
+                    android:hint="请输入地名进行搜索定位"
+                    android:paddingLeft="@dimen/dp_8"
+                    android:paddingRight="@dimen/dp_8"
+                    android:textSize="@dimen/dp_14" />
+
+                <ImageView
+                    android:id="@+id/iv_list"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/dp_6"
+                    app:srcCompat="@drawable/ic_menu_black" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
 
 </com.zhy.autolayout.AutoLinearLayout>

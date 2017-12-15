@@ -1,6 +1,7 @@
 package com.zl.freight.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -112,7 +113,7 @@ public class GoodsMainActivity extends BaseActivity {
                 .addFragment(storeFragment)
                 .addFragment(topLineFragment)
                 .commit();
-        helper.showFragment(findGoodsFragment);
+        helper.showFragment(sendGoodsFragment);
         mainBottom.setSelectedItemId(R.id.send_goods);
         carLengthDialog = new CarLengthDialog(mActivity);
     }
@@ -137,5 +138,11 @@ public class GoodsMainActivity extends BaseActivity {
                 carLengthDialog.show(view);
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        sendGoodsFragment.onActivityResult(requestCode,resultCode,data);
     }
 }

@@ -53,6 +53,15 @@
     <string name="random_see_see">随便看看</string>
     <string name="upload_photo_remark">若有注册公司，可提供三证照片（营业执照、公司实体照等...），若没有实体公司，可提供店面实体照片。</string>
     <string name="send_code">发送验证码</string>
+    <string name="look_goods_location">查看货源位置</string>
+    <string name="if_ling_dan">是否零担</string>
+    <string name="goods_content">货物信息</string>
+    <string name="car_content">车辆信息</string>
+    <string name="car_length_demand">车长需求</string>
+    <string name="car_type_demand">车型需求</string>
+    <string name="goods_master">货主</string>
+    <string name="relation_goods_master">联系货主</string>
+    <string name="start_navigation">开始导航</string>
 
     <string-array name="load_unload_mode_list">
         <item>一装一卸</item>

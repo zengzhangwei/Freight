@@ -30,7 +30,6 @@ import butterknife.Unbinder;
  */
 public class SendGoodsFragment extends BaseFragment {
 
-
     @BindView(R.id.tv_tonne)
     TextView tvTonne;
     @BindView(R.id.tv_square)
@@ -58,6 +57,14 @@ public class SendGoodsFragment extends BaseFragment {
     private GoodsTypeDialog goodsTypeDialog;
     private RemarkDialog remarkDialog;
     private ChooseTimeDialog timeDialog;
+    private final int CHOOSESTART = 0x112;
+    private final int CHOOSEEND = 0x113;
+    private double startLatitude = 0;
+    private double startLongitude = 0;
+    private String startAddress;
+    private double endLatitude = 0;
+    private double endLongitude = 0;
+    private String endAddress;
 
     public SendGoodsFragment() {
         // Required empty public constructor
@@ -111,11 +118,11 @@ public class SendGoodsFragment extends BaseFragment {
                 break;
             //选择始发地
             case R.id.tv_choose_start:
-                startActivity(new Intent(mActivity, AddressChooseActivity.class));
+                startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), CHOOSESTART);
                 break;
             //选择目的地
             case R.id.tv_choose_end:
-                startActivity(new Intent(mActivity, AddressChooseActivity.class));
+                startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), CHOOSEEND);
                 break;
             //选择货车长度
             case R.id.tv_choose_length:
@@ -136,6 +143,30 @@ public class SendGoodsFragment extends BaseFragment {
             //确认发布
             case R.id.tv_ok_push:
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == mActivity.RESULT_OK) {
+            double latitude = data.getDoubleExtra("latitude", 0);
+            double longitude = data.getDoubleExtra("longitude", 0);
+            String addresses = data.getStringExtra("address");
+            switch (requestCode) {
+                case CHOOSESTART:
+                    startLatitude = latitude;
+                    startLongitude = longitude;
+                    startAddress = addresses;
+                    tvChooseStart.setText(addresses);
+                    break;
+                case CHOOSEEND:
+                    endAddress = addresses;
+                    endLatitude = latitude;
+                    endLongitude = longitude;
+                    tvChooseEnd.setText(addresses);
+                    break;
+            }
         }
     }
 }

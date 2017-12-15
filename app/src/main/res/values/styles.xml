@@ -8,6 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AddressTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <style name="main_title_image_style">
         <item name="android:layout_width">@dimen/dp_32</item>
         <item name="android:layout_height">@dimen/dp_32</item>
@@ -38,6 +45,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:drawableRight">@mipmap/icon_right</item>
         <item name="android:paddingRight">@dimen/dp_10</item>
+        <item name="android:maxLines">1</item>
         <!--<item name="android:textColor">@color/hint_color</item>-->
     </style>
 

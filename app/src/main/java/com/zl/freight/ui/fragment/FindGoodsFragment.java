@@ -1,6 +1,7 @@
 package com.zl.freight.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zl.freight.R;
+import com.zl.freight.ui.activity.GoodsDetailActivity;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
@@ -60,7 +62,17 @@ public class FindGoodsFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
         initView();
         initData();
+        initListener();
         return view;
+    }
+
+    private void initListener() {
+        mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                startActivity(new Intent(mActivity, GoodsDetailActivity.class));
+            }
+        });
     }
 
     private void initData() {
@@ -75,11 +87,11 @@ public class FindGoodsFragment extends BaseFragment {
             @Override
             protected void convert(ViewHolder holder, String s, int position) {
                 CircleImageView imageView = holder.getView(R.id.iv_user_icon);
-                ImageLoader.loadImageUrl(mActivity,"http://image.3761.com/pic/5111434675216.jpg",imageView);
+                ImageLoader.loadImageUrl(mActivity, "http://image.3761.com/pic/5111434675216.jpg", imageView);
                 holder.getView(R.id.iv_phone).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SystemUtils.call(mActivity,"15075993917");
+                        SystemUtils.call(mActivity, "15075993917");
                     }
                 });
             }

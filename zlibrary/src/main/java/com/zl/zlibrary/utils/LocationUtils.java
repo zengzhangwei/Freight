@@ -1,7 +1,5 @@
 package com.zl.zlibrary.utils;
 
-import android.content.Context;
-
 /**
  * Created by 张磊 on 2017/4/10 0010.
  * 定位工具类(这个是百度地图的定位工具类，如果有需要就自行解开注释)
