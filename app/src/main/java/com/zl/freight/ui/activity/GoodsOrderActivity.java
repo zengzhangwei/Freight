@@ -1,12 +1,15 @@
 package com.zl.freight.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.utils.API;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
@@ -58,7 +61,15 @@ public class GoodsOrderActivity extends BaseActivity {
 
             @Override
             protected void convert(ViewHolder holder, String s, int position) {
-
+                holder.getView(R.id.tv_look_location).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mActivity, LookDriverActivity.class);
+                        intent.putExtra(API.LATITUDE, 0.00);
+                        intent.putExtra(API.LONGITUDE, 0.00);
+                        startActivity(intent);
+                    }
+                });
             }
         };
         myOrderMrlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
