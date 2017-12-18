@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.zlibrary.adapter.UniversalAdapter;
@@ -39,6 +40,9 @@ public class CarLengthDialog {
     private GridView gGrid;
     private View tvOk;
     private View ivClear;
+    private int lPosition = 0;
+    private int tPosition = 0;
+    private int gPosition = 0;
 
     public CarLengthDialog(Activity mActivity) {
         this.mActivity = mActivity;
@@ -50,25 +54,28 @@ public class CarLengthDialog {
         lGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                lPosition = i;
+                lAdapter.notifyDataSetChanged();
             }
         });
         tGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                tPosition = i;
+                tAdapter.notifyDataSetChanged();
             }
         });
         gGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                gPosition = i;
+                gAdapter.notifyDataSetChanged();
             }
         });
         tvOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                dismiss();
             }
         });
         ivClear.setOnClickListener(new View.OnClickListener() {
@@ -89,19 +96,19 @@ public class CarLengthDialog {
         lAdapter = new UniversalAdapter<String>(mActivity, lList, R.layout.type_item_layout) {
             @Override
             public void convert(UniversalViewHolder holder, int position, String s) {
-                holder.setText(R.id.tv_type_item, s);
+                setText(holder, position, lPosition, s);
             }
         };
         tAdapter = new UniversalAdapter<String>(mActivity, tList, R.layout.type_item_layout) {
             @Override
             public void convert(UniversalViewHolder holder, int position, String s) {
-                holder.setText(R.id.tv_type_item, s);
+                setText(holder, position, tPosition, s);
             }
         };
         gAdapter = new UniversalAdapter<String>(mActivity, gList, R.layout.type_item_layout) {
             @Override
             public void convert(UniversalViewHolder holder, int position, String s) {
-                holder.setText(R.id.tv_type_item, s);
+                setText(holder, position, gPosition, s);
             }
         };
         View view = LayoutInflater.from(mActivity).inflate(R.layout.car_length_type_dialog_layout, null);
@@ -122,6 +129,16 @@ public class CarLengthDialog {
         popupWindow.setTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setAnimationStyle(com.zl.zlibrary.R.style.WindowAnim);
+    }
+
+    private void setText(UniversalViewHolder holder, int position, int p, String s) {
+        TextView view = holder.getView(R.id.tv_type_item);
+        view.setText(s);
+        if (position == p) {
+            view.setSelected(true);
+        } else {
+            view.setSelected(false);
+        }
     }
 
     public void show(View view) {

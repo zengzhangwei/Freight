@@ -64,7 +64,7 @@ public class GoodsDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_goods_location, R.id.iv_call})
+    @OnClick({R.id.iv_back, R.id.tv_goods_location, R.id.iv_call, R.id.tv_jie_dan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -79,6 +79,17 @@ public class GoodsDetailActivity extends BaseActivity {
             case R.id.iv_call:
                 SystemUtils.call(mActivity, "15075993917");
                 break;
+            //接单
+            case R.id.tv_jie_dan:
+                jieDan();
+                break;
         }
+    }
+
+    /**
+     * 接单
+     */
+    private void jieDan() {
+
     }
 }

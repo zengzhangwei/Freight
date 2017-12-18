@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.zlibrary.adapter.UniversalAdapter;
@@ -23,7 +24,7 @@ import java.util.List;
  * 发货界面使用的选择车长类型的dialog
  */
 
-public class SGCarLengthDialog {
+public class SGCarLengthDialog implements View.OnClickListener {
 
     private Activity mActivity;
     private PopupWindow popupWindow;
@@ -37,6 +38,9 @@ public class SGCarLengthDialog {
     private GridView tGrid;
     private View tvOk;
     private View ivClear;
+    private int lPosition = 0;
+    private int tPosition = 0;
+    private TextView tvCarload, tv_breakbulk;
 
     public SGCarLengthDialog(Activity mActivity) {
         this.mActivity = mActivity;
@@ -48,27 +52,21 @@ public class SGCarLengthDialog {
         lGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                lPosition = i;
+                lAdapter.notifyDataSetChanged();
             }
         });
         tGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                tPosition = i;
+                tAdapter.notifyDataSetChanged();
             }
         });
-        tvOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        ivClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
+        tvOk.setOnClickListener(this);
+        ivClear.setOnClickListener(this);
+        tvCarload.setOnClickListener(this);
+        tv_breakbulk.setOnClickListener(this);
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -81,13 +79,25 @@ public class SGCarLengthDialog {
         lAdapter = new UniversalAdapter<String>(mActivity, lList, R.layout.type_item_layout) {
             @Override
             public void convert(UniversalViewHolder holder, int position, String s) {
-                holder.setText(R.id.tv_type_item, s);
+                TextView view = holder.getView(R.id.tv_type_item);
+                view.setText(s);
+                if (position == lPosition) {
+                    view.setSelected(true);
+                } else {
+                    view.setSelected(false);
+                }
             }
         };
         tAdapter = new UniversalAdapter<String>(mActivity, tList, R.layout.type_item_layout) {
             @Override
             public void convert(UniversalViewHolder holder, int position, String s) {
-                holder.setText(R.id.tv_type_item, s);
+                TextView view = holder.getView(R.id.tv_type_item);
+                view.setText(s);
+                if (position == tPosition) {
+                    view.setSelected(true);
+                } else {
+                    view.setSelected(false);
+                }
             }
         };
         View view = LayoutInflater.from(mActivity).inflate(R.layout.car_length_type_dialog_layout, null);
@@ -95,6 +105,10 @@ public class SGCarLengthDialog {
         ivClear = title.findViewById(R.id.iv_clear);
         lGrid = view.findViewById(R.id.grid_card_length);
         tGrid = view.findViewById(R.id.grid_card_type);
+        tvCarload = view.findViewById(R.id.tv_carload);
+        tv_breakbulk = view.findViewById(R.id.tv_breakbulk);
+        //默认选中整车
+        tvCarload.setSelected(true);
         tvOk = view.findViewById(R.id.tv_ok);
         view.findViewById(R.id.tv_goods_type).setVisibility(View.GONE);
         view.findViewById(R.id.grid_goods_type).setVisibility(View.GONE);
@@ -117,4 +131,23 @@ public class SGCarLengthDialog {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_ok:
+                dismiss();
+                break;
+            case R.id.tv_carload:
+                tvCarload.setSelected(true);
+                tv_breakbulk.setSelected(false);
+                break;
+            case R.id.tv_breakbulk:
+                tvCarload.setSelected(false);
+                tv_breakbulk.setSelected(true);
+                break;
+            case R.id.iv_clear:
+                dismiss();
+                break;
+        }
+    }
 }

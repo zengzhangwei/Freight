@@ -252,7 +252,7 @@
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_10">
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="@dimen/dp_4"
@@ -265,6 +265,17 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:text="@string/goods_master"
                 android:textSize="@dimen/dp_14" />
+
+            <TextView
+                android:id="@+id/tv_jie_dan"
+                android:layout_width="130px"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginBottom="@dimen/dp_4"
+                android:layout_marginLeft="500px"
+                android:background="@drawable/blue_shape"
+                android:gravity="center"
+                android:text="接单"
+                android:textColor="@color/white" />
 
         </com.zhy.autolayout.AutoLinearLayout>
 
