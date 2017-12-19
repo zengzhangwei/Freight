@@ -2,11 +2,13 @@ package com.zl.freight.ui.dialog;
 
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -33,6 +35,8 @@ public class GoodsTypeDialog extends BaseDialog {
     private ListView listView;
     private View ivClear;
     private TextView dialogTitle;
+    private TextView tvInputOk;
+    private EditText etInputType;
 
     public GoodsTypeDialog(Activity mActivity) {
         super(mActivity);
@@ -44,13 +48,26 @@ public class GoodsTypeDialog extends BaseDialog {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                dismiss();
+                if (onReturnDataListener != null) {
+                    onReturnDataListener.returnData(mList.get(i));
+                }
             }
         });
         ivClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
+            }
+        });
+        tvInputOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+                if (onReturnDataListener != null) {
+                    String data = etInputType.getText().toString().trim();
+                    onReturnDataListener.returnData(TextUtils.isEmpty(data) ? "" : data);
+                }
             }
         });
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -73,6 +90,8 @@ public class GoodsTypeDialog extends BaseDialog {
         ivClear = title.findViewById(R.id.iv_clear);
         dialogTitle = title.findViewById(R.id.tv_dialog_title);
         listView = view.findViewById(R.id.gt_list);
+        tvInputOk = view.findViewById(R.id.tv_input_ok);
+        etInputType = view.findViewById(R.id.et_input_type);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setTouchable(true);
@@ -89,6 +108,16 @@ public class GoodsTypeDialog extends BaseDialog {
 
     public void dismiss() {
         popupWindow.dismiss();
+    }
+
+    private OnReturnDataListener onReturnDataListener;
+
+    public void setOnReturnDataListener(OnReturnDataListener onReturnDataListener) {
+        this.onReturnDataListener = onReturnDataListener;
+    }
+
+    public interface OnReturnDataListener {
+        void returnData(String data);
     }
 
 }

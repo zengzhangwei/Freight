@@ -86,7 +86,23 @@ public class SendGoodsFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_send_goods, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
+        initListener();
         return view;
+    }
+
+    private void initListener() {
+        timeDialog.setOnChooseTimeListener(new ChooseTimeDialog.OnChooseTimeListener() {
+            @Override
+            public void onChooseTime(String time) {
+                tvChooseTime.setText(time);
+            }
+        });
+        goodsTypeDialog.setOnReturnDataListener(new GoodsTypeDialog.OnReturnDataListener() {
+            @Override
+            public void returnData(String data) {
+                tvChooseType.setText(data);
+            }
+        });
     }
 
     private void initView() {

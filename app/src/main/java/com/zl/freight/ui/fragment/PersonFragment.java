@@ -20,6 +20,7 @@ import com.zl.freight.ui.activity.MyOrderActivity;
 import com.zl.freight.ui.activity.PublishNewsActivity;
 import com.zl.freight.ui.activity.RoleChooseActivity;
 import com.zl.freight.ui.activity.UserCheckActivity;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
 
 import butterknife.BindView;
@@ -127,6 +128,10 @@ public class PersonFragment extends BaseFragment {
                 break;
             //退出当前帐号
             case R.id.btn_exit:
+                //取消登录状态
+                SpUtils.setIsLogin(mActivity, false);
+                //取消用户角色
+                SpUtils.setRole(mActivity, -1);
                 startActivity(new Intent(mActivity, RoleChooseActivity.class));
                 mActivity.finish();
                 break;

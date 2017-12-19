@@ -11,6 +11,21 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //Jpush官网上注册的包名.
+        applicationId "com.zl.freight"
+
+        ndk {
+            //根据需要 自行选择添加的对应cpu类型的.so库。
+            abiFilters 'armeabi'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "e0c1a5ae408c8f3ba0700a0a", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+        ]
+
     }
     buildTypes {
         release {
@@ -34,7 +49,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // 此处以JPush 3.0.9 版本为例。
+    // 此处以JCore 1.1.7 版本为例。
     compile project(':zlibrary')
+    compile 'cn.jiguang.sdk:jpush:3.0.9'
+    compile 'cn.jiguang.sdk:jcore:1.1.7'
     compile 'com.zhy:autolayout:1.4.5'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:design:26.0.0-alpha1'

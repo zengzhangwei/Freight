@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SpUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +37,8 @@ public class LoginActivity extends BaseActivity {
     TextView tvLogin;
     @BindView(R.id.tv_forget_password)
     TextView tvForgetPassword;
-    private String role;
+    private int role;
+    private boolean isFinish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,8 @@ public class LoginActivity extends BaseActivity {
 
     private void initData() {
         Intent intent = getIntent();
-        role = intent.getStringExtra("role");
+        role = intent.getIntExtra("role", 0);
+        isFinish = intent.getBooleanExtra(API.ISFINISH, false);
     }
 
     private void initView() {
@@ -66,12 +70,12 @@ public class LoginActivity extends BaseActivity {
                 break;
             //登录
             case R.id.tv_login:
-                startMain();
+                startMain(true);
                 break;
             //注册
             case R.id.tv_title_right:
                 Intent intent;
-                if (role.equals("车主")) {
+                if (role == 0) {
                     intent = new Intent(mActivity, RegisterActivity.class);
                 } else {
                     intent = new Intent(mActivity, GoodsRegisterActivity.class);
@@ -80,7 +84,7 @@ public class LoginActivity extends BaseActivity {
                 break;
             //随便看看
             case R.id.tv_see_see:
-                startMain();
+                startMain(false);
                 break;
             //忘记密码
             case R.id.tv_forget_password:
@@ -92,8 +96,17 @@ public class LoginActivity extends BaseActivity {
     /**
      * 根据角色的不同进入不同的主页
      */
-    private void startMain() {
-        if (role.equals(RoleChooseActivity.DRIVER)) {
+    private void startMain(boolean isLogin) {
+        SpUtils.setRole(mActivity, role);
+        //现在是登录状态
+        SpUtils.setIsLogin(mActivity, isLogin);
+
+        if (isFinish) {
+            setResult(RESULT_OK);
+            finish();
+            return;
+        }
+        if (role == 0) {
             startActivity(new Intent(mActivity, MainActivity.class));
         } else {
             startActivity(new Intent(mActivity, GoodsMainActivity.class));

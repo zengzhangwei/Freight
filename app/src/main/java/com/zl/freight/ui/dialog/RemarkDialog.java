@@ -140,4 +140,7 @@ public class RemarkDialog extends BaseDialog {
             view.setSelected(false);
         }
     }
+
+
+
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.zl.freight.R;
 import com.zl.freight.ui.activity.GoodsDetailActivity;
+import com.zl.freight.utils.LoginUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
@@ -70,7 +71,8 @@ public class FindGoodsFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(mActivity, GoodsDetailActivity.class));
+                Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+                LoginUtils.jumpToActivity(mActivity, intent);
             }
         });
     }

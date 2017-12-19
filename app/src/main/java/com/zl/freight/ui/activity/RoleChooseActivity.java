@@ -8,6 +8,7 @@ import android.view.View;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.utils.NavigationUtils;
+import com.zl.freight.utils.SpUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,8 +25,8 @@ public class RoleChooseActivity extends BaseActivity {
     CardView rcDriver;
     @BindView(R.id.rc_goods_master)
     CardView rcGoodsMaster;
-    public static final String DRIVER = "车主";
-    public static final String GOODSMASTER = "货主";
+    public static final int DRIVER = 0;
+    public static final int GOODSMASTER = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class RoleChooseActivity extends BaseActivity {
         }
     }
 
-    private void startLogin(String role) {
+    private void startLogin(int role) {
         Intent intent = new Intent(mActivity, LoginActivity.class);
         intent.putExtra("role", role);
         startActivity(intent);

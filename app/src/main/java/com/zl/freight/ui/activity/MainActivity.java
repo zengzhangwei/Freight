@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,11 +17,14 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.fragment.FindGoodsFragment;
+import com.zl.freight.ui.fragment.NoLoginPersonFragment;
 import com.zl.freight.ui.fragment.PersonFragment;
 import com.zl.freight.ui.fragment.SendGoodsFragment;
 import com.zl.freight.ui.fragment.StoreFragment;
 import com.zl.freight.ui.fragment.TopLineFragment;
+import com.zl.freight.utils.API;
 import com.zl.freight.utils.ShareUtils;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.utils.FragmentHelper;
 
 import butterknife.BindView;
@@ -63,7 +67,8 @@ public class MainActivity extends BaseActivity {
     //头条
     private TopLineFragment topLineFragment;
     private CarLengthDialog carLengthDialog;
-
+    private NoLoginPersonFragment noLoginPersonFragment;
+    private long timecode = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +103,11 @@ public class MainActivity extends BaseActivity {
                         helper.showFragment(storeFragment);
                         break;
                     case R.id.person:
-                        helper.showFragment(personFragment);
+                        if (!SpUtils.isLogin(mActivity)) {
+                            helper.showFragment(noLoginPersonFragment);
+                        } else {
+                            helper.showFragment(personFragment);
+                        }
                         break;
                 }
                 return true;
@@ -112,12 +121,14 @@ public class MainActivity extends BaseActivity {
         sendGoodsFragment = SendGoodsFragment.newInstance();
         storeFragment = StoreFragment.newInstance();
         topLineFragment = TopLineFragment.newInstance();
+        noLoginPersonFragment = NoLoginPersonFragment.newInstance();
         helper = FragmentHelper.builder(mActivity).attach(R.id.main_rl)
                 .addFragment(findGoodsFragment)
                 .addFragment(personFragment)
                 .addFragment(sendGoodsFragment)
                 .addFragment(storeFragment)
                 .addFragment(topLineFragment)
+                .addFragment(noLoginPersonFragment)
                 .commit();
         helper.showFragment(findGoodsFragment);
         mainBottom.setSelectedItemId(R.id.find_goods);
@@ -149,6 +160,36 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        sendGoodsFragment.onActivityResult(requestCode,resultCode,data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                //从登录页返回到主界面
+                case API.ISLOGIN:
+                    if (!noLoginPersonFragment.isHidden()) {
+                        if (!SpUtils.isLogin(mActivity)) {
+                            helper.showFragment(noLoginPersonFragment);
+                        } else {
+                            helper.showFragment(personFragment);
+                        }
+                    }
+                    break;
+                default:
+                    sendGoodsFragment.onActivityResult(requestCode, resultCode, data);
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            long time = System.currentTimeMillis();
+            if (time - timecode > 2000) {
+                showToast("再次点击退出程序");
+                timecode = time;
+            } else {
+                finish();
+            }
+        }
+        return true;
     }
 }

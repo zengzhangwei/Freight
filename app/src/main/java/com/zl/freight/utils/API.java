@@ -10,5 +10,7 @@ public class API {
     public static final String LATITUDE = "latitude";
     //经度
     public static final String LONGITUDE = "longitude";
+    public static final int ISLOGIN = 0X111;
+    public static final String ISFINISH = "isFinish";
 
 }

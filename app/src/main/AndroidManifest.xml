@@ -31,10 +31,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- 张磊调试使用 -->
+        <!-- 张磊调试使用(百度地图) -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="6hvAe9BMqh19BHwTLiZdzE7QWO1wNEzu" />
+
+        <!--张磊调试使用（极光推送）-->
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="e0c1a5ae408c8f3ba0700a0a" />
 
         <!-- 注册设计图纸 -->
         <meta-data
@@ -44,20 +49,23 @@
             android:name="design_height"
             android:value="1280" />
 
+        <!--百度定位服务-->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
 
         <activity android:name=".ui.activity.MainActivity" />
-        <activity android:name=".ui.activity.LauncherActivity" />
-        <activity android:name=".ui.activity.RoleChooseActivity">
+        <activity android:name=".ui.activity.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.RoleChooseActivity"
+            android:theme="@style/RoleTheme" />
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.PictureActivity" />
         <activity android:name=".ui.activity.RegisterActivity" />
@@ -89,9 +97,24 @@
             android:theme="@style/AddressTheme" />
         <activity android:name=".ui.activity.ForgetPasswordActivity" />
         <activity android:name=".ui.activity.GoodsOrderActivity" />
-        <activity android:name=".ui.activity.LookDriverActivity"
-            android:theme="@style/AddressTheme"
-            ></activity>
+        <activity
+            android:name=".ui.activity.LookDriverActivity"
+            android:theme="@style/AddressTheme"></activity>
+
+        <!-- User defined.  For test only  用户自定义的广播接收器 -->
+        <receiver
+            android:name=".jpush.MyReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.zl.webproject" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
