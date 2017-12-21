@@ -2,6 +2,7 @@ package com.zl.zlibrary.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 
@@ -66,7 +67,11 @@ public class ImageFactory {
         return compressImage(bitmap);// 压缩好比例大小后再进行质量压缩
     }
 
-
+    /**
+     * 对图片进行大小压缩
+     * @param srcPath
+     * @return
+     */
     public static Bitmap getSimpeImage(String srcPath) {
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
         // 开始读入图片，此时把options.inJustDecodeBounds 设回true了
@@ -92,4 +97,19 @@ public class ImageFactory {
         // 重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
         return BitmapFactory.decodeFile(srcPath, newOpts);
     }
+
+    /**
+     * 将byte数组进行base64编码
+     *
+     * @param bytes
+     * @return
+     */
+    public String bitmaptoString(byte[] bytes) {
+        if (bytes.length <= 0) {
+            return "";
+        }
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+
+    }
+
 }

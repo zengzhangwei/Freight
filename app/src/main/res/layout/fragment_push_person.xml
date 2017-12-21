@@ -1,0 +1,65 @@
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.zl.freight.ui.fragment.PushPersonFragment">
+
+    <include layout="@layout/title_layout" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_6"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16">
+
+        <TextView
+            style="@style/RegisterTextStyle"
+            android:text="推荐人" />
+
+        <EditText
+            android:id="@+id/et_input_push_name"
+            style="@style/RegisterEtStyle"
+            android:hint="请输入推荐人姓名"
+            android:maxLength="20" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        style="@style/LineTextStyle"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16">
+
+        <TextView
+            style="@style/RegisterTextStyle"
+            android:text="手机号" />
+
+        <EditText
+            android:id="@+id/et_input_push_phone"
+            style="@style/RegisterEtStyle"
+            android:hint="请输入推荐人手机号"
+            android:maxLength="20" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        style="@style/LineTextStyle"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16" />
+
+    <TextView
+        android:id="@+id/tv_pp_ok"
+        style="@style/TextButtonStyle"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        android:text="@string/ok" />
+
+</com.zhy.autolayout.AutoLinearLayout>

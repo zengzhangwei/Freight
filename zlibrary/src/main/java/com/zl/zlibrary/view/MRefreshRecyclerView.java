@@ -2,6 +2,7 @@ package com.zl.zlibrary.view;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
@@ -37,6 +38,12 @@ public class MRefreshRecyclerView extends SwipeRefreshLayout {
 
     public void setAdapter(RecyclerView.Adapter adapter) {
         mRecyclerView.setAdapter(adapter);
+    }
+
+    public void setListMode() {
+        if (mRecyclerView != null) {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        }
     }
 
     public void setLayoutManager(RecyclerView.LayoutManager layout) {

@@ -18,5 +18,7 @@
     <color name="hint_color">#686868</color>
     <color name="color_green">#079605</color>
     <color name="green">#17c115</color>
+    <color name="orange">#ed531a</color>
+    <color name="orange_cc">#7fe27527</color>
 
 </resources>

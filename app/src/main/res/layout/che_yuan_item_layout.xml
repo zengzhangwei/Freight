@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_driver_icon"
+        android:layout_width="145px"
+        android:layout_height="145px"
+        android:layout_margin="@dimen/dp_8"
+        android:src="@mipmap/icon_touxiang" />
+
+    <TextView
+        android:id="@+id/tv_driver_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_driver_icon"
+        android:layout_marginLeft="@dimen/dp_4"
+        android:layout_toRightOf="@id/iv_driver_icon"
+        android:text="张磊"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dp_16"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_car_code_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_driver_user"
+        android:layout_marginLeft="@dimen/dp_4"
+        android:layout_marginTop="@dimen/dp_6"
+        android:layout_toRightOf="@id/iv_driver_icon"
+        android:text="冀123456"
+        android:textColor="@color/text_black_cc"
+        android:textSize="@dimen/dp_14" />
+
+    <TextView
+        android:id="@+id/tv_car_type_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_car_code_item"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_toRightOf="@id/tv_car_code_item"
+        android:text="9.6米/高栏"
+        android:textColor="@color/blue"
+        android:textSize="26px" />
+
+    <TextView
+        android:id="@+id/tv_car_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_car_code_item"
+        android:layout_marginLeft="@dimen/dp_2"
+        android:layout_marginTop="@dimen/dp_6"
+        android:layout_toRightOf="@id/iv_driver_icon"
+        android:drawableLeft="@mipmap/location_grey"
+        android:gravity="center_vertical"
+        android:text="@string/all_image"
+        android:textSize="@dimen/dp_12" />
+
+    <TextView
+        android:id="@+id/tv_driver_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_28"
+        android:background="@drawable/orange_round_shape"
+        android:paddingBottom="@dimen/dp_4"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_4"
+        android:text="运输中"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/dp_16" />
+
+    <TextView
+        style="@style/LineTextStyle"
+        android:layout_below="@id/iv_driver_icon" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/auto_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_driver_icon"
+        android:layout_marginTop="0.8dp"
+        android:paddingBottom="@dimen/dp_4">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_2"
+                android:text="@string/call"
+                android:textSize="@dimen/dp_12" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_2"
+                android:text="@string/driver_location"
+                android:textSize="@dimen/dp_12" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_2"
+                android:text="加为熟车"
+                android:textSize="@dimen/dp_12" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_8"
+        android:layout_below="@id/auto_ll"
+        android:background="@color/bg_color" />
+
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -62,8 +62,6 @@ public class MainActivity extends BaseActivity {
     private PersonFragment personFragment;
     //发货
     private SendGoodsFragment sendGoodsFragment;
-    //商城
-    private StoreFragment storeFragment;
     //头条
     private TopLineFragment topLineFragment;
     private CarLengthDialog carLengthDialog;
@@ -99,9 +97,6 @@ public class MainActivity extends BaseActivity {
                     case R.id.find_goods:
                         helper.showFragment(findGoodsFragment);
                         break;
-                    case R.id.store:
-                        helper.showFragment(storeFragment);
-                        break;
                     case R.id.person:
                         if (!SpUtils.isLogin(mActivity)) {
                             helper.showFragment(noLoginPersonFragment);
@@ -119,14 +114,12 @@ public class MainActivity extends BaseActivity {
         findGoodsFragment = FindGoodsFragment.newInstance();
         personFragment = PersonFragment.newInstance();
         sendGoodsFragment = SendGoodsFragment.newInstance();
-        storeFragment = StoreFragment.newInstance();
         topLineFragment = TopLineFragment.newInstance();
         noLoginPersonFragment = NoLoginPersonFragment.newInstance();
         helper = FragmentHelper.builder(mActivity).attach(R.id.main_rl)
                 .addFragment(findGoodsFragment)
                 .addFragment(personFragment)
                 .addFragment(sendGoodsFragment)
-                .addFragment(storeFragment)
                 .addFragment(topLineFragment)
                 .addFragment(noLoginPersonFragment)
                 .commit();

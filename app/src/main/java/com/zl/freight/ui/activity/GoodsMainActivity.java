@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.ui.dialog.CarLengthDialog;
+import com.zl.freight.ui.dialog.DriverSearchDialog;
+import com.zl.freight.ui.fragment.CheYuanFragment;
 import com.zl.freight.ui.fragment.FindGoodsFragment;
 import com.zl.freight.ui.fragment.NoLoginPersonFragment;
 import com.zl.freight.ui.fragment.PersonFragment;
@@ -55,13 +57,13 @@ public class GoodsMainActivity extends BaseActivity {
     private PersonFragment personFragment;
     //发货
     private SendGoodsFragment sendGoodsFragment;
-    //商城
-    private StoreFragment storeFragment;
     //头条
     private TopLineFragment topLineFragment;
     private CarLengthDialog carLengthDialog;
     private NoLoginPersonFragment noLoginPersonFragment;
     private long timecode = 0;
+    private CheYuanFragment cheYuanFragment;
+    private DriverSearchDialog searchDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,18 +86,23 @@ public class GoodsMainActivity extends BaseActivity {
                 }
 
                 switch (item.getItemId()) {
+                    //头条
                     case R.id.top_line:
                         helper.showFragment(topLineFragment);
                         break;
+                    //发货
                     case R.id.send_goods:
                         helper.showFragment(sendGoodsFragment);
                         break;
+                    //找货
                     case R.id.find_goods:
                         helper.showFragment(findGoodsFragment);
                         break;
-                    case R.id.store:
-                        helper.showFragment(storeFragment);
+                    //车源
+                    case R.id.che_yuan:
+                        helper.showFragment(cheYuanFragment);
                         break;
+                    //个人中心
                     case R.id.person:
                         if (!SpUtils.isLogin(mActivity)) {
                             helper.showFragment(noLoginPersonFragment);
@@ -113,20 +120,22 @@ public class GoodsMainActivity extends BaseActivity {
         findGoodsFragment = FindGoodsFragment.newInstance();
         personFragment = PersonFragment.newInstance();
         sendGoodsFragment = SendGoodsFragment.newInstance();
-        storeFragment = StoreFragment.newInstance();
         topLineFragment = TopLineFragment.newInstance();
         noLoginPersonFragment = NoLoginPersonFragment.newInstance();
+        cheYuanFragment = CheYuanFragment.newInstance();
         helper = FragmentHelper.builder(mActivity).attach(R.id.main_rl)
                 .addFragment(findGoodsFragment)
                 .addFragment(personFragment)
                 .addFragment(sendGoodsFragment)
-                .addFragment(storeFragment)
                 .addFragment(topLineFragment)
                 .addFragment(noLoginPersonFragment)
+                .addFragment(cheYuanFragment)
                 .commit();
         helper.showFragment(sendGoodsFragment);
         mainBottom.setSelectedItemId(R.id.send_goods);
         carLengthDialog = new CarLengthDialog(mActivity);
+        searchDialog = new DriverSearchDialog(mActivity);
+        tvCarType.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.tv_car_type, R.id.main_img_weChat})
@@ -146,7 +155,7 @@ public class GoodsMainActivity extends BaseActivity {
                 break;
             //显示车长车宽选择器
             case R.id.tv_car_type:
-                carLengthDialog.show(view);
+                searchDialog.showDialog(view);
                 break;
         }
     }

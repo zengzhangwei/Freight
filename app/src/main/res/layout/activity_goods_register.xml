@@ -76,41 +76,26 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="170px"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/dp_8"
-                    android:text="公司名称"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dp_18" />
+                    style="@style/RegisterTextStyle"
+                    android:text="公司名称" />
 
                 <EditText
                     android:id="@+id/et_company_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_44"
-                    android:background="@color/white"
+                    style="@style/RegisterEtStyle"
                     android:hint="请输入公司名称"
-                    android:inputType="numberPassword"
-                    android:paddingLeft="@dimen/dp_32"
-                    android:textSize="@dimen/dp_16" />
+                    android:inputType="numberPassword" />
 
             </com.zhy.autolayout.AutoLinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0.8dp"
-                android:background="@color/black" />
+            <TextView style="@style/LineTextStyle" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="170px"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/dp_8"
-                    android:text="公司地址"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dp_18" />
+                    style="@style/RegisterTextStyle"
+                    android:text="公司地址" />
 
                 <TextView
                     android:id="@+id/tv_choose_address"
@@ -125,10 +110,7 @@
 
             </com.zhy.autolayout.AutoLinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0.8dp"
-                android:background="@color/black" />
+            <TextView style="@style/LineTextStyle" />
 
             <EditText
                 android:id="@+id/et_company_content"

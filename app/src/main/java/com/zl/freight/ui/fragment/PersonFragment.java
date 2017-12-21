@@ -3,7 +3,6 @@ package com.zl.freight.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.autolayout.AutoRelativeLayout;
 import com.zl.freight.R;
 import com.zl.freight.ui.activity.EditPersonDataActivity;
 import com.zl.freight.ui.activity.GoodsOrderActivity;
 import com.zl.freight.ui.activity.InfoQueryActivity;
+import com.zl.freight.ui.activity.JiFenStoreActivity;
 import com.zl.freight.ui.activity.MyMoneyActivity;
-import com.zl.freight.ui.activity.MyOrderActivity;
 import com.zl.freight.ui.activity.PublishNewsActivity;
 import com.zl.freight.ui.activity.RoleChooseActivity;
 import com.zl.freight.ui.activity.UserCheckActivity;
@@ -53,6 +53,10 @@ public class PersonFragment extends BaseFragment {
     @BindView(R.id.btn_exit)
     TextView btnExit;
     Unbinder unbinder;
+    @BindView(R.id.arl_person)
+    AutoRelativeLayout arlPerson;
+    @BindView(R.id.linear_my_ji_fen_store)
+    AutoLinearLayout linearMyJiFenStore;
 
     public PersonFragment() {
         // Required empty public constructor
@@ -98,7 +102,7 @@ public class PersonFragment extends BaseFragment {
     }
 
     @OnClick({R.id.arl_person, R.id.linear_my_order, R.id.linear_my_money, R.id.linear_user_check,
-            R.id.linear_info_query, R.id.linear_news_push, R.id.btn_exit})
+            R.id.linear_info_query, R.id.linear_news_push, R.id.btn_exit, R.id.linear_my_ji_fen_store})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //个人信息
@@ -113,6 +117,10 @@ public class PersonFragment extends BaseFragment {
             //我的钱包
             case R.id.linear_my_money:
                 startActivity(new Intent(mActivity, MyMoneyActivity.class));
+                break;
+            //积分商城
+            case R.id.linear_my_ji_fen_store:
+                startActivity(new Intent(mActivity, JiFenStoreActivity.class));
                 break;
             //用户审核
             case R.id.linear_user_check:

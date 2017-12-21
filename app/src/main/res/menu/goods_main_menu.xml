@@ -14,9 +14,9 @@
         android:icon="@drawable/ic_send_goods"
         android:title="@string/send_goods" />
     <item
-        android:id="@+id/store"
-        android:icon="@drawable/ic_store"
-        android:title="@string/store" />
+        android:id="@+id/che_yuan"
+        android:icon="@drawable/ic_che_yuan"
+        android:title="@string/che_yuan" />
     <item
         android:id="@+id/person"
         android:icon="@drawable/ic_user"

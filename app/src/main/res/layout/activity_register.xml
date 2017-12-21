@@ -1,97 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
     tools:context="com.zl.freight.ui.activity.RegisterActivity">
 
-    <include layout="@layout/title_layout" />
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <ScrollView
+
+        <include
+            android:id="@+id/register_title"
+            layout="@layout/title_layout"
+            android:visibility="visible" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_16">
+
+                <include layout="@layout/register_fragment_layout" />
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/RegisterTextStyle"
+                        android:text="@string/car_code" />
+
+                    <EditText
+                        android:id="@+id/et_input_car_code"
+                        style="@style/RegisterEtStyle"
+                        android:hint="请输入车牌号"
+                        android:maxLength="20" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <TextView style="@style/LineTextStyle" />
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/RegisterTextStyle"
+                        android:text="推介人" />
+
+                    <TextView
+                        android:id="@+id/tv_choose_push_p"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_44"
+                        android:background="@color/white"
+                        android:drawableRight="@mipmap/icon_right"
+                        android:gravity="center_vertical"
+                        android:hint="请输入推介人信息"
+                        android:paddingLeft="@dimen/dp_32"
+                        android:textSize="@dimen/dp_16" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <TextView style="@style/LineTextStyle" />
+
+                <ImageView
+                    android:id="@+id/iv_person_photo"
+                    style="@style/RegisterIvStyle"
+                    android:src="@mipmap/icon_person" />
+
+                <ImageView
+                    android:id="@+id/iv_hand_photo"
+                    style="@style/RegisterIvStyle"
+                    android:src="@mipmap/icon_hand_photo" />
+
+                <ImageView
+                    android:id="@+id/iv_driving_photo"
+                    style="@style/RegisterIvStyle"
+                    android:src="@mipmap/icon_driving" />
+
+                <ImageView
+                    android:id="@+id/iv_run_photo"
+                    style="@style/RegisterIvStyle"
+                    android:src="@mipmap/icon_run" />
+
+                <ImageView
+                    android:id="@+id/iv_car_front_photo"
+                    style="@style/RegisterIvStyle"
+                    android:src="@mipmap/icon_car_front" />
+
+                <ImageView
+                    android:id="@+id/iv_car_back_photo"
+                    style="@style/RegisterIvStyle"
+                    android:src="@mipmap/icon_car_back" />
+
+                <EditText
+                    android:id="@+id/et_car_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:background="@drawable/xu_line_shape"
+                    android:gravity="top"
+                    android:hint="车辆信息描述(选填)"
+                    android:minHeight="@dimen/dp_48"
+                    android:padding="@dimen/dp_8"
+                    android:textSize="@dimen/dp_14" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </ScrollView>
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/register_rl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:padding="@dimen/dp_16">
+    </RelativeLayout>
 
-            <include layout="@layout/register_fragment_layout" />
-
-            <ImageView
-                android:id="@+id/iv_person_photo"
-                android:layout_width="match_parent"
-                android:layout_height="300px"
-                android:layout_marginTop="@dimen/dp_6"
-                android:background="@drawable/xu_line_shape"
-                android:padding="@dimen/dp_2"
-                android:src="@mipmap/icon_person" />
-
-            <ImageView
-                android:id="@+id/iv_hand_photo"
-                android:layout_width="match_parent"
-                android:layout_height="300px"
-                android:layout_marginTop="@dimen/dp_6"
-                android:background="@drawable/xu_line_shape"
-                android:padding="@dimen/dp_2"
-                android:src="@mipmap/icon_hand_photo" />
-
-            <ImageView
-                android:id="@+id/iv_driving_photo"
-                android:layout_width="match_parent"
-                android:layout_height="300px"
-                android:layout_marginTop="@dimen/dp_6"
-                android:background="@drawable/xu_line_shape"
-                android:padding="@dimen/dp_2"
-                android:src="@mipmap/icon_driving" />
-
-            <ImageView
-                android:id="@+id/iv_run_photo"
-                android:layout_width="match_parent"
-                android:layout_height="300px"
-                android:layout_marginTop="@dimen/dp_6"
-                android:background="@drawable/xu_line_shape"
-                android:padding="@dimen/dp_2"
-                android:src="@mipmap/icon_run" />
-
-            <ImageView
-                android:id="@+id/iv_car_front_photo"
-                android:layout_width="match_parent"
-                android:layout_height="300px"
-                android:layout_marginTop="@dimen/dp_6"
-                android:background="@drawable/xu_line_shape"
-                android:padding="@dimen/dp_2"
-                android:src="@mipmap/icon_car_front" />
-
-            <ImageView
-                android:id="@+id/iv_car_back_photo"
-                android:layout_width="match_parent"
-                android:layout_height="300px"
-                android:layout_marginTop="@dimen/dp_6"
-                android:background="@drawable/xu_line_shape"
-                android:padding="@dimen/dp_2"
-                android:src="@mipmap/icon_car_back" />
-
-            <EditText
-                android:id="@+id/et_car_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_6"
-                android:background="@drawable/xu_line_shape"
-                android:gravity="top"
-                android:hint="车辆信息描述(选填)"
-                android:minHeight="@dimen/dp_48"
-                android:padding="@dimen/dp_8"
-                android:textSize="@dimen/dp_14" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-    </ScrollView>
-
-</com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

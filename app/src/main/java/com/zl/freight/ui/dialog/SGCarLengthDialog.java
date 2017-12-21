@@ -29,18 +29,20 @@ public class SGCarLengthDialog implements View.OnClickListener {
     private Activity mActivity;
     private PopupWindow popupWindow;
     private UniversalAdapter<String> lAdapter;
-    private UniversalAdapter<String> tAdapter;
+    private UniversalAdapter<String> tAdapter, uAdapter;
     private List<String> lList = Arrays.asList("不限", "1.8", "2.5", "3", "3.3", "3.6", "4.2", "4.5", "5", "5.2", "6.2",
             "6.8", "7.2", "7.6", "8.2", "8.6", "9.6", "11.7", "12.5", "13", "13.5", "14", "15", "16", "17", "17.5", "18");
     private List<String> tList = Arrays.asList("不限", "平板", "高栏", "厢式", "高低板", "保温",
             "冷藏", "威胁品", "自卸", "中卡", "面包", "棉被车");
+    private List<String> uList = Arrays.asList("整车", "零担");
     private GridView lGrid;
     private GridView tGrid;
+    private GridView uGrid;
     private View tvOk;
     private View ivClear;
     private int lPosition = 0;
     private int tPosition = 0;
-    private TextView tvCarload, tv_breakbulk;
+    private int uPosition = 0;
 
     public SGCarLengthDialog(Activity mActivity) {
         this.mActivity = mActivity;
@@ -63,10 +65,15 @@ public class SGCarLengthDialog implements View.OnClickListener {
                 tAdapter.notifyDataSetChanged();
             }
         });
+        uGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                uPosition = i;
+                uAdapter.notifyDataSetChanged();
+            }
+        });
         tvOk.setOnClickListener(this);
         ivClear.setOnClickListener(this);
-        tvCarload.setOnClickListener(this);
-        tv_breakbulk.setOnClickListener(this);
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -79,25 +86,19 @@ public class SGCarLengthDialog implements View.OnClickListener {
         lAdapter = new UniversalAdapter<String>(mActivity, lList, R.layout.type_item_layout) {
             @Override
             public void convert(UniversalViewHolder holder, int position, String s) {
-                TextView view = holder.getView(R.id.tv_type_item);
-                view.setText(s);
-                if (position == lPosition) {
-                    view.setSelected(true);
-                } else {
-                    view.setSelected(false);
-                }
+                setText(holder, position, lPosition, s);
             }
         };
         tAdapter = new UniversalAdapter<String>(mActivity, tList, R.layout.type_item_layout) {
             @Override
             public void convert(UniversalViewHolder holder, int position, String s) {
-                TextView view = holder.getView(R.id.tv_type_item);
-                view.setText(s);
-                if (position == tPosition) {
-                    view.setSelected(true);
-                } else {
-                    view.setSelected(false);
-                }
+                setText(holder, position, tPosition, s);
+            }
+        };
+        uAdapter = new UniversalAdapter<String>(mActivity, uList, R.layout.type_item_layout) {
+            @Override
+            public void convert(UniversalViewHolder holder, int position, String s) {
+                setText(holder, position, uPosition, s);
             }
         };
         View view = LayoutInflater.from(mActivity).inflate(R.layout.car_length_type_dialog_layout, null);
@@ -105,15 +106,13 @@ public class SGCarLengthDialog implements View.OnClickListener {
         ivClear = title.findViewById(R.id.iv_clear);
         lGrid = view.findViewById(R.id.grid_card_length);
         tGrid = view.findViewById(R.id.grid_card_type);
-        tvCarload = view.findViewById(R.id.tv_carload);
-        tv_breakbulk = view.findViewById(R.id.tv_breakbulk);
-        //默认选中整车
-        tvCarload.setSelected(true);
+        uGrid = view.findViewById(R.id.grid_use_type);
         tvOk = view.findViewById(R.id.tv_ok);
         view.findViewById(R.id.tv_goods_type).setVisibility(View.GONE);
         view.findViewById(R.id.grid_goods_type).setVisibility(View.GONE);
         lGrid.setAdapter(lAdapter);
         tGrid.setAdapter(tAdapter);
+        uGrid.setAdapter(uAdapter);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setTouchable(true);
@@ -137,17 +136,19 @@ public class SGCarLengthDialog implements View.OnClickListener {
             case R.id.tv_ok:
                 dismiss();
                 break;
-            case R.id.tv_carload:
-                tvCarload.setSelected(true);
-                tv_breakbulk.setSelected(false);
-                break;
-            case R.id.tv_breakbulk:
-                tvCarload.setSelected(false);
-                tv_breakbulk.setSelected(true);
-                break;
             case R.id.iv_clear:
                 dismiss();
                 break;
+        }
+    }
+
+    private void setText(UniversalViewHolder holder, int position, int p, String s) {
+        TextView view = holder.getView(R.id.tv_type_item);
+        view.setText(s);
+        if (position == p) {
+            view.setSelected(true);
+        } else {
+            view.setSelected(false);
         }
     }
 }

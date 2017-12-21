@@ -8,11 +8,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.RegexUtils;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.ui.fragment.PushPersonFragment;
 import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.ImageFactory;
 import com.zl.zlibrary.utils.MiPictureHelper;
@@ -64,6 +66,14 @@ public class RegisterActivity extends BaseActivity {
     EditText etInputPassword;
     @BindView(R.id.et_car_content)
     EditText etCarContent;
+    @BindView(R.id.et_person_code)
+    EditText etPersonCode;
+    @BindView(R.id.et_input_car_code)
+    EditText etInputCarCode;
+    @BindView(R.id.tv_choose_push_p)
+    TextView tvChoosePushP;
+    @BindView(R.id.register_rl)
+    RelativeLayout registerRl;
     private int type = PERSONTYPE;
     private PhotoDialog photoDialog;
     private String imagePath = "";
@@ -73,8 +83,11 @@ public class RegisterActivity extends BaseActivity {
     private String IMGRUNPATH = "";
     private String IMGFRONTPATH = "";
     private String IMGBACKPATH = "";
+    private String pushName;
+    private String pushPhone;
     private String[] sexs = {"男", "女"};
     private AlertDialog sexDialog;
+    private PushPersonFragment pushPersonFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +95,26 @@ public class RegisterActivity extends BaseActivity {
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
         initView();
+        initListener();
+    }
+
+    private void initListener() {
+        //获取推介人信息的回调
+        pushPersonFragment.setOnRetrunDataListener(new PushPersonFragment.OnReturnDataListener() {
+            @Override
+            public void onReturnData(String name, String phone) {
+                pushName = name;
+                pushPhone = phone;
+                tvChoosePushP.setText(name + "  " + phone);
+            }
+        });
     }
 
     private void initView() {
         tvTitle.setText("司机注册");
         tvTitleRight.setText("提交");
         photoDialog = new PhotoDialog(mActivity);
+        pushPersonFragment = PushPersonFragment.newInstance();
     }
 
     @Override
@@ -137,8 +164,9 @@ public class RegisterActivity extends BaseActivity {
         image.setImageBitmap(BitmapFactory.decodeByteArray(getimage, 0, getimage.length));
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_title_right,R.id.iv_person_photo, R.id.iv_hand_photo,
-            R.id.iv_driving_photo, R.id.iv_run_photo, R.id.iv_car_front_photo, R.id.iv_car_back_photo, R.id.tv_send_code})
+    @OnClick({R.id.iv_back, R.id.tv_title_right, R.id.iv_person_photo, R.id.iv_hand_photo,
+            R.id.iv_driving_photo, R.id.iv_run_photo, R.id.iv_car_front_photo, R.id.iv_car_back_photo,
+            R.id.tv_send_code, R.id.tv_choose_push_p})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -177,7 +205,22 @@ public class RegisterActivity extends BaseActivity {
             case R.id.tv_send_code:
                 choosePhoto(BACKTYPE, view);
                 break;
+            //输入推介人信息
+            case R.id.tv_choose_push_p:
+                startPersonFragment();
+                break;
         }
+    }
+
+    /**
+     * 进入输入推介人信息界面
+     */
+    private void startPersonFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("no")
+                .replace(R.id.register_rl, pushPersonFragment)
+                .commit();
     }
 
     /**
@@ -189,6 +232,8 @@ public class RegisterActivity extends BaseActivity {
         String code = etInputCode.getText().toString().trim();
         String password = etInputPassword.getText().toString().trim();
         String content = etCarContent.getText().toString().trim();
+        String personCode = etPersonCode.getText().toString().trim();
+        String carCode = etInputCarCode.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
             showToast("请输入真实姓名");
@@ -205,12 +250,28 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
+        if (TextUtils.isEmpty(personCode)) {
+            showToast("请输入身份证号");
+            return;
+        }
+
+        if (!RegexUtils.isIDCard18(personCode)) {
+            showToast("请输入正确身份证号");
+            return;
+        }
+
         if (TextUtils.isEmpty(code)) {
             showToast("请输入验证码");
             return;
         }
+
         if (TextUtils.isEmpty(password)) {
             showToast("请输入密码");
+            return;
+        }
+
+        if (TextUtils.isEmpty(carCode)) {
+            showToast("请输入车牌照");
             return;
         }
 
@@ -220,9 +281,14 @@ public class RegisterActivity extends BaseActivity {
         }
 
         if (TextUtils.isEmpty(IMGBACKPATH) || TextUtils.isEmpty(IMGFRONTPATH) || TextUtils.isEmpty(IMGRUNPATH)
-                || TextUtils.isEmpty(IMGDRIVINGPATH) || TextUtils.isEmpty(IMGHANDPATH) || TextUtils.isEmpty(IMGPERSONPATH)){
+                || TextUtils.isEmpty(IMGDRIVINGPATH) || TextUtils.isEmpty(IMGHANDPATH) || TextUtils.isEmpty(IMGPERSONPATH)) {
             showToast("请上传完整的图片信息");
             return;
+        }
+
+        //都不为空时进行数据的添加
+        if (!TextUtils.isEmpty(pushName) && !TextUtils.isEmpty(pushPhone)) {
+
         }
 
     }

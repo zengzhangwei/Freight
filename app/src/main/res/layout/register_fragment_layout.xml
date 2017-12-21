@@ -10,88 +10,55 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="170px"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp_8"
-            android:text="真实姓名"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_18" />
+            style="@style/RegisterTextStyle"
+            android:text="真实姓名" />
 
         <EditText
             android:id="@+id/et_input_name"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_44"
-            android:background="@color/white"
+            style="@style/RegisterEtStyle"
             android:hint="请输入真实姓名"
-            android:maxLength="20"
-            android:paddingLeft="@dimen/dp_32"
-            android:textSize="@dimen/dp_16" />
+            android:maxLength="20" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="@color/black" />
+    <TextView style="@style/LineTextStyle" />
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="170px"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp_8"
-            android:text="身份证号"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_18" />
+            style="@style/RegisterTextStyle"
+            android:text="身份证号" />
 
         <EditText
             android:id="@+id/et_person_code"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_44"
-            android:background="@color/white"
+            style="@style/RegisterEtStyle"
             android:hint="请输入身份证号"
-            android:maxLength="18"
-            android:paddingLeft="@dimen/dp_32"
-            android:textSize="@dimen/dp_16" />
+            android:maxLength="18" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="@color/black" />
+    <TextView style="@style/LineTextStyle" />
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="170px"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp_8"
-            android:text="手机号"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_18" />
+            style="@style/RegisterTextStyle"
+            android:text="手机号" />
 
         <EditText
             android:id="@+id/et_input_phone"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_44"
-            android:background="@color/white"
+            style="@style/RegisterEtStyle"
             android:hint="请输入手机号"
             android:inputType="phone"
-            android:maxLength="11"
-            android:paddingLeft="@dimen/dp_32"
-            android:textSize="@dimen/dp_16" />
+            android:maxLength="11" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="@color/black" />
+    <TextView style="@style/LineTextStyle" />
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
@@ -99,12 +66,8 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:layout_width="170px"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp_8"
-            android:text="验证码"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_18" />
+            style="@style/RegisterTextStyle"
+            android:text="验证码" />
 
         <EditText
             android:id="@+id/et_input_code"
@@ -129,37 +92,24 @@
 
     </com.zhy.autolayout.AutoLinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="@color/black" />
+    <TextView style="@style/LineTextStyle" />
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="170px"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp_8"
-            android:text="密码"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_18" />
+            style="@style/RegisterTextStyle"
+            android:text="密码" />
 
         <EditText
             android:id="@+id/et_input_password"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_44"
-            android:background="@color/white"
+            style="@style/RegisterEtStyle"
             android:hint="请输入密码(6位纯数字密码)"
             android:inputType="numberPassword"
-            android:paddingLeft="@dimen/dp_32"
-            android:textSize="@dimen/dp_16" />
+            android:maxLength="6" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="@color/black" />
+    <TextView style="@style/LineTextStyle" />
 </com.zhy.autolayout.AutoLinearLayout>

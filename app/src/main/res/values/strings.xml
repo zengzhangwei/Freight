@@ -2,6 +2,7 @@
     <string name="app_name">车多多</string>
     <string name="top_line">头条</string>
     <string name="send_goods">发货</string>
+    <string name="che_yuan">车源</string>
     <string name="find_goods">找货</string>
     <string name="person">用户</string>
     <string name="store">商城</string>
@@ -22,6 +23,8 @@
     <string name="enture_publish">确定发布</string>
     <string name="my_order">我的订单</string>
     <string name="my_money">我的钱包</string>
+    <string name="my_driver">我的司机</string>
+    <string name="ji_fen_store">积分商城</string>
     <string name="my_balance">我的余额</string>
     <string name="user_check">用户审核</string>
     <string name="info_query">统计查询</string>
@@ -44,7 +47,7 @@
     <string name="top_up_money">充值总额</string>
     <string name="with_time_query">按时间查询</string>
     <string name="driver_in">司机入口</string>
-    <string name="driver_location">司机入口</string>
+    <string name="driver_location">司机位置</string>
     <string name="goods_master_in">货主入口</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -65,6 +68,8 @@
     <string name="relation_goods_master">联系货主</string>
     <string name="start_navigation">开始导航</string>
     <string name="commit_update">提交修改</string>
+    <string name="car_code">车牌号</string>
+    <string name="please_input_ok_phone">请输入正确手机号</string>
 
     <string-array name="load_unload_mode_list">
         <item>一装一卸</item>

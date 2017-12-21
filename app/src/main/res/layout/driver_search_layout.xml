@@ -25,10 +25,10 @@
             <TextView
                 android:id="@+id/tv_use_car_type"
                 style="@style/TextCarTypeDialogStyle"
-                android:text="@string/use_car_type" />
+                android:text="车辆状态" />
 
             <com.zl.zlibrary.view.MyGridView
-                android:id="@+id/grid_use_type"
+                android:id="@+id/grid_car_status"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:numColumns="4"></com.zl.zlibrary.view.MyGridView>
@@ -49,17 +49,6 @@
 
             <com.zl.zlibrary.view.MyGridView
                 android:id="@+id/grid_card_type"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:numColumns="4"></com.zl.zlibrary.view.MyGridView>
-
-            <TextView
-                android:id="@+id/tv_goods_type"
-                style="@style/TextCarTypeDialogStyle"
-                android:text="@string/goods_type" />
-
-            <com.zl.zlibrary.view.MyGridView
-                android:id="@+id/grid_goods_type"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:numColumns="4"></com.zl.zlibrary.view.MyGridView>
