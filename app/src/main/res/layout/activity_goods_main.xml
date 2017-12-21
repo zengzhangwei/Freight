@@ -20,7 +20,7 @@
                 android:layout_height="@dimen/dp_52"
                 android:layout_marginLeft="@dimen/dp_4"
                 android:padding="@dimen/dp_4"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/car_round" />
 
             <TextView
                 android:id="@+id/main_username"

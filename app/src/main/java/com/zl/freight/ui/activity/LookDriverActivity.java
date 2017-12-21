@@ -63,8 +63,9 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
     }
 
     private void initView() {
+        tvTitle.setText(R.string.driver_location);
         latitude = getIntent().getDoubleExtra(API.LATITUDE, 0);
-        longitude = getIntent().getDoubleExtra(API.LONGITUDE,0);
+        longitude = getIntent().getDoubleExtra(API.LONGITUDE, 0);
         mBaiduMap = ldaMap.getMap();
         //获取搜索模块
         mSearch = GeoCoder.newInstance();

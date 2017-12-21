@@ -13,4 +13,8 @@ public class API {
     public static final int ISLOGIN = 0X111;
     public static final String ISFINISH = "isFinish";
 
+    public static final String BaseUrl = "http://172.16.18.17:31571";
+
+    public static final String login = BaseUrl + "/login";
+
 }

@@ -2,6 +2,7 @@ package com.zl.freight.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,10 +12,24 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SpUtils;
+import com.zl.zlibrary.utils.GsonUtils;
+import com.zl.zlibrary.utils.HttpUtils;
+
+import org.json.JSONObject;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.SoapFault;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Request;
 
 /**
  * @author zhanglei
@@ -97,20 +112,63 @@ public class LoginActivity extends BaseActivity {
      * 根据角色的不同进入不同的主页
      */
     private void startMain(boolean isLogin) {
-        SpUtils.setRole(mActivity, role);
-        //现在是登录状态
-        SpUtils.setIsLogin(mActivity, isLogin);
 
-        if (isFinish) {
-            setResult(RESULT_OK);
-            finish();
-            return;
-        }
-        if (role == 0) {
-            startActivity(new Intent(mActivity, MainActivity.class));
-        } else {
-            startActivity(new Intent(mActivity, GoodsMainActivity.class));
-        }
-        finish();
+        new Thread() {
+            @Override
+            public void run() {
+                // 命名空间
+                String nameSpace = "http://tempuri.org/";
+                // 调用的方法名称
+                String methodName = "Login";
+                // EndPoint
+                String endPoint = "http://172.16.18.17/WebService1.asmx";
+                // SOAP Action
+                String soapAction = nameSpace + methodName;
+
+                // 指定WebService的命名空间和调用的方法名
+                SoapObject rpc = new SoapObject(nameSpace, methodName);
+
+                // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
+                rpc.addProperty("UserName", "admin");
+                rpc.addProperty("PassWord", "1");
+
+                // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                envelope.bodyOut = rpc;
+                // 设置是否调用的是dotNet开发的WebService
+                envelope.dotNet = true;
+
+                HttpTransportSE transport = new HttpTransportSE(endPoint);
+                try {
+                    // 调用WebService
+                    transport.call(soapAction, envelope);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                JSONObject object = new JSONObject();
+                // 获取返回的数据
+                try {
+                    SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+                    String result = response.toString();
+                    Log.e("result", result);
+                } catch (Exception e) {
+
+                }
+                // 获取返回的结果
+            }
+        }.start();
+
+
+//        SpUtils.setRole(mActivity, role);
+//        //现在是登录状态
+//        SpUtils.setIsLogin(mActivity, isLogin);
+//
+//        if (isFinish) {
+//            setResult(RESULT_OK);
+//            finish();
+//            return;
+//        }
+//
+//        finish();
     }
 }

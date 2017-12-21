@@ -3,6 +3,7 @@ package com.zl.freight.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.zl.freight.R;
@@ -27,6 +28,8 @@ public class LauncherActivity extends BaseActivity {
                 go();
             }
         }, 2000);
+        String regId = SpUtils.getRegId(mActivity);
+        Log.e("tag00", regId);
     }
 
     private void go() {

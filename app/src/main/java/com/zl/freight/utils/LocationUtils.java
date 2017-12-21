@@ -115,5 +115,6 @@ public class LocationUtils {
 
     public void setOnLocationListener(OnLocationListener onLocationListener) {
         this.onLocationListener = onLocationListener;
+
     }
 }

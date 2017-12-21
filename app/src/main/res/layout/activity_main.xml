@@ -20,7 +20,7 @@
                 android:layout_height="@dimen/dp_52"
                 android:layout_marginLeft="@dimen/dp_4"
                 android:padding="@dimen/dp_4"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/car_round" />
 
             <TextView
                 android:id="@+id/main_username"
@@ -55,15 +55,14 @@
                 android:id="@+id/tv_car_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dp_14"
-                android:gravity="center_vertical"
-                android:layout_marginRight="@dimen/dp_6"
-                android:text="@string/car_length_type"
-                android:layout_toLeftOf="@id/main_img_share"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_6"
+                android:layout_toLeftOf="@id/main_img_share"
                 android:drawableRight="@mipmap/jiao"
-                />
+                android:gravity="center_vertical"
+                android:text="@string/car_length_type"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_14" />
 
         </com.zhy.autolayout.AutoRelativeLayout>
 

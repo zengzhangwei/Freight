@@ -44,6 +44,7 @@
     <string name="top_up_money">充值总额</string>
     <string name="with_time_query">按时间查询</string>
     <string name="driver_in">司机入口</string>
+    <string name="driver_location">司机入口</string>
     <string name="goods_master_in">货主入口</string>
 
     <!-- TODO: Remove or change this placeholder text -->
