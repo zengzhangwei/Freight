@@ -2,6 +2,7 @@ package com.zl.freight.ui.dialog;
 
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,22 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.zl.freight.R;
+import com.zl.freight.mode.KeyValueBean;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.WindowUtils;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017\12\8 0008.
@@ -27,31 +38,119 @@ public class CarLengthDialog {
 
     private Activity mActivity;
     private PopupWindow popupWindow;
-    private UniversalAdapter<String> lAdapter;
-    private UniversalAdapter<String> tAdapter;
-    private UniversalAdapter<String> gAdapter;
-    private List<String> lList = Arrays.asList("不限", "1.8", "2.5", "3", "3.3", "3.6", "4.2", "4.5", "5", "5.2", "6.2",
-            "6.8", "7.2", "7.6", "8.2", "8.6", "9.6", "11.7", "12.5", "13", "13.5", "14", "15", "16", "17", "17.5", "18");
-    private List<String> tList = Arrays.asList("不限", "平板", "高栏", "厢式", "高低板", "保温",
-            "冷藏", "威胁品", "自卸", "中卡", "面包", "棉被车");
-    private List<String> gList = Arrays.asList("普货", "重货", "泡货", "设备");
-    private List<String> uList = Arrays.asList("整车", "零担");
+    private UniversalAdapter<KeyValueBean> lAdapter;
+    private UniversalAdapter<KeyValueBean> tAdapter;
+    private UniversalAdapter<KeyValueBean> gAdapter;
+    //车长数据
+    private List<KeyValueBean> lList = new ArrayList<>();
+    //车型数据
+    private List<KeyValueBean> tList = new ArrayList<>();
+    //货物类型数据
+    private List<KeyValueBean> gList = new ArrayList<>();
     private GridView lGrid;
     private GridView tGrid;
     private GridView gGrid;
-    private GridView uGrid;
     private View tvOk;
     private View ivClear;
     private int lPosition = 0;
     private int tPosition = 0;
     private int gPosition = 0;
-    private int uPosition = 0;
-    private UniversalAdapter<String> uAdapter;
 
     public CarLengthDialog(Activity mActivity) {
         this.mActivity = mActivity;
         initView();
+        initData();
         initListener();
+    }
+
+    private void initData() {
+        getLData();
+        getTData();
+        getGData();
+    }
+
+    /**
+     * 获取货物类型数据
+     */
+    private void getGData() {
+        Map<String, String> parmas = new HashMap<>();
+        parmas.put("CodeName", "货物类型");
+        SoapUtils.Post(mActivity, API.BaseDict, parmas, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        gList.add(GsonUtils.fromJson(array.optString(i), KeyValueBean.class));
+                    }
+                    gAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
+                Log.e("data", data);
+            }
+        });
+    }
+
+    /**
+     * 获取车型数据
+     */
+    private void getTData() {
+        Map<String, String> parmas = new HashMap<>();
+        parmas.put("CodeName", "车型");
+        SoapUtils.Post(mActivity, API.BaseDict, parmas, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        tList.add(GsonUtils.fromJson(array.optString(i), KeyValueBean.class));
+                    }
+                    tAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
+                Log.e("data", data);
+            }
+        });
+    }
+
+    /**
+     * 获取车长数据
+     */
+    private void getLData() {
+        Map<String, String> parmas = new HashMap<>();
+        parmas.put("CodeName", "车长");
+        SoapUtils.Post(mActivity, API.BaseDict, parmas, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        lList.add(GsonUtils.fromJson(array.optString(i), KeyValueBean.class));
+                    }
+                    lAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
+                Log.e("data", data);
+            }
+        });
     }
 
     private void initListener() {
@@ -97,28 +196,22 @@ public class CarLengthDialog {
     }
 
     private void initView() {
-        lAdapter = new UniversalAdapter<String>(mActivity, lList, R.layout.type_item_layout) {
+        lAdapter = new UniversalAdapter<KeyValueBean>(mActivity, lList, R.layout.type_item_layout) {
             @Override
-            public void convert(UniversalViewHolder holder, int position, String s) {
-                setText(holder, position, lPosition, s);
+            public void convert(UniversalViewHolder holder, int position, KeyValueBean s) {
+                setText(holder, position, lPosition, s.getCodeName());
             }
         };
-        tAdapter = new UniversalAdapter<String>(mActivity, tList, R.layout.type_item_layout) {
+        tAdapter = new UniversalAdapter<KeyValueBean>(mActivity, tList, R.layout.type_item_layout) {
             @Override
-            public void convert(UniversalViewHolder holder, int position, String s) {
-                setText(holder, position, tPosition, s);
+            public void convert(UniversalViewHolder holder, int position, KeyValueBean s) {
+                setText(holder, position, tPosition, s.getCodeName());
             }
         };
-        gAdapter = new UniversalAdapter<String>(mActivity, gList, R.layout.type_item_layout) {
+        gAdapter = new UniversalAdapter<KeyValueBean>(mActivity, gList, R.layout.type_item_layout) {
             @Override
-            public void convert(UniversalViewHolder holder, int position, String s) {
-                setText(holder, position, gPosition, s);
-            }
-        };
-        uAdapter = new UniversalAdapter<String>(mActivity, uList, R.layout.type_item_layout) {
-            @Override
-            public void convert(UniversalViewHolder holder, int position, String s) {
-                setText(holder, position, uPosition, s);
+            public void convert(UniversalViewHolder holder, int position, KeyValueBean s) {
+                setText(holder, position, gPosition, s.getCodeName());
             }
         };
         View view = LayoutInflater.from(mActivity).inflate(R.layout.car_length_type_dialog_layout, null);
@@ -127,13 +220,11 @@ public class CarLengthDialog {
         lGrid = view.findViewById(R.id.grid_card_length);
         tGrid = view.findViewById(R.id.grid_card_type);
         gGrid = view.findViewById(R.id.grid_goods_type);
-        uGrid = view.findViewById(R.id.grid_use_type);
         tvOk = view.findViewById(R.id.tv_ok);
         view.findViewById(R.id.tv_use_car_type).setVisibility(View.GONE);
         lGrid.setAdapter(lAdapter);
         tGrid.setAdapter(tAdapter);
         gGrid.setAdapter(gAdapter);
-//        uGrid.setAdapter(uAdapter);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setTouchable(true);

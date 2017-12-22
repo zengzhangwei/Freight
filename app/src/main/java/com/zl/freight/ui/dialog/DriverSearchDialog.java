@@ -1,6 +1,7 @@
 package com.zl.freight.ui.dialog;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,12 +10,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zl.freight.R;
+import com.zl.freight.mode.KeyValueBean;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.base.BaseDialog;
+import com.zl.zlibrary.utils.GsonUtils;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017\12\21 0021.
@@ -22,13 +33,13 @@ import java.util.List;
 
 public class DriverSearchDialog extends BaseDialog implements View.OnClickListener {
 
-    private UniversalAdapter<String> lAdapter;
-    private UniversalAdapter<String> tAdapter;
+    private UniversalAdapter<KeyValueBean> lAdapter;
+    private UniversalAdapter<KeyValueBean> tAdapter;
     private UniversalAdapter<String> sAdapter;
-    private List<String> lList = Arrays.asList("不限", "1.8", "2.5", "3", "3.3", "3.6", "4.2", "4.5", "5", "5.2", "6.2",
-            "6.8", "7.2", "7.6", "8.2", "8.6", "9.6", "11.7", "12.5", "13", "13.5", "14", "15", "16", "17", "17.5", "18");
-    private List<String> tList = Arrays.asList("不限", "平板", "高栏", "厢式", "高低板", "保温",
-            "冷藏", "威胁品", "自卸", "中卡", "面包", "棉被车");
+    //车长数据
+    private List<KeyValueBean> lList = new ArrayList<>();
+    //车型数据
+    private List<KeyValueBean> tList = new ArrayList<>();
     private List<String> sList = Arrays.asList("全部车辆", "只看空车");
     private int lPosition = 0;
     private int tPosition = 0;
@@ -40,7 +51,70 @@ public class DriverSearchDialog extends BaseDialog implements View.OnClickListen
     public DriverSearchDialog(Activity mActivity) {
         super(mActivity);
         initView();
+        initData();
         initListener();
+    }
+
+    private void initData() {
+        getLData();
+        getTData();
+    }
+
+
+    /**
+     * 获取车型数据
+     */
+    private void getTData() {
+        Map<String, String> parmas = new HashMap<>();
+        parmas.put("CodeName", "车型");
+        SoapUtils.Post(mActivity, API.BaseDict, parmas, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        tList.add(GsonUtils.fromJson(array.optString(i), KeyValueBean.class));
+                    }
+                    tAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
+                Log.e("data", data);
+            }
+        });
+    }
+
+    /**
+     * 获取车长数据
+     */
+    private void getLData() {
+        Map<String, String> parmas = new HashMap<>();
+        parmas.put("CodeName", "车长");
+        SoapUtils.Post(mActivity, API.BaseDict, parmas, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        lList.add(GsonUtils.fromJson(array.optString(i), KeyValueBean.class));
+                    }
+                    lAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
+                Log.e("data", data);
+            }
+        });
     }
 
     private void initListener() {
@@ -70,16 +144,16 @@ public class DriverSearchDialog extends BaseDialog implements View.OnClickListen
     }
 
     private void initView() {
-        lAdapter = new UniversalAdapter<String>(mActivity, lList, R.layout.type_item_layout) {
+        lAdapter = new UniversalAdapter<KeyValueBean>(mActivity, lList, R.layout.type_item_layout) {
             @Override
-            public void convert(UniversalViewHolder holder, int position, String s) {
-                setText(holder, position, lPosition, s);
+            public void convert(UniversalViewHolder holder, int position, KeyValueBean s) {
+                setText(holder, position, lPosition, s.getCodeName());
             }
         };
-        tAdapter = new UniversalAdapter<String>(mActivity, tList, R.layout.type_item_layout) {
+        tAdapter = new UniversalAdapter<KeyValueBean>(mActivity, tList, R.layout.type_item_layout) {
             @Override
-            public void convert(UniversalViewHolder holder, int position, String s) {
-                setText(holder, position, tPosition, s);
+            public void convert(UniversalViewHolder holder, int position, KeyValueBean s) {
+                setText(holder, position, tPosition, s.getCodeName());
             }
         };
         sAdapter = new UniversalAdapter<String>(mActivity, sList, R.layout.type_item_layout) {

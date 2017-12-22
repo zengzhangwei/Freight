@@ -2,6 +2,7 @@ package com.zl.freight.ui.dialog;
 
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +12,24 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.zl.freight.R;
+import com.zl.freight.mode.KeyValueBean;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.base.BaseDialog;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.WindowUtils;
 import com.zl.zlibrary.view.MyGridView;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhanglei on 2017/12/9.
@@ -28,15 +38,16 @@ import java.util.List;
 
 public class RemarkDialog extends BaseDialog {
 
-    private UniversalAdapter<String> lAdapter;
-    private UniversalAdapter<String> tAdapter;
+
     private MyGridView lGrid, tGrid;
     private View ivClear, tvOk;
     private PopupWindow popupWindow;
-    String[] lArray = mActivity.getResources().getStringArray(R.array.load_unload_mode_list);
-    String[] tArray = mActivity.getResources().getStringArray(R.array.pay_mode_list);
-    private List<String> lList = new ArrayList<>();
-    private List<String> tList = new ArrayList<>();
+    //装卸方式
+    private List<KeyValueBean> lList = new ArrayList<>();
+    //支付方式
+    private List<KeyValueBean> tList = new ArrayList<>();
+    private UniversalAdapter<KeyValueBean> lAdapter;
+    private UniversalAdapter<KeyValueBean> tAdapter;
     private int lPosition = 0;
     private int tPosition = 0;
 
@@ -48,15 +59,64 @@ public class RemarkDialog extends BaseDialog {
     }
 
     private void initData() {
-        for (String s : lArray) {
-            lList.add(s);
-        }
-        for (String s : tArray) {
-            tList.add(s);
-        }
-        lAdapter.notifyDataSetChanged();
-        tAdapter.notifyDataSetChanged();
+        getLData();
+        getTData();
+    }
 
+    /**
+     * 获取支付方式数据
+     */
+    private void getTData() {
+        Map<String, String> parmas = new HashMap<>();
+        parmas.put("CodeName", "支付方式");
+        SoapUtils.Post(mActivity, API.BaseDict, parmas, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        tList.add(GsonUtils.fromJson(array.optString(i), KeyValueBean.class));
+                    }
+                    tAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
+                Log.e("data", data);
+            }
+        });
+    }
+
+    /**
+     * 获取装卸方式数据
+     */
+    private void getLData() {
+        Map<String, String> parmas = new HashMap<>();
+        parmas.put("CodeName", "装卸方式");
+        SoapUtils.Post(mActivity, API.BaseDict, parmas, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        lList.add(GsonUtils.fromJson(array.optString(i), KeyValueBean.class));
+                    }
+                    lAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
+                Log.e("data", data);
+            }
+        });
     }
 
     private void initListener() {
@@ -95,16 +155,16 @@ public class RemarkDialog extends BaseDialog {
     }
 
     private void initView() {
-        lAdapter = new UniversalAdapter<String>(mActivity, lList, R.layout.type_item_layout) {
+        lAdapter = new UniversalAdapter<KeyValueBean>(mActivity, lList, R.layout.type_item_layout) {
             @Override
-            public void convert(UniversalViewHolder holder, int position, String s) {
-                setText(holder, position, lPosition, s);
+            public void convert(UniversalViewHolder holder, int position, KeyValueBean s) {
+                setText(holder, position, lPosition, s.getCodeName());
             }
         };
-        tAdapter = new UniversalAdapter<String>(mActivity, tList, R.layout.type_item_layout) {
+        tAdapter = new UniversalAdapter<KeyValueBean>(mActivity, tList, R.layout.type_item_layout) {
             @Override
-            public void convert(UniversalViewHolder holder, int position, String s) {
-                setText(holder, position, tPosition, s);
+            public void convert(UniversalViewHolder holder, int position, KeyValueBean s) {
+                setText(holder, position, tPosition, s.getCodeName());
             }
         };
         View view = LayoutInflater.from(mActivity).inflate(R.layout.content_dialog_layout, null);
@@ -140,7 +200,6 @@ public class RemarkDialog extends BaseDialog {
             view.setSelected(false);
         }
     }
-
 
 
 }

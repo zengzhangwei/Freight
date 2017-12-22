@@ -22,7 +22,7 @@
     <!-- 添加可以向外拨打电话的权限 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:name=".APP"
@@ -117,7 +117,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.activity.JiFenStoreActivity"></activity>
+        <activity android:name=".ui.activity.JiFenStoreActivity" />
+        <activity android:name=".ui.activity.DriverDetailActivity"></activity>
     </application>
 
 </manifest>

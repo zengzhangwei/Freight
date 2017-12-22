@@ -15,6 +15,14 @@ public class API {
 
     public static final String BaseUrl = "http://172.16.18.17:31571";
 
-    public static final String login = BaseUrl + "/login";
+    /**
+     * 登录
+     */
+    public static final String Login = "Login";
 
+    /**
+     * 获取各种字典项
+     * 参数：CodeName （用车类型、车长、车型、货物类型、装卸方式、付款方式、发货备注）
+     */
+    public static final String BaseDict = "BaseDict";
 }

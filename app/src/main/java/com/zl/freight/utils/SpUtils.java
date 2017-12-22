@@ -3,6 +3,8 @@ package com.zl.freight.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.zl.freight.mode.BaseUserEntity;
+
 /**
  * Created by zhanglei on 2017/12/19.
  */
@@ -49,6 +51,32 @@ public class SpUtils {
     public static boolean isLogin(Context context) {
         SharedPreferences sp = context.getSharedPreferences("isLogin", Context.MODE_PRIVATE);
         return sp.getBoolean("isLogin", false);
+    }
+
+    //储存用户信息
+    public static void setUserData(Context context, BaseUserEntity userEntity) {
+        SharedPreferences sp = context.getSharedPreferences("userEntity", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("RealName", userEntity.getRealName());
+        edit.putString("UserName", userEntity.getUserName());
+        edit.putString("UserIcon", userEntity.getUserIcon());
+        edit.putString("PassWord", userEntity.getPassWord());
+        edit.putInt("id", userEntity.getId());
+        edit.putInt("UserRole", userEntity.getUserRole());
+        edit.commit();
+    }
+
+    //获取用户信息
+    public static BaseUserEntity getUserData(Context context) {
+        BaseUserEntity user = new BaseUserEntity();
+        SharedPreferences sp = context.getSharedPreferences("userEntity", Context.MODE_PRIVATE);
+        user.setRealName(sp.getString("RealName", ""));
+        user.setUserName(sp.getString("UserName", ""));
+        user.setUserIcon(sp.getString("UserIcon", ""));
+        user.setPassWord(sp.getString("PassWord", ""));
+        user.setId(sp.getInt("id", -1));
+        user.setUserRole(sp.getInt("UserRole", -1));
+        return user;
     }
 
 }
