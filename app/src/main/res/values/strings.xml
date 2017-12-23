@@ -7,6 +7,7 @@
     <string name="person">用户</string>
     <string name="store">商城</string>
     <string name="call">打电话</string>
+    <string name="sendMessage">发短信</string>
     <string name="depart_place">出发地</string>
     <string name="destination">目的地</string>
     <string name="car_length_type">车长车型</string>

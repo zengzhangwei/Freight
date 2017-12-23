@@ -56,6 +56,9 @@
             android:enabled="true"
             android:process=":remote" />
 
+        <!--司机位置上传服务-->
+        <service android:name=".service.LocationService" />
+
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.LauncherActivity">
             <intent-filter>

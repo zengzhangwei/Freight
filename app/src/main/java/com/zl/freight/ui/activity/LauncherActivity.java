@@ -8,6 +8,7 @@ import android.util.Log;
 import com.blankj.utilcode.util.SPUtils;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.service.LocationService;
 import com.zl.freight.utils.SpUtils;
 
 /**
@@ -29,7 +30,7 @@ public class LauncherActivity extends BaseActivity {
             }
         }, 2000);
         String regId = SpUtils.getRegId(mActivity);
-        Log.e("tag00", regId);
+        startService(new Intent(mActivity, LocationService.class));
     }
 
     private void go() {

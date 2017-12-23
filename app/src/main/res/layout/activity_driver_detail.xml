@@ -4,9 +4,180 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_color"
     android:orientation="vertical"
     tools:context="com.zl.freight.ui.activity.DriverDetailActivity">
 
     <include layout="@layout/title_layout" />
 
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/dp_16"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_16">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/driver_icon"
+            android:layout_width="140px"
+            android:layout_height="140px"
+            android:src="@mipmap/ic_launcher_round" />
+
+        <TextView
+            android:id="@+id/tv_real_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="80px"
+            android:text="真实姓名：张磊"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_16" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_26"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_12"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_12">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="电话号码"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_16" />
+
+            <TextView
+                android:id="@+id/tv_driver_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80px"
+                android:text="15075993917"
+                android:textSize="@dimen/dp_14" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            style="@style/LineTextStyle"
+            android:layout_marginTop="@dimen/dp_12" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="车辆类型"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_16" />
+
+            <TextView
+                android:id="@+id/tv_driver_car_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80px"
+                android:text="18米高栏"
+                android:textSize="@dimen/dp_14" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_26"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_12"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_12">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="司机位置"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_16" />
+
+            <TextView
+                android:id="@+id/tv_driver_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80px"
+                android:text="点击查看位置"
+                android:textSize="@dimen/dp_14" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            style="@style/LineTextStyle"
+            android:layout_marginTop="@dimen/dp_12" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="接货数量"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_16" />
+
+            <TextView
+                android:id="@+id/tv_driver_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80px"
+                android:text="完成18笔订单"
+                android:textSize="@dimen/dp_14" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:id="@+id/tv_call"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_margin="@dimen/dp_16"
+        android:background="@drawable/blue_simle_round_shape"
+        android:gravity="center"
+        android:text="@string/call"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dp_20" />
+
+    <TextView
+        android:id="@+id/tv_send_message"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        android:background="@drawable/blue_simle_round_shape"
+        android:gravity="center"
+        android:text="@string/sendMessage"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dp_20" />
 </com.zhy.autolayout.AutoLinearLayout>
