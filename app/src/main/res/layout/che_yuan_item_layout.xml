@@ -56,21 +56,17 @@
         android:layout_toRightOf="@id/iv_driver_icon"
         android:drawableLeft="@mipmap/location_grey"
         android:gravity="center_vertical"
-        android:text="@string/all_image"
         android:textSize="@dimen/dp_12" />
 
     <TextView
         android:id="@+id/tv_driver_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="160px"
+        android:layout_height="52px"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_28"
         android:background="@drawable/orange_round_shape"
-        android:paddingBottom="@dimen/dp_4"
-        android:paddingLeft="@dimen/dp_12"
-        android:paddingRight="@dimen/dp_12"
-        android:paddingTop="@dimen/dp_4"
+        android:gravity="center"
         android:text="运输中"
         android:textColor="@color/orange"
         android:textSize="@dimen/dp_16" />
@@ -85,9 +81,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_driver_icon"
         android:layout_marginTop="0.8dp"
-        android:paddingBottom="@dimen/dp_4">
+        android:paddingBottom="@dimen/dp_4"
+        android:paddingTop="@dimen/dp_6">
 
         <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/linear_call"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -97,7 +95,7 @@
             <ImageView
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="@dimen/dp_30"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/cargo_intent_phone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -109,6 +107,7 @@
         </com.zhy.autolayout.AutoLinearLayout>
 
         <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/linear_location"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -118,7 +117,7 @@
             <ImageView
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="@dimen/dp_30"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/driver_local" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -130,6 +129,7 @@
         </com.zhy.autolayout.AutoLinearLayout>
 
         <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/linear_car"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -137,11 +137,13 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/iv_item_icon"
                 android:layout_width="@dimen/dp_30"
                 android:layout_height="@dimen/dp_30"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/icon_add_driver_info" />
 
             <TextView
+                android:id="@+id/tv_item_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_2"

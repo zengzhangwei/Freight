@@ -92,7 +92,6 @@ public class SGCarLengthDialog implements View.OnClickListener {
                 } catch (Exception e) {
 
                 }
-                Log.e("data", data);
             }
         });
     }
@@ -120,7 +119,6 @@ public class SGCarLengthDialog implements View.OnClickListener {
                 } catch (Exception e) {
 
                 }
-                Log.e("data", data);
             }
         });
     }
@@ -148,7 +146,6 @@ public class SGCarLengthDialog implements View.OnClickListener {
                 } catch (Exception e) {
 
                 }
-                Log.e("data", data);
             }
         });
     }

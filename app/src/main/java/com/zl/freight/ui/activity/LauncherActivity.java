@@ -30,7 +30,6 @@ public class LauncherActivity extends BaseActivity {
             }
         }, 2000);
         String regId = SpUtils.getRegId(mActivity);
-        startService(new Intent(mActivity, LocationService.class));
     }
 
     private void go() {
@@ -42,13 +41,13 @@ public class LauncherActivity extends BaseActivity {
                 case -1:
                     intent = new Intent(mActivity, RoleChooseActivity.class);
                     break;
-                case 0:
-                    intent = new Intent(mActivity, LoginActivity.class);
-                    intent.putExtra("role", 0);
-                    break;
                 case 1:
                     intent = new Intent(mActivity, LoginActivity.class);
-                    intent.putExtra("role", 1);
+                    intent.putExtra("role", role);
+                    break;
+                case 2:
+                    intent = new Intent(mActivity, LoginActivity.class);
+                    intent.putExtra("role", role);
                     break;
             }
             startActivity(intent);
@@ -57,10 +56,10 @@ public class LauncherActivity extends BaseActivity {
             int role = SpUtils.getRole(mActivity);
             Intent intent = null;
             switch (role) {
-                case 0:
+                case 1:
                     intent = new Intent(mActivity, MainActivity.class);
                     break;
-                case 1:
+                default:
                     intent = new Intent(mActivity, GoodsMainActivity.class);
                     break;
             }

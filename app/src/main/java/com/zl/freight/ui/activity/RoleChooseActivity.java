@@ -25,8 +25,8 @@ public class RoleChooseActivity extends BaseActivity {
     CardView rcDriver;
     @BindView(R.id.rc_goods_master)
     CardView rcGoodsMaster;
-    public static final int DRIVER = 0;
-    public static final int GOODSMASTER = 1;
+    public static final int DRIVER = 1;
+    public static final int GOODSMASTER = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

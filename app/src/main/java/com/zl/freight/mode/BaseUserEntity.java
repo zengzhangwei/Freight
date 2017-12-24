@@ -5,211 +5,268 @@ package com.zl.freight.mode;
  */
 
 public class BaseUserEntity {
-    public int Id;
-    public String UserName;
-    public String PassWord;
-    public String Referral;
-    public String ReferralTel;
-    public String RealName;
-    public String UserIcon;
-    public String IdCard;
-    public int UserRole;
-    public int CompanyId;
-    public int CarId;
-    public String OtherTel;
-    public String OtherTel1;
-    public int Integral;
-    public int IsSave;
-    public int IsCheck;
-    public int CreateBy;
-    public String CreateByName;
-    public int UpdateBy;
-    public String UpdateByName;
-    public int CheckBy;
-    public String CheckByName;
-    public int IsDelete;
 
-    public int getId() {
+    /**
+     * Id : 1
+     * UserName : admin
+     * PassWord : 1
+     * Referral :
+     * ReferralTel :
+     * RealName :
+     * UserIcon :
+     * IdCardNumber :
+     * IdCard1 :
+     * IdCard2 :
+     * UserRole :
+     * OtherTel :
+     * OtherTel1 :
+     * Integral :
+     * IsSave :
+     * IsCheck :
+     * CreateAt :
+     * CreateBy :
+     * CreateByName :
+     * UpdateAt :
+     * UpdateBy :
+     * UpdateByName :
+     * CheckAt :
+     * CheckBy :
+     * CheckByName :
+     * IsDelete :
+     */
+
+    private String Id;
+    private String UserName;
+    private String PassWord;
+    private String Referral;
+    private String ReferralTel;
+    private String RealName;
+    private String UserIcon;
+    private String IdCardNumber;
+    private String IdCard1;
+    private String IdCard2;
+    private String UserRole;
+    private String OtherTel;
+    private String OtherTel1;
+    private String Integral;
+    private String IsSave;
+    private String IsCheck;
+    private String CreateAt;
+    private String CreateBy;
+    private String CreateByName;
+    private String UpdateAt;
+    private String UpdateBy;
+    private String UpdateByName;
+    private String CheckAt;
+    private String CheckBy;
+    private String CheckByName;
+    private String IsDelete;
+
+    public String getId() {
         return Id;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public void setId(String Id) {
+        this.Id = Id;
     }
 
     public String getUserName() {
         return UserName;
     }
 
-    public void setUserName(String userName) {
-        UserName = userName;
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
     }
 
     public String getPassWord() {
         return PassWord;
     }
 
-    public void setPassWord(String passWord) {
-        PassWord = passWord;
+    public void setPassWord(String PassWord) {
+        this.PassWord = PassWord;
     }
 
     public String getReferral() {
         return Referral;
     }
 
-    public void setReferral(String referral) {
-        Referral = referral;
+    public void setReferral(String Referral) {
+        this.Referral = Referral;
     }
 
     public String getReferralTel() {
         return ReferralTel;
     }
 
-    public void setReferralTel(String referralTel) {
-        ReferralTel = referralTel;
+    public void setReferralTel(String ReferralTel) {
+        this.ReferralTel = ReferralTel;
     }
 
     public String getRealName() {
         return RealName;
     }
 
-    public void setRealName(String realName) {
-        RealName = realName;
+    public void setRealName(String RealName) {
+        this.RealName = RealName;
     }
 
     public String getUserIcon() {
         return UserIcon;
     }
 
-    public void setUserIcon(String userIcon) {
-        UserIcon = userIcon;
+    public void setUserIcon(String UserIcon) {
+        this.UserIcon = UserIcon;
     }
 
-    public String getIdCard() {
-        return IdCard;
+    public String getIdCardNumber() {
+        return IdCardNumber;
     }
 
-    public void setIdCard(String idCard) {
-        IdCard = idCard;
+    public void setIdCardNumber(String IdCardNumber) {
+        this.IdCardNumber = IdCardNumber;
     }
 
-    public int getUserRole() {
+    public String getIdCard1() {
+        return IdCard1;
+    }
+
+    public void setIdCard1(String IdCard1) {
+        this.IdCard1 = IdCard1;
+    }
+
+    public String getIdCard2() {
+        return IdCard2;
+    }
+
+    public void setIdCard2(String IdCard2) {
+        this.IdCard2 = IdCard2;
+    }
+
+    public String getUserRole() {
         return UserRole;
     }
 
-    public void setUserRole(int userRole) {
-        UserRole = userRole;
-    }
-
-    public int getCompanyId() {
-        return CompanyId;
-    }
-
-    public void setCompanyId(int companyId) {
-        CompanyId = companyId;
-    }
-
-    public int getCarId() {
-        return CarId;
-    }
-
-    public void setCarId(int carId) {
-        CarId = carId;
+    public void setUserRole(String UserRole) {
+        this.UserRole = UserRole;
     }
 
     public String getOtherTel() {
         return OtherTel;
     }
 
-    public void setOtherTel(String otherTel) {
-        OtherTel = otherTel;
+    public void setOtherTel(String OtherTel) {
+        this.OtherTel = OtherTel;
     }
 
     public String getOtherTel1() {
         return OtherTel1;
     }
 
-    public void setOtherTel1(String otherTel1) {
-        OtherTel1 = otherTel1;
+    public void setOtherTel1(String OtherTel1) {
+        this.OtherTel1 = OtherTel1;
     }
 
-    public int getIntegral() {
+    public String getIntegral() {
         return Integral;
     }
 
-    public void setIntegral(int integral) {
-        Integral = integral;
+    public void setIntegral(String Integral) {
+        this.Integral = Integral;
     }
 
-    public int getIsSave() {
+    public String getIsSave() {
         return IsSave;
     }
 
-    public void setIsSave(int isSave) {
-        IsSave = isSave;
+    public void setIsSave(String IsSave) {
+        this.IsSave = IsSave;
     }
 
-    public int getIsCheck() {
+    public String getIsCheck() {
         return IsCheck;
     }
 
-    public void setIsCheck(int isCheck) {
-        IsCheck = isCheck;
+    public void setIsCheck(String IsCheck) {
+        this.IsCheck = IsCheck;
     }
 
-    public int getCreateBy() {
+    public String getCreateAt() {
+        return CreateAt;
+    }
+
+    public void setCreateAt(String CreateAt) {
+        this.CreateAt = CreateAt;
+    }
+
+    public String getCreateBy() {
         return CreateBy;
     }
 
-    public void setCreateBy(int createBy) {
-        CreateBy = createBy;
+    public void setCreateBy(String CreateBy) {
+        this.CreateBy = CreateBy;
     }
 
     public String getCreateByName() {
         return CreateByName;
     }
 
-    public void setCreateByName(String createByName) {
-        CreateByName = createByName;
+    public void setCreateByName(String CreateByName) {
+        this.CreateByName = CreateByName;
     }
 
-    public int getUpdateBy() {
+    public String getUpdateAt() {
+        return UpdateAt;
+    }
+
+    public void setUpdateAt(String UpdateAt) {
+        this.UpdateAt = UpdateAt;
+    }
+
+    public String getUpdateBy() {
         return UpdateBy;
     }
 
-    public void setUpdateBy(int updateBy) {
-        UpdateBy = updateBy;
+    public void setUpdateBy(String UpdateBy) {
+        this.UpdateBy = UpdateBy;
     }
 
     public String getUpdateByName() {
         return UpdateByName;
     }
 
-    public void setUpdateByName(String updateByName) {
-        UpdateByName = updateByName;
+    public void setUpdateByName(String UpdateByName) {
+        this.UpdateByName = UpdateByName;
     }
 
-    public int getCheckBy() {
+    public String getCheckAt() {
+        return CheckAt;
+    }
+
+    public void setCheckAt(String CheckAt) {
+        this.CheckAt = CheckAt;
+    }
+
+    public String getCheckBy() {
         return CheckBy;
     }
 
-    public void setCheckBy(int checkBy) {
-        CheckBy = checkBy;
+    public void setCheckBy(String CheckBy) {
+        this.CheckBy = CheckBy;
     }
 
     public String getCheckByName() {
         return CheckByName;
     }
 
-    public void setCheckByName(String checkByName) {
-        CheckByName = checkByName;
+    public void setCheckByName(String CheckByName) {
+        this.CheckByName = CheckByName;
     }
 
-    public int getIsDelete() {
+    public String getIsDelete() {
         return IsDelete;
     }
 
-    public void setIsDelete(int isDelete) {
-        IsDelete = isDelete;
+    public void setIsDelete(String IsDelete) {
+        this.IsDelete = IsDelete;
     }
 }

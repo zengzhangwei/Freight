@@ -1,6 +1,7 @@
 package com.zl.zlibrary.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,7 @@ public class MRefreshRecyclerView extends SwipeRefreshLayout {
         });
         addView(mRecyclerView);
         this.setOnRefreshListener(onRefreshListener);
+        this.setColorSchemeColors(Color.parseColor("#009688"));
     }
 
     public void setAdapter(RecyclerView.Adapter adapter) {

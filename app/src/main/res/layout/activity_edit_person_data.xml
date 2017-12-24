@@ -69,7 +69,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="男"
                 android:textSize="@dimen/dp_14" />
 
         </com.zhy.autolayout.AutoRelativeLayout>
@@ -99,7 +98,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="张xx"
                 android:textSize="@dimen/dp_14" />
 
         </com.zhy.autolayout.AutoRelativeLayout>
@@ -120,17 +118,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="多多账号"
+                android:text="@string/id_card_number"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dp_16" />
 
             <TextView
-                android:id="@+id/tv_account_name"
+                android:id="@+id/tv_user_id_card_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="dd_20158634"
+                android:maxLength="18"
                 android:textSize="@dimen/dp_14" />
 
         </com.zhy.autolayout.AutoRelativeLayout>

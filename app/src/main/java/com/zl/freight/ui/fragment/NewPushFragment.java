@@ -5,17 +5,23 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.zl.freight.R;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.MiPictureHelper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +45,10 @@ public class NewPushFragment extends BaseFragment {
     Unbinder unbinder;
     @BindView(R.id.tv_web_url)
     EditText tvWebUrl;
+    @BindView(R.id.tv_title_news)
+    EditText tvTitleNews;
     private PhotoDialog photoDialog;
+    private String imagePath;
 
     public NewPushFragment() {
         // Required empty public constructor
@@ -70,10 +79,11 @@ public class NewPushFragment extends BaseFragment {
         if (resultCode == mActivity.RESULT_OK) {
             switch (requestCode) {
                 case PhotoDialog.PICK_FROM_CAMERA:
-                    ivAddImg.setImageBitmap(BitmapFactory.decodeFile(photoDialog.imagePath));
+                    imagePath = photoDialog.imagePath;
+                    ivAddImg.setImageBitmap(BitmapFactory.decodeFile(imagePath));
                     break;
                 case PhotoDialog.SELECT_PHOTO:
-                    String imagePath = MiPictureHelper.getPath(mActivity, data.getData());
+                    imagePath = MiPictureHelper.getPath(mActivity, data.getData());
                     ivAddImg.setImageBitmap(BitmapFactory.decodeFile(imagePath));
                     break;
             }
@@ -98,8 +108,46 @@ public class NewPushFragment extends BaseFragment {
                 photoDialog.show(view);
                 break;
             case R.id.np_tab_push:
-                mActivity.finish();
+                commit();
                 break;
         }
+    }
+
+    /**
+     * 发布文章
+     */
+    private void commit() {
+        String title = tvTitleNews.getText().toString().trim();
+        String content = tvNewsContent.getText().toString().trim();
+
+        if (TextUtils.isEmpty(title)) {
+            showToast("文章标题不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(content)) {
+            showToast("文章内容不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(imagePath)) {
+            showToast("请上传图片");
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        //TODO 待补充接口（发布文章）
+//        SoapUtils.Post(mActivity, API.BaseDict, params, new SoapCallback() {
+//            @Override
+//            public void onError(String error) {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(String data) {
+//
+//            }
+//        });
+
+        mActivity.finish();
+
     }
 }

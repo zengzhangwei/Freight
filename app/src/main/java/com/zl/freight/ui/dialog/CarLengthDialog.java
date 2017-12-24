@@ -92,7 +92,6 @@ public class CarLengthDialog {
                 } catch (Exception e) {
 
                 }
-                Log.e("data", data);
             }
         });
     }
@@ -120,7 +119,7 @@ public class CarLengthDialog {
                 } catch (Exception e) {
 
                 }
-                Log.e("data", data);
+
             }
         });
     }
@@ -148,7 +147,6 @@ public class CarLengthDialog {
                 } catch (Exception e) {
 
                 }
-                Log.e("data", data);
             }
         });
     }

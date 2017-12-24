@@ -5,4 +5,10 @@ package com.zl.freight.mode;
  */
 
 public class BasePayLogEntity {
+    public int Id;
+    public int UserId;
+    public String UserName;
+    public int PayMoney;
+    public int CashValue;
+    public String CreateTime;
 }

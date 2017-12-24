@@ -1,10 +1,8 @@
 package com.zl.freight.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +10,7 @@ import android.widget.TextView;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.utils.StringUtils;
 import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.MiPictureHelper;
 
@@ -41,12 +40,11 @@ public class EditPersonDataActivity extends BaseActivity {
     AutoRelativeLayout rlSex;
     @BindView(R.id.tv_name)
     TextView tvName;
-    @BindView(R.id.tv_account_name)
-    TextView tvAccountName;
-    private String[] sexs = {"男", "女"};
-    private AlertDialog sexDialog;
+    @BindView(R.id.tv_user_id_card_number)
+    TextView tvUserIdCardNumber;
     private PhotoDialog dialog;
     private String imagePath = "";
+    private String idCarNumber = "130526199311146498";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +61,10 @@ public class EditPersonDataActivity extends BaseActivity {
 
     private void initView() {
         tvTitle.setText("个人信息");
-        sexDialog = new AlertDialog.Builder(mActivity).setTitle("选择性别").setSingleChoiceItems(sexs, 0, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                tvSex.setText(i == 0 ? "男" : "女");
-                sexDialog.dismiss();
-            }
-        }).create();
         dialog = new PhotoDialog(mActivity);
+        tvUserIdCardNumber.setText(StringUtils.handleIdCardNumber(idCarNumber));
+        tvSex.setText(StringUtils.countSex(idCarNumber));
+        tvName.setText("张磊");
     }
 
     @Override
@@ -103,7 +97,7 @@ public class EditPersonDataActivity extends BaseActivity {
                 break;
             //修改性别
             case R.id.rl_sex:
-                sexDialog.show();
+
                 break;
         }
     }

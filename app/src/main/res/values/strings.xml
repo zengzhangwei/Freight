@@ -50,6 +50,7 @@
     <string name="driver_in">司机入口</string>
     <string name="driver_location">司机位置</string>
     <string name="goods_master_in">货主入口</string>
+    <string name="id_card_number">身份证号</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -71,6 +72,8 @@
     <string name="commit_update">提交修改</string>
     <string name="car_code">车牌号</string>
     <string name="please_input_ok_phone">请输入正确手机号</string>
+    <string name="please_input_account">请输入帐号(手机号)</string>
+    <string name="please_input_password">请输入密码</string>
 
     <string-array name="load_unload_mode_list">
         <item>一装一卸</item>

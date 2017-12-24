@@ -96,6 +96,8 @@ public class TopLineFragment extends BaseFragment {
             protected void convert(ViewHolder holder, String s, int position) {
                 ImageView view = holder.getView(R.id.iv_top_icon);
                 ImageLoader.loadImageUrl(TopLineFragment.this, s, view);
+                holder.setText(R.id.tv_news_item_title, "我就是标题，不一样的标题");
+                holder.setText(R.id.tv_news_item_user, "这里是用户名");
             }
         };
         topRlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));

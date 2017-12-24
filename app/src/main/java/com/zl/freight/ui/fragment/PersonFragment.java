@@ -3,6 +3,7 @@ package com.zl.freight.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,13 @@ import android.widget.TextView;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zl.freight.R;
+import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.ui.activity.EditPersonDataActivity;
 import com.zl.freight.ui.activity.GoodsOrderActivity;
 import com.zl.freight.ui.activity.InfoQueryActivity;
 import com.zl.freight.ui.activity.JiFenStoreActivity;
 import com.zl.freight.ui.activity.MyMoneyActivity;
+import com.zl.freight.ui.activity.MyOrderActivity;
 import com.zl.freight.ui.activity.PublishNewsActivity;
 import com.zl.freight.ui.activity.RoleChooseActivity;
 import com.zl.freight.ui.activity.UserCheckActivity;
@@ -57,6 +60,8 @@ public class PersonFragment extends BaseFragment {
     AutoRelativeLayout arlPerson;
     @BindView(R.id.linear_my_ji_fen_store)
     AutoLinearLayout linearMyJiFenStore;
+    private BaseUserEntity userData;
+    private int userRole;
 
     public PersonFragment() {
         // Required empty public constructor
@@ -92,7 +97,22 @@ public class PersonFragment extends BaseFragment {
     }
 
     private void initView() {
-
+        userData = SpUtils.getUserData(mActivity);
+        userRole = new Integer(TextUtils.isEmpty(userData.getUserRole()) ? "0" : userData.getUserRole());
+        switch (userRole) {
+            //管理员权限
+            case 0:
+                linearMyOrder.setVisibility(View.GONE);
+                linearMyJiFenStore.setVisibility(View.GONE);
+                linearMyMoney.setVisibility(View.GONE);
+                break;
+            //普通用户
+            default:
+                linearNewsPush.setVisibility(View.GONE);
+                linearUserCheck.setVisibility(View.GONE);
+                linearInfoQuery.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override
@@ -111,8 +131,11 @@ public class PersonFragment extends BaseFragment {
                 break;
             //我的订单
             case R.id.linear_my_order:
-                //TODO 在这进行司机和货主订单的区分
-                startActivity(new Intent(mActivity, GoodsOrderActivity.class));
+                if (userRole == 1) {
+                    startActivity(new Intent(mActivity, MyOrderActivity.class));
+                } else {
+                    startActivity(new Intent(mActivity, GoodsOrderActivity.class));
+                }
                 break;
             //我的钱包
             case R.id.linear_my_money:

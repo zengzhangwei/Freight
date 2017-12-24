@@ -15,7 +15,8 @@ public class LoginUtils {
 
     public static void jumpToActivity(Context context, Intent intent) {
         //在这里判断是否登录
-        if (!false) {
+        boolean login = SpUtils.isLogin(context);
+        if (!login) {
             //在这里进行身份判断
             int role = SpUtils.getRole(context);
             Intent i = null;
@@ -23,13 +24,13 @@ public class LoginUtils {
                 case -1:
                     i = new Intent(context, RoleChooseActivity.class);
                     break;
-                case 0:
-                    i = new Intent(context, LoginActivity.class);
-                    i.putExtra("role", 0);
-                    break;
                 case 1:
                     i = new Intent(context, LoginActivity.class);
-                    i.putExtra("role", 1);
+                    i.putExtra("role", role);
+                    break;
+                case 2:
+                    i = new Intent(context, LoginActivity.class);
+                    i.putExtra("role", role);
                     break;
             }
             context.startActivity(i);

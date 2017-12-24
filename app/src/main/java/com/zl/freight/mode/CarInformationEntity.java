@@ -16,4 +16,6 @@ public class CarInformationEntity {
     public String CreateByName;
     public int UpdateBy;
     public String UpdateByName;
+    public String CreateAt;
+    public String UpdateAt;
 }

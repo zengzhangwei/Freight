@@ -61,8 +61,8 @@ public class SpUtils {
         edit.putString("UserName", userEntity.getUserName());
         edit.putString("UserIcon", userEntity.getUserIcon());
         edit.putString("PassWord", userEntity.getPassWord());
-        edit.putInt("id", userEntity.getId());
-        edit.putInt("UserRole", userEntity.getUserRole());
+        edit.putString("id", userEntity.getId());
+        edit.putString("UserRole", userEntity.getUserRole());
         edit.commit();
     }
 
@@ -74,8 +74,8 @@ public class SpUtils {
         user.setUserName(sp.getString("UserName", ""));
         user.setUserIcon(sp.getString("UserIcon", ""));
         user.setPassWord(sp.getString("PassWord", ""));
-        user.setId(sp.getInt("id", -1));
-        user.setUserRole(sp.getInt("UserRole", -1));
+        user.setId(sp.getString("id", "-1"));
+        user.setUserRole(sp.getString("UserRole", "-1"));
         return user;
     }
 

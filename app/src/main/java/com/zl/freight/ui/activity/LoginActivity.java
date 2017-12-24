@@ -2,6 +2,7 @@ package com.zl.freight.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -10,11 +11,16 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.HttpUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -66,7 +72,7 @@ public class LoginActivity extends BaseActivity {
 
     private void initData() {
         Intent intent = getIntent();
-        role = intent.getIntExtra("role", 0);
+        role = intent.getIntExtra("role", -1);
         isFinish = intent.getBooleanExtra(API.ISFINISH, false);
     }
 
@@ -111,70 +117,88 @@ public class LoginActivity extends BaseActivity {
     /**
      * 根据角色的不同进入不同的主页
      */
-    private void startMain(boolean isLogin) {
+    private void startMain(final boolean isLogin) {
 
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                // 命名空间
-//                String nameSpace = "http://tempuri.org/";
-//                // 调用的方法名称
-//                String methodName = "Login";
-//                // EndPoint
-//                String endPoint = "http://172.16.18.17/WebService1.asmx";
-//                // SOAP Action
-//                String soapAction = nameSpace + methodName;
-//
-//                // 指定WebService的命名空间和调用的方法名
-//                SoapObject rpc = new SoapObject(nameSpace, methodName);
-//
-//                // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-//                rpc.addProperty("UserName", "admin");
-//                rpc.addProperty("PassWord", "1");
-//
-//                // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
-//                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-//                envelope.bodyOut = rpc;
-//                // 设置是否调用的是dotNet开发的WebService
-//                envelope.dotNet = true;
-//
-//                HttpTransportSE transport = new HttpTransportSE(endPoint);
-//                try {
-//                    // 调用WebService
-//                    transport.call(soapAction, envelope);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                JSONObject object = new JSONObject();
-//                // 获取返回的数据
-//                try {
-//                    SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
-//                    String result = response.toString();
-//                    Log.e("result", result);
-//                } catch (Exception e) {
-//
-//                }
-//                // 获取返回的结果
-//            }
-//        }.start();
+        //如果是随便看看
+        if (!isLogin) {
+            if (isFinish) {
+                setResult(RESULT_OK);
+                finish();
+                return;
+            }
 
+            if (role == 1) {
+                startActivity(new Intent(mActivity, MainActivity.class));
+            } else {
+                startActivity(new Intent(mActivity, GoodsMainActivity.class));
+            }
 
-        SpUtils.setRole(mActivity, role);
-        //现在是登录状态
-        SpUtils.setIsLogin(mActivity, isLogin);
-
-        if (isFinish) {
-            setResult(RESULT_OK);
             finish();
             return;
         }
 
-        if (role == 0) {
-            startActivity(new Intent(mActivity, MainActivity.class));
-        } else {
-            startActivity(new Intent(mActivity, GoodsMainActivity.class));
+        String userName = etInputAccount.getText().toString().trim();
+        String password = etInputPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(userName)) {
+            showToast("手机号不能为空");
+            return;
         }
 
-        finish();
+        if (TextUtils.isEmpty(password)) {
+            showToast("密码不能为空");
+            return;
+        }
+
+//        if (password.length() != 6) {
+//            showToast("密码不正确");
+//            return;
+//        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("UserName", userName);
+        params.put("PassWord", password);
+        showDialog("登录中...");
+        SoapUtils.Post(mActivity, API.Login, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                hideDialog();
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    hideDialog();
+                    JSONArray array = new JSONArray(data);
+                    BaseUserEntity baseUserEntity = GsonUtils.fromJson(array.optString(0), BaseUserEntity.class);
+                    //登录成功，储存用户信息
+                    SpUtils.setUserData(mActivity, baseUserEntity);
+                    //储存用户角色信息
+                    SpUtils.setRole(mActivity, role);
+                    //储存登录状态
+                    SpUtils.setIsLogin(mActivity, isLogin);
+                    //储存账号密码
+
+                    if (isFinish) {
+                        setResult(RESULT_OK);
+                        finish();
+                        return;
+                    }
+
+                    if (role == 1) {
+                        startActivity(new Intent(mActivity, MainActivity.class));
+                    } else {
+                        startActivity(new Intent(mActivity, GoodsMainActivity.class));
+                    }
+
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showToast("登录出现异常，请重试");
+                }
+
+            }
+        });
     }
 }

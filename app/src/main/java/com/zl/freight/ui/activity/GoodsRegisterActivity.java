@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,12 +17,20 @@ import com.foamtrace.photopicker.intent.PhotoPickerIntent;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.BaseCompanyEntity;
+import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.ImageFactory;
 import com.zl.zlibrary.view.MyGridView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -146,6 +155,7 @@ public class GoodsRegisterActivity extends BaseActivity {
         String password = etInputPassword.getText().toString().trim();
         String content = etCompanyContent.getText().toString().trim();
         String companyName = etCompanyName.getText().toString().trim();
+        String idCardNumber = etPersonCode.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
             showToast("请输入真实姓名");
@@ -182,9 +192,55 @@ public class GoodsRegisterActivity extends BaseActivity {
             return;
         }
 
+        if (TextUtils.isEmpty(address)) {
+            showToast("请选择公司地址");
+            return;
+        }
+
+        if (TextUtils.isEmpty(idCardNumber)) {
+            showToast("请输入身份证号");
+            return;
+        }
+
+        if (!RegexUtils.isIDCard18(idCardNumber)) {
+            showToast("请输入正确身份证号");
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        //用户角色
+        params.put("UserRole", "2");
+        //此项为空
+        params.put("CarEntityJson", "");
+
+        BaseUserEntity userEntity = new BaseUserEntity();
+        userEntity.setRealName(name);
+        userEntity.setUserName(phone);
+        userEntity.setIdCardNumber(idCardNumber);
+        userEntity.setPassWord(password);
+
+        BaseCompanyEntity companyEntity = new BaseCompanyEntity();
+        companyEntity.setCompanyName(companyName);
+        companyEntity.setCompanyAddress(address);
+        companyEntity.setStorePic("");
+        params.put("UserEntityJson", GsonUtils.toJson(userEntity));
+        params.put("CompanyEntityJson", GsonUtils.toJson(companyEntity));
+
         if (!TextUtils.isEmpty(content)) {
 
         }
+
+        SoapUtils.Post(mActivity, API.Register, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error",error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("data",data);
+            }
+        });
     }
 
     /**

@@ -86,7 +86,6 @@ public class RemarkDialog extends BaseDialog {
                 } catch (Exception e) {
 
                 }
-                Log.e("data", data);
             }
         });
     }
@@ -114,7 +113,6 @@ public class RemarkDialog extends BaseDialog {
                 } catch (Exception e) {
 
                 }
-                Log.e("data", data);
             }
         });
     }

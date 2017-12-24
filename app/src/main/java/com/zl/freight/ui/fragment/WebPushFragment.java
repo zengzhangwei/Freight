@@ -12,10 +12,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.util.RegexUtils;
 import com.zl.freight.R;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.MiPictureHelper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -121,10 +125,30 @@ public class WebPushFragment extends BaseFragment {
             showToast("网址不能为空");
             return;
         }
-        if (TextUtils.isEmpty(imagePath)){
+
+        if (!RegexUtils.isURL(url)) {
+            showToast("请输入正确的网址");
+            return;
+        }
+
+        if (TextUtils.isEmpty(imagePath)) {
             showToast("图片不能为空");
             return;
         }
+
+        Map<String, String> params = new HashMap<>();
+        //TODO 待补充接口（发布文章）
+//        SoapUtils.Post(mActivity, API.BaseDict, params, new SoapCallback() {
+//            @Override
+//            public void onError(String error) {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(String data) {
+//
+//            }
+//        });
 
         mActivity.finish();
     }

@@ -158,8 +158,16 @@ public class SendGoodsFragment extends BaseFragment {
                 break;
             //确认发布
             case R.id.tv_ok_push:
+                commit();
                 break;
         }
+    }
+
+    /**
+     * 发布货物
+     */
+    private void commit() {
+
     }
 
     @Override

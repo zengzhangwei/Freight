@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.service.LocationService;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.dialog.DriverSearchDialog;
 import com.zl.freight.ui.fragment.CheYuanFragment;
@@ -136,6 +137,11 @@ public class GoodsMainActivity extends BaseActivity {
         carLengthDialog = new CarLengthDialog(mActivity);
         searchDialog = new DriverSearchDialog(mActivity);
         tvCarType.setVisibility(View.GONE);
+
+        //开启定位服务，上报司机位置
+        if (SpUtils.isLogin(mActivity)) {
+            startService(new Intent(mActivity, LocationService.class));
+        }
     }
 
     @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.tv_car_type, R.id.main_img_weChat})

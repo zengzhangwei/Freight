@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,12 +38,14 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.ui.dialog.AddressSearchDialog;
 import com.zl.freight.utils.LocationUtils;
+import com.zl.zlibrary.utils.HttpUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Request;
 
 /**
  * @author zhanglei
@@ -357,6 +360,9 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
         latitude = result.getLocation().latitude;
         longitude = result.getLocation().longitude;
         address = result.getAddress();
+        //获取城市名称
+        getCity(result.getLocation().latitude, result.getLocation().longitude);
+
     }
 
     /**
@@ -378,6 +384,8 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
         latitude = result.getLocation().latitude;
         longitude = result.getLocation().longitude;
         address = result.getAddress();
+        //获取城市名称
+        getCity(result.getLocation().latitude, result.getLocation().longitude);
     }
 
     /**
@@ -403,5 +411,21 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
             back();
         }
         return true;
+    }
+
+    private void getCity(double lat, double lng) {
+//        String url = "http://api.map.baidu.com/geoconv/v1/?coords=" + lng + "," + lat + "&mcode=mobile&from=1&to=5&ak=6hvAe9BMqh19BHwTLiZdzE7QWO1wNEzu";
+        String url = "http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=" +  lat+ "," + lng+ "&output=json&pois=1&ak=6hvAe9BMqh19BHwTLiZdzE7QWO1wNEzu&mcode=58:1F:6F:D4:BC:FC:15:A8:87:86:C1:B4:16:FB:7C:4C:8C:D3:29:04";
+        HttpUtils.getInstance().GET(mActivity, url, new HttpUtils.OnOkHttpCallback() {
+            @Override
+            public void onSuccess(String body) {
+                Log.e("body", body);
+            }
+
+            @Override
+            public void onError(Request error, Exception e) {
+                Log.e("body", e.getMessage());
+            }
+        });
     }
 }

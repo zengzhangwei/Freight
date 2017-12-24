@@ -88,18 +88,37 @@ public class FindGoodsFragment extends BaseFragment {
         mAdapter = new RecyclerAdapter<String>(mActivity, mList, R.layout.goods_item) {
             @Override
             protected void convert(ViewHolder holder, String s, int position) {
-                CircleImageView imageView = holder.getView(R.id.iv_user_icon);
-                ImageLoader.loadImageUrl(mActivity, "http://image.3761.com/pic/5111434675216.jpg", imageView);
-                holder.getView(R.id.iv_phone).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        SystemUtils.call(mActivity, "15075993917");
-                    }
-                });
+                handleData(holder);
             }
         };
         findGoodsRlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         findGoodsRlv.setAdapter(mAdapter);
+    }
+
+    /**
+     * 处理列表数据
+     *
+     * @param holder
+     */
+    private void handleData(ViewHolder holder) {
+        CircleImageView imageView = holder.getView(R.id.iv_user_icon);
+        ImageLoader.loadImageUrl(mActivity, "http://image.3761.com/pic/5111434675216.jpg", imageView);
+        holder.getView(R.id.iv_phone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SystemUtils.call(mActivity, "15075993917");
+            }
+        });
+        //出发地
+        holder.setText(R.id.tv_origin, "邢台");
+        //目的地
+        holder.setText(R.id.tv_end_point, "广宗");
+        //发布人
+        holder.setText(R.id.tv_user_name, "张磊");
+        //货物发布时间
+        holder.setText(R.id.tv_goods_issue_time, "刚刚");
+        //货物描述
+        holder.setText(R.id.tv_car_data, getResources().getString(R.string.data));
     }
 
     @Override

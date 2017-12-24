@@ -25,4 +25,14 @@ public class API {
      * 参数：CodeName （用车类型、车长、车型、货物类型、装卸方式、付款方式、发货备注）
      */
     public static final String BaseDict = "BaseDict";
+
+    /**
+     * 用户注册
+     */
+    public static final String Register = "Register";
+
+    /**
+     * 上报司机位置
+     */
+    public static final String InsertCarTrack = "InsertCarTrack";
 }

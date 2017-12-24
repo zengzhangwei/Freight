@@ -50,6 +50,11 @@ public class DriverDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_detail);
         ButterKnife.bind(this);
+        initView();
+    }
+
+    private void initView() {
+        tvTitle.setText("司机详情");
     }
 
     @OnClick({R.id.iv_back, R.id.tv_driver_location, R.id.tv_call, R.id.tv_send_message})

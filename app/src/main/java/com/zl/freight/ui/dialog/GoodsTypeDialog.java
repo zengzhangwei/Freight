@@ -76,7 +76,7 @@ public class GoodsTypeDialog extends BaseDialog {
                 } catch (Exception e) {
 
                 }
-                Log.e("data", data);
+
             }
         });
     }

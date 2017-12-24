@@ -93,4 +93,56 @@ public class SoapUtils {
         }.start();
     }
 
+    /**
+     * @param method    调用的方法名称
+     */
+    public static void Post(final String method, final Map<String, String> params, final SoapCallback callback) {
+        new Thread() {
+            @Override
+            public void run() {
+
+                // SOAP Action
+                String soapAction = nameSpace + method;
+
+                // 指定WebService的命名空间和调用的方法名
+                SoapObject rpc = new SoapObject(nameSpace, method);
+
+                // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
+                Set<Map.Entry<String, String>> entries = params.entrySet();
+                for (Map.Entry<String, String> entry : entries) {
+                    rpc.addProperty(entry.getKey(), entry.getValue());
+                }
+
+                // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                envelope.bodyOut = rpc;
+                // 设置是否调用的是dotNet开发的WebService
+                envelope.dotNet = true;
+
+                HttpTransportSE transport = new HttpTransportSE(endPoint);
+                try {
+                    // 调用WebService
+                    transport.call(soapAction, envelope);
+                    // 获取返回的数据
+                    SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+                    // 获取返回的结果
+                    final String result = response.toString();
+                    if (callback != null) {
+                        callback.onSuccess(result);
+                    }
+                } catch (final SoapFault soapFault) {
+                    soapFault.printStackTrace();
+                    if (callback != null) {
+                        callback.onError(soapFault.getMessage());
+                    }
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    if (callback != null) {
+                        callback.onError(e.getMessage());
+                    }
+                }
+            }
+        }.start();
+    }
+
 }

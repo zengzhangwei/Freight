@@ -12,6 +12,7 @@
         android:scaleType="centerCrop" />
 
     <TextView
+        android:id="@+id/tv_news_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/iv_top_icon"
@@ -23,6 +24,7 @@
         android:textColor="@color/black" />
 
     <TextView
+        android:id="@+id/tv_news_item_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/iv_top_icon"

@@ -84,7 +84,7 @@ public class DriverSearchDialog extends BaseDialog implements View.OnClickListen
                 } catch (Exception e) {
 
                 }
-                Log.e("data", data);
+
             }
         });
     }
@@ -112,7 +112,7 @@ public class DriverSearchDialog extends BaseDialog implements View.OnClickListen
                 } catch (Exception e) {
 
                 }
-                Log.e("data", data);
+
             }
         });
     }

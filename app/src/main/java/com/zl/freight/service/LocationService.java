@@ -11,7 +11,17 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.CarTrackEntity;
+import com.zl.freight.utils.API;
 import com.zl.freight.utils.LocationUtils;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
+import com.zl.zlibrary.utils.GsonUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017\12\23 0023.
@@ -50,7 +60,28 @@ public class LocationService extends Service {
             if (location.getLocType() != 61 && location.getLocType() != 161) {
                 Log.e("MyLocation", "定位出错");
             } else {
-                Log.e("MyLocation", location.getAddrStr());
+                //定位成功上报司机位置
+                BaseUserEntity userData = SpUtils.getUserData(getApplicationContext());
+                String userRole = userData.getUserRole();
+                //再次判断是否是司机
+                if (!userRole.equals("1")) return;
+                Map<String, String> params = new HashMap<>();
+                CarTrackEntity trackEntity = new CarTrackEntity();
+                trackEntity.setCarX(location.getLatitude() + "");
+                trackEntity.setCarY(location.getLongitude() + "");
+                trackEntity.setUserId(userData.getId());
+                params.put("carTrackModelJson", GsonUtils.toJson(trackEntity));
+                SoapUtils.Post(API.InsertCarTrack, params, new SoapCallback() {
+                    @Override
+                    public void onError(String error) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String data) {
+
+                    }
+                });
             }
         }
     }

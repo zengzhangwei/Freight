@@ -37,4 +37,5 @@ public class CarSendEntity {
     public String CreateByName;
     public int UpdateBy;
     public String UpdateByName;
+    public String UpdateAt;
 }
