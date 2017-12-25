@@ -7,20 +7,20 @@ package com.zl.freight.mode;
 public class BaseCompanyEntity {
     public int Id;
     public int UserId;
-    public String CompanyName;
-    public String CompanyCode;
-    public String CompanyAddress;
-    public String CompanyDescription;
-    public String CompanyPic;
-    public String StorePic;
-    public String StorePic1;
-    public String StorePic2;
+    public String CompanyName = "";
+    public String CompanyCode = "";
+    public String CompanyAddress = "";
+    public String CompanyDescription = "";
+    public String CompanyPic = "";
+    public String StorePic = "";
+    public String StorePic1 = "";
+    public String StorePic2 = "";
     public int CreateBy;
-    public String CreateByName;
+    public String CreateByName = "";
     public int UpdateBy;
-    public String UpdateByName;
+    public String UpdateByName = "";
     public int CheckBy;
-    public String CheckByName;
+    public String CheckByName = "";
 
     public int getId() {
         return Id;

@@ -58,7 +58,7 @@
     <string name="forget_password">忘记密码?</string>
     <string name="update_password">修改密码</string>
     <string name="random_see_see">随便看看</string>
-    <string name="upload_photo_remark">若有注册公司，可提供三证照片（营业执照、公司实体照等...），若没有实体公司，可提供店面实体照片。</string>
+    <string name="upload_photo_remark">若有注册公司，可提供三证照片（营业执照、公司实体照等...），若没有实体公司，可提供店面实体照片，若填写了机构代码，请务必上传营业执照照片。</string>
     <string name="send_code">发送验证码</string>
     <string name="look_goods_location">查看货源位置</string>
     <string name="if_ling_dan">是否零担</string>
@@ -74,6 +74,7 @@
     <string name="please_input_ok_phone">请输入正确手机号</string>
     <string name="please_input_account">请输入帐号(手机号)</string>
     <string name="please_input_password">请输入密码</string>
+    <string name="next_step">下一步</string>
 
     <string-array name="load_unload_mode_list">
         <item>一装一卸</item>

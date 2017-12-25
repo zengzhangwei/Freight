@@ -36,20 +36,8 @@ public class LauncherActivity extends BaseActivity {
         boolean login = SpUtils.isLogin(mActivity);
         if (!login) { //没有登录时，根据role跳转到用户角色选择页或登录页
             int role = SpUtils.getRole(mActivity);
-            Intent intent = null;
-            switch (role) {
-                case -1:
-                    intent = new Intent(mActivity, RoleChooseActivity.class);
-                    break;
-                case 1:
-                    intent = new Intent(mActivity, LoginActivity.class);
-                    intent.putExtra("role", role);
-                    break;
-                case 2:
-                    intent = new Intent(mActivity, LoginActivity.class);
-                    intent.putExtra("role", role);
-                    break;
-            }
+            Intent intent = new Intent(mActivity, LoginActivity.class);
+            intent.putExtra("role", role);
             startActivity(intent);
             finish();
         } else { //已经是登录状态时直接进入主页

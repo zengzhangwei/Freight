@@ -36,8 +36,10 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.SearchLocation;
 import com.zl.freight.ui.dialog.AddressSearchDialog;
 import com.zl.freight.utils.LocationUtils;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.HttpUtils;
 
 import java.util.List;
@@ -84,6 +86,7 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
     private double latitude = 0;
     private double longitude = 0;
     private String address;
+    private String city;
     private AlertDialog locationErrorDialog;
     private AlertDialog helperDialog;
 
@@ -108,6 +111,7 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
                 address = location.getAddrStr();
+                city = location.getCity();
             }
 
             @Override
@@ -125,6 +129,7 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
                 latitude = info.pt.latitude;
                 longitude = info.pt.longitude;
                 address = info.city + "" + info.district + "" + info.key;
+                city = info.city;
             }
         });
         mBaiduMap.setOnMapStatusChangeListener(this);
@@ -397,6 +402,7 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
             intent.putExtra("latitude", latitude);
             intent.putExtra("longitude", longitude);
             intent.putExtra("address", address);
+            intent.putExtra("city", city);
             setResult(RESULT_OK, intent);
             finish();
         } else {
@@ -413,13 +419,24 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
         return true;
     }
 
+    /**
+     * 根据经纬度你想求值
+     *
+     * @param lat
+     * @param lng
+     */
     private void getCity(double lat, double lng) {
-//        String url = "http://api.map.baidu.com/geoconv/v1/?coords=" + lng + "," + lat + "&mcode=mobile&from=1&to=5&ak=6hvAe9BMqh19BHwTLiZdzE7QWO1wNEzu";
-        String url = "http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=" +  lat+ "," + lng+ "&output=json&pois=1&ak=6hvAe9BMqh19BHwTLiZdzE7QWO1wNEzu&mcode=58:1F:6F:D4:BC:FC:15:A8:87:86:C1:B4:16:FB:7C:4C:8C:D3:29:04";
+        String url = "http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=" + lat + "," + lng +
+                "&output=json&pois=1&ak=6hvAe9BMqh19BHwTLiZdzE7QWO1wNEzu&mcode=73:83:24:39:4D:8F:62:30:0C:F1:31:EB:5C:53:75:47:54:2C:D6:25;com.zl.freight";
         HttpUtils.getInstance().GET(mActivity, url, new HttpUtils.OnOkHttpCallback() {
             @Override
             public void onSuccess(String body) {
-                Log.e("body", body);
+                String data = body.substring(body.indexOf("(") + 1, body.lastIndexOf(")"));
+                SearchLocation searchLocation = GsonUtils.fromJson(data, SearchLocation.class);
+                if (searchLocation.getStatus() == 0) {
+                    //赋值数据
+                    city = searchLocation.getResult().getAddressComponent().getCity();
+                }
             }
 
             @Override

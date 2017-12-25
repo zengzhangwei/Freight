@@ -25,7 +25,6 @@ import com.zl.zlibrary.utils.WindowUtils;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +45,7 @@ public class SGCarLengthDialog implements View.OnClickListener {
     //车型数据
     private List<KeyValueBean> tList = new ArrayList<>();
     //用车类型
-    private List<KeyValueBean> uList =  new ArrayList<>();
+    private List<KeyValueBean> uList = new ArrayList<>();
     private GridView lGrid;
     private GridView tGrid;
     private GridView uGrid;
@@ -234,11 +233,25 @@ public class SGCarLengthDialog implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_ok:
-                dismiss();
+                commit();
                 break;
             case R.id.iv_clear:
                 dismiss();
                 break;
+        }
+    }
+
+    private void commit() {
+        dismiss();
+        try {
+            KeyValueBean l = lList.get(lPosition);
+            KeyValueBean t = tList.get(tPosition);
+            KeyValueBean u = uList.get(uPosition);
+            if (onGetSGCarLengthDataListener != null) {
+                onGetSGCarLengthDataListener.carLengthData(l, t, u);
+            }
+        } catch (Exception e) {
+
         }
     }
 
@@ -250,5 +263,15 @@ public class SGCarLengthDialog implements View.OnClickListener {
         } else {
             view.setSelected(false);
         }
+    }
+
+    private OnGetSGCarLengthDataListener onGetSGCarLengthDataListener;
+
+    public void setOnGetCarLengthDataListener(OnGetSGCarLengthDataListener onGetCarLengthDataListener) {
+        this.onGetSGCarLengthDataListener = onGetCarLengthDataListener;
+    }
+
+    public interface OnGetSGCarLengthDataListener {
+        void carLengthData(KeyValueBean length, KeyValueBean type, KeyValueBean yong);
     }
 }

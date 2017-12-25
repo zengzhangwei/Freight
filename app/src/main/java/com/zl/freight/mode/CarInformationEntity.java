@@ -7,15 +7,15 @@ package com.zl.freight.mode;
 public class CarInformationEntity {
     public int Id;
     public int InfoType;
-    public String InfoKey;
-    public String InfoContent;
-    public String InfoLink;
+    public String InfoKey = "";
+    public String InfoContent = "";
+    public String InfoLink = "";
     public int IsPay;
     public int PayLimit;
     public int CreateBy;
-    public String CreateByName;
+    public String CreateByName = "";
     public int UpdateBy;
-    public String UpdateByName;
-    public String CreateAt;
-    public String UpdateAt;
+    public String UpdateByName = "";
+    public String CreateAt = "";
+    public String UpdateAt = "";
 }

@@ -13,6 +13,10 @@ public class API {
     public static final int ISLOGIN = 0X111;
     public static final String ISFINISH = "isFinish";
 
+    public static final int ADMIN = 0;
+    public static final int DRIVER = 1;
+    public static final int GOODS = 2;
+
     public static final String BaseUrl = "http://172.16.18.17:31571";
 
     /**

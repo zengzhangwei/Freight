@@ -2,12 +2,14 @@ package com.zl.freight.ui.dialog;
 
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -50,6 +52,7 @@ public class RemarkDialog extends BaseDialog {
     private UniversalAdapter<KeyValueBean> tAdapter;
     private int lPosition = 0;
     private int tPosition = 0;
+    private EditText etContent;
 
     public RemarkDialog(Activity mActivity) {
         super(mActivity);
@@ -121,7 +124,7 @@ public class RemarkDialog extends BaseDialog {
         tvOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dismiss();
+                returnData();
             }
         });
         ivClear.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +155,23 @@ public class RemarkDialog extends BaseDialog {
         });
     }
 
+    /**
+     * 返回数据
+     */
+    private void returnData() {
+        dismiss();
+        try {
+            KeyValueBean l = lList.get(lPosition);
+            KeyValueBean t = tList.get(tPosition);
+            String content = etContent.getText().toString().trim();
+            if (onGetRemarkListener != null) {
+                onGetRemarkListener.onRemark(l, t, TextUtils.isEmpty(content) ? "" : content);
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
     private void initView() {
         lAdapter = new UniversalAdapter<KeyValueBean>(mActivity, lList, R.layout.type_item_layout) {
             @Override
@@ -171,6 +191,7 @@ public class RemarkDialog extends BaseDialog {
         lGrid = view.findViewById(R.id.grid_card_length);
         tGrid = view.findViewById(R.id.grid_card_type);
         tvOk = view.findViewById(R.id.tv_ok);
+        etContent = view.findViewById(R.id.et_content);
         lGrid.setAdapter(lAdapter);
         tGrid.setAdapter(tAdapter);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -199,5 +220,14 @@ public class RemarkDialog extends BaseDialog {
         }
     }
 
+    private OnGetRemarkListener onGetRemarkListener;
+
+    public void setOnGetRemarkListener(OnGetRemarkListener onGetRemarkListener) {
+        this.onGetRemarkListener = onGetRemarkListener;
+    }
+
+    public interface OnGetRemarkListener {
+        void onRemark(KeyValueBean zhuang, KeyValueBean xie, String content);
+    }
 
 }

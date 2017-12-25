@@ -24,6 +24,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
 
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="org.simalliance.openmobileapi.SMARTCARD" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.nfc.hce" />
+
     <application
         android:name=".APP"
         android:allowBackup="true"
@@ -56,7 +62,36 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <!--司机位置上传服务-->
+        <!-- 付钱拉SDK需要添加 -->
+
+        <activity
+            android:name="com.fuqianla.paysdk.app.FuQianLaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="FQL_APPKEY"
+            android:value="fPXb00o5IvnxxlKCZmbM4w" />
+
+        <!-- 支付宝需要添加 -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <!-- 微信需要添加 -->
+        <activity
+            android:name="com.fuqianla.paysdk.wxapi.PaymentActivity"
+            android:launchMode="singleTop" />
+
+        <activity-alias
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:targetActivity="com.fuqianla.paysdk.wxapi.PaymentActivity" />
+
+        <!-- 司机位置上传服务 -->
         <service android:name=".service.LocationService" />
 
         <activity android:name=".ui.activity.MainActivity" />
@@ -121,7 +156,8 @@
         </receiver>
 
         <activity android:name=".ui.activity.JiFenStoreActivity" />
-        <activity android:name=".ui.activity.DriverDetailActivity"></activity>
+        <activity android:name=".ui.activity.DriverDetailActivity" />
+        <activity android:name=".ui.activity.URegisterActivity"></activity>
     </application>
 
 </manifest>

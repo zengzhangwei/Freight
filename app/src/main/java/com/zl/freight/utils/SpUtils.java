@@ -36,7 +36,7 @@ public class SpUtils {
     //获取角色信息
     public static int getRole(Context context) {
         SharedPreferences sp = context.getSharedPreferences("role", Context.MODE_PRIVATE);
-        return sp.getInt("role", -1);
+        return sp.getInt("role", 1);
     }
 
     //储存登录信息

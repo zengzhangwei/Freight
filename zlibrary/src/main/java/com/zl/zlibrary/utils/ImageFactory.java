@@ -69,6 +69,7 @@ public class ImageFactory {
 
     /**
      * 对图片进行大小压缩
+     *
      * @param srcPath
      * @return
      */
@@ -104,7 +105,7 @@ public class ImageFactory {
      * @param bytes
      * @return
      */
-    public String bitmaptoString(byte[] bytes) {
+    public static String bitmaptoString(byte[] bytes) {
         if (bytes.length <= 0) {
             return "";
         }

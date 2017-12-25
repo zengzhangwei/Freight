@@ -1,10 +1,14 @@
 package com.zl.freight.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fuqianla.paysdk.FuQianLa;
+import com.fuqianla.paysdk.FuQianLaPay;
+import com.fuqianla.paysdk.bean.FuQianLaResult;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.ui.fragment.TransactionLogFragment;
@@ -53,6 +57,23 @@ public class MyMoneyActivity extends BaseActivity {
         logFragment = TransactionLogFragment.newInstance();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //返回结果
+        if (requestCode == FuQianLa.REQUESTCODE
+                && resultCode == FuQianLa.RESULTCODE
+                && data != null) {
+            //result结果包括code和message
+            FuQianLaResult result = data.getParcelableExtra(FuQianLa.PAYRESULT_KEY);
+            //支付成功
+            if (result.payCode.equals("9000")) {
+
+            }
+            showToast(result.payMessage);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     @OnClick({R.id.iv_back, R.id.tv_title_right, R.id.tv_top_up_bt, R.id.tv_ti_xian_bt})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -66,11 +87,28 @@ public class MyMoneyActivity extends BaseActivity {
                 break;
             //充值
             case R.id.tv_top_up_bt:
+                topUp();
                 break;
             //提现
             case R.id.tv_ti_xian_bt:
 
                 break;
         }
+    }
+
+    /**
+     * 充值
+     */
+    private void topUp() {
+        //支付核心代码
+        FuQianLaPay pay = new FuQianLaPay.Builder(this)
+                .alipay(true)//支付宝通道
+                .wxpay(true)//微信通道
+                .orderID("YOUR_ORDERID")//订单号
+                .amount(0.01)//金额
+                .subject("商品名称")
+                .notifyUrl("异步通知地址")
+                .build();
+        pay.startPay();
     }
 }

@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,10 +15,21 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.RegexUtils;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.BaseCarEntity;
+import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.KeyValueBean;
+import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.fragment.PushPersonFragment;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.dialog.PhotoDialog;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.ImageFactory;
 import com.zl.zlibrary.utils.MiPictureHelper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,6 +86,8 @@ public class RegisterActivity extends BaseActivity {
     TextView tvChoosePushP;
     @BindView(R.id.register_rl)
     RelativeLayout registerRl;
+    @BindView(R.id.tv_choose_car_length_type)
+    TextView tvChooseCarLengthType;
     private int type = PERSONTYPE;
     private PhotoDialog photoDialog;
     private String imagePath = "";
@@ -88,6 +102,8 @@ public class RegisterActivity extends BaseActivity {
     private String[] sexs = {"男", "女"};
     private AlertDialog sexDialog;
     private PushPersonFragment pushPersonFragment;
+    private CarLengthDialog carLengthDialog;
+    private KeyValueBean l, t;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +124,14 @@ public class RegisterActivity extends BaseActivity {
                 tvChoosePushP.setText(name + "  " + phone);
             }
         });
+        carLengthDialog.setOnGetCarLengthDataListener(new CarLengthDialog.OnGetCarLengthDataListener() {
+            @Override
+            public void carLengthData(KeyValueBean length, KeyValueBean type, KeyValueBean goodsType) {
+                l = length;
+                t = type;
+                tvChooseCarLengthType.setText(length.getCodeName() + "  " + type.getCodeName());
+            }
+        });
     }
 
     private void initView() {
@@ -115,6 +139,7 @@ public class RegisterActivity extends BaseActivity {
         tvTitleRight.setText("提交");
         photoDialog = new PhotoDialog(mActivity);
         pushPersonFragment = PushPersonFragment.newInstance();
+        carLengthDialog = new CarLengthDialog(mActivity, 0);
     }
 
     @Override
@@ -166,7 +191,7 @@ public class RegisterActivity extends BaseActivity {
 
     @OnClick({R.id.iv_back, R.id.tv_title_right, R.id.iv_person_photo, R.id.iv_hand_photo,
             R.id.iv_driving_photo, R.id.iv_run_photo, R.id.iv_car_front_photo, R.id.iv_car_back_photo,
-            R.id.tv_send_code, R.id.tv_choose_push_p})
+            R.id.tv_send_code, R.id.tv_choose_push_p, R.id.tv_choose_car_length_type})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -208,6 +233,10 @@ public class RegisterActivity extends BaseActivity {
             //输入推介人信息
             case R.id.tv_choose_push_p:
                 startPersonFragment();
+                break;
+            //选择车长车型
+            case R.id.tv_choose_car_length_type:
+                carLengthDialog.show(view);
                 break;
         }
     }
@@ -286,10 +315,55 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
+        if (t == null || l == null) {
+            showToast("请选择车长和车型");
+            return;
+        }
+
         //都不为空时进行数据的添加
         if (!TextUtils.isEmpty(pushName) && !TextUtils.isEmpty(pushPhone)) {
 
         }
+
+        Map<String, String> params = new HashMap<>();
+        //用户角色
+        params.put("UserRole", "2");
+        //此项为空
+        params.put("CompanyEntityJson", "");
+
+        BaseUserEntity userEntity = new BaseUserEntity();
+        userEntity.setRealName(name);
+        userEntity.setUserName(phone);
+        userEntity.setIdCardNumber(personCode);
+        userEntity.setPassWord(password);
+
+        //推介人不为空添加推介人
+        if (!TextUtils.isEmpty(pushName) && !TextUtils.isEmpty(pushPhone)) {
+            userEntity.setReferral(pushName);
+            userEntity.setReferralTel(pushPhone);
+        }
+
+        BaseCarEntity carEntity = new BaseCarEntity();
+        carEntity.setCarLong(Integer.parseInt(l.getId()));
+        carEntity.setCarType(Integer.parseInt(t.getId()));
+        params.put("UserEntityJson", GsonUtils.toJson(userEntity));
+        params.put("CarEntityJson", GsonUtils.toJson(carEntity));
+
+        if (!TextUtils.isEmpty(content)) {
+
+        }
+
+        SoapUtils.Post(mActivity, API.Register, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("data", data);
+            }
+        });
 
     }
 

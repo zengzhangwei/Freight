@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.utils.API;
 import com.zl.freight.utils.NavigationUtils;
 import com.zl.freight.utils.SpUtils;
 
@@ -25,8 +26,6 @@ public class RoleChooseActivity extends BaseActivity {
     CardView rcDriver;
     @BindView(R.id.rc_goods_master)
     CardView rcGoodsMaster;
-    public static final int DRIVER = 1;
-    public static final int GOODSMASTER = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +43,19 @@ public class RoleChooseActivity extends BaseActivity {
                 break;
             //司机入口
             case R.id.rc_driver:
-                startLogin(DRIVER);
+                startLogin(API.DRIVER);
                 break;
             //货主入口
             case R.id.rc_goods_master:
-                startLogin(GOODSMASTER);
+                startLogin(API.GOODS);
                 break;
         }
     }
 
     private void startLogin(int role) {
-        Intent intent = new Intent(mActivity, LoginActivity.class);
+        Intent intent = new Intent();
         intent.putExtra("role", role);
-        startActivity(intent);
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

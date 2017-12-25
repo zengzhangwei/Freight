@@ -26,3 +26,14 @@
 -keep class com.baidu.** {*;}
 -keep class vi.com.** {*;}
 -dontwarn com.baidu.**
+#付钱拉混淆
+-dontwarn com.fuqianla.**
+-keep class com.fuqianla.** {*;}
+
+#支付宝混淆
+-dontwarn com.alipay.**
+-keep class com.alipay.** {*;}
+
+#微信支付混淆
+-dontwarn  com.tencent.**
+-keep class com.tencent.** {*;}

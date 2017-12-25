@@ -5,18 +5,18 @@ package com.zl.freight.mode;
  */
 
 public class CarTrackEntity {
-    public int Id;
-    public String SendId;
-    public String UserId;
-    public String CarX;
-    public String CarY;
+    public String Id;
+    public String SendId = "0";
+    public String UserId = "";
+    public String CarX = "";
+    public String CarY = "";
     public String CreateTime;
 
-    public int getId() {
+    public String getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         Id = id;
     }
 

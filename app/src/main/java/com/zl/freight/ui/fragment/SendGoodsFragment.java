@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.zl.freight.R;
+import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.ui.activity.AddressChooseActivity;
 import com.zl.freight.ui.dialog.ChooseTimeDialog;
 import com.zl.freight.ui.dialog.GoodsTypeDialog;
@@ -65,6 +66,7 @@ public class SendGoodsFragment extends BaseFragment {
     private double endLatitude = 0;
     private double endLongitude = 0;
     private String endAddress;
+    private KeyValueBean l, t, u;
 
     public SendGoodsFragment() {
         // Required empty public constructor
@@ -101,6 +103,15 @@ public class SendGoodsFragment extends BaseFragment {
             @Override
             public void returnData(String data) {
                 tvChooseType.setText(data);
+            }
+        });
+        dialog.setOnGetCarLengthDataListener(new SGCarLengthDialog.OnGetSGCarLengthDataListener() {
+            @Override
+            public void carLengthData(KeyValueBean length, KeyValueBean type, KeyValueBean yong) {
+                l = length;
+                t = type;
+                u = yong;
+                tvChooseLength.setText(length.getCodeName() + " " + type.getCodeName() + " " + yong.getCodeName());
             }
         });
     }

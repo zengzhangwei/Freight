@@ -7,12 +7,12 @@ package com.zl.freight.mode;
 public class BaseDictEntity {
     public int Id;
     public int ParentId;
-    public String CodeName;
-    public String CodeValue;
-    public String Descr;
+    public String CodeName = "";
+    public String CodeValue = "";
+    public String Descr = "";
     public int IsDelete;
     public int CreateBy;
-    public String CreateByName;
+    public String CreateByName = "";
     public int UpdateBy;
-    public String UpdateByName;
+    public String UpdateByName = "";
 }

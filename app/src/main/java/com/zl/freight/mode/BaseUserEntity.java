@@ -1,10 +1,12 @@
 package com.zl.freight.mode;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/12/22.
  */
 
-public class BaseUserEntity {
+public class BaseUserEntity implements Serializable {
 
     /**
      * Id : 1
@@ -36,30 +38,30 @@ public class BaseUserEntity {
      */
 
     private String Id;
-    private String UserName;
-    private String PassWord;
-    private String Referral;
-    private String ReferralTel;
-    private String RealName;
-    private String UserIcon;
-    private String IdCardNumber;
-    private String IdCard1;
-    private String IdCard2;
-    private String UserRole;
-    private String OtherTel;
-    private String OtherTel1;
-    private String Integral;
+    private String UserName = "";
+    private String PassWord= "";
+    private String Referral= "";
+    private String ReferralTel= "";
+    private String RealName= "";
+    private String UserIcon= "";
+    private String IdCardNumber= "";
+    private String IdCard1= "";
+    private String IdCard2= "";
+    private String UserRole= "";
+    private String OtherTel= "";
+    private String OtherTel1= "";
+    private String Integral= "";
     private String IsSave;
     private String IsCheck;
-    private String CreateAt;
-    private String CreateBy;
-    private String CreateByName;
-    private String UpdateAt;
-    private String UpdateBy;
-    private String UpdateByName;
-    private String CheckAt;
-    private String CheckBy;
-    private String CheckByName;
+    private String CreateAt= "";
+    private String CreateBy= "";
+    private String CreateByName= "";
+    private String UpdateAt= "";
+    private String UpdateBy= "";
+    private String UpdateByName= "";
+    private String CheckAt= "";
+    private String CheckBy= "";
+    private String CheckByName= "";
     private String IsDelete;
 
     public String getId() {

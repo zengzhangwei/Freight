@@ -1,6 +1,7 @@
 package com.zl.freight.ui.activity;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
@@ -19,13 +20,16 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseCompanyEntity;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.ui.fragment.PushPersonFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
+import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.ImageFactory;
+import com.zl.zlibrary.utils.MiPictureHelper;
 import com.zl.zlibrary.view.MyGridView;
 
 import java.util.ArrayList;
@@ -76,6 +80,12 @@ public class GoodsRegisterActivity extends BaseActivity {
     EditText etCompanyContent;
     @BindView(R.id.et_company_name)
     EditText etCompanyName;
+    @BindView(R.id.et_company_code)
+    EditText etCompanyCode;
+    @BindView(R.id.tv_choose_push_p)
+    TextView tvChoosePushP;
+    @BindView(R.id.iv_person_photo)
+    ImageView ivPersonPhoto;
 
     private ArrayList<String> photoList = new ArrayList<>();
     private final int REQUEST_CAMERA_CODE = 0x427;
@@ -83,6 +93,11 @@ public class GoodsRegisterActivity extends BaseActivity {
     private double latitude;
     private double longitude;
     private String address;
+    private String Referral;
+    private String ReferralTel;
+    private PushPersonFragment pushPersonFragment;
+    private PhotoDialog photoDialog;
+    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +105,18 @@ public class GoodsRegisterActivity extends BaseActivity {
         setContentView(R.layout.activity_goods_register);
         ButterKnife.bind(this);
         initView();
+        initListener();
+    }
+
+    private void initListener() {
+        pushPersonFragment.setOnRetrunDataListener(new PushPersonFragment.OnReturnDataListener() {
+            @Override
+            public void onReturnData(String name, String phone) {
+                Referral = name;
+                ReferralTel = phone;
+                tvChoosePushP.setText(name + "  " + phone);
+            }
+        });
     }
 
     private void initView() {
@@ -102,6 +129,8 @@ public class GoodsRegisterActivity extends BaseActivity {
             }
         };
         grImgGrid.setAdapter(mAdapter);
+        pushPersonFragment = PushPersonFragment.newInstance();
+        photoDialog = new PhotoDialog(mActivity);
     }
 
     @Override
@@ -120,12 +149,25 @@ public class GoodsRegisterActivity extends BaseActivity {
                     address = data.getStringExtra("address");
                     tvChooseAddress.setText(address);
                     break;
+                case PhotoDialog.PICK_FROM_CAMERA:
+                    imagePath = photoDialog.imagePath;
+                    setImage();
+                    break;
+                case PhotoDialog.SELECT_PHOTO:
+                    imagePath = MiPictureHelper.getPath(mActivity, data.getData());
+                    setImage();
+                    break;
             }
         }
     }
 
+    private void setImage() {
+        byte[] getimage = ImageFactory.getimage(imagePath);
+        ivPersonPhoto.setImageBitmap(BitmapFactory.decodeByteArray(getimage, 0, getimage.length));
+    }
 
-    @OnClick({R.id.iv_back, R.id.tab_add_icon, R.id.tv_register_commit, R.id.tv_register_add_icon, R.id.tv_choose_address})
+    @OnClick({R.id.iv_back, R.id.tab_add_icon, R.id.tv_register_commit, R.id.tv_register_add_icon,
+            R.id.tv_choose_address, R.id.tv_choose_push_p, R.id.iv_person_photo})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -144,9 +186,27 @@ public class GoodsRegisterActivity extends BaseActivity {
             case R.id.tv_choose_address:
                 startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), 666);
                 break;
+            //填写推介人
+            case R.id.tv_choose_push_p:
+                startPersonFragment();
+                break;
+            //上传营业执照
+            case R.id.iv_person_photo:
+                photoDialog.show(view);
+                break;
         }
     }
 
+    /**
+     * 进入输入推介人信息界面
+     */
+    private void startPersonFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("no")
+                .replace(R.id.goods_register_rl, pushPersonFragment)
+                .commit();
+    }
 
     private void commit() {
         String name = etInputName.getText().toString().trim();
@@ -156,6 +216,7 @@ public class GoodsRegisterActivity extends BaseActivity {
         String content = etCompanyContent.getText().toString().trim();
         String companyName = etCompanyName.getText().toString().trim();
         String idCardNumber = etPersonCode.getText().toString().trim();
+        String companyCode = etCompanyCode.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
             showToast("请输入真实姓名");
@@ -219,10 +280,29 @@ public class GoodsRegisterActivity extends BaseActivity {
         userEntity.setIdCardNumber(idCardNumber);
         userEntity.setPassWord(password);
 
+        //推介人不为空添加推介人
+        if (!TextUtils.isEmpty(Referral) && !TextUtils.isEmpty(ReferralTel)) {
+            userEntity.setReferral(Referral);
+            userEntity.setReferralTel(ReferralTel);
+        }
+
         BaseCompanyEntity companyEntity = new BaseCompanyEntity();
         companyEntity.setCompanyName(companyName);
         companyEntity.setCompanyAddress(address);
-        companyEntity.setStorePic("");
+        if (!TextUtils.isEmpty(companyCode)) {
+            if (TextUtils.isEmpty(imagePath)) {
+                showToast("请上传营业执照");
+                return;
+            }
+            byte[] getimage = ImageFactory.getimage(imagePath);
+            String s = ImageFactory.bitmaptoString(getimage);
+            //机构代码不为空时必须添加营业执照
+            companyEntity.setCompanyPic(s);
+            userEntity.setIdCard1(s);
+            userEntity.setIdCard2(s);
+            companyEntity.setStorePic(s);
+        }
+
         params.put("UserEntityJson", GsonUtils.toJson(userEntity));
         params.put("CompanyEntityJson", GsonUtils.toJson(companyEntity));
 
@@ -233,12 +313,12 @@ public class GoodsRegisterActivity extends BaseActivity {
         SoapUtils.Post(mActivity, API.Register, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                Log.e("error",error);
+                Log.e("error", error);
             }
 
             @Override
             public void onSuccess(String data) {
-                Log.e("data",data);
+                Log.e("data", data);
             }
         });
     }

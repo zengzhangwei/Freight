@@ -3,12 +3,12 @@ package com.zl.freight.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fuqianla.paysdk.FuQianLaPay;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseUserEntity;
@@ -17,17 +17,8 @@ import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.utils.GsonUtils;
-import com.zl.zlibrary.utils.HttpUtils;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.SoapFault;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapPrimitive;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +26,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.Request;
 
 /**
  * @author zhanglei
@@ -58,7 +48,7 @@ public class LoginActivity extends BaseActivity {
     TextView tvLogin;
     @BindView(R.id.tv_forget_password)
     TextView tvForgetPassword;
-    private int role;
+    private int role = API.DRIVER;
     private boolean isFinish;
 
     @Override
@@ -72,17 +62,39 @@ public class LoginActivity extends BaseActivity {
 
     private void initData() {
         Intent intent = getIntent();
-        role = intent.getIntExtra("role", -1);
+        role = intent.getIntExtra("role", API.DRIVER);
         isFinish = intent.getBooleanExtra(API.ISFINISH, false);
+        setRole();
     }
 
     private void initView() {
         ivBack.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clear_white));
-        tvTitle.setText("登录");
-        tvTitleRight.setText("注册");
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_login, R.id.tv_title_right, R.id.tv_see_see, R.id.tv_forget_password})
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 147:
+                    role = data.getIntExtra("role", API.DRIVER);
+                    setRole();
+                    break;
+            }
+        }
+    }
+
+    private void setRole() {
+        if (role == API.DRIVER) {
+            tvTitle.setText("司机登录");
+            tvTitleRight.setText("司机注册");
+        } else {
+            tvTitle.setText("货主登录");
+            tvTitleRight.setText("货主注册");
+        }
+    }
+
+    @OnClick({R.id.iv_back, R.id.tv_login, R.id.tv_title_right, R.id.tv_see_see, R.id.tv_forget_password, R.id.tv_choose_role})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -96,7 +108,7 @@ public class LoginActivity extends BaseActivity {
             //注册
             case R.id.tv_title_right:
                 Intent intent;
-                if (role == 0) {
+                if (role == API.DRIVER) {
                     intent = new Intent(mActivity, RegisterActivity.class);
                 } else {
                     intent = new Intent(mActivity, GoodsRegisterActivity.class);
@@ -110,6 +122,10 @@ public class LoginActivity extends BaseActivity {
             //忘记密码
             case R.id.tv_forget_password:
                 startActivity(new Intent(mActivity, ForgetPasswordActivity.class));
+                break;
+            //忘记密码
+            case R.id.tv_choose_role:
+                startActivityForResult(new Intent(mActivity, RoleChooseActivity.class), 147);
                 break;
         }
     }
@@ -127,7 +143,7 @@ public class LoginActivity extends BaseActivity {
                 return;
             }
 
-            if (role == 1) {
+            if (role == API.DRIVER) {
                 startActivity(new Intent(mActivity, MainActivity.class));
             } else {
                 startActivity(new Intent(mActivity, GoodsMainActivity.class));
@@ -178,8 +194,12 @@ public class LoginActivity extends BaseActivity {
                     SpUtils.setRole(mActivity, role);
                     //储存登录状态
                     SpUtils.setIsLogin(mActivity, isLogin);
-                    //储存账号密码
-
+                    //在这里判断是否越权登录(司机账号无法登录货主，反之则反之，管理员随便)
+//                    if (!baseUserEntity.getUserRole().equals("0") && baseUserEntity.getUserRole().equals("" + role)) {
+//                        showToast("不能越权登录，请选择正确身份");
+//                        return;
+//                    }
+                    //判断是销毁页面还是跳转页面
                     if (isFinish) {
                         setResult(RESULT_OK);
                         finish();
@@ -201,4 +221,5 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
+
 }

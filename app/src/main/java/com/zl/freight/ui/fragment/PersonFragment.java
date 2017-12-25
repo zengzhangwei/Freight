@@ -18,6 +18,7 @@ import com.zl.freight.ui.activity.EditPersonDataActivity;
 import com.zl.freight.ui.activity.GoodsOrderActivity;
 import com.zl.freight.ui.activity.InfoQueryActivity;
 import com.zl.freight.ui.activity.JiFenStoreActivity;
+import com.zl.freight.ui.activity.LoginActivity;
 import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.activity.MyOrderActivity;
 import com.zl.freight.ui.activity.PublishNewsActivity;
@@ -161,9 +162,9 @@ public class PersonFragment extends BaseFragment {
             case R.id.btn_exit:
                 //取消登录状态
                 SpUtils.setIsLogin(mActivity, false);
-                //取消用户角色
-                SpUtils.setRole(mActivity, -1);
-                startActivity(new Intent(mActivity, RoleChooseActivity.class));
+                Intent intent = new Intent(mActivity, LoginActivity.class);
+                intent.putExtra("role", SpUtils.getRole(mActivity));
+                startActivity(intent);
                 mActivity.finish();
                 break;
         }

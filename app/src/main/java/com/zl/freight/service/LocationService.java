@@ -64,13 +64,14 @@ public class LocationService extends Service {
                 BaseUserEntity userData = SpUtils.getUserData(getApplicationContext());
                 String userRole = userData.getUserRole();
                 //再次判断是否是司机
-                if (!userRole.equals("1")) return;
+                if (!userRole.equals("" + API.DRIVER)) return;
                 Map<String, String> params = new HashMap<>();
                 CarTrackEntity trackEntity = new CarTrackEntity();
                 trackEntity.setCarX(location.getLatitude() + "");
                 trackEntity.setCarY(location.getLongitude() + "");
                 trackEntity.setUserId(userData.getId());
-                params.put("carTrackModelJson", GsonUtils.toJson(trackEntity));
+                String s = GsonUtils.toJson(trackEntity);
+                params.put("carTrackModelJson", s);
                 SoapUtils.Post(API.InsertCarTrack, params, new SoapCallback() {
                     @Override
                     public void onError(String error) {

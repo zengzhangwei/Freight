@@ -50,11 +50,13 @@ public class CarLengthDialog {
     private GridView lGrid;
     private GridView tGrid;
     private GridView gGrid;
-    private View tvOk;
+    private View tvOk, tvGoodsType;
     private View ivClear;
     private int lPosition = 0;
     private int tPosition = 0;
     private int gPosition = 0;
+    //使用用途 type==0时 为司机注册
+    private int type = -1;
 
     public CarLengthDialog(Activity mActivity) {
         this.mActivity = mActivity;
@@ -63,9 +65,23 @@ public class CarLengthDialog {
         initListener();
     }
 
+    public CarLengthDialog(Activity mActivity, int type) {
+        this.mActivity = mActivity;
+        this.type = type;
+        initView();
+        initData();
+        initListener();
+    }
+
     private void initData() {
         getLData();
         getTData();
+
+        //司机注册时不需要选择货物类型
+        if (type == 0) {
+            tvGoodsType.setVisibility(View.GONE);
+            return;
+        }
         getGData();
     }
 
@@ -176,7 +192,7 @@ public class CarLengthDialog {
         tvOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dismiss();
+                commit();
             }
         });
         ivClear.setOnClickListener(new View.OnClickListener() {
@@ -191,6 +207,30 @@ public class CarLengthDialog {
                 WindowUtils.setAlpha(mActivity, 1.0f);
             }
         });
+    }
+
+    /**
+     * 返回数据
+     */
+    private void commit() {
+        dismiss();
+        try {
+            KeyValueBean l = lList.get(lPosition);
+            KeyValueBean t = tList.get(tPosition);
+            KeyValueBean g;
+            if (type != 0) {
+                g = gList.get(gPosition);
+            } else {
+                g = new KeyValueBean();
+            }
+
+            if (onGetCarLengthDataListener != null) {
+                onGetCarLengthDataListener.carLengthData(l, t, g);
+            }
+        } catch (Exception e) {
+
+        }
+
     }
 
     private void initView() {
@@ -219,6 +259,7 @@ public class CarLengthDialog {
         tGrid = view.findViewById(R.id.grid_card_type);
         gGrid = view.findViewById(R.id.grid_goods_type);
         tvOk = view.findViewById(R.id.tv_ok);
+        tvGoodsType = view.findViewById(R.id.tv_goods_type);
         view.findViewById(R.id.tv_use_car_type).setVisibility(View.GONE);
         lGrid.setAdapter(lAdapter);
         tGrid.setAdapter(tAdapter);
@@ -247,6 +288,16 @@ public class CarLengthDialog {
 
     public void dismiss() {
         popupWindow.dismiss();
+    }
+
+    private OnGetCarLengthDataListener onGetCarLengthDataListener;
+
+    public void setOnGetCarLengthDataListener(OnGetCarLengthDataListener onGetCarLengthDataListener) {
+        this.onGetCarLengthDataListener = onGetCarLengthDataListener;
+    }
+
+    public interface OnGetCarLengthDataListener {
+        void carLengthData(KeyValueBean length, KeyValueBean type, KeyValueBean goodsType);
     }
 
 }

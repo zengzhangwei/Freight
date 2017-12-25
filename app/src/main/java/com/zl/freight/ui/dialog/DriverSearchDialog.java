@@ -35,12 +35,12 @@ public class DriverSearchDialog extends BaseDialog implements View.OnClickListen
 
     private UniversalAdapter<KeyValueBean> lAdapter;
     private UniversalAdapter<KeyValueBean> tAdapter;
-    private UniversalAdapter<String> sAdapter;
+    private UniversalAdapter<KeyValueBean> sAdapter;
     //车长数据
     private List<KeyValueBean> lList = new ArrayList<>();
     //车型数据
     private List<KeyValueBean> tList = new ArrayList<>();
-    private List<String> sList = Arrays.asList("全部车辆", "只看空车");
+    private List<KeyValueBean> sList = new ArrayList<>();
     private int lPosition = 0;
     private int tPosition = 0;
     private int sPosition = 0;
@@ -58,6 +58,19 @@ public class DriverSearchDialog extends BaseDialog implements View.OnClickListen
     private void initData() {
         getLData();
         getTData();
+        getSdData();
+    }
+
+    private void getSdData() {
+        KeyValueBean bean1 = new KeyValueBean();
+        KeyValueBean bean2 = new KeyValueBean();
+        bean1.setCodeName("全部车辆");
+        bean1.setId("1");
+        bean2.setCodeName("只看空车");
+        bean2.setId("2");
+        sList.add(bean1);
+        sList.add(bean2);
+        sAdapter.notifyDataSetChanged();
     }
 
 
@@ -156,10 +169,10 @@ public class DriverSearchDialog extends BaseDialog implements View.OnClickListen
                 setText(holder, position, tPosition, s.getCodeName());
             }
         };
-        sAdapter = new UniversalAdapter<String>(mActivity, sList, R.layout.type_item_layout) {
+        sAdapter = new UniversalAdapter<KeyValueBean>(mActivity, sList, R.layout.type_item_layout) {
             @Override
-            public void convert(UniversalViewHolder holder, int position, String s) {
-                setText(holder, position, sPosition, s);
+            public void convert(UniversalViewHolder holder, int position, KeyValueBean s) {
+                setText(holder, position, sPosition, s.getCodeName());
             }
         };
         View view = LayoutInflater.from(mActivity).inflate(R.layout.driver_search_layout, null);
@@ -192,8 +205,40 @@ public class DriverSearchDialog extends BaseDialog implements View.OnClickListen
                 dismissDialog();
                 break;
             case R.id.tv_ok:
-                dismissDialog();
+                commit();
                 break;
         }
+    }
+
+    /**
+     * 返回数据
+     */
+    private void commit() {
+        dismissDialog();
+        try {
+            KeyValueBean l = lList.get(lPosition);
+            KeyValueBean t = tList.get(tPosition);
+            KeyValueBean s = sList.get(sPosition);
+            if (onGetDriverSearchListener != null) {
+                onGetDriverSearchListener.onDriverSearch(l, t, s);
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    private OnGetDriverSearchListener onGetDriverSearchListener;
+
+    public void setOnGetDriverSearchListener(OnGetDriverSearchListener onGetDriverSearchListener) {
+        this.onGetDriverSearchListener = onGetDriverSearchListener;
+    }
+
+    public interface OnGetDriverSearchListener {
+        /**
+         * @param length 车长
+         * @param type   车型
+         * @param stype  其他条件
+         */
+        void onDriverSearch(KeyValueBean length, KeyValueBean type, KeyValueBean stype);
     }
 }

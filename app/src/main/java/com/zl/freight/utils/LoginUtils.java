@@ -19,20 +19,8 @@ public class LoginUtils {
         if (!login) {
             //在这里进行身份判断
             int role = SpUtils.getRole(context);
-            Intent i = null;
-            switch (role) {
-                case -1:
-                    i = new Intent(context, RoleChooseActivity.class);
-                    break;
-                case 1:
-                    i = new Intent(context, LoginActivity.class);
-                    i.putExtra("role", role);
-                    break;
-                case 2:
-                    i = new Intent(context, LoginActivity.class);
-                    i.putExtra("role", role);
-                    break;
-            }
+            Intent i = new Intent(context, LoginActivity.class);
+            i.putExtra("role", role);
             context.startActivity(i);
             return;
         }
@@ -50,20 +38,8 @@ public class LoginUtils {
         if (!false) {
             // 在这里进行身份判断
             int role = SpUtils.getRole(context);
-            Intent i = null;
-            switch (role) {
-                case -1:
-                    i = new Intent(context, RoleChooseActivity.class);
-                    break;
-                case 0:
-                    i = new Intent(context, LoginActivity.class);
-                    i.putExtra("role", 0);
-                    break;
-                case 1:
-                    i = new Intent(context, LoginActivity.class);
-                    i.putExtra("role", 1);
-                    break;
-            }
+            Intent i = new Intent(context, LoginActivity.class);
+            i.putExtra("role", role);
             i.putExtra(API.ISFINISH, true);
             context.startActivityForResult(i, requestCode);
             return;
