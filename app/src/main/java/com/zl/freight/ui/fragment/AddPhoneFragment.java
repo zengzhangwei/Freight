@@ -21,7 +21,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
- * A simple {@link Fragment} subclass.
+ * @author zhanglei
+ * @date 17/12/25
+ * 添加备用手机号
  */
 public class AddPhoneFragment extends BaseFragment {
 

@@ -52,28 +52,12 @@ public class GoodsRegisterActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.tv_title_right)
     TextView tvTitleRight;
-    @BindView(R.id.et_input_name)
-    EditText etInputName;
-    @BindView(R.id.et_input_phone)
-    EditText etInputPhone;
-    @BindView(R.id.et_input_code)
-    EditText etInputCode;
     @BindView(R.id.gr_img_grid)
     MyGridView grImgGrid;
-    @BindView(R.id.tab_add_icon)
-    FloatingActionButton tabAddIcon;
-    @BindView(R.id.tv_send_code)
-    TextView tvSendCode;
-    @BindView(R.id.et_input_password)
-    EditText etInputPassword;
     @BindView(R.id.tv_register_add_icon)
     TextView tvRegisterAddIcon;
     @BindView(R.id.tv_register_commit)
     TextView tvRegisterCommit;
-    @BindView(R.id.user_goods_register_bottom)
-    AutoLinearLayout userGoodsRegisterBottom;
-    @BindView(R.id.et_person_code)
-    EditText etPersonCode;
     @BindView(R.id.tv_choose_address)
     TextView tvChooseAddress;
     @BindView(R.id.et_company_content)
@@ -82,8 +66,6 @@ public class GoodsRegisterActivity extends BaseActivity {
     EditText etCompanyName;
     @BindView(R.id.et_company_code)
     EditText etCompanyCode;
-    @BindView(R.id.tv_choose_push_p)
-    TextView tvChoosePushP;
     @BindView(R.id.iv_person_photo)
     ImageView ivPersonPhoto;
 
@@ -93,11 +75,9 @@ public class GoodsRegisterActivity extends BaseActivity {
     private double latitude;
     private double longitude;
     private String address;
-    private String Referral;
-    private String ReferralTel;
-    private PushPersonFragment pushPersonFragment;
     private PhotoDialog photoDialog;
     private String imagePath;
+    private BaseUserEntity userEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,14 +89,7 @@ public class GoodsRegisterActivity extends BaseActivity {
     }
 
     private void initListener() {
-        pushPersonFragment.setOnRetrunDataListener(new PushPersonFragment.OnReturnDataListener() {
-            @Override
-            public void onReturnData(String name, String phone) {
-                Referral = name;
-                ReferralTel = phone;
-                tvChoosePushP.setText(name + "  " + phone);
-            }
-        });
+
     }
 
     private void initView() {
@@ -129,8 +102,8 @@ public class GoodsRegisterActivity extends BaseActivity {
             }
         };
         grImgGrid.setAdapter(mAdapter);
-        pushPersonFragment = PushPersonFragment.newInstance();
         photoDialog = new PhotoDialog(mActivity);
+        userEntity = (BaseUserEntity) getIntent().getSerializableExtra("userEntity");
     }
 
     @Override
@@ -167,7 +140,7 @@ public class GoodsRegisterActivity extends BaseActivity {
     }
 
     @OnClick({R.id.iv_back, R.id.tab_add_icon, R.id.tv_register_commit, R.id.tv_register_add_icon,
-            R.id.tv_choose_address, R.id.tv_choose_push_p, R.id.iv_person_photo})
+            R.id.tv_choose_address, R.id.iv_person_photo})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -186,10 +159,6 @@ public class GoodsRegisterActivity extends BaseActivity {
             case R.id.tv_choose_address:
                 startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), 666);
                 break;
-            //填写推介人
-            case R.id.tv_choose_push_p:
-                startPersonFragment();
-                break;
             //上传营业执照
             case R.id.iv_person_photo:
                 photoDialog.show(view);
@@ -197,56 +166,10 @@ public class GoodsRegisterActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 进入输入推介人信息界面
-     */
-    private void startPersonFragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack("no")
-                .replace(R.id.goods_register_rl, pushPersonFragment)
-                .commit();
-    }
-
     private void commit() {
-        String name = etInputName.getText().toString().trim();
-        String phone = etInputPhone.getText().toString().trim();
-        String code = etInputCode.getText().toString().trim();
-        String password = etInputPassword.getText().toString().trim();
-        String content = etCompanyContent.getText().toString().trim();
-        String companyName = etCompanyName.getText().toString().trim();
-        String idCardNumber = etPersonCode.getText().toString().trim();
-        String companyCode = etCompanyCode.getText().toString().trim();
-
-        if (TextUtils.isEmpty(name)) {
-            showToast("请输入真实姓名");
-            return;
-        }
-
-        if (TextUtils.isEmpty(phone)) {
-            showToast("请输入手机号");
-            return;
-        }
-
-        if (!RegexUtils.isMobileExact(phone)) {
-            showToast("手机号格式不对");
-            return;
-        }
-
-        if (TextUtils.isEmpty(code)) {
-            showToast("请输入验证码");
-            return;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            showToast("请输入密码");
-            return;
-        }
-
-        if (password.length() != 6) {
-            showToast("密码长度不符合标准");
-            return;
-        }
+        final String content = etCompanyContent.getText().toString().trim();
+        final String companyName = etCompanyName.getText().toString().trim();
+        final String companyCode = etCompanyCode.getText().toString().trim();
 
         if (TextUtils.isEmpty(companyName)) {
             showToast("请输入公司名称");
@@ -258,69 +181,74 @@ public class GoodsRegisterActivity extends BaseActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(idCardNumber)) {
-            showToast("请输入身份证号");
-            return;
-        }
-
-        if (!RegexUtils.isIDCard18(idCardNumber)) {
-            showToast("请输入正确身份证号");
-            return;
-        }
-
-        Map<String, String> params = new HashMap<>();
+        final Map<String, String> params = new HashMap<>();
         //用户角色
         params.put("UserRole", "2");
         //此项为空
         params.put("CarEntityJson", "");
 
-        BaseUserEntity userEntity = new BaseUserEntity();
-        userEntity.setRealName(name);
-        userEntity.setUserName(phone);
-        userEntity.setIdCardNumber(idCardNumber);
-        userEntity.setPassWord(password);
-
-        //推介人不为空添加推介人
-        if (!TextUtils.isEmpty(Referral) && !TextUtils.isEmpty(ReferralTel)) {
-            userEntity.setReferral(Referral);
-            userEntity.setReferralTel(ReferralTel);
-        }
-
-        BaseCompanyEntity companyEntity = new BaseCompanyEntity();
-        companyEntity.setCompanyName(companyName);
-        companyEntity.setCompanyAddress(address);
-        if (!TextUtils.isEmpty(companyCode)) {
-            if (TextUtils.isEmpty(imagePath)) {
-                showToast("请上传营业执照");
-                return;
-            }
-            byte[] getimage = ImageFactory.getimage(imagePath);
-            String s = ImageFactory.bitmaptoString(getimage);
-            //机构代码不为空时必须添加营业执照
-            companyEntity.setCompanyPic(s);
-            userEntity.setIdCard1(s);
-            userEntity.setIdCard2(s);
-            companyEntity.setStorePic(s);
-        }
-
-        params.put("UserEntityJson", GsonUtils.toJson(userEntity));
-        params.put("CompanyEntityJson", GsonUtils.toJson(companyEntity));
-
-        if (!TextUtils.isEmpty(content)) {
-
-        }
-
-        SoapUtils.Post(mActivity, API.Register, params, new SoapCallback() {
+        new Thread() {
             @Override
-            public void onError(String error) {
-                Log.e("error", error);
-            }
+            public void run() {
+                String idCard1 = userEntity.getIdCard1();
+                String idCard2 = userEntity.getIdCard2();
+                String idCard1Data = ImageFactory.bitmaptoString(ImageFactory.getimage(idCard1));
+                String idCard2Data = ImageFactory.bitmaptoString(ImageFactory.getimage(idCard2));
+                userEntity.setIdCard1(idCard1Data);
+                userEntity.setIdCard2(idCard2Data);
 
-            @Override
-            public void onSuccess(String data) {
-                Log.e("data", data);
+                //填充公司数据
+                BaseCompanyEntity companyEntity = new BaseCompanyEntity();
+                companyEntity.setCompanyName(companyName);
+                companyEntity.setCompanyAddress(address);
+                if (!TextUtils.isEmpty(companyCode)) {
+                    if (TextUtils.isEmpty(imagePath)) {
+                        showToast("请上传营业执照");
+                        return;
+                    }
+                    String s = ImageFactory.bitmaptoString(ImageFactory.getimage(imagePath));
+                    //机构代码不为空时必须添加营业执照
+                    companyEntity.setCompanyPic(s);
+                }
+                if (photoList.size() <= 0) {
+                    showToast("请添加照片");
+                    return;
+                }
+
+                for (int i = 0; i < photoList.size(); i++) {
+                    String s = ImageFactory.bitmaptoString(ImageFactory.getimage(photoList.get(i)));
+                    switch (i) {
+                        case 0:
+                            companyEntity.setStorePic(s);
+                            break;
+                        case 1:
+                            companyEntity.setStorePic1(s);
+                            break;
+                        case 2:
+                            companyEntity.setStorePic2(s);
+                            break;
+                    }
+                }
+
+                if (!TextUtils.isEmpty(content)) {
+
+                }
+                params.put("UserEntityJson", GsonUtils.toJson(userEntity));
+                params.put("CompanyEntityJson", GsonUtils.toJson(companyEntity));
+
+                SoapUtils.Post(mActivity, API.Register, params, new SoapCallback() {
+                    @Override
+                    public void onError(String error) {
+                        Log.e("error", error);
+                    }
+
+                    @Override
+                    public void onSuccess(String data) {
+                        Log.e("data", data);
+                    }
+                });
             }
-        });
+        }.start();
     }
 
     /**

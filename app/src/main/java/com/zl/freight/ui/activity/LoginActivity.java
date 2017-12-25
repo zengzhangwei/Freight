@@ -107,12 +107,8 @@ public class LoginActivity extends BaseActivity {
                 break;
             //注册
             case R.id.tv_title_right:
-                Intent intent;
-                if (role == API.DRIVER) {
-                    intent = new Intent(mActivity, RegisterActivity.class);
-                } else {
-                    intent = new Intent(mActivity, GoodsRegisterActivity.class);
-                }
+                Intent intent = new Intent(mActivity, URegisterActivity.class);
+                intent.putExtra("role", role);
                 startActivity(intent);
                 break;
             //随便看看

@@ -74,8 +74,6 @@
                     android:text="@string/upload_photo_remark"
                     android:textSize="@dimen/dp_12" />
 
-                <include layout="@layout/register_fragment_layout" />
-
                 <com.zhy.autolayout.AutoLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -125,27 +123,6 @@
                         android:drawableRight="@mipmap/icon_right"
                         android:gravity="center_vertical"
                         android:hint="请选择公司地址"
-                        android:paddingLeft="@dimen/dp_32"
-                        android:textSize="@dimen/dp_16" />
-
-                </com.zhy.autolayout.AutoLinearLayout>
-
-                <com.zhy.autolayout.AutoLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        style="@style/RegisterTextStyle"
-                        android:text="推介人" />
-
-                    <TextView
-                        android:id="@+id/tv_choose_push_p"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_44"
-                        android:background="@color/white"
-                        android:drawableRight="@mipmap/icon_right"
-                        android:gravity="center_vertical"
-                        android:hint="请输入推介人信息"
                         android:paddingLeft="@dimen/dp_32"
                         android:textSize="@dimen/dp_16" />
 

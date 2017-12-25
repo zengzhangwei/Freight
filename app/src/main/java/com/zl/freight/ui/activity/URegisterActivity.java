@@ -69,6 +69,7 @@ public class URegisterActivity extends BaseActivity {
     private final int PERSONTYPE = 0x1;
     private final int HANDTYPE = 0x2;
     private int role;
+    public static URegisterActivity uRegisterActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class URegisterActivity extends BaseActivity {
     }
 
     private void initView() {
+        uRegisterActivity = this;
         role = getIntent().getIntExtra("role", API.DRIVER);
         tvTitle.setText("实名认证");
         photoDialog = new PhotoDialog(mActivity);
@@ -245,6 +247,7 @@ public class URegisterActivity extends BaseActivity {
         } else {
             intent = new Intent(mActivity, GoodsRegisterActivity.class);
         }
+        intent.putExtra("userEntity", userEntity);
         startActivity(intent);
     }
 
