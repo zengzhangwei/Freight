@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
     tools:context="com.zl.freight.ui.activity.LookGoodsLocationActivity">
 
-    <include
-        android:id="@+id/lda_title"
-        layout="@layout/title_layout" />
+    <include layout="@layout/title_layout" />
 
     <com.baidu.mapapi.map.MapView
         android:id="@+id/lda_map"
         android:layout_width="match_parent"
+        android:layout_height="450px"></com.baidu.mapapi.map.MapView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/lda_title"></com.baidu.mapapi.map.MapView>
+        android:layout_margin="@dimen/dp_16"
+        android:background="@color/white">
 
+        <ListView
+            android:id="@+id/driver_location_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
 
-</com.zhy.autolayout.AutoRelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</com.zhy.autolayout.AutoLinearLayout>

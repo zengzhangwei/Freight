@@ -12,6 +12,7 @@ public class API {
     public static final String LONGITUDE = "longitude";
     public static final int ISLOGIN = 0X111;
     public static final String ISFINISH = "isFinish";
+    public static final String USERNAME = "UserName";
 
     public static final int ADMIN = 0;
     public static final int DRIVER = 1;
@@ -39,4 +40,16 @@ public class API {
      * 上报司机位置
      */
     public static final String InsertCarTrack = "InsertCarTrack";
+
+    /**
+     * 获取附近的车辆
+     */
+    public static final String GetNearByCar = "GetNearByCar";
+
+    /**
+     * 获取用户信息
+     */
+    public static final String ShowUserInfo = "ShowUserInfo ";
+
+
 }

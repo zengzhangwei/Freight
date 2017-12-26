@@ -2,13 +2,21 @@ package com.zl.freight.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.utils.SystemUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +52,7 @@ public class DriverDetailActivity extends BaseActivity {
     TextView tvCall;
     @BindView(R.id.tv_send_message)
     TextView tvSendMessage;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +60,28 @@ public class DriverDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_driver_detail);
         ButterKnife.bind(this);
         initView();
+        initData();
+    }
+
+    /**
+     * 初始化数据，获取用户信息
+     */
+    private void initData() {
+        username = getIntent().getStringExtra(API.USERNAME);
+        if (TextUtils.isEmpty(username)) return;
+        Map<String, String> params = new HashMap<>();
+        params.put("UserName", username);
+        SoapUtils.Post(mActivity, API.ShowUserInfo, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("String", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("String", data);
+            }
+        });
     }
 
     private void initView() {

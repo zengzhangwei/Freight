@@ -1,6 +1,7 @@
 package com.zl.freight.utils;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.ksoap2.SoapEnvelope;
@@ -74,7 +75,8 @@ public class SoapUtils {
                         mActivity.runOnUiThread(new TimerTask() {
                             @Override
                             public void run() {
-                                callback.onError(soapFault.getMessage());
+                                String message = soapFault.getMessage();
+                                callback.onError(TextUtils.isEmpty(message) ? "未知的错误" : message);
                             }
                         });
                     }
@@ -84,7 +86,8 @@ public class SoapUtils {
                         mActivity.runOnUiThread(new TimerTask() {
                             @Override
                             public void run() {
-                                callback.onError(e.getMessage());
+                                String message = e.getMessage();
+                                callback.onError(TextUtils.isEmpty(message) ? "未知的错误" : message);
                             }
                         });
                     }
@@ -94,7 +97,7 @@ public class SoapUtils {
     }
 
     /**
-     * @param method    调用的方法名称
+     * @param method 调用的方法名称
      */
     public static void Post(final String method, final Map<String, String> params, final SoapCallback callback) {
         new Thread() {

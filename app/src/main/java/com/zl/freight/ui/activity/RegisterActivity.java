@@ -3,16 +3,13 @@ package com.zl.freight.ui.activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.RegexUtils;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseCarEntity;
@@ -28,7 +25,6 @@ import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.ImageFactory;
 import com.zl.zlibrary.utils.MiPictureHelper;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,6 +75,8 @@ public class RegisterActivity extends BaseActivity {
     private CarLengthDialog carLengthDialog;
     private KeyValueBean l, t;
     private BaseUserEntity userEntity;
+    private String idCard1;
+    private String idCard2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +105,8 @@ public class RegisterActivity extends BaseActivity {
         pushPersonFragment = PushPersonFragment.newInstance();
         carLengthDialog = new CarLengthDialog(mActivity, 0);
         userEntity = (BaseUserEntity) getIntent().getSerializableExtra("userEntity");
+        idCard1 = userEntity.getIdCard1();
+        idCard2 = userEntity.getIdCard2();
     }
 
     @Override
@@ -212,7 +212,7 @@ public class RegisterActivity extends BaseActivity {
 
         final Map<String, String> params = new HashMap<>();
         //用户角色
-        params.put("UserRole", "2");
+        params.put("UserRole", "1");
         //此项为空
         params.put("CompanyEntityJson", "");
 
@@ -220,10 +220,8 @@ public class RegisterActivity extends BaseActivity {
         new Thread() {
             @Override
             public void run() {
-                String idCard1 = userEntity.getIdCard1();
-                String idCard2 = userEntity.getIdCard2();
-                String idCard1Data = ImageFactory.bitmaptoString(ImageFactory.getimage(idCard1));
-                String idCard2Data = ImageFactory.bitmaptoString(ImageFactory.getimage(idCard2));
+                String idCard1Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard1));
+                String idCard2Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard2));
                 userEntity.setIdCard1(idCard1Data);
                 userEntity.setIdCard2(idCard2Data);
 
@@ -232,10 +230,10 @@ public class RegisterActivity extends BaseActivity {
                 carEntity.setCarLong(Integer.parseInt(l.getId()));
                 carEntity.setCarType(Integer.parseInt(t.getId()));
                 carEntity.setCarNo(carCode);
-                String drivingData = ImageFactory.bitmaptoString(ImageFactory.getimage(IMGDRIVINGPATH));
-                String runData = ImageFactory.bitmaptoString(ImageFactory.getimage(IMGRUNPATH));
-                String frontData = ImageFactory.bitmaptoString(ImageFactory.getimage(IMGFRONTPATH));
-                String backData = ImageFactory.bitmaptoString(ImageFactory.getimage(IMGBACKPATH));
+                String drivingData = ImageFactory.base64Encode(ImageFactory.getimage(IMGDRIVINGPATH));
+                String runData = ImageFactory.base64Encode(ImageFactory.getimage(IMGRUNPATH));
+                String frontData = ImageFactory.base64Encode(ImageFactory.getimage(IMGFRONTPATH));
+                String backData = ImageFactory.base64Encode(ImageFactory.getimage(IMGBACKPATH));
                 carEntity.setDrivingLlicence(drivingData);
                 carEntity.setVehicleLicense(runData);
                 carEntity.setCarPic1(frontData);

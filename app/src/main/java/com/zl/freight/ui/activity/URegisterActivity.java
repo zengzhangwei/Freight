@@ -1,9 +1,11 @@
 package com.zl.freight.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,10 +18,9 @@ import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.ui.fragment.PushPersonFragment;
 import com.zl.freight.utils.API;
 import com.zl.zlibrary.dialog.PhotoDialog;
+import com.zl.zlibrary.utils.GzipUtils;
 import com.zl.zlibrary.utils.ImageFactory;
 import com.zl.zlibrary.utils.MiPictureHelper;
-
-import java.sql.Ref;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -167,9 +168,30 @@ public class URegisterActivity extends BaseActivity {
                 break;
             //下一步
             case R.id.tv_next:
+//                testZip();
                 next();
                 break;
         }
+    }
+
+
+    /**
+     * 测试zip压缩
+     */
+    private void testZip() {
+        byte[] getimage = ImageFactory.getimage(IMGPERSONPATH);
+        Log.e("testZip", getimage.length + "");
+        byte[] nameByte = GzipUtils.gZip(getimage);
+        Log.e("testZip", nameByte.length + "");
+        String zipStr = ImageFactory.base64Encode(nameByte);
+        Log.e("testZip", zipStr);
+        byte[] bytes1 = ImageFactory.base64Decode(zipStr);
+        Log.e("testZip", bytes1.length + "");
+        byte[] bytes = GzipUtils.unGZip(bytes1);
+        Log.e("testZip", bytes.length + "");
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        ivHandPhoto.setImageBitmap(bitmap);
+
     }
 
     /**

@@ -46,12 +46,35 @@ public class BaseActivity extends AutoLayoutActivity {
         return (T) findViewById(viewId);
     }
 
+    /**
+     * 显示dialog 点击外部会消失
+     *
+     * @param Message
+     */
     protected void showDialog(String Message) {
+        baseDialog.setCanceledOnTouchOutside(true);
+        baseDialog.setMessage(Message);
+        baseDialog.show();
+    }
+
+    /**
+     * 显示dialog 点击外部不会消失
+     *
+     * @param Message
+     */
+    protected void showNotTouchDialog(String Message) {
+        baseDialog.setCanceledOnTouchOutside(false);
         baseDialog.setMessage(Message);
         baseDialog.show();
     }
 
     protected void showDialog() {
+        baseDialog.setCanceledOnTouchOutside(true);
+        baseDialog.show();
+    }
+
+    protected void showNotTouchDialog() {
+        baseDialog.setCanceledOnTouchOutside(false);
         baseDialog.show();
     }
 

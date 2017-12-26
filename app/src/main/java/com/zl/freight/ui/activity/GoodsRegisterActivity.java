@@ -3,7 +3,6 @@ package com.zl.freight.ui.activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -11,16 +10,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.RegexUtils;
 import com.foamtrace.photopicker.PhotoPickerActivity;
 import com.foamtrace.photopicker.SelectModel;
 import com.foamtrace.photopicker.intent.PhotoPickerIntent;
-import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseCompanyEntity;
 import com.zl.freight.mode.BaseUserEntity;
-import com.zl.freight.ui.fragment.PushPersonFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
@@ -78,6 +74,8 @@ public class GoodsRegisterActivity extends BaseActivity {
     private PhotoDialog photoDialog;
     private String imagePath;
     private BaseUserEntity userEntity;
+    private String idCard1;
+    private String idCard2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +102,8 @@ public class GoodsRegisterActivity extends BaseActivity {
         grImgGrid.setAdapter(mAdapter);
         photoDialog = new PhotoDialog(mActivity);
         userEntity = (BaseUserEntity) getIntent().getSerializableExtra("userEntity");
+        idCard1 = userEntity.getIdCard1();
+        idCard2 = userEntity.getIdCard2();
     }
 
     @Override
@@ -190,10 +190,9 @@ public class GoodsRegisterActivity extends BaseActivity {
         new Thread() {
             @Override
             public void run() {
-                String idCard1 = userEntity.getIdCard1();
-                String idCard2 = userEntity.getIdCard2();
-                String idCard1Data = ImageFactory.bitmaptoString(ImageFactory.getimage(idCard1));
-                String idCard2Data = ImageFactory.bitmaptoString(ImageFactory.getimage(idCard2));
+
+                String idCard1Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard1));
+                String idCard2Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard2));
                 userEntity.setIdCard1(idCard1Data);
                 userEntity.setIdCard2(idCard2Data);
 
@@ -206,7 +205,7 @@ public class GoodsRegisterActivity extends BaseActivity {
                         showToast("请上传营业执照");
                         return;
                     }
-                    String s = ImageFactory.bitmaptoString(ImageFactory.getimage(imagePath));
+                    String s = ImageFactory.base64Encode(ImageFactory.getimage(imagePath));
                     //机构代码不为空时必须添加营业执照
                     companyEntity.setCompanyPic(s);
                 }
@@ -216,7 +215,7 @@ public class GoodsRegisterActivity extends BaseActivity {
                 }
 
                 for (int i = 0; i < photoList.size(); i++) {
-                    String s = ImageFactory.bitmaptoString(ImageFactory.getimage(photoList.get(i)));
+                    String s = ImageFactory.base64Encode(ImageFactory.getimage(photoList.get(i)));
                     switch (i) {
                         case 0:
                             companyEntity.setStorePic(s);
@@ -239,7 +238,7 @@ public class GoodsRegisterActivity extends BaseActivity {
                 SoapUtils.Post(mActivity, API.Register, params, new SoapCallback() {
                     @Override
                     public void onError(String error) {
-                        Log.e("error", error);
+                        Log.e("error", error == null ? "" : error);
                     }
 
                     @Override

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
 import com.zl.freight.R;
 import com.zl.freight.ui.activity.DriverDetailActivity;
 import com.zl.freight.ui.activity.LookDriverActivity;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.LocationUtils;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
@@ -44,7 +47,6 @@ import butterknife.Unbinder;
  */
 public class CheYuanListFragment extends BaseFragment {
 
-
     @BindView(R.id.cyl_mrrlv)
     MRefreshRecyclerView cylMrrlv;
     Unbinder unbinder;
@@ -52,9 +54,11 @@ public class CheYuanListFragment extends BaseFragment {
     EditText etSearchData;
     private RecyclerAdapter<String> mAdapter;
     private List<String> mList = new ArrayList<>();
-    private int type;
+    private int type; // 0 为熟车列表  1 为找车列表
     private AlertDialog addDialog, removeDialog;
     private int mPosition = 0;
+    private LocationUtils locationUtils;
+    private BDLocation mLocation;
 
     public CheYuanListFragment() {
         // Required empty public constructor
@@ -100,6 +104,18 @@ public class CheYuanListFragment extends BaseFragment {
                 cylMrrlv.setRefreshing(false);
             }
         });
+        locationUtils.setOnLocationListener(new LocationUtils.OnLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation location) {
+                mLocation = location;
+                getListData(true);
+            }
+
+            @Override
+            public void onConnectHotSpotMessage(String s, int i) {
+
+            }
+        });
     }
 
     private void initData() {
@@ -107,6 +123,33 @@ public class CheYuanListFragment extends BaseFragment {
             mList.add("");
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 获取界面数据
+     *
+     * @param b
+     */
+    private void getListData(boolean b) {
+        if (mLocation == null) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("x", mLocation.getLatitude() + "");
+        params.put("y", mLocation.getLongitude() + "");
+
+        //根据经纬度获取附近的车辆
+        SoapUtils.Post(mActivity, API.GetNearByCar, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("data", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("data", data);
+            }
+        });
     }
 
     private void initView() {
@@ -146,6 +189,11 @@ public class CheYuanListFragment extends BaseFragment {
 
             }
         }).create();
+
+        locationUtils = new LocationUtils(mActivity);
+        if (type != 0) {
+            locationUtils.startLocation();
+        }
     }
 
     /**

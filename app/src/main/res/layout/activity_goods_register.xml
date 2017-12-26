@@ -100,8 +100,7 @@
                     <EditText
                         android:id="@+id/et_company_code"
                         style="@style/RegisterEtStyle"
-                        android:hint="请输入公司机构代码（选填）"
-                        android:inputType="numberPassword" />
+                        android:hint="请输入公司机构代码（选填）" />
 
                 </com.zhy.autolayout.AutoLinearLayout>
 

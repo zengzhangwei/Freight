@@ -191,10 +191,12 @@ public class LoginActivity extends BaseActivity {
                     //储存登录状态
                     SpUtils.setIsLogin(mActivity, isLogin);
                     //在这里判断是否越权登录(司机账号无法登录货主，反之则反之，管理员随便)
-//                    if (!baseUserEntity.getUserRole().equals("0") && baseUserEntity.getUserRole().equals("" + role)) {
-//                        showToast("不能越权登录，请选择正确身份");
-//                        return;
-//                    }
+                    if (!baseUserEntity.getUserRole().equals("0")) {
+                        if (!baseUserEntity.getUserRole().equals("" + role)){
+                            showToast("不能越权登录，请选择正确身份");
+                            return;
+                        }
+                    }
                     //判断是销毁页面还是跳转页面
                     if (isFinish) {
                         setResult(RESULT_OK);
