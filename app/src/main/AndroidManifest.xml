@@ -96,11 +96,7 @@
 
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.LauncherActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.RoleChooseActivity"
@@ -138,7 +134,13 @@
         <activity android:name=".ui.activity.GoodsOrderActivity" />
         <activity
             android:name=".ui.activity.LookDriverActivity"
-            android:theme="@style/AddressTheme" />
+            android:theme="@style/AddressTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver

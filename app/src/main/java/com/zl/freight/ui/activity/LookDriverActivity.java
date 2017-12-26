@@ -3,6 +3,7 @@ package com.zl.freight.ui.activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baidu.mapapi.map.BaiduMap;
@@ -23,7 +24,13 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.CarTrackEntity;
 import com.zl.freight.utils.API;
+import com.zl.zlibrary.adapter.UniversalAdapter;
+import com.zl.zlibrary.adapter.UniversalViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,9 +51,13 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
     TextView tvTitleRight;
     @BindView(R.id.lda_map)
     MapView ldaMap;
+    @BindView(R.id.driver_location_list)
+    ListView driverLocationList;
     private BaiduMap mBaiduMap;
     private double latitude, longitude;
     private GeoCoder mSearch;
+    private List<CarTrackEntity> mList = new ArrayList<>();
+    private UniversalAdapter<CarTrackEntity> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +65,15 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
         setContentView(R.layout.activity_look_driver);
         ButterKnife.bind(this);
         initView();
+        initData();
         initListener();
+    }
+
+    private void initData() {
+        for (int i = 0; i < 10; i++) {
+            mList.add(new CarTrackEntity());
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     private void initListener() {
@@ -71,6 +90,15 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
         mSearch = GeoCoder.newInstance();
         //绘制司机当前位置的坐标点
         drawGoodsEnd();
+
+        mAdapter = new UniversalAdapter<CarTrackEntity>(mActivity, mList, R.layout.driver_list_location_item) {
+            @Override
+            public void convert(UniversalViewHolder holder, int position, CarTrackEntity carTrackEntity) {
+                holder.setText(R.id.tv_driver_location_time, "今日 15:54");
+                holder.setText(R.id.tv_driver_location_data, "河北省邢台市桥西中兴路与冶金路交叉口北行100米路西");
+            }
+        };
+        driverLocationList.setAdapter(mAdapter);
     }
 
     /**

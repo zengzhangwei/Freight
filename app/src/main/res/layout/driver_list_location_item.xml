@@ -7,13 +7,23 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp_6">
+        android:layout_marginBottom="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_6"
+        android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="@dimen/dp_28"
             android:layout_height="@dimen/dp_28"
             android:layout_marginLeft="@dimen/dp_2"
-            android:src="@mipmap/icon_map_location" />
+            android:src="@mipmap/ic_map_location" />
+
+        <TextView
+            android:id="@+id/tv_driver_location_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:text="今日 15:54"
+            android:textSize="@dimen/dp_14" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
@@ -28,12 +38,15 @@
             android:background="@color/text_grey" />
 
         <TextView
+            android:id="@+id/tv_driver_location_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_4"
-            android:background="@drawable/bg_locationinfo_sel"
+            android:layout_marginRight="@dimen/dp_16"
+            android:background="@drawable/bg_info_dark"
             android:gravity="center_vertical"
-            android:text="@string/appbar_scrolling_view_behavior"
+            android:textSize="@dimen/dp_14"
+            android:text="河北省邢台市桥西中兴路与冶金路交叉口北行100米路西，工商家属楼"
             android:textColor="@color/blue" />
 
     </com.zhy.autolayout.AutoLinearLayout>
