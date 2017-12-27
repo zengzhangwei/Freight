@@ -10,7 +10,16 @@ public class CarTrackEntity {
     public String UserId = "";
     public String CarX = "";
     public String CarY = "";
+    public String CarAddress = "";
     public String CreateTime;
+
+    public String getCarAddress() {
+        return CarAddress;
+    }
+
+    public void setCarAddress(String carAddress) {
+        CarAddress = carAddress;
+    }
 
     public String getId() {
         return Id;

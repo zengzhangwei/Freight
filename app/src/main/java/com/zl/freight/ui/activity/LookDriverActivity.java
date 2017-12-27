@@ -1,6 +1,7 @@
 package com.zl.freight.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,11 +27,16 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.CarTrackEntity;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +64,7 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
     private GeoCoder mSearch;
     private List<CarTrackEntity> mList = new ArrayList<>();
     private UniversalAdapter<CarTrackEntity> mAdapter;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +77,24 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            mList.add(new CarTrackEntity());
-        }
-        mAdapter.notifyDataSetChanged();
+        getDriverLocation();
+    }
+
+    private void getDriverLocation() {
+        Map<String, String> params = new HashMap<>();
+        params.put("SendId", "0");
+        params.put("UserId", userId);
+        SoapUtils.Post(mActivity, API.QueryCarTrack, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("data", "error");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("data", data);
+            }
+        });
     }
 
     private void initListener() {
@@ -85,6 +106,7 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
         tvTitle.setText(R.string.driver_location);
         latitude = getIntent().getDoubleExtra(API.LATITUDE, 0);
         longitude = getIntent().getDoubleExtra(API.LONGITUDE, 0);
+        userId = getIntent().getStringExtra(API.USERID);
         mBaiduMap = ldaMap.getMap();
         //获取搜索模块
         mSearch = GeoCoder.newInstance();

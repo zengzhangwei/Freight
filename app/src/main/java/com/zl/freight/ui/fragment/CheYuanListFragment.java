@@ -18,17 +18,22 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.zl.freight.R;
+import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.ui.activity.DriverDetailActivity;
 import com.zl.freight.ui.activity.LookDriverActivity;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.LocationUtils;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.SystemUtils;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,8 +57,8 @@ public class CheYuanListFragment extends BaseFragment {
     Unbinder unbinder;
     @BindView(R.id.et_search_data)
     EditText etSearchData;
-    private RecyclerAdapter<String> mAdapter;
-    private List<String> mList = new ArrayList<>();
+    private RecyclerAdapter<CarUserBean> mAdapter;
+    private List<CarUserBean> mList = new ArrayList<>();
     private int type; // 0 为熟车列表  1 为找车列表
     private AlertDialog addDialog, removeDialog;
     private int mPosition = 0;
@@ -90,7 +95,9 @@ public class CheYuanListFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 mPosition = position;
-                startActivity(new Intent(mActivity, DriverDetailActivity.class));
+                Intent intent = new Intent(mActivity, DriverDetailActivity.class);
+                intent.putExtra(API.CARUSER, mList.get(position));
+                startActivity(intent);
             }
         });
         cylMrrlv.setOnMRefreshListener(new MRefreshRecyclerView.OnMRefreshListener() {
@@ -119,9 +126,7 @@ public class CheYuanListFragment extends BaseFragment {
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            mList.add("");
-        }
+
         mAdapter.notifyDataSetChanged();
     }
 
@@ -147,7 +152,16 @@ public class CheYuanListFragment extends BaseFragment {
 
             @Override
             public void onSuccess(String data) {
-                Log.e("data", data);
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        CarUserBean carUserBean = GsonUtils.fromJson(array.optString(i), CarUserBean.class);
+                        mList.add(carUserBean);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
             }
         });
     }
@@ -157,10 +171,10 @@ public class CheYuanListFragment extends BaseFragment {
         if (bundle != null) {
             type = bundle.getInt("type", -1);
         }
-        mAdapter = new RecyclerAdapter<String>(mActivity, mList, R.layout.che_yuan_item_layout) {
+        mAdapter = new RecyclerAdapter<CarUserBean>(mActivity, mList, R.layout.che_yuan_item_layout) {
             @Override
-            protected void convert(ViewHolder holder, String s, int position) {
-                handleData(holder, position);
+            protected void convert(ViewHolder holder, CarUserBean s, int position) {
+                handleData(holder, s, position);
             }
         };
         cylMrrlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
@@ -239,7 +253,7 @@ public class CheYuanListFragment extends BaseFragment {
      *
      * @param holder
      */
-    private void handleData(ViewHolder holder, int position) {
+    private void handleData(ViewHolder holder, final CarUserBean bean, int position) {
         mPosition = position;
         if (type == 0) {
             ImageView view = holder.getView(R.id.iv_item_icon);
@@ -257,15 +271,15 @@ public class CheYuanListFragment extends BaseFragment {
             ivStatus.setText("运输中");
         }
 
-        holder.setText(R.id.tv_driver_user, "张磊");
-        holder.setText(R.id.tv_car_code_item, "冀123456");
-        holder.setText(R.id.tv_car_type_item, "9.6米/高栏");
-        holder.setText(R.id.tv_car_location, "中兴路时代电子");
+        holder.setText(R.id.tv_driver_user, bean.getRealName());
+        holder.setText(R.id.tv_car_code_item, bean.getCarNo());
+        holder.setText(R.id.tv_car_type_item, bean.getCarLong() + "米/" + bean.getCarType());
+        holder.setText(R.id.tv_car_location, bean.getCarAddress());
         //打电话
         holder.getView(R.id.linear_call).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SystemUtils.call(mActivity, "15075993917");
+                SystemUtils.call(mActivity, bean.getUserName());
             }
         });
         //查看司机位置

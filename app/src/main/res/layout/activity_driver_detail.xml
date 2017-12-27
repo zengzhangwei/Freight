@@ -151,7 +151,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="80px"
-                android:text="完成18笔订单"
                 android:textSize="@dimen/dp_14" />
 
         </com.zhy.autolayout.AutoLinearLayout>

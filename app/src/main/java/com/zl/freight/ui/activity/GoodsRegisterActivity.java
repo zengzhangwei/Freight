@@ -186,11 +186,10 @@ public class GoodsRegisterActivity extends BaseActivity {
         params.put("UserRole", "2");
         //此项为空
         params.put("CarEntityJson", "");
-
+        showNotTouchDialog("注册中，请勿退出");
         new Thread() {
             @Override
             public void run() {
-
                 String idCard1Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard1));
                 String idCard2Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard2));
                 userEntity.setIdCard1(idCard1Data);
@@ -238,12 +237,15 @@ public class GoodsRegisterActivity extends BaseActivity {
                 SoapUtils.Post(mActivity, API.Register, params, new SoapCallback() {
                     @Override
                     public void onError(String error) {
-                        Log.e("error", error == null ? "" : error);
+                        hideDialog();
+                        showToast(error);
                     }
 
                     @Override
                     public void onSuccess(String data) {
-                        Log.e("data", data);
+                        showToast("注册成功");
+                        URegisterActivity.uRegisterActivity.finish();
+                        finish();
                     }
                 });
             }

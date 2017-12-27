@@ -10,7 +10,10 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+import org.ksoap2.transport.ServiceConnection;
 
+import java.net.HttpURLConnection;
+import java.sql.Connection;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimerTask;
@@ -53,7 +56,7 @@ public class SoapUtils {
                 // 设置是否调用的是dotNet开发的WebService
                 envelope.dotNet = true;
 
-                HttpTransportSE transport = new HttpTransportSE(endPoint);
+                HttpTransportSE transport = new HttpTransportSE(endPoint, 1000 * 60);
                 try {
                     // 调用WebService
                     transport.call(soapAction, envelope);

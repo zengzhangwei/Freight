@@ -70,17 +70,18 @@ public class LocationService extends Service {
                 trackEntity.setCarX(location.getLatitude() + "");
                 trackEntity.setCarY(location.getLongitude() + "");
                 trackEntity.setUserId(userData.getId());
+                trackEntity.setCarAddress(location.getAddrStr() + location.getLocationDescribe());
                 String s = GsonUtils.toJson(trackEntity);
                 params.put("carTrackModelJson", s);
                 SoapUtils.Post(API.InsertCarTrack, params, new SoapCallback() {
                     @Override
                     public void onError(String error) {
-
+                        Log.e("data", "error");
                     }
 
                     @Override
                     public void onSuccess(String data) {
-
+                        Log.e("data", "success");
                     }
                 });
             }

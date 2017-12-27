@@ -215,11 +215,12 @@ public class RegisterActivity extends BaseActivity {
         params.put("UserRole", "1");
         //此项为空
         params.put("CompanyEntityJson", "");
-
+        showNotTouchDialog("注册中，请勿退出");
         //开启线程处理图片（将图片进行base64编码）
         new Thread() {
             @Override
             public void run() {
+
                 String idCard1Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard1));
                 String idCard2Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard2));
                 userEntity.setIdCard1(idCard1Data);
@@ -238,6 +239,7 @@ public class RegisterActivity extends BaseActivity {
                 carEntity.setVehicleLicense(runData);
                 carEntity.setCarPic1(frontData);
                 carEntity.setCarPic2(backData);
+                carEntity.setCarPic3("");
 
                 params.put("UserEntityJson", GsonUtils.toJson(userEntity));
                 params.put("CarEntityJson", GsonUtils.toJson(carEntity));
@@ -249,12 +251,15 @@ public class RegisterActivity extends BaseActivity {
                 SoapUtils.Post(mActivity, API.Register, params, new SoapCallback() {
                     @Override
                     public void onError(String error) {
-                        Log.e("error", error);
+                        hideDialog();
+                        showToast(error);
                     }
 
                     @Override
                     public void onSuccess(String data) {
-                        Log.e("data", data);
+                        showToast("注册成功");
+                        URegisterActivity.uRegisterActivity.finish();
+                        finish();
                     }
                 });
             }

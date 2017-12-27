@@ -48,7 +48,6 @@
                 android:layout_height="@dimen/dp_44"
                 android:background="@color/white"
                 android:paddingLeft="@dimen/dp_32"
-                android:text="admin"
                 android:textSize="@dimen/dp_16" />
 
         </com.zhy.autolayout.AutoLinearLayout>
@@ -78,7 +77,6 @@
                 android:inputType="numberPassword"
                 android:maxLength="6"
                 android:paddingLeft="@dimen/dp_32"
-                android:text="1"
                 android:textSize="@dimen/dp_16" />
 
         </com.zhy.autolayout.AutoLinearLayout>

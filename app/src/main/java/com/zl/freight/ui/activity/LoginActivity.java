@@ -69,6 +69,10 @@ public class LoginActivity extends BaseActivity {
 
     private void initView() {
         ivBack.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clear_white));
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        if (!TextUtils.isEmpty(userData.getUserName()) && !TextUtils.isEmpty(userData.getPassWord())) {
+            etInputAccount.setText(userData.getUserName());
+        }
     }
 
     @Override
@@ -119,8 +123,12 @@ public class LoginActivity extends BaseActivity {
             case R.id.tv_forget_password:
                 startActivity(new Intent(mActivity, ForgetPasswordActivity.class));
                 break;
-            //忘记密码
+            //点击切换身份
             case R.id.tv_choose_role:
+                if (isFinish) {
+                    showToast("现在无法进行身份切换");
+                    return;
+                }
                 startActivityForResult(new Intent(mActivity, RoleChooseActivity.class), 147);
                 break;
         }
@@ -192,7 +200,7 @@ public class LoginActivity extends BaseActivity {
                     SpUtils.setIsLogin(mActivity, isLogin);
                     //在这里判断是否越权登录(司机账号无法登录货主，反之则反之，管理员随便)
                     if (!baseUserEntity.getUserRole().equals("0")) {
-                        if (!baseUserEntity.getUserRole().equals("" + role)){
+                        if (!baseUserEntity.getUserRole().equals("" + role)) {
                             showToast("不能越权登录，请选择正确身份");
                             return;
                         }

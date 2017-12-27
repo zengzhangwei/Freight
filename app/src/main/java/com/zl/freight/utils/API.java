@@ -13,6 +13,8 @@ public class API {
     public static final int ISLOGIN = 0X111;
     public static final String ISFINISH = "isFinish";
     public static final String USERNAME = "UserName";
+    public static final String CARUSER = "carUser";
+    public static final String USERID = "userId";
 
     public static final int ADMIN = 0;
     public static final int DRIVER = 1;
@@ -49,7 +51,12 @@ public class API {
     /**
      * 获取用户信息
      */
-    public static final String ShowUserInfo = "ShowUserInfo ";
+    public static final String ShowUserInfo = "ShowUserInfo";
+
+    /**
+     * 查询车辆最新坐标
+     */
+    public static final String QueryCarTrack = "QueryCarTrack";
 
 
 }

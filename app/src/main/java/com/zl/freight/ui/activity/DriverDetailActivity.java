@@ -10,11 +10,13 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.utils.SystemUtils;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +55,7 @@ public class DriverDetailActivity extends BaseActivity {
     @BindView(R.id.tv_send_message)
     TextView tvSendMessage;
     private String username;
+    private CarUserBean carUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,21 +70,13 @@ public class DriverDetailActivity extends BaseActivity {
      * 初始化数据，获取用户信息
      */
     private void initData() {
-        username = getIntent().getStringExtra(API.USERNAME);
-        if (TextUtils.isEmpty(username)) return;
-        Map<String, String> params = new HashMap<>();
-        params.put("UserName", username);
-        SoapUtils.Post(mActivity, API.ShowUserInfo, params, new SoapCallback() {
-            @Override
-            public void onError(String error) {
-                Log.e("String", error);
-            }
+        carUser = (CarUserBean) getIntent().getSerializableExtra(API.CARUSER);
+        if (carUser != null) {
+            tvRealName.setText("真实姓名：" + carUser.getRealName());
+            tvDriverPhone.setText(carUser.getUserName());
+            tvDriverCarType.setText(carUser.getCarLong() + "米/" + carUser.getCarType());
 
-            @Override
-            public void onSuccess(String data) {
-                Log.e("String", data);
-            }
-        });
+        }
     }
 
     private void initView() {
@@ -97,15 +92,21 @@ public class DriverDetailActivity extends BaseActivity {
                 break;
             //查看司机位置
             case R.id.tv_driver_location:
-                startActivity(new Intent(mActivity, LookDriverActivity.class));
+                Intent intent = new Intent(mActivity, LookDriverActivity.class);
+                intent.putExtra(API.LATITUDE, carUser.getCarX());
+                intent.putExtra(API.LONGITUDE, carUser.getCarY());
+                intent.putExtra(API.USERID, carUser.getUserId());
+                startActivity(intent);
                 break;
             //给司机打电话
             case R.id.tv_call:
-                SystemUtils.call(mActivity, "15075993917");
+                if (carUser == null) return;
+                SystemUtils.call(mActivity, carUser.getUserName());
                 break;
             //给司机发短信
             case R.id.tv_send_message:
-                SystemUtils.sendSms(mActivity, "15075993917");
+                if (carUser == null) return;
+                SystemUtils.sendSms(mActivity, carUser.getUserName());
                 break;
         }
     }
