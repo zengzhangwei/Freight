@@ -68,6 +68,73 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <!--发货界面的title-->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/main_appbar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48">
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_into_order"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_8"
+                app:srcCompat="@drawable/ic_into_order" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/iv_into_order"
+                android:text="运单"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_14" />
+
+            <RadioGroup
+                android:id="@+id/main_rg"
+                android:layout_width="420px"
+                android:layout_height="@dimen/dp_28"
+                android:layout_centerInParent="true"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="2px">
+
+                <RadioButton
+                    android:id="@+id/main_rb_send"
+                    style="@style/TitleRadioStyle"
+                    android:text="发货" />
+
+                <RadioButton
+                    android:id="@+id/main_rb_my_goods"
+                    style="@style/TitleRadioStyle"
+                    android:layout_marginLeft="1px"
+                    android:text="我的货源" />
+
+                <RadioButton
+                    android:id="@+id/main_rb_often"
+                    style="@style/TitleRadioStyle"
+                    android:layout_marginLeft="1px"
+                    android:text="常发货源" />
+            </RadioGroup>
+
+            <ImageView
+                android:id="@+id/iv_main_share"
+                style="@style/main_title_image_style"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_4"
+                android:padding="@dimen/dp_6"
+                app:srcCompat="@drawable/ic_share_white" />
+
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/main_bottom"
         android:layout_width="match_parent"

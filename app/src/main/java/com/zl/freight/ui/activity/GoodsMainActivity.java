@@ -2,6 +2,7 @@ package com.zl.freight.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
@@ -9,20 +10,22 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
-import com.zl.freight.service.LocationService;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.dialog.DriverSearchDialog;
 import com.zl.freight.ui.fragment.CheYuanFragment;
 import com.zl.freight.ui.fragment.FindGoodsFragment;
+import com.zl.freight.ui.fragment.MyGoodsFragment;
 import com.zl.freight.ui.fragment.NoLoginPersonFragment;
+import com.zl.freight.ui.fragment.OftenFragment;
 import com.zl.freight.ui.fragment.PersonFragment;
 import com.zl.freight.ui.fragment.SendGoodsFragment;
-import com.zl.freight.ui.fragment.StoreFragment;
 import com.zl.freight.ui.fragment.TopLineFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ShareUtils;
@@ -51,6 +54,20 @@ public class GoodsMainActivity extends BaseActivity {
     AppBarLayout mainTitle;
     @BindView(R.id.main_rl)
     RelativeLayout mainRl;
+    @BindView(R.id.iv_into_order)
+    ImageView ivIntoOrder;
+    @BindView(R.id.main_rb_send)
+    RadioButton mainRbSend;
+    @BindView(R.id.main_rb_my_goods)
+    RadioButton mainRbMyGoods;
+    @BindView(R.id.main_rb_often)
+    RadioButton mainRbOften;
+    @BindView(R.id.main_rg)
+    RadioGroup mainRg;
+    @BindView(R.id.iv_main_share)
+    ImageView ivMainShare;
+    @BindView(R.id.main_appbar)
+    AppBarLayout mainAppbar;
     private FragmentHelper helper;
     //找货
     private FindGoodsFragment findGoodsFragment;
@@ -65,6 +82,8 @@ public class GoodsMainActivity extends BaseActivity {
     private long timecode = 0;
     private CheYuanFragment cheYuanFragment;
     private DriverSearchDialog searchDialog;
+    private MyGoodsFragment myGoodsFragment;
+    private OftenFragment oftenFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +135,26 @@ public class GoodsMainActivity extends BaseActivity {
                 return true;
             }
         });
+
+        mainRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                switch (i) {
+                    //发货
+                    case R.id.main_rb_send:
+                        helper.showFragment(sendGoodsFragment);
+                        break;
+                    //我的货源
+                    case R.id.main_rb_my_goods:
+                        helper.showFragment(myGoodsFragment);
+                        break;
+                    //常发货源
+                    case R.id.main_rb_often:
+                        helper.showFragment(oftenFragment);
+                        break;
+                }
+            }
+        });
     }
 
     private void initView() {
@@ -125,6 +164,8 @@ public class GoodsMainActivity extends BaseActivity {
         topLineFragment = TopLineFragment.newInstance();
         noLoginPersonFragment = NoLoginPersonFragment.newInstance();
         cheYuanFragment = CheYuanFragment.newInstance();
+        myGoodsFragment = MyGoodsFragment.newInstance();
+        oftenFragment = OftenFragment.newInstance();
         helper = FragmentHelper.builder(mActivity).attach(R.id.main_rl)
                 .addFragment(findGoodsFragment)
                 .addFragment(personFragment)
@@ -132,15 +173,19 @@ public class GoodsMainActivity extends BaseActivity {
                 .addFragment(topLineFragment)
                 .addFragment(noLoginPersonFragment)
                 .addFragment(cheYuanFragment)
+                .addFragment(myGoodsFragment)
+                .addFragment(oftenFragment)
                 .commit();
         helper.showFragment(sendGoodsFragment);
         mainBottom.setSelectedItemId(R.id.send_goods);
         carLengthDialog = new CarLengthDialog(mActivity);
         searchDialog = new DriverSearchDialog(mActivity);
         tvCarType.setVisibility(View.GONE);
+        //默认选中发货
+        mainRg.check(R.id.main_rb_send);
     }
 
-    @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.tv_car_type, R.id.main_img_weChat})
+    @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.tv_car_type, R.id.main_img_weChat, R.id.iv_into_order, R.id.iv_main_share})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //进入用户中心页面
@@ -158,6 +203,14 @@ public class GoodsMainActivity extends BaseActivity {
             //显示车长车宽选择器
             case R.id.tv_car_type:
                 searchDialog.showDialog(view);
+                break;
+            //进入货主运单页
+            case R.id.iv_into_order:
+                startActivity(new Intent(mActivity, GoodsOrderActivity.class));
+                break;
+            //分享
+            case R.id.iv_main_share:
+                ShareUtils.share(mActivity);
                 break;
         }
     }

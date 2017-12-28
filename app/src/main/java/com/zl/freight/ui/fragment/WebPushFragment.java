@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,14 @@ import android.widget.ImageView;
 
 import com.blankj.utilcode.util.RegexUtils;
 import com.zl.freight.R;
+import com.zl.freight.mode.CarInformationEntity;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.dialog.PhotoDialog;
+import com.zl.zlibrary.utils.GsonUtils;
+import com.zl.zlibrary.utils.ImageFactory;
 import com.zl.zlibrary.utils.MiPictureHelper;
 
 import java.util.HashMap;
@@ -136,20 +143,26 @@ public class WebPushFragment extends BaseFragment {
             return;
         }
 
-        Map<String, String> params = new HashMap<>();
-        //TODO 待补充接口（发布文章）
-//        SoapUtils.Post(mActivity, API.BaseDict, params, new SoapCallback() {
-//            @Override
-//            public void onError(String error) {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(String data) {
-//
-//            }
-//        });
+        CarInformationEntity entity = new CarInformationEntity();
+        entity.setInfoLink(url);
+        entity.setInfoKey(title);
+        entity.setInfoType(1);
+        entity.setInfoPic(ImageFactory.base64Encode(ImageFactory.getimage(imagePath)));
 
+        //TODO 待补充参数（发布文章）
+        Map<String, String> params = new HashMap<>();
+        params.put("", GsonUtils.toJson(entity));
+        SoapUtils.Post(mActivity, API.AddInfo, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "error");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("data", data + "");
+            }
+        });
         mActivity.finish();
     }
 }

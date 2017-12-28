@@ -30,6 +30,7 @@ import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,7 @@ public class TopLineFragment extends BaseFragment {
     FloatingActionButton ftFab;
     @BindView(R.id.top_line_trl)
     TwinklingRefreshLayout topLineTrl;
+    private int page = 1;
     private List<String> mList = Arrays.asList("http://image.3761.com/pic/85241434675216.jpg",
             "http://image.3761.com/pic/5111434675216.jpg",
             "http://image.3761.com/pic/58601434675217.jpg",
@@ -94,6 +96,14 @@ public class TopLineFragment extends BaseFragment {
      * 获取列表数据
      */
     private void getListData(boolean b) {
+        if (b) {
+            page = 1;
+        } else {
+            page++;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("PageIndex", page + "");
+        params.put("PageSize", "10");
         //TODO 等待数据接入
         SoapUtils.Post(mActivity, API.GetInfo, null, new SoapCallback() {
             @Override
