@@ -101,13 +101,13 @@ public class GoodsTypeDialog extends BaseDialog {
         tvInputOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dismiss();
                 if (onReturnDataListener != null) {
                     String data = etInputType.getText().toString().trim();
                     if (TextUtils.isEmpty(data)) {
-                        Toast.makeText(mActivity, "不能为空", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "货物名称不能为空", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    dismiss();
                     onReturnDataListener.returnData(mList.get(mPostion), data);
                 }
             }

@@ -63,6 +63,8 @@ public class SpUtils {
         edit.putString("PassWord", userEntity.getPassWord());
         edit.putString("id", userEntity.getId());
         edit.putString("UserRole", userEntity.getUserRole());
+        edit.putString("CarLong", userEntity.getCarLong());
+        edit.putString("CarType", userEntity.getCarType());
         edit.commit();
     }
 
@@ -76,6 +78,8 @@ public class SpUtils {
         user.setPassWord(sp.getString("PassWord", ""));
         user.setId(sp.getString("id", "-1"));
         user.setUserRole(sp.getString("UserRole", "-1"));
+        user.setCarLong(sp.getString("CarLong", ""));
+        user.setCarType(sp.getString("CarType", ""));
         return user;
     }
 

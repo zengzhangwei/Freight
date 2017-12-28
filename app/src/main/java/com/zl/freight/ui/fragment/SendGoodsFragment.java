@@ -11,7 +11,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.zl.freight.R;
 import com.zl.freight.mode.CarSendEntity;
 import com.zl.freight.mode.KeyValueBean;
@@ -65,6 +66,12 @@ public class SendGoodsFragment extends BaseFragment {
     TextView tvChooseContent;
     @BindView(R.id.tv_ok_push)
     TextView tvOkPush;
+    @BindView(R.id.tv_chong_fa)
+    TextView tvChongFa;
+    @BindView(R.id.tv_chang_fa)
+    TextView tvChangFa;
+    @BindView(R.id.tv_tong_cheng)
+    TextView tvTongCheng;
     private SGCarLengthDialog dialog;
     private GoodsTypeDialog goodsTypeDialog;
     private RemarkDialog remarkDialog;
@@ -152,6 +159,8 @@ public class SendGoodsFragment extends BaseFragment {
         goodsTypeDialog = new GoodsTypeDialog(mActivity);
         remarkDialog = new RemarkDialog(mActivity);
         timeDialog = new ChooseTimeDialog(mActivity);
+
+        tvChongFa.setSelected(true);
     }
 
     @Override
@@ -160,7 +169,8 @@ public class SendGoodsFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_tonne, R.id.tv_square, R.id.tv_choose_start, R.id.tv_choose_end, R.id.tv_choose_length, R.id.tv_choose_type, R.id.tv_choose_time, R.id.tv_choose_content, R.id.tv_ok_push})
+    @OnClick({R.id.tv_tonne, R.id.tv_square, R.id.tv_choose_start, R.id.tv_choose_end, R.id.tv_choose_length,
+            R.id.tv_choose_type, R.id.tv_choose_time, R.id.tv_choose_content, R.id.tv_ok_push, R.id.tv_chong_fa, R.id.tv_chang_fa, R.id.tv_tong_cheng})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //选择吨
@@ -200,6 +210,18 @@ public class SendGoodsFragment extends BaseFragment {
             //确认发布
             case R.id.tv_ok_push:
                 commit();
+                break;
+            //智能重发
+            case R.id.tv_chong_fa:
+                tvChongFa.setSelected(!tvChongFa.isSelected());
+                break;
+            //常发货源
+            case R.id.tv_chang_fa:
+                tvChangFa.setSelected(!tvChangFa.isSelected());
+                break;
+            //同城不可见
+            case R.id.tv_tong_cheng:
+                tvTongCheng.setSelected(!tvTongCheng.isSelected());
                 break;
         }
     }
@@ -261,11 +283,38 @@ public class SendGoodsFragment extends BaseFragment {
             sendEntity.setIsAnyTime(0);
         }
 
+        //是否标记为常发客源
+        if (tvChangFa.isSelected()) {
+            sendEntity.setIsOften(0);
+        } else {
+            sendEntity.setIsOften(1);
+        }
+
+        //是否智能重发
+        if (tvChongFa.isSelected()) {
+            sendEntity.setIsRetry(0);
+        } else {
+            sendEntity.setIsRetry(1);
+        }
+
+        //是否同城不可见
+        if (tvTongCheng.isSelected()) {
+            sendEntity.setIsvisible(0);
+        } else {
+            sendEntity.setIsvisible(1);
+        }
+
         if (tvTonne.isSelected()) {
             sendEntity.setWeightUnit("吨");
         } else {
             sendEntity.setWeightUnit("方");
         }
+
+        //计算距离（直线距离）
+        LatLng p1 = new LatLng(startLatitude, startLongitude);
+        LatLng p2 = new LatLng(endLatitude, endLongitude);
+        double distance = DistanceUtil.getDistance(p1, p2);
+        sendEntity.setRange(distance);
 
         //装卸方式
         if (z != null) {
@@ -282,16 +331,18 @@ public class SendGoodsFragment extends BaseFragment {
         }
         Map<String, String> params = new HashMap<>();
         params.put("sendJson", GsonUtils.toJson(sendEntity));
-
+        showDialog("货物发布中...");
         SoapUtils.Post(mActivity, API.AddSend, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                Log.e("error", "error");
+                hideDialog();
+                showToast(error);
             }
 
             @Override
             public void onSuccess(String data) {
-                Log.e("data", data);
+                hideDialog();
+                showToast("货物发布成功");
             }
         });
     }
@@ -322,4 +373,5 @@ public class SendGoodsFragment extends BaseFragment {
             }
         }
     }
+
 }

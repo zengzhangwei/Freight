@@ -72,7 +72,7 @@ public class API {
     /**
      * 获取广告
      */
-    public static final String GetInfo = "AddInfo";
+    public static final String GetInfo = "GetInfo";
 
     /**
      * 货主发单

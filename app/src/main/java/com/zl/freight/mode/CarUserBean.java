@@ -112,6 +112,24 @@ public class CarUserBean implements Serializable {
     private String CheckByName1;
     private String IsDelete1;
     private String Range;
+    private String CodeName;
+    private String CodeName1;
+
+    public String getCodeName() {
+        return CodeName;
+    }
+
+    public void setCodeName(String codeName) {
+        CodeName = codeName;
+    }
+
+    public String getCodeName1() {
+        return CodeName1;
+    }
+
+    public void setCodeName1(String codeName1) {
+        CodeName1 = codeName1;
+    }
 
     public String getId() {
         return Id;

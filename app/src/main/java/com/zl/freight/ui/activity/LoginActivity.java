@@ -212,7 +212,7 @@ public class LoginActivity extends BaseActivity {
                         return;
                     }
 
-                    if (role == 1) {
+                    if (role == API.DRIVER) {
                         startActivity(new Intent(mActivity, MainActivity.class));
                     } else {
                         startActivity(new Intent(mActivity, GoodsMainActivity.class));

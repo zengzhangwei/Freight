@@ -39,30 +39,48 @@ public class BaseUserEntity implements Serializable {
 
     private String Id;
     private String UserName = "";
-    private String PassWord= "";
-    private String Referral= "";
-    private String ReferralTel= "";
-    private String RealName= "";
-    private String UserIcon= "";
-    private String IdCardNumber= "";
-    private String IdCard1= "";
-    private String IdCard2= "";
-    private String UserRole= "";
-    private String OtherTel= "";
-    private String OtherTel1= "";
-    private String Integral= "";
+    private String PassWord = "";
+    private String Referral = "";
+    private String ReferralTel = "";
+    private String RealName = "";
+    private String UserIcon = "";
+    private String IdCardNumber = "";
+    private String IdCard1 = "";
+    private String IdCard2 = "";
+    private String UserRole = "";
+    private String OtherTel = "";
+    private String OtherTel1 = "";
+    private String Integral = "";
     private String IsSave;
     private String IsCheck;
-    private String CreateAt= "";
-    private String CreateBy= "";
-    private String CreateByName= "";
-    private String UpdateAt= "";
-    private String UpdateBy= "";
-    private String UpdateByName= "";
-    private String CheckAt= "";
-    private String CheckBy= "";
-    private String CheckByName= "";
+    private String CreateAt = "";
+    private String CreateBy = "";
+    private String CreateByName = "";
+    private String UpdateAt = "";
+    private String UpdateBy = "";
+    private String UpdateByName = "";
+    private String CheckAt = "";
+    private String CheckBy = "";
+    private String CheckByName = "";
     private String IsDelete;
+    private String CarLong = "";
+    private String CarType = "";
+
+    public String getCarLong() {
+        return CarLong;
+    }
+
+    public void setCarLong(String carLong) {
+        CarLong = carLong;
+    }
+
+    public String getCarType() {
+        return CarType;
+    }
+
+    public void setCarType(String carType) {
+        CarType = carType;
+    }
 
     public String getId() {
         return Id;

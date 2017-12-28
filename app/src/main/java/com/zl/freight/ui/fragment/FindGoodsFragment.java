@@ -5,22 +5,35 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.location.BDLocation;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
+import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.ui.activity.GoodsDetailActivity;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.LocationUtils;
 import com.zl.freight.utils.LoginUtils;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.ImageLoader;
 import com.zl.zlibrary.utils.SystemUtils;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +61,10 @@ public class FindGoodsFragment extends BaseFragment {
 
     private RecyclerAdapter<String> mAdapter;
     private List<String> mList = new ArrayList<>();
+    private LocationUtils locationUtils;
+    private BDLocation bdLocation;
+    private int page = 1;
+    private BaseUserEntity userData;
 
     public FindGoodsFragment() {
         // Required empty public constructor
@@ -86,28 +103,107 @@ public class FindGoodsFragment extends BaseFragment {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 super.onRefresh(refreshLayout);
+                getDataList(true);
             }
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
                 super.onLoadMore(refreshLayout);
+                getDataList(false);
+            }
+        });
+        locationUtils.setOnLocationListener(new LocationUtils.OnLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation location) {
+                bdLocation = location;
+                getDataList(true);
+            }
+
+            @Override
+            public void onConnectHotSpotMessage(String s, int i) {
+
             }
         });
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            mList.add("");
-        }
-        mAdapter.notifyDataSetChanged();
-        getDataList();
+
     }
 
     /**
      * 获取列表数据
      */
-    private void getDataList() {
+    private void getDataList(boolean b) {
+        if (bdLocation == null) return;
+        userData = SpUtils.getUserData(mActivity);
         Map<String, String> params = new HashMap<>();
+        //如果角色是司机，则判断司机的车长和车型是否为空，若为空则调用获取用户信息的接口
+        if (userData.getUserRole().equals("" + API.DRIVER)) {
+            if (TextUtils.isEmpty(userData.getCarLong())) {
+                getUserData();
+                return;
+            }
+            params.put("CarLong", userData.getCarLong());
+            params.put("CarType", userData.getCarType());
+        }
+        if (b) {
+            page = 1;
+        } else {
+            page++;
+        }
+
+        params.put("UserRole", userData.getUserRole());
+        params.put("CarX", bdLocation.getLatitude() + "");
+        params.put("CarY", bdLocation.getLongitude() + "");
+        params.put("PageIndex", page + "");
+        params.put("PageSize", "10");
+
+        SoapUtils.Post(mActivity, API.GetNearBySend, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                findGoodsTrl.finishLoadmore();
+                findGoodsTrl.finishRefreshing();
+                Log.e("error", "error");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("data", data);
+                findGoodsTrl.finishLoadmore();
+                findGoodsTrl.finishRefreshing();
+            }
+        });
+    }
+
+    /**
+     * 获取用户信息
+     */
+    private void getUserData() {
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", userData.getId());
+        params.put("UserRole", userData.getUserRole());
+        SoapUtils.Post(mActivity, API.ShowUserInfo, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "获取用户信息失败");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    CarUserBean carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
+                    userData.setCarLong(carUserBean.getCarLong());
+                    userData.setCarType(carUserBean.getCarType());
+                    //更新用户信息
+                    SpUtils.setUserData(mActivity, userData);
+                    //获取界面数据
+                    getDataList(true);
+                } catch (Exception e) {
+
+                }
+            }
+        });
     }
 
     private void initView() {
@@ -120,6 +216,8 @@ public class FindGoodsFragment extends BaseFragment {
         findGoodsRlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         findGoodsRlv.setAdapter(mAdapter);
         findGoodsTrl.setHeaderView(new ProgressLayout(mActivity));
+        locationUtils = new LocationUtils(mActivity);
+        locationUtils.startLocation();
     }
 
     /**

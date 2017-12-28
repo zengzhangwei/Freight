@@ -1,250 +1,292 @@
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bg_color"
     android:orientation="vertical"
     tools:context="com.zl.freight.ui.fragment.SendGoodsFragment">
 
-    <com.zhy.autolayout.AutoLinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            style="@style/SendGoodsTextStyle"
-            android:drawableLeft="@mipmap/icon_depart_tag"
-            android:text="@string/depart_place" />
-
-        <TextView
-            android:id="@+id/tv_choose_start"
-            style="@style/TextStyle_right"
-            android:hint="@string/touch_choose" />
-
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:layout_marginLeft="@dimen/dp_18"
-        android:background="@color/light_grey" />
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:gravity="center_vertical">
-
-        <TextView
-            style="@style/SendGoodsTextStyle"
-            android:drawableLeft="@mipmap/icon_arrive_tag"
-            android:text="@string/destination" />
-
-        <TextView
-            android:id="@+id/tv_choose_end"
-            style="@style/TextStyle_right"
-            android:hint="@string/touch_choose" />
-
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10"
-        android:background="@color/bg_color" />
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:gravity="center_vertical">
-
-        <TextView
-            style="@style/SendGoodsTextStyle"
-            android:drawableLeft="@mipmap/icon_vehicle"
-            android:text="@string/car_length_type" />
-
-        <TextView
-            android:id="@+id/tv_choose_length"
-            style="@style/TextStyle_right"
-            android:hint="@string/touch_choose" />
-
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:layout_marginLeft="@dimen/dp_18"
-        android:background="@color/light_grey" />
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:gravity="center_vertical">
-
-        <TextView
-            style="@style/SendGoodsTextStyle"
-            android:drawableLeft="@mipmap/icon_cargo_type"
-            android:text="@string/goods_type" />
-
-        <TextView
-            android:id="@+id/tv_choose_type"
-            style="@style/TextStyle_right"
-            android:hint="@string/touch_choose" />
-
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:layout_marginLeft="@dimen/dp_18"
-        android:background="@color/light_grey" />
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:gravity="center_vertical">
-
-        <TextView
-            style="@style/SendGoodsTextStyle"
-            android:drawableLeft="@mipmap/icon_cargo_weight"
-            android:text="@string/goods_weight" />
-
-        <EditText
-            android:id="@+id/et_weight"
-            android:layout_width="250px"
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="@string/touch_output"
-            android:inputType="numberDecimal"
-            android:textCursorDrawable="@null"
-            android:textSize="@dimen/dp_14" />
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0.8dp"
-            android:layout_height="@dimen/dp_36"
-            android:background="@color/light_grey" />
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tv_tonne"
-            android:layout_width="@dimen/dp_48"
-            android:layout_height="@dimen/dp_32"
-            android:layout_marginLeft="@dimen/dp_16"
-            android:layout_marginRight="@dimen/dp_16"
-            android:background="@drawable/text_bg_selector"
-            android:gravity="center"
-            android:text="@string/tonne"
-            android:textColor="@color/text_selector_color" />
+                <TextView
+                    style="@style/SendGoodsTextStyle"
+                    android:drawableLeft="@mipmap/icon_start"
+                    android:text="@string/depart_place" />
 
-        <TextView
-            android:id="@+id/tv_square"
-            android:layout_width="@dimen/dp_48"
-            android:layout_height="@dimen/dp_32"
-            android:background="@drawable/text_bg_selector"
-            android:gravity="center"
-            android:text="@string/square"
-            android:textColor="@color/text_selector_color" />
-    </com.zhy.autolayout.AutoLinearLayout>
+                <TextView
+                    android:id="@+id/tv_choose_start"
+                    style="@style/TextStyle_right"
+                    android:hint="@string/touch_choose" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginLeft="@dimen/dp_18"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/SendGoodsTextStyle"
+                    android:drawableLeft="@mipmap/icon_end"
+                    android:text="@string/destination" />
+
+                <TextView
+                    android:id="@+id/tv_choose_end"
+                    style="@style/TextStyle_right"
+                    android:hint="@string/touch_choose" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:background="@color/bg_color" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/SendGoodsTextStyle"
+                    android:drawableLeft="@mipmap/icon_car_length_type"
+                    android:text="@string/car_length_type" />
+
+                <TextView
+                    android:id="@+id/tv_choose_length"
+                    style="@style/TextStyle_right"
+                    android:hint="@string/touch_choose" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginLeft="@dimen/dp_18"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/SendGoodsTextStyle"
+                    android:drawableLeft="@mipmap/icon_goods_type"
+                    android:text="@string/goods_type" />
+
+                <TextView
+                    android:id="@+id/tv_choose_type"
+                    style="@style/TextStyle_right"
+                    android:hint="@string/touch_choose" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginLeft="@dimen/dp_18"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/SendGoodsTextStyle"
+                    android:drawableLeft="@mipmap/icon_weight"
+                    android:text="@string/goods_weight" />
+
+                <EditText
+                    android:id="@+id/et_weight"
+                    android:layout_width="250px"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:hint="@string/touch_output"
+                    android:inputType="numberDecimal"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/dp_14" />
+
+                <TextView
+                    android:layout_width="0.8dp"
+                    android:layout_height="@dimen/dp_36"
+                    android:background="@color/light_grey" />
+
+                <TextView
+                    android:id="@+id/tv_tonne"
+                    android:layout_width="@dimen/dp_48"
+                    android:layout_height="@dimen/dp_32"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:background="@drawable/text_bg_selector"
+                    android:gravity="center"
+                    android:text="@string/tonne"
+                    android:textColor="@color/text_selector_color" />
+
+                <TextView
+                    android:id="@+id/tv_square"
+                    android:layout_width="@dimen/dp_48"
+                    android:layout_height="@dimen/dp_32"
+                    android:background="@drawable/text_bg_selector"
+                    android:gravity="center"
+                    android:text="@string/square"
+                    android:textColor="@color/text_selector_color" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:background="@color/bg_color" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/SendGoodsTextStyle"
+                    android:drawableLeft="@mipmap/icon_price"
+                    android:text="@string/freight_money" />
+
+                <EditText
+                    android:id="@+id/et_money"
+                    android:layout_width="460px"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:hint="@string/touch_output"
+                    android:inputType="numberDecimal"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/dp_14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yuan"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_14" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginLeft="@dimen/dp_18"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/SendGoodsTextStyle"
+                    android:drawableLeft="@mipmap/icon_load_time"
+                    android:text="@string/loading_time" />
+
+                <TextView
+                    android:id="@+id/tv_choose_time"
+                    style="@style/TextStyle_right"
+                    android:hint="@string/touch_choose" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginLeft="@dimen/dp_18"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/SendGoodsTextStyle"
+                    android:drawableLeft="@mipmap/icon_remark"
+                    android:text="@string/content" />
+
+                <TextView
+                    android:id="@+id/tv_choose_content"
+                    style="@style/TextStyle_right"
+                    android:hint="装卸方式、付款方式、备注" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:background="@color/bg_color" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48">
+
+                <TextView
+                    android:id="@+id/tv_chong_fa"
+                    style="@style/SendGoodsSelectorTvStyle"
+                    android:text="智能重发" />
+
+                <TextView
+                    android:layout_width="0.8dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/bg_color" />
+
+                <TextView
+                    android:id="@+id/tv_chang_fa"
+                    style="@style/SendGoodsSelectorTvStyle"
+                    android:text="存为常发货源" />
+
+                <TextView
+                    android:layout_width="0.8dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/bg_color" />
+
+                <TextView
+                    android:id="@+id/tv_tong_cheng"
+                    style="@style/SendGoodsSelectorTvStyle"
+                    android:text="同城不可见" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                android:background="@color/bg_color" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+    </ScrollView>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10"
-        android:background="@color/bg_color" />
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/tv_ok_push"
+        android:layout_width="520px"
         android:layout_height="@dimen/dp_48"
-        android:gravity="center_vertical">
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@drawable/bg_blue_round"
+        android:gravity="center"
+        android:text="@string/enture_publish"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dp_18" />
 
-        <TextView
-            style="@style/SendGoodsTextStyle"
-            android:drawableLeft="@mipmap/icon_cargo_price"
-            android:text="@string/freight_money" />
-
-        <EditText
-            android:id="@+id/et_money"
-            android:layout_width="460px"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:hint="@string/touch_output"
-            android:inputType="numberDecimal"
-            android:textCursorDrawable="@null"
-            android:textSize="@dimen/dp_14" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/yuan"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_14" />
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:layout_marginLeft="@dimen/dp_18"
-        android:background="@color/light_grey" />
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:gravity="center_vertical">
-
-        <TextView
-            style="@style/SendGoodsTextStyle"
-            android:drawableLeft="@mipmap/icon_cargo_load_time"
-            android:text="@string/loading_time" />
-
-        <TextView
-            android:id="@+id/tv_choose_time"
-            style="@style/TextStyle_right"
-            android:hint="@string/touch_choose" />
-
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:layout_marginLeft="@dimen/dp_18"
-        android:background="@color/light_grey" />
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:gravity="center_vertical">
-
-        <TextView
-            style="@style/SendGoodsTextStyle"
-            android:drawableLeft="@mipmap/icon_cargo_remark"
-            android:text="@string/content" />
-
-        <TextView
-            android:id="@+id/tv_choose_content"
-            style="@style/TextStyle_right"
-            android:hint="装卸方式、付款方式、备注" />
-
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:layout_marginLeft="@dimen/dp_18"
-        android:background="@color/light_grey" />
-
-    <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bg_color">
-
-        <TextView
-            android:id="@+id/tv_ok_push"
-            android:layout_width="520px"
-            android:layout_height="@dimen/dp_48"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_8"
-            android:background="@drawable/bg_blue_round"
-            android:gravity="center"
-            android:text="@string/enture_publish"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dp_18" />
-
-    </com.zhy.autolayout.AutoRelativeLayout>
-
-</com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

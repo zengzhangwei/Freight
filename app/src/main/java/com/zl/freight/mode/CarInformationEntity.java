@@ -10,10 +10,19 @@ public class CarInformationEntity {
     public String InfoKey = "";
     public String InfoContent = "";
     public String InfoLink = "";
+    public String InfoPic = "";
     public int IsPay;
     public int PayLimit;
     public String CreateAt = "";
     public String UpdateAt = "";
+
+    public String getInfoPic() {
+        return InfoPic;
+    }
+
+    public void setInfoPic(String infoPic) {
+        InfoPic = infoPic;
+    }
 
     public int getId() {
         return Id;

@@ -1,6 +1,7 @@
 package com.zl.zlibrary.base;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -19,11 +20,13 @@ public class BaseFragment extends Fragment {
     protected Activity mActivity;
     protected Fragment mFragment;
     protected Handler handler = new Handler();
+    private ProgressDialog baseDialog;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
+        baseDialog = new ProgressDialog(mActivity);
     }
 
     @Nullable
@@ -35,5 +38,41 @@ public class BaseFragment extends Fragment {
 
     protected void showToast(String massage) {
         Toast.makeText(mActivity, massage, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 显示dialog 点击外部会消失
+     *
+     * @param Message
+     */
+    protected void showDialog(String Message) {
+        baseDialog.setCanceledOnTouchOutside(true);
+        baseDialog.setMessage(Message);
+        baseDialog.show();
+    }
+
+    /**
+     * 显示dialog 点击外部不会消失
+     *
+     * @param Message
+     */
+    protected void showNotTouchDialog(String Message) {
+        baseDialog.setCanceledOnTouchOutside(false);
+        baseDialog.setMessage(Message);
+        baseDialog.show();
+    }
+
+    protected void showDialog() {
+        baseDialog.setCanceledOnTouchOutside(true);
+        baseDialog.show();
+    }
+
+    protected void showNotTouchDialog() {
+        baseDialog.setCanceledOnTouchOutside(false);
+        baseDialog.show();
+    }
+
+    protected void hideDialog() {
+        baseDialog.dismiss();
     }
 }

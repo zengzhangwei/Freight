@@ -119,7 +119,7 @@ public class EditPersonDataActivity extends BaseActivity {
         //如果是司机，则显示车长车型车牌号
         if (userData.getUserRole().equals("" + API.DRIVER)) {
             linearDriver.setVisibility(View.VISIBLE);
-            tvCarLengthType.setText(userData.getCarLong() + "米/" + userData.getCarType());
+            tvCarLengthType.setText(userData.getCodeName1() + "米/" + userData.getCodeName());
             tvCarCode.setText(userData.getCarNo());
         }
     }
