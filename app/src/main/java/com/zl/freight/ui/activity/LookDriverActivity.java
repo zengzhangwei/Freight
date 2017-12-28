@@ -1,6 +1,7 @@
 package com.zl.freight.ui.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
@@ -25,13 +26,18 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.BaseCarEntity;
 import com.zl.freight.mode.CarTrackEntity;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
+import com.zl.zlibrary.utils.GsonUtils;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,7 +98,16 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
 
             @Override
             public void onSuccess(String data) {
-                Log.e("data", data);
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        CarTrackEntity carEntity = GsonUtils.fromJson(array.optString(i), CarTrackEntity.class);
+                        mList.add(carEntity);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
             }
         });
     }
@@ -116,11 +131,12 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
         mAdapter = new UniversalAdapter<CarTrackEntity>(mActivity, mList, R.layout.driver_list_location_item) {
             @Override
             public void convert(UniversalViewHolder holder, int position, CarTrackEntity carTrackEntity) {
-                holder.setText(R.id.tv_driver_location_time, "今日 15:54");
-                holder.setText(R.id.tv_driver_location_data, "河北省邢台市桥西中兴路与冶金路交叉口北行100米路西");
+                holder.setText(R.id.tv_driver_location_time, carTrackEntity.getCreateTime());
+                holder.setText(R.id.tv_driver_location_data, carTrackEntity.getCarAddress());
             }
         };
         driverLocationList.setAdapter(mAdapter);
+
     }
 
     /**

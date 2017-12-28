@@ -227,7 +227,7 @@ public class RemarkDialog extends BaseDialog {
     }
 
     public interface OnGetRemarkListener {
-        void onRemark(KeyValueBean zhuang, KeyValueBean xie, String content);
+        void onRemark(KeyValueBean zhuang, KeyValueBean payType, String content);
     }
 
 }

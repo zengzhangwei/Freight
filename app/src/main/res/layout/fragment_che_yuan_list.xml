@@ -51,12 +51,19 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.zl.zlibrary.view.MRefreshRecyclerView
-        android:id="@+id/cyl_mrrlv"
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/che_yuan_trl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </com.zl.zlibrary.view.MRefreshRecyclerView>
+        <ListView
+            android:id="@+id/cyl_mrrlv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/white">
 
+        </ListView>
+
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 </android.support.design.widget.CoordinatorLayout>

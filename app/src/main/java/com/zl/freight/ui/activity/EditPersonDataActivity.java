@@ -4,21 +4,33 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.ui.fragment.AddPhoneFragment;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.ImageLoader;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.freight.utils.StringUtils;
 import com.zl.zlibrary.dialog.PhotoDialog;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.MiPictureHelper;
 
-import org.w3c.dom.Text;
+import org.json.JSONArray;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,10 +62,19 @@ public class EditPersonDataActivity extends BaseActivity {
     TextView tvUserIdCardNumber;
     @BindView(R.id.tv_user_standby_phone)
     TextView tvUserStandbyPhone;
+    @BindView(R.id.tv_car_code)
+    TextView tvCarCode;
+    @BindView(R.id.tv_car_length_type)
+    TextView tvCarLengthType;
+    @BindView(R.id.linear_driver)
+    AutoLinearLayout linearDriver;
+    @BindView(R.id.edit_user_rl)
+    RelativeLayout editUserRl;
     private PhotoDialog dialog;
     private String imagePath = "";
     private String idCarNumber = "130526199311146498";
     private AddPhoneFragment addPhoneFragment;
+    private BaseUserEntity userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +96,17 @@ public class EditPersonDataActivity extends BaseActivity {
     }
 
     private void initData() {
-        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        getData();
+    }
+
+    /**
+     * 数据获取成功，更新UI
+     */
+    private void upDateUi(CarUserBean userData) {
+        tvUserIdCardNumber.setText(StringUtils.handleIdCardNumber(userData.getIdCardNumber()));
+        tvSex.setText(StringUtils.countSex(userData.getIdCardNumber()));
+        tvName.setText(userData.getRealName());
+        ImageLoader.loadUserIcon(mActivity, userData.getUserIcon(), civUserIcon);
         String otherTel = userData.getOtherTel();
         String otherTel1 = userData.getOtherTel1();
         if (!TextUtils.isEmpty(otherTel)) {
@@ -84,14 +115,45 @@ public class EditPersonDataActivity extends BaseActivity {
         if (!TextUtils.isEmpty(otherTel1)) {
             tvUserStandbyPhone.setText(tvUserStandbyPhone.getText().toString() + "," + otherTel1);
         }
+
+        //如果是司机，则显示车长车型车牌号
+        if (userData.getUserRole().equals("" + API.DRIVER)) {
+            linearDriver.setVisibility(View.VISIBLE);
+            tvCarLengthType.setText(userData.getCarLong() + "米/" + userData.getCarType());
+            tvCarCode.setText(userData.getCarNo());
+        }
+    }
+
+    /**
+     * 获取用户信息
+     */
+    private void getData() {
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", userData.getId());
+        params.put("UserRole", userData.getUserRole());
+        SoapUtils.Post(mActivity, API.ShowUserInfo, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "获取用户信息失败");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    CarUserBean carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
+                    upDateUi(carUserBean);
+                } catch (Exception e) {
+
+                }
+            }
+        });
     }
 
     private void initView() {
         tvTitle.setText("个人信息");
         dialog = new PhotoDialog(mActivity);
-        tvUserIdCardNumber.setText(StringUtils.handleIdCardNumber(idCarNumber));
-        tvSex.setText(StringUtils.countSex(idCarNumber));
-        tvName.setText("张磊");
+        userData = SpUtils.getUserData(mActivity);
         addPhoneFragment = AddPhoneFragment.newInstance();
     }
 
@@ -100,10 +162,12 @@ public class EditPersonDataActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == mActivity.RESULT_OK) {
             switch (requestCode) {
+                //从相机返回照片
                 case PhotoDialog.PICK_FROM_CAMERA:
                     imagePath = dialog.imagePath;
                     civUserIcon.setImageBitmap(BitmapFactory.decodeFile(imagePath));
                     break;
+                //从相册返回照片
                 case PhotoDialog.SELECT_PHOTO:
                     imagePath = MiPictureHelper.getPath(mActivity, data.getData());
                     civUserIcon.setImageBitmap(BitmapFactory.decodeFile(imagePath));

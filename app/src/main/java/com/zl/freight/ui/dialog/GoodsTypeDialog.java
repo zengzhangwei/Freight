@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zl.freight.R;
 import com.zl.freight.mode.KeyValueBean;
@@ -43,11 +45,12 @@ public class GoodsTypeDialog extends BaseDialog {
     private PopupWindow popupWindow;
     private List<KeyValueBean> mList = new ArrayList<>();
     private UniversalAdapter<KeyValueBean> mAdapter;
-    private ListView listView;
+    private GridView listView;
     private View ivClear;
     private TextView dialogTitle;
     private TextView tvInputOk;
     private EditText etInputType;
+    private int mPostion;
 
     public GoodsTypeDialog(Activity mActivity) {
         super(mActivity);
@@ -85,10 +88,8 @@ public class GoodsTypeDialog extends BaseDialog {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                dismiss();
-                if (onReturnDataListener != null) {
-                    onReturnDataListener.returnData(mList.get(i).getCodeName());
-                }
+                mPostion = i;
+                mAdapter.notifyDataSetChanged();
             }
         });
         ivClear.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +104,11 @@ public class GoodsTypeDialog extends BaseDialog {
                 dismiss();
                 if (onReturnDataListener != null) {
                     String data = etInputType.getText().toString().trim();
-                    onReturnDataListener.returnData(TextUtils.isEmpty(data) ? "" : data);
+                    if (TextUtils.isEmpty(data)) {
+                        Toast.makeText(mActivity, "不能为空", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    onReturnDataListener.returnData(mList.get(mPostion), data);
                 }
             }
         });
@@ -116,10 +121,10 @@ public class GoodsTypeDialog extends BaseDialog {
     }
 
     private void initView() {
-        mAdapter = new UniversalAdapter<KeyValueBean>(mActivity, mList, R.layout.tv_simple_item_layout) {
+        mAdapter = new UniversalAdapter<KeyValueBean>(mActivity, mList, R.layout.type_item_layout) {
             @Override
             public void convert(UniversalViewHolder holder, int position, KeyValueBean s) {
-                holder.setText(R.id.tv_simple_item, s.getCodeName());
+                setText(holder, position, mPostion, s.getCodeName());
             }
         };
         View view = LayoutInflater.from(mActivity).inflate(R.layout.goods_type_layout, null);
@@ -143,6 +148,16 @@ public class GoodsTypeDialog extends BaseDialog {
         WindowUtils.setAlpha(mActivity, 0.6f);
     }
 
+    private void setText(UniversalViewHolder holder, int position, int p, String s) {
+        TextView view = holder.getView(R.id.tv_type_item);
+        view.setText(s);
+        if (position == p) {
+            view.setSelected(true);
+        } else {
+            view.setSelected(false);
+        }
+    }
+
     public void dismiss() {
         popupWindow.dismiss();
     }
@@ -154,7 +169,7 @@ public class GoodsTypeDialog extends BaseDialog {
     }
 
     public interface OnReturnDataListener {
-        void returnData(String data);
+        void returnData(KeyValueBean data, String content);
     }
 
 }

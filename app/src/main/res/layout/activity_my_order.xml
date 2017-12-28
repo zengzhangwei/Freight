@@ -9,9 +9,17 @@
 
     <include layout="@layout/title_layout" />
 
-    <com.zl.zlibrary.view.MRefreshRecyclerView
-        android:id="@+id/my_order_mrlv"
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/my_order_trl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.zl.zlibrary.view.MRefreshRecyclerView>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_order_mrlv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
 </com.zhy.autolayout.AutoLinearLayout>

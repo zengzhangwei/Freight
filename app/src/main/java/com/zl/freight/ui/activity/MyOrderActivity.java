@@ -2,14 +2,16 @@ package com.zl.freight.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
-import com.zl.zlibrary.adapter.UniversalAdapter;
-import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
 
@@ -34,7 +36,9 @@ public class MyOrderActivity extends BaseActivity {
     @BindView(R.id.tv_title_right)
     TextView tvTitleRight;
     @BindView(R.id.my_order_mrlv)
-    MRefreshRecyclerView myOrderMrlv;
+    RecyclerView myOrderMrlv;
+    @BindView(R.id.my_order_trl)
+    TwinklingRefreshLayout myOrderTrl;
     private List<String> mList = new ArrayList<>();
     private RecyclerAdapter<String> mAdapter;
 
@@ -45,6 +49,21 @@ public class MyOrderActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
         initData();
+        initListener();
+    }
+
+    private void initListener() {
+        myOrderTrl.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                super.onRefresh(refreshLayout);
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                super.onLoadMore(refreshLayout);
+            }
+        });
     }
 
     private void initData() {
@@ -65,6 +84,7 @@ public class MyOrderActivity extends BaseActivity {
         };
         myOrderMrlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         myOrderMrlv.setAdapter(mAdapter);
+        myOrderTrl.setHeaderView(new ProgressLayout(mActivity));
     }
 
     @OnClick(R.id.iv_back)

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
@@ -45,9 +47,11 @@ public class SoapUtils {
                 SoapObject rpc = new SoapObject(nameSpace, method);
 
                 // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
-                Set<Map.Entry<String, String>> entries = params.entrySet();
-                for (Map.Entry<String, String> entry : entries) {
-                    rpc.addProperty(entry.getKey(), entry.getValue());
+                if (params != null) {
+                    Set<Map.Entry<String, String>> entries = params.entrySet();
+                    for (Map.Entry<String, String> entry : entries) {
+                        rpc.addProperty(entry.getKey(), entry.getValue());
+                    }
                 }
 
                 // 生成调用WebService方法的SOAP请求信息,并指定SOAP的版本
@@ -68,7 +72,22 @@ public class SoapUtils {
                         mActivity.runOnUiThread(new TimerTask() {
                             @Override
                             public void run() {
-                                callback.onSuccess(result);
+                                JSONObject object;
+                                try {
+                                    //先判断是否是错误消息
+                                    object = new JSONObject(result);
+                                    String data = object.optString("result");
+                                    //如果data不为空则说明有错误，返回错误消息
+                                    if (!TextUtils.isEmpty(data)) {
+                                        callback.onError(data);
+                                    } else {
+                                        callback.onSuccess(result);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    callback.onSuccess(result);
+                                }
+
                             }
                         });
                     }
@@ -78,8 +97,8 @@ public class SoapUtils {
                         mActivity.runOnUiThread(new TimerTask() {
                             @Override
                             public void run() {
-                                String message = soapFault.getMessage();
-                                callback.onError(TextUtils.isEmpty(message) ? "未知的错误" : message);
+                                Log.e("error", soapFault.getMessage() == null ? "" : soapFault.getMessage());
+                                callback.onError("系统错误，请联系管理员");
                             }
                         });
                     }
@@ -89,8 +108,8 @@ public class SoapUtils {
                         mActivity.runOnUiThread(new TimerTask() {
                             @Override
                             public void run() {
-                                String message = e.getMessage();
-                                callback.onError(TextUtils.isEmpty(message) ? "未知的错误" : message);
+                                Log.e("error", e.getMessage() == null ? "" : e.getMessage());
+                                callback.onError("系统错误，请联系管理员");
                             }
                         });
                     }

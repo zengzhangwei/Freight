@@ -3,31 +3,35 @@ package com.zl.freight.ui.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.ui.activity.DriverDetailActivity;
 import com.zl.freight.ui.activity.LookDriverActivity;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.LocationUtils;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
-import com.zl.zlibrary.adapter.RecyclerAdapter;
-import com.zl.zlibrary.adapter.ViewHolder;
+import com.zl.zlibrary.adapter.UniversalAdapter;
+import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.SystemUtils;
@@ -44,6 +48,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * @author zhanglei
@@ -53,11 +58,17 @@ import butterknife.Unbinder;
 public class CheYuanListFragment extends BaseFragment {
 
     @BindView(R.id.cyl_mrrlv)
-    MRefreshRecyclerView cylMrrlv;
+    ListView cylMrrlv;
     Unbinder unbinder;
     @BindView(R.id.et_search_data)
     EditText etSearchData;
-    private RecyclerAdapter<CarUserBean> mAdapter;
+    @BindView(R.id.iv_search)
+    ImageView ivSearch;
+    @BindView(R.id.search_linear)
+    AutoLinearLayout searchLinear;
+    @BindView(R.id.che_yuan_trl)
+    TwinklingRefreshLayout cheYuanTrl;
+    private UniversalAdapter<CarUserBean> mAdapter;
     private List<CarUserBean> mList = new ArrayList<>();
     private int type; // 0 为熟车列表  1 为找车列表
     private AlertDialog addDialog, removeDialog;
@@ -91,26 +102,28 @@ public class CheYuanListFragment extends BaseFragment {
     }
 
     private void initListener() {
-        mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+        cheYuanTrl.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
-            public void onItemClick(View view, int position) {
-                mPosition = position;
-                Intent intent = new Intent(mActivity, DriverDetailActivity.class);
-                intent.putExtra(API.CARUSER, mList.get(position));
-                startActivity(intent);
-            }
-        });
-        cylMrrlv.setOnMRefreshListener(new MRefreshRecyclerView.OnMRefreshListener() {
-            @Override
-            public void onRefresh() {
-                cylMrrlv.setRefreshing(false);
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                super.onRefresh(refreshLayout);
+                if (type == 0) {
+                    getCarListData(true);
+                } else {
+                    getListData(true);
+                }
             }
 
             @Override
-            public void onLoadMore() {
-                cylMrrlv.setRefreshing(false);
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                super.onLoadMore(refreshLayout);
+                if (type == 0) {
+                    getCarListData(false);
+                } else {
+                    getListData(false);
+                }
             }
         });
+
         locationUtils.setOnLocationListener(new LocationUtils.OnLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
@@ -123,11 +136,68 @@ public class CheYuanListFragment extends BaseFragment {
 
             }
         });
+        cylMrrlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mPosition = i;
+                Intent intent = new Intent(mActivity, DriverDetailActivity.class);
+                intent.putExtra(API.CARUSER, mList.get(i));
+                startActivity(intent);
+            }
+        });
     }
 
     private void initData() {
+        getCarListData(true);
+    }
 
-        mAdapter.notifyDataSetChanged();
+    /**
+     * 获取熟车列表
+     *
+     * @param b
+     */
+    private void getCarListData(final boolean b) {
+
+        //判断是否是熟车
+        if (type != 0) {
+            return;
+        }
+        //判断是否是已登录状态
+        if (!SpUtils.isLogin(mActivity)) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", SpUtils.getUserData(mActivity).getId() + "");
+        params.put("UserRole", API.GOODS + "");
+
+        //根据经纬度获取附近的车辆
+        SoapUtils.Post(mActivity, API.GetRelation, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("data", "获取附近的车辆时发生异常");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    if (b) {
+                        cheYuanTrl.finishRefreshing();
+                        mList.clear();
+                    } else {
+                        cheYuanTrl.finishLoadmore();
+                    }
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        CarUserBean carUserBean = GsonUtils.fromJson(array.optString(i), CarUserBean.class);
+                        mList.add(carUserBean);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
+            }
+        });
     }
 
     /**
@@ -135,7 +205,7 @@ public class CheYuanListFragment extends BaseFragment {
      *
      * @param b
      */
-    private void getListData(boolean b) {
+    private void getListData(final boolean b) {
         if (mLocation == null) {
             return;
         }
@@ -147,12 +217,19 @@ public class CheYuanListFragment extends BaseFragment {
         SoapUtils.Post(mActivity, API.GetNearByCar, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                Log.e("data", error);
+                Log.e("data", "获取熟车列表时发生异常");
+
             }
 
             @Override
             public void onSuccess(String data) {
                 try {
+                    if (b) {
+                        cheYuanTrl.finishRefreshing();
+                        mList.clear();
+                    } else {
+                        cheYuanTrl.finishLoadmore();
+                    }
                     JSONArray array = new JSONArray(data);
                     for (int i = 0; i < array.length(); i++) {
                         CarUserBean carUserBean = GsonUtils.fromJson(array.optString(i), CarUserBean.class);
@@ -171,14 +248,15 @@ public class CheYuanListFragment extends BaseFragment {
         if (bundle != null) {
             type = bundle.getInt("type", -1);
         }
-        mAdapter = new RecyclerAdapter<CarUserBean>(mActivity, mList, R.layout.che_yuan_item_layout) {
+        mAdapter = new UniversalAdapter<CarUserBean>(mActivity, mList, R.layout.che_yuan_item_layout) {
+
             @Override
-            protected void convert(ViewHolder holder, CarUserBean s, int position) {
-                handleData(holder, s, position);
+            public void convert(UniversalViewHolder holder, int position, CarUserBean bean) {
+                handleData(holder, bean, position);
             }
         };
-        cylMrrlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         cylMrrlv.setAdapter(mAdapter);
+        cheYuanTrl.setHeaderView(new ProgressLayout(mActivity));
 
         addDialog = new AlertDialog.Builder(mActivity).setMessage("是否将其添加为熟车").setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
@@ -233,19 +311,23 @@ public class CheYuanListFragment extends BaseFragment {
      * 添加为熟车
      */
     private void add() {
+        CarUserBean carUserBean = mList.get(mPosition);
         Map<String, String> params = new HashMap<>();
+        params.put("ShipperId", carUserBean.getId());
+        params.put("DriverId", carUserBean.getUserId());
         //TODO 先注释掉，等接口
-//        SoapUtils.Post(mActivity, API.BaseDict, params, new SoapCallback() {
-//            @Override
-//            public void onError(String error) {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(String data) {
-//
-//            }
-//        });
+        SoapUtils.Post(mActivity, API.InsertRelation, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "error");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                showToast("成功添加熟车");
+                Log.e("data", data);
+            }
+        });
     }
 
     /**
@@ -253,7 +335,7 @@ public class CheYuanListFragment extends BaseFragment {
      *
      * @param holder
      */
-    private void handleData(ViewHolder holder, final CarUserBean bean, int position) {
+    private void handleData(UniversalViewHolder holder, final CarUserBean bean, int position) {
         mPosition = position;
         if (type == 0) {
             ImageView view = holder.getView(R.id.iv_item_icon);
@@ -275,6 +357,9 @@ public class CheYuanListFragment extends BaseFragment {
         holder.setText(R.id.tv_car_code_item, bean.getCarNo());
         holder.setText(R.id.tv_car_type_item, bean.getCarLong() + "米/" + bean.getCarType());
         holder.setText(R.id.tv_car_location, bean.getCarAddress());
+        CircleImageView image = holder.getView(R.id.iv_driver_icon);
+        ImageLoader.loadUserIcon(mActivity, bean.getUserIcon(), image);
+
         //打电话
         holder.getView(R.id.linear_call).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,7 +371,11 @@ public class CheYuanListFragment extends BaseFragment {
         holder.getView(R.id.linear_location).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mActivity, LookDriverActivity.class));
+                Intent intent = new Intent(mActivity, LookDriverActivity.class);
+                intent.putExtra(API.LATITUDE, bean.getCarX());
+                intent.putExtra(API.LONGITUDE, bean.getCarY());
+                intent.putExtra(API.USERID, bean.getUserId());
+                startActivity(intent);
             }
         });
         //添加熟车或从熟车中移除
@@ -294,9 +383,9 @@ public class CheYuanListFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 if (type == 0) {
-                    remove();
+                    removeDialog.show();
                 } else {
-                    add();
+                    addDialog.show();
                 }
             }
         });

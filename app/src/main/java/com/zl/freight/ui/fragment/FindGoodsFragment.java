@@ -3,12 +3,15 @@ package com.zl.freight.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
 import com.zl.freight.ui.activity.GoodsDetailActivity;
 import com.zl.freight.utils.LoginUtils;
@@ -20,7 +23,9 @@ import com.zl.zlibrary.utils.SystemUtils;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,8 +41,10 @@ public class FindGoodsFragment extends BaseFragment {
 
 
     @BindView(R.id.find_goods_rlv)
-    MRefreshRecyclerView findGoodsRlv;
+    RecyclerView findGoodsRlv;
     Unbinder unbinder;
+    @BindView(R.id.find_goods_trl)
+    TwinklingRefreshLayout findGoodsTrl;
 
     private RecyclerAdapter<String> mAdapter;
     private List<String> mList = new ArrayList<>();
@@ -75,6 +82,17 @@ public class FindGoodsFragment extends BaseFragment {
                 LoginUtils.jumpToActivity(mActivity, intent);
             }
         });
+        findGoodsTrl.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                super.onRefresh(refreshLayout);
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                super.onLoadMore(refreshLayout);
+            }
+        });
     }
 
     private void initData() {
@@ -82,6 +100,14 @@ public class FindGoodsFragment extends BaseFragment {
             mList.add("");
         }
         mAdapter.notifyDataSetChanged();
+        getDataList();
+    }
+
+    /**
+     * 获取列表数据
+     */
+    private void getDataList() {
+        Map<String, String> params = new HashMap<>();
     }
 
     private void initView() {
@@ -93,6 +119,7 @@ public class FindGoodsFragment extends BaseFragment {
         };
         findGoodsRlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         findGoodsRlv.setAdapter(mAdapter);
+        findGoodsTrl.setHeaderView(new ProgressLayout(mActivity));
     }
 
     /**

@@ -31,7 +31,7 @@ public class SystemUtils {
     public static void sendSms(Context context, String phone) {
         Uri uri2 = Uri.parse("smsto:" + phone);
         Intent intentFinalMessage = new Intent(Intent.ACTION_VIEW, uri2);
-        intentFinalMessage.setType("vnd.android-dir/mms-sms");
+//        intentFinalMessage.setType("vnd.android-dir/mms-sms");
         context.startActivity(intentFinalMessage);
     }
 

@@ -111,7 +111,7 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
                 address = location.getAddrStr();
-                city = location.getCity();
+                city = location.getCity() + location.getDistrict();
             }
 
             @Override
@@ -129,7 +129,7 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
                 latitude = info.pt.latitude;
                 longitude = info.pt.longitude;
                 address = info.city + "" + info.district + "" + info.key;
-                city = info.city;
+                city = info.city + "" + info.district;
             }
         });
         mBaiduMap.setOnMapStatusChangeListener(this);
@@ -435,7 +435,8 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
                 SearchLocation searchLocation = GsonUtils.fromJson(data, SearchLocation.class);
                 if (searchLocation.getStatus() == 0) {
                     //赋值数据
-                    city = searchLocation.getResult().getAddressComponent().getCity();
+                    SearchLocation.ResultBean.AddressComponentBean component = searchLocation.getResult().getAddressComponent();
+                    city = component.getCity() + component.getDistrict();
                 }
             }
 

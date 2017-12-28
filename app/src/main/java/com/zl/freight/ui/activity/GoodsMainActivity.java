@@ -73,6 +73,7 @@ public class GoodsMainActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
         initListener();
+        upLoadRegId();
     }
 
     private void initListener() {

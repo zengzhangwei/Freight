@@ -5,10 +5,21 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.zhy.autolayout.AutoLayoutActivity;
+import com.zl.freight.mode.BaseJPushEntity;
+import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
+import com.zl.zlibrary.utils.GsonUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/11/3.
@@ -80,6 +91,27 @@ public class BaseActivity extends AutoLayoutActivity {
 
     protected void hideDialog() {
         baseDialog.dismiss();
+    }
+
+    protected void upLoadRegId() {
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        Map<String, String> params = new HashMap<>();
+        BaseJPushEntity entity = new BaseJPushEntity();
+        entity.setUserId(userData.getId());
+        entity.setRegistrationId(SpUtils.getRegId(mActivity));
+        entity.setMobile(userData.getUserName());
+        params.put("baseJPushEntityJson", GsonUtils.toJson(entity));
+        SoapUtils.Post(API.InsertJpush, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("data", data);
+            }
+        });
     }
 
 }

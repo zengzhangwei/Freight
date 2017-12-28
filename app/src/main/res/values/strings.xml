@@ -75,6 +75,8 @@
     <string name="please_input_account">请输入帐号(手机号)</string>
     <string name="please_input_password">请输入密码</string>
     <string name="next_step">下一步</string>
+    <string name="goods_name">货物名称</string>
+    <string name="please_goods_name">请输入货物名称</string>
 
     <string-array name="load_unload_mode_list">
         <item>一装一卸</item>

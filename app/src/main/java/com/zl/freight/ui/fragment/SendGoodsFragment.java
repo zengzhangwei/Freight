@@ -3,21 +3,32 @@ package com.zl.freight.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.zl.freight.R;
+import com.zl.freight.mode.CarSendEntity;
 import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.ui.activity.AddressChooseActivity;
 import com.zl.freight.ui.dialog.ChooseTimeDialog;
 import com.zl.freight.ui.dialog.GoodsTypeDialog;
 import com.zl.freight.ui.dialog.RemarkDialog;
 import com.zl.freight.ui.dialog.SGCarLengthDialog;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.GsonUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,10 +74,16 @@ public class SendGoodsFragment extends BaseFragment {
     private double startLatitude = 0;
     private double startLongitude = 0;
     private String startAddress;
+    private String startCity;
     private double endLatitude = 0;
     private double endLongitude = 0;
     private String endAddress;
-    private KeyValueBean l, t, u;
+    private String endCity;
+    private String goDate;
+    private String goTime;
+    private String c;
+    private String goodsName;
+    private KeyValueBean l, t, u, g, z, p;
 
     public SendGoodsFragment() {
         // Required empty public constructor
@@ -95,14 +112,18 @@ public class SendGoodsFragment extends BaseFragment {
     private void initListener() {
         timeDialog.setOnChooseTimeListener(new ChooseTimeDialog.OnChooseTimeListener() {
             @Override
-            public void onChooseTime(String time) {
-                tvChooseTime.setText(time);
+            public void onChooseTime(String date, String time) {
+                goDate = date;
+                goTime = time;
+                tvChooseTime.setText(date + time);
             }
         });
         goodsTypeDialog.setOnReturnDataListener(new GoodsTypeDialog.OnReturnDataListener() {
             @Override
-            public void returnData(String data) {
-                tvChooseType.setText(data);
+            public void returnData(KeyValueBean data, String content) {
+                g = data;
+                goodsName = content;
+                tvChooseType.setText(data.getCodeName() + "  " + content);
             }
         });
         dialog.setOnGetCarLengthDataListener(new SGCarLengthDialog.OnGetSGCarLengthDataListener() {
@@ -112,6 +133,15 @@ public class SendGoodsFragment extends BaseFragment {
                 t = type;
                 u = yong;
                 tvChooseLength.setText(length.getCodeName() + " " + type.getCodeName() + " " + yong.getCodeName());
+            }
+        });
+        remarkDialog.setOnGetRemarkListener(new RemarkDialog.OnGetRemarkListener() {
+            @Override
+            public void onRemark(KeyValueBean zhuang, KeyValueBean payType, String content) {
+                z = zhuang;
+                p = payType;
+                c = content;
+                tvChooseContent.setText(zhuang.getCodeName() + " " + content);
             }
         });
     }
@@ -178,7 +208,92 @@ public class SendGoodsFragment extends BaseFragment {
      * 发布货物
      */
     private void commit() {
+        String weight = etWeight.getText().toString().trim();
+        String money = etMoney.getText().toString().trim();
+        if (TextUtils.isEmpty(startAddress) || TextUtils.isEmpty(endAddress)) {
+            showToast("请选择起点和终点");
+            return;
+        }
 
+        if (l == null || t == null || u == null) {
+            showToast("请选择车长车型");
+            return;
+        }
+
+        if (g == null) {
+            showToast("请选择货物类型");
+            return;
+        }
+
+        if (TextUtils.isEmpty(weight)) {
+            showToast("请输入货物重量");
+            return;
+        }
+
+        if (TextUtils.isEmpty(money)) {
+            showToast("请输入运费金额");
+            return;
+        }
+
+        if (TextUtils.isEmpty(goDate)) {
+            showToast("请选择装车时间");
+            return;
+        }
+
+        CarSendEntity sendEntity = new CarSendEntity();
+        sendEntity.setUserId(SpUtils.getUserData(mActivity).getId());
+        sendEntity.setStartPlace(startCity);
+        sendEntity.setStartX(startLatitude + "");
+        sendEntity.setStartY(startLongitude + "");
+        sendEntity.setEndPlace(endCity);
+        sendEntity.setEndX(endLatitude + "");
+        sendEntity.setEndY(endLongitude + "");
+        sendEntity.setUseCarLong(Integer.parseInt(l.getId()));
+        sendEntity.setUseCarType(Integer.parseInt(t.getId()));
+        sendEntity.setUseCarClass(Integer.parseInt(u.getId()));
+        sendEntity.setGoodsType(Integer.parseInt(g.getId()));
+        sendEntity.setGoodsWeight(Double.parseDouble(weight));
+        sendEntity.setFreight(Double.parseDouble(money));
+        sendEntity.setGoodName(goodsName);
+        sendEntity.setGoTime(goTime);
+        sendEntity.setGoDate(goDate);
+        if (goDate.equals("随时装货")) {
+            sendEntity.setIsAnyTime(0);
+        }
+
+        if (tvTonne.isSelected()) {
+            sendEntity.setWeightUnit("吨");
+        } else {
+            sendEntity.setWeightUnit("方");
+        }
+
+        //装卸方式
+        if (z != null) {
+            sendEntity.setHandlingType(Integer.parseInt(z.getId()));
+        }
+        //支付方式
+        if (p != null) {
+            sendEntity.setPayType(Integer.parseInt(p.getId()));
+        }
+
+        //备注信息
+        if (!TextUtils.isEmpty(c)) {
+            sendEntity.setRemark(c);
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("sendJson", GsonUtils.toJson(sendEntity));
+
+        SoapUtils.Post(mActivity, API.AddSend, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "error");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("data", data);
+            }
+        });
     }
 
     @Override
@@ -188,18 +303,21 @@ public class SendGoodsFragment extends BaseFragment {
             double latitude = data.getDoubleExtra("latitude", 0);
             double longitude = data.getDoubleExtra("longitude", 0);
             String addresses = data.getStringExtra("address");
+            String city = data.getStringExtra("city");
             switch (requestCode) {
                 case CHOOSESTART:
                     startLatitude = latitude;
                     startLongitude = longitude;
                     startAddress = addresses;
-                    tvChooseStart.setText(addresses);
+                    startCity = city;
+                    tvChooseStart.setText(city);
                     break;
                 case CHOOSEEND:
                     endAddress = addresses;
                     endLatitude = latitude;
                     endLongitude = longitude;
-                    tvChooseEnd.setText(addresses);
+                    endCity = city;
+                    tvChooseEnd.setText(city);
                     break;
             }
         }

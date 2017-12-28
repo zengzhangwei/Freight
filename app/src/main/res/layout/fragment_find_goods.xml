@@ -4,9 +4,16 @@
     android:layout_height="match_parent"
     tools:context="com.zl.freight.ui.fragment.FindGoodsFragment">
 
-   <com.zl.zlibrary.view.MRefreshRecyclerView
-       android:id="@+id/find_goods_rlv"
+   <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+       android:id="@+id/find_goods_trl"
        android:layout_width="match_parent"
-       android:layout_height="match_parent"></com.zl.zlibrary.view.MRefreshRecyclerView>
+       android:layout_height="match_parent">
+
+      <android.support.v7.widget.RecyclerView
+          android:id="@+id/find_goods_rlv"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+   </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
 </com.zhy.autolayout.AutoRelativeLayout>

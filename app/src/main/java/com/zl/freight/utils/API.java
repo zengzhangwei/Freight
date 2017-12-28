@@ -15,12 +15,13 @@ public class API {
     public static final String USERNAME = "UserName";
     public static final String CARUSER = "carUser";
     public static final String USERID = "userId";
+    public static final String USERICON = "userIcon";
 
     public static final int ADMIN = 0;
     public static final int DRIVER = 1;
     public static final int GOODS = 2;
 
-    public static final String BaseUrl = "http://172.16.18.17:31571";
+    public static final String BaseUrl = "http://172.16.18.17";
 
     /**
      * 登录
@@ -57,6 +58,51 @@ public class API {
      * 查询车辆最新坐标
      */
     public static final String QueryCarTrack = "QueryCarTrack";
+
+    /**
+     * 获取货主的熟车列表  参数：UserId UserRole
+     */
+    public static final String GetRelation = "GetRelation";
+
+    /**
+     * 发布广告
+     */
+    public static final String AddInfo = "AddInfo";
+
+    /**
+     * 获取广告
+     */
+    public static final String GetInfo = "AddInfo";
+
+    /**
+     * 货主发单
+     */
+    public static final String AddSend = "AddSend";
+
+    /**
+     * 获取附近的货物订单列表 CarX: CarY:
+     */
+    public static final String GetNearBySend = "GetNearBySend";
+
+    /**
+     * 司机接单
+     */
+    public static final String ReceiveSend = "ReceiveSend";
+
+    /**
+     * 删除订单 参数 SendId
+     */
+    public static final String DeleteSend = "DeleteSend";
+
+    /**
+     * 插入jpushid
+     */
+    public static final String InsertJpush = "InsertJpush";
+
+    /**
+     * 添加为熟车
+     */
+    public static final String InsertRelation = "InsertRelation";
 
 
 }

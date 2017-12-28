@@ -72,7 +72,7 @@ public class ChooseTimeDialog extends BaseDialog {
                 if (onChooseTimeListener != null) {
                     String text1 = wvDay.getSelectedText();
                     String text2 = wvHour.getSelectedText();
-                    onChooseTimeListener.onChooseTime(text1 + " " + text2);
+                    onChooseTimeListener.onChooseTime(text1, text2);
                 }
             }
         });
@@ -152,7 +152,7 @@ public class ChooseTimeDialog extends BaseDialog {
     }
 
     public interface OnChooseTimeListener {
-        void onChooseTime(String time);
+        void onChooseTime(String date, String time);
     }
 
 }

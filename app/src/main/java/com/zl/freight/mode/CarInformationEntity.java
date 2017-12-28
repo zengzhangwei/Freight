@@ -12,10 +12,78 @@ public class CarInformationEntity {
     public String InfoLink = "";
     public int IsPay;
     public int PayLimit;
-    public int CreateBy;
-    public String CreateByName = "";
-    public int UpdateBy;
-    public String UpdateByName = "";
     public String CreateAt = "";
     public String UpdateAt = "";
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public int getInfoType() {
+        return InfoType;
+    }
+
+    public void setInfoType(int infoType) {
+        InfoType = infoType;
+    }
+
+    public String getInfoKey() {
+        return InfoKey;
+    }
+
+    public void setInfoKey(String infoKey) {
+        InfoKey = infoKey;
+    }
+
+    public String getInfoContent() {
+        return InfoContent;
+    }
+
+    public void setInfoContent(String infoContent) {
+        InfoContent = infoContent;
+    }
+
+    public String getInfoLink() {
+        return InfoLink;
+    }
+
+    public void setInfoLink(String infoLink) {
+        InfoLink = infoLink;
+    }
+
+    public int getIsPay() {
+        return IsPay;
+    }
+
+    public void setIsPay(int isPay) {
+        IsPay = isPay;
+    }
+
+    public int getPayLimit() {
+        return PayLimit;
+    }
+
+    public void setPayLimit(int payLimit) {
+        PayLimit = payLimit;
+    }
+
+    public String getCreateAt() {
+        return CreateAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        CreateAt = createAt;
+    }
+
+    public String getUpdateAt() {
+        return UpdateAt;
+    }
+
+    public void setUpdateAt(String updateAt) {
+        UpdateAt = updateAt;
+    }
 }
