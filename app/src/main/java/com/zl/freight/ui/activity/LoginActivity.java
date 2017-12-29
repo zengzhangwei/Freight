@@ -3,6 +3,7 @@ package com.zl.freight.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import com.fuqianla.paysdk.FuQianLaPay;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
@@ -189,7 +191,6 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(String data) {
                 try {
-                    hideDialog();
                     JSONArray array = new JSONArray(data);
                     BaseUserEntity baseUserEntity = GsonUtils.fromJson(array.optString(0), BaseUserEntity.class);
                     //登录成功，储存用户信息
@@ -198,32 +199,79 @@ public class LoginActivity extends BaseActivity {
                     SpUtils.setRole(mActivity, role);
                     //储存登录状态
                     SpUtils.setIsLogin(mActivity, isLogin);
-                    //在这里判断是否越权登录(司机账号无法登录货主，反之则反之，管理员随便)
-                    if (!baseUserEntity.getUserRole().equals("0")) {
-                        if (!baseUserEntity.getUserRole().equals("" + role)) {
-                            showToast("不能越权登录，请选择正确身份");
-                            return;
-                        }
-                    }
-                    //判断是销毁页面还是跳转页面
-                    if (isFinish) {
-                        setResult(RESULT_OK);
-                        finish();
-                        return;
-                    }
-
-                    if (role == API.DRIVER) {
-                        startActivity(new Intent(mActivity, MainActivity.class));
-                    } else {
-                        startActivity(new Intent(mActivity, GoodsMainActivity.class));
-                    }
-
-                    finish();
+                    //根据用户id获取用户信息，如果是司机的话需要储存车长和车型
+                    getUserData(baseUserEntity);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    hideDialog();
                     showToast("登录出现异常，请重试");
                 }
 
+            }
+        });
+    }
+
+    /**
+     * 页面跳转逻辑
+     *
+     * @param baseUserEntity
+     */
+    private void goToUi(BaseUserEntity baseUserEntity) {
+        //在这里判断是否越权登录(司机账号无法登录货主，反之则反之，管理员随便)
+        if (!baseUserEntity.getUserRole().equals("0")) {
+            if (!baseUserEntity.getUserRole().equals("" + role)) {
+                showToast("不能越权登录，请选择正确身份");
+                return;
+            }
+        }
+        //判断是销毁页面还是跳转页面
+        if (isFinish) {
+            setResult(RESULT_OK);
+            finish();
+            return;
+        }
+
+        if (role == API.DRIVER) {
+            startActivity(new Intent(mActivity, MainActivity.class));
+        } else {
+            startActivity(new Intent(mActivity, GoodsMainActivity.class));
+        }
+
+        finish();
+        return;
+    }
+
+    /**
+     * 获取用户信息
+     */
+    private void getUserData(final BaseUserEntity userData) {
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", userData.getId());
+        params.put("UserRole", userData.getUserRole());
+        SoapUtils.Post(mActivity, API.ShowUserInfo, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "获取用户信息失败");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    hideDialog();
+                    JSONArray array = new JSONArray(data);
+                    CarUserBean carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
+                    if (userData.getUserRole().equals(API.DRIVER + "")) {
+                        BaseUserEntity entity = SpUtils.getUserData(mActivity);
+                        entity.setCarLong(carUserBean.getCarLong());
+                        entity.setCarType(carUserBean.getCarType());
+                        //更新用户信息
+                        SpUtils.setUserData(mActivity, entity);
+                    }
+                    //进行界面的跳转逻辑
+                    goToUi(userData);
+                } catch (Exception e) {
+
+                }
             }
         });
     }

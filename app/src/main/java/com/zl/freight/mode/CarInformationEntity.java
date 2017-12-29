@@ -8,6 +8,7 @@ public class CarInformationEntity {
     public int Id;
     public int InfoType;
     public String InfoKey = "";
+    public String InfoTitle = "";
     public String InfoContent = "";
     public String InfoLink = "";
     public String InfoPic = "";
@@ -15,6 +16,14 @@ public class CarInformationEntity {
     public int PayLimit;
     public String CreateAt = "";
     public String UpdateAt = "";
+
+    public String getInfoTitle() {
+        return InfoTitle;
+    }
+
+    public void setInfoTitle(String infoTitle) {
+        InfoTitle = infoTitle;
+    }
 
     public String getInfoPic() {
         return InfoPic;

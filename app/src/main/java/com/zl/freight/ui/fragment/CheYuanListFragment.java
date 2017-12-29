@@ -286,6 +286,8 @@ public class CheYuanListFragment extends BaseFragment {
         if (type != 0) {
             locationUtils.startLocation();
         }
+        //禁止上拉加载更多
+        cheYuanTrl.setEnableLoadmore(false);
     }
 
     /**

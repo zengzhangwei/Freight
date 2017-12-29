@@ -161,8 +161,14 @@ public class RemarkDialog extends BaseDialog {
     private void returnData() {
         dismiss();
         try {
-            KeyValueBean l = lList.get(lPosition);
-            KeyValueBean t = tList.get(tPosition);
+            KeyValueBean l = null;
+            if (lList != null && lList.size() > 0) {
+                l = lList.get(lPosition);
+            }
+            KeyValueBean t = null;
+            if (tList != null && tList.size() > 0) {
+                t = tList.get(tPosition);
+            }
             String content = etContent.getText().toString().trim();
             if (onGetRemarkListener != null) {
                 onGetRemarkListener.onRemark(l, t, TextUtils.isEmpty(content) ? "" : content);

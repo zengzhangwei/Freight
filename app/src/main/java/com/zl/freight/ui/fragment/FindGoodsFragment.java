@@ -65,6 +65,8 @@ public class FindGoodsFragment extends BaseFragment {
     private BDLocation bdLocation;
     private int page = 1;
     private BaseUserEntity userData;
+    private String carLong;
+    private String carType;
 
     public FindGoodsFragment() {
         // Required empty public constructor
@@ -135,17 +137,18 @@ public class FindGoodsFragment extends BaseFragment {
      */
     private void getDataList(boolean b) {
         if (bdLocation == null) return;
-        userData = SpUtils.getUserData(mActivity);
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
         Map<String, String> params = new HashMap<>();
-        //如果角色是司机，则判断司机的车长和车型是否为空，若为空则调用获取用户信息的接口
-        if (userData.getUserRole().equals("" + API.DRIVER)) {
-            if (TextUtils.isEmpty(userData.getCarLong())) {
-                getUserData();
-                return;
-            }
-            params.put("CarLong", userData.getCarLong());
-            params.put("CarType", userData.getCarType());
-        }
+        params.put("CarLong", carLong);
+        params.put("CarType", carType);
+//        //如果角色是司机，则判断司机的车长和车型是否为空，若为空则调用获取用户信息的接口
+//        if (userData.getUserRole().equals("" + API.DRIVER)) {
+//            if (TextUtils.isEmpty(userData.getCarLong())) {
+//                getUserData();
+//                return;
+//            }
+//
+//        }
         if (b) {
             page = 1;
         } else {
@@ -176,34 +179,15 @@ public class FindGoodsFragment extends BaseFragment {
     }
 
     /**
-     * 获取用户信息
+     * 更新界面数据
+     *
+     * @param carLong
+     * @param carType
      */
-    private void getUserData() {
-        Map<String, String> params = new HashMap<>();
-        params.put("UserId", userData.getId());
-        params.put("UserRole", userData.getUserRole());
-        SoapUtils.Post(mActivity, API.ShowUserInfo, params, new SoapCallback() {
-            @Override
-            public void onError(String error) {
-                Log.e("error", "获取用户信息失败");
-            }
-
-            @Override
-            public void onSuccess(String data) {
-                try {
-                    JSONArray array = new JSONArray(data);
-                    CarUserBean carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
-                    userData.setCarLong(carUserBean.getCarLong());
-                    userData.setCarType(carUserBean.getCarType());
-                    //更新用户信息
-                    SpUtils.setUserData(mActivity, userData);
-                    //获取界面数据
-                    getDataList(true);
-                } catch (Exception e) {
-
-                }
-            }
-        });
+    public void updateDataList(String carLong, String carType) {
+        this.carLong = carLong;
+        this.carType = carType;
+        getDataList(true);
     }
 
     private void initView() {
@@ -218,6 +202,9 @@ public class FindGoodsFragment extends BaseFragment {
         findGoodsTrl.setHeaderView(new ProgressLayout(mActivity));
         locationUtils = new LocationUtils(mActivity);
         locationUtils.startLocation();
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        carLong = userData.getCarLong();
+        carType = userData.getCarType();
     }
 
     /**

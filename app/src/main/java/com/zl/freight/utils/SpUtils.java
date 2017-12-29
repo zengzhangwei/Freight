@@ -78,8 +78,8 @@ public class SpUtils {
         user.setPassWord(sp.getString("PassWord", ""));
         user.setId(sp.getString("id", "-1"));
         user.setUserRole(sp.getString("UserRole", "-1"));
-        user.setCarLong(sp.getString("CarLong", ""));
-        user.setCarType(sp.getString("CarType", ""));
+        user.setCarLong(sp.getString("CarLong", "31"));
+        user.setCarType(sp.getString("CarType", "33"));
         return user;
     }
 

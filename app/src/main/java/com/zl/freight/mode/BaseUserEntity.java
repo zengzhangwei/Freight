@@ -63,8 +63,8 @@ public class BaseUserEntity implements Serializable {
     private String CheckBy = "";
     private String CheckByName = "";
     private String IsDelete;
-    private String CarLong = "";
-    private String CarType = "";
+    private String CarLong = "31";
+    private String CarType = "33";
 
     public String getCarLong() {
         return CarLong;

@@ -8,7 +8,15 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.utils.SystemUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,12 +64,25 @@ public class GoodsDetailActivity extends BaseActivity {
     TextView ivGoodsUserName;
     @BindView(R.id.iv_call)
     ImageView ivCall;
+    @BindView(R.id.tv_jie_dan)
+    TextView tvJieDan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_detail);
         ButterKnife.bind(this);
+        initView();
+    }
+
+    private void initView() {
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        //如果是司机，则显示接单按钮
+        if (userData.getUserRole().equals("" + API.DRIVER)) {
+            tvJieDan.setVisibility(View.VISIBLE);
+        } else {
+            tvJieDan.setVisibility(View.GONE);
+        }
     }
 
     @OnClick({R.id.iv_back, R.id.tv_goods_location, R.id.iv_call, R.id.tv_jie_dan})
@@ -90,6 +111,24 @@ public class GoodsDetailActivity extends BaseActivity {
      * 接单
      */
     private void jieDan() {
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", userData.getId());
+        params.put("SendId", "");
+        showDialog("获取订单中...");
+        SoapUtils.Post(mActivity, API.ReceiveSend, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                hideDialog();
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                hideDialog();
+                showToast("接单成功");
+            }
+        });
 
     }
 }

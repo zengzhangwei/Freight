@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.service.LocationService;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.fragment.FindGoodsFragment;
@@ -68,6 +69,7 @@ public class MainActivity extends BaseActivity {
     private CarLengthDialog carLengthDialog;
     private NoLoginPersonFragment noLoginPersonFragment;
     private long timecode = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +110,12 @@ public class MainActivity extends BaseActivity {
                         break;
                 }
                 return true;
+            }
+        });
+        carLengthDialog.setOnGetCarLengthDataListener(new CarLengthDialog.OnGetCarLengthDataListener() {
+            @Override
+            public void carLengthData(KeyValueBean length, KeyValueBean type, KeyValueBean goodsType) {
+                tvCarType.setText(length.getCodeName() + "  " + type.getCodeName());
             }
         });
     }

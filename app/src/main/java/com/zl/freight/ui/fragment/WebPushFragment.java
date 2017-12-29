@@ -19,6 +19,7 @@ import com.zl.freight.mode.CarInformationEntity;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.GsonUtils;
@@ -145,24 +146,26 @@ public class WebPushFragment extends BaseFragment {
 
         CarInformationEntity entity = new CarInformationEntity();
         entity.setInfoLink(url);
-        entity.setInfoKey(title);
+        entity.setInfoTitle(title);
+        entity.setInfoKey(SpUtils.getUserData(mActivity).getId());
         entity.setInfoType(1);
         entity.setInfoPic(ImageFactory.base64Encode(ImageFactory.getimage(imagePath)));
-
-        //TODO 待补充参数（发布文章）
+        showDialog("文章发布中...");
         Map<String, String> params = new HashMap<>();
-        params.put("", GsonUtils.toJson(entity));
+        params.put("InfoJson", GsonUtils.toJson(entity));
         SoapUtils.Post(mActivity, API.AddInfo, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                Log.e("error", "error");
+                hideDialog();
+                showToast(error);
             }
 
             @Override
             public void onSuccess(String data) {
-                Log.e("data", data + "");
+                hideDialog();
+                showToast("发布成功");
+                mActivity.finish();
             }
         });
-        mActivity.finish();
     }
 }

@@ -75,6 +75,11 @@ public class API {
     public static final String GetInfo = "GetInfo";
 
     /**
+     * 删除广告（只有管理员有这个权限）
+     */
+    public static final String DeleteInfo = "DeleteInfo";
+
+    /**
      * 货主发单
      */
     public static final String AddSend = "AddSend";
@@ -103,6 +108,8 @@ public class API {
      * 添加为熟车
      */
     public static final String InsertRelation = "InsertRelation";
+
+
 
 
 }
