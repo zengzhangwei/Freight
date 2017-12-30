@@ -193,12 +193,6 @@ public class LoginActivity extends BaseActivity {
                 try {
                     JSONArray array = new JSONArray(data);
                     BaseUserEntity baseUserEntity = GsonUtils.fromJson(array.optString(0), BaseUserEntity.class);
-                    //登录成功，储存用户信息
-                    SpUtils.setUserData(mActivity, baseUserEntity);
-                    //储存用户角色信息
-                    SpUtils.setRole(mActivity, role);
-                    //储存登录状态
-                    SpUtils.setIsLogin(mActivity, isLogin);
                     //根据用户id获取用户信息，如果是司机的话需要储存车长和车型
                     getUserData(baseUserEntity);
                 } catch (Exception e) {
@@ -260,13 +254,16 @@ public class LoginActivity extends BaseActivity {
                     hideDialog();
                     JSONArray array = new JSONArray(data);
                     CarUserBean carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
+                    //储存用户角色信息
+                    SpUtils.setRole(mActivity, role);
+                    //储存登录状态
+                    SpUtils.setIsLogin(mActivity, true);
                     if (userData.getUserRole().equals(API.DRIVER + "")) {
-                        BaseUserEntity entity = SpUtils.getUserData(mActivity);
-                        entity.setCarLong(carUserBean.getCarLong());
-                        entity.setCarType(carUserBean.getCarType());
-                        //更新用户信息
-                        SpUtils.setUserData(mActivity, entity);
+                        userData.setCarLong(carUserBean.getCarLong());
+                        userData.setCarType(carUserBean.getCarType());
                     }
+                    //登录成功，储存用户信息
+                    SpUtils.setUserData(mActivity, userData);
                     //进行界面的跳转逻辑
                     goToUi(userData);
                 } catch (Exception e) {

@@ -22,6 +22,7 @@ import butterknife.Unbinder;
 /**
  * @author zhanglei
  * @date 17/12/28
+ * 我的货源
  */
 public class MyGoodsFragment extends BaseFragment {
 

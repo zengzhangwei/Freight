@@ -1,10 +1,12 @@
 package com.zl.freight.ui.fragment;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +55,7 @@ public class NewPushFragment extends BaseFragment {
     EditText tvTitleNews;
     private PhotoDialog photoDialog;
     private String imagePath;
+    private AlertDialog payDialog;
 
     public NewPushFragment() {
         // Required empty public constructor
@@ -97,6 +100,21 @@ public class NewPushFragment extends BaseFragment {
     private void initView() {
         photoDialog = new PhotoDialog(mActivity);
         tvWebUrl.setVisibility(View.GONE);
+        payDialog = new AlertDialog.Builder(mActivity)
+                .setMessage("发布文章需要支付100积分，是否支付")
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        showToast("文章已保存，可在我的文章与广告中查看");
+                        mActivity.finish();
+                    }
+                })
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        pay();
+                    }
+                }).create();
     }
 
     @Override
@@ -115,6 +133,27 @@ public class NewPushFragment extends BaseFragment {
                 commit();
                 break;
         }
+    }
+
+    /**
+     * 支付发布文章的费用
+     */
+    private void pay() {
+        Map<String, String> params = new HashMap<>();
+        params.put("PayResult", "");
+        params.put("SendId", "");
+        SoapUtils.Post(mActivity, API.InfoPayResult, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+
+            }
+
+            @Override
+            public void onSuccess(String data) {
+
+            }
+        });
+
     }
 
     /**
@@ -156,12 +195,8 @@ public class NewPushFragment extends BaseFragment {
             @Override
             public void onSuccess(String data) {
                 hideDialog();
-                showToast("发布成功");
-                mActivity.finish();
+                payDialog.show();
             }
         });
-
-        mActivity.finish();
-
     }
 }

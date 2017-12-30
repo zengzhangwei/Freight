@@ -5,19 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.BaseUserEntity;
-import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.ui.activity.GoodsDetailActivity;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.LocationUtils;
@@ -28,12 +29,8 @@ import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
-import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.ImageLoader;
 import com.zl.zlibrary.utils.SystemUtils;
-import com.zl.zlibrary.view.MRefreshRecyclerView;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +39,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -58,6 +56,12 @@ public class FindGoodsFragment extends BaseFragment {
     Unbinder unbinder;
     @BindView(R.id.find_goods_trl)
     TwinklingRefreshLayout findGoodsTrl;
+    @BindView(R.id.tv_top_news)
+    TextView tvTopNews;
+    @BindView(R.id.iv_close)
+    ImageView ivClose;
+    @BindView(R.id.linear_news)
+    AutoLinearLayout linearNews;
 
     private RecyclerAdapter<String> mAdapter;
     private List<String> mList = new ArrayList<>();
@@ -141,20 +145,11 @@ public class FindGoodsFragment extends BaseFragment {
         Map<String, String> params = new HashMap<>();
         params.put("CarLong", carLong);
         params.put("CarType", carType);
-//        //如果角色是司机，则判断司机的车长和车型是否为空，若为空则调用获取用户信息的接口
-//        if (userData.getUserRole().equals("" + API.DRIVER)) {
-//            if (TextUtils.isEmpty(userData.getCarLong())) {
-//                getUserData();
-//                return;
-//            }
-//
-//        }
         if (b) {
             page = 1;
         } else {
             page++;
         }
-
         params.put("UserRole", userData.getUserRole());
         params.put("CarX", bdLocation.getLatitude() + "");
         params.put("CarY", bdLocation.getLongitude() + "");
@@ -205,6 +200,8 @@ public class FindGoodsFragment extends BaseFragment {
         BaseUserEntity userData = SpUtils.getUserData(mActivity);
         carLong = userData.getCarLong();
         carType = userData.getCarType();
+        tvTopNews.setText("春光无限好，只是近黄昏...春光无限好，只是近黄昏...春光无限好，只是近黄昏...");
+        tvTopNews.setSelected(true);
     }
 
     /**
@@ -237,5 +234,18 @@ public class FindGoodsFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick({R.id.tv_top_news, R.id.iv_close})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            //点击广告
+            case R.id.tv_top_news:
+                break;
+            //点击关闭广告
+            case R.id.iv_close:
+                linearNews.setVisibility(View.GONE);
+                break;
+        }
     }
 }

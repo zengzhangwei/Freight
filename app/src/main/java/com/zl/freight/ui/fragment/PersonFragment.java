@@ -14,12 +14,14 @@ import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.ui.activity.ADActivity;
 import com.zl.freight.ui.activity.EditPersonDataActivity;
 import com.zl.freight.ui.activity.GoodsOrderActivity;
 import com.zl.freight.ui.activity.InfoQueryActivity;
 import com.zl.freight.ui.activity.JiFenStoreActivity;
 import com.zl.freight.ui.activity.LoginActivity;
 import com.zl.freight.ui.activity.MyMoneyActivity;
+import com.zl.freight.ui.activity.MyNewsActivity;
 import com.zl.freight.ui.activity.MyOrderActivity;
 import com.zl.freight.ui.activity.PublishNewsActivity;
 import com.zl.freight.ui.activity.RoleChooseActivity;
@@ -123,7 +125,7 @@ public class PersonFragment extends BaseFragment {
     }
 
     @OnClick({R.id.arl_person, R.id.linear_my_order, R.id.linear_my_money, R.id.linear_user_check,
-            R.id.linear_info_query, R.id.linear_news_push, R.id.btn_exit, R.id.linear_my_ji_fen_store})
+            R.id.linear_info_query, R.id.linear_news_push, R.id.btn_exit, R.id.linear_my_ji_fen_store, R.id.linear_my_news})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //个人信息
@@ -156,7 +158,7 @@ public class PersonFragment extends BaseFragment {
                 break;
             //发布新闻和广告
             case R.id.linear_news_push:
-                startActivity(new Intent(mActivity, PublishNewsActivity.class));
+                startActivity(new Intent(mActivity, ADActivity.class));
                 break;
             //退出当前帐号
             case R.id.btn_exit:
@@ -166,6 +168,10 @@ public class PersonFragment extends BaseFragment {
                 intent.putExtra("role", SpUtils.getRole(mActivity));
                 startActivity(intent);
                 mActivity.finish();
+                break;
+            //进入我的文章与广告
+            case R.id.linear_my_news:
+                startActivity(new Intent(mActivity, MyNewsActivity.class));
                 break;
         }
     }

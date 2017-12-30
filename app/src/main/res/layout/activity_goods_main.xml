@@ -4,136 +4,143 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/main_title"
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.zhy.autolayout.AutoRelativeLayout
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/main_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/dp_4">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/main_usericon"
-                android:layout_width="@dimen/dp_52"
-                android:layout_height="@dimen/dp_52"
-                android:layout_marginLeft="@dimen/dp_4"
-                android:padding="@dimen/dp_4"
-                android:src="@mipmap/car_round" />
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/main_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_8"
-                android:layout_toRightOf="@id/main_usericon"
-                android:text="@string/app_name"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dp_16"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/main_usericon"
+                    android:layout_width="@dimen/dp_48"
+                    android:layout_height="@dimen/dp_48"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:padding="@dimen/dp_6"
+                    android:src="@mipmap/car_round" />
 
-            <ImageView
-                android:id="@+id/main_img_share"
-                style="@style/main_title_image_style"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_4"
-                android:padding="@dimen/dp_6"
-                app:srcCompat="@drawable/ic_share_white" />
+                <TextView
+                    android:id="@+id/main_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_8"
+                    android:layout_toRightOf="@id/main_usericon"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dp_16"
+                    android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/main_img_weChat"
-                style="@style/main_title_image_style"
-                android:layout_marginRight="@dimen/dp_4"
-                android:layout_toLeftOf="@id/main_img_share"
-                android:padding="@dimen/dp_4"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_wechat" />
+                <ImageView
+                    android:id="@+id/main_img_share"
+                    style="@style/main_title_image_style"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_4"
+                    android:padding="@dimen/dp_6"
+                    app:srcCompat="@drawable/ic_share_white" />
 
-            <TextView
-                android:id="@+id/tv_car_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/dp_6"
-                android:layout_toLeftOf="@id/main_img_share"
-                android:drawableRight="@mipmap/jiao"
-                android:gravity="center_vertical"
-                android:text="@string/car_length_type"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dp_14" />
+                <ImageView
+                    android:id="@+id/main_img_weChat"
+                    style="@style/main_title_image_style"
+                    android:layout_marginRight="@dimen/dp_4"
+                    android:layout_toLeftOf="@id/main_img_share"
+                    android:padding="@dimen/dp_4"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_wechat" />
 
-        </com.zhy.autolayout.AutoRelativeLayout>
+                <TextView
+                    android:id="@+id/tv_car_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_6"
+                    android:layout_toLeftOf="@id/main_img_share"
+                    android:drawableRight="@mipmap/jiao"
+                    android:gravity="center_vertical"
+                    android:text="@string/car_length_type"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dp_14" />
 
-    </android.support.design.widget.AppBarLayout>
+            </com.zhy.autolayout.AutoRelativeLayout>
 
-    <!--发货界面的title-->
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/main_appbar"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48">
+        </android.support.design.widget.AppBarLayout>
 
-        <com.zhy.autolayout.AutoRelativeLayout
+        <!--发货界面的title-->
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/main_appbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="@dimen/dp_48"
+            android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/iv_into_order"
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_8"
-                app:srcCompat="@drawable/ic_into_order" />
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/iv_into_order"
-                android:text="运单"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dp_14" />
+                <ImageView
+                    android:id="@+id/iv_into_order"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_8"
+                    app:srcCompat="@drawable/ic_into_order" />
 
-            <RadioGroup
-                android:id="@+id/main_rg"
-                android:layout_width="420px"
-                android:layout_height="@dimen/dp_28"
-                android:layout_centerInParent="true"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                android:padding="2px">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/iv_into_order"
+                    android:text="运单"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dp_14" />
 
-                <RadioButton
-                    android:id="@+id/main_rb_send"
-                    style="@style/TitleRadioStyle"
-                    android:text="发货" />
+                <RadioGroup
+                    android:id="@+id/main_rg"
+                    android:layout_width="420px"
+                    android:layout_height="@dimen/dp_28"
+                    android:layout_centerInParent="true"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="2px">
 
-                <RadioButton
-                    android:id="@+id/main_rb_my_goods"
-                    style="@style/TitleRadioStyle"
-                    android:layout_marginLeft="1px"
-                    android:text="我的货源" />
+                    <RadioButton
+                        android:id="@+id/main_rb_send"
+                        style="@style/TitleRadioStyle"
+                        android:text="发货" />
 
-                <RadioButton
-                    android:id="@+id/main_rb_often"
-                    style="@style/TitleRadioStyle"
-                    android:layout_marginLeft="1px"
-                    android:text="常发货源" />
-            </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/main_rb_my_goods"
+                        style="@style/TitleRadioStyle"
+                        android:layout_marginLeft="1px"
+                        android:text="我的货源" />
 
-            <ImageView
-                android:id="@+id/iv_main_share"
-                style="@style/main_title_image_style"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_4"
-                android:padding="@dimen/dp_6"
-                app:srcCompat="@drawable/ic_share_white" />
+                    <RadioButton
+                        android:id="@+id/main_rb_often"
+                        style="@style/TitleRadioStyle"
+                        android:layout_marginLeft="1px"
+                        android:text="常发货源"
+                        android:visibility="gone" />
+                </RadioGroup>
 
-        </com.zhy.autolayout.AutoRelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_main_share"
+                    style="@style/main_title_image_style"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_4"
+                    android:padding="@dimen/dp_6"
+                    app:srcCompat="@drawable/ic_share_white" />
 
-    </android.support.design.widget.AppBarLayout>
+            </com.zhy.autolayout.AutoRelativeLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/main_bottom"
@@ -151,5 +158,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/main_bottom"
-        android:layout_below="@id/main_title"></RelativeLayout>
+        android:layout_below="@id/rl_title"></RelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

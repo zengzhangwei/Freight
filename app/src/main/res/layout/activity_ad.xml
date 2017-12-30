@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zl.freight.ui.activity.ADActivity">
+
+    <include
+        android:id="@+id/ad_title"
+        layout="@layout/title_layout" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ad_title"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_16">
+
+        <EditText
+            android:id="@+id/tv_title_ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:background="@color/white"
+            android:hint="请输入广告标题（建议不超过十个字）"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_16" />
+
+        <TextView style="@style/LineTextStyle" />
+
+        <EditText
+            android:id="@+id/tv_ad_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@color/white"
+            android:hint="输入广告的滚动内容"
+            android:lineSpacingMultiplier="1.2"
+            android:textColor="@color/text_black_cc"
+            android:textSize="@dimen/dp_16" />
+
+        <TextView style="@style/LineTextStyle" />
+
+        <EditText
+            android:id="@+id/tv_ad_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@color/white"
+            android:hint="输入广告的打开连接"
+            android:lineSpacingMultiplier="1.2"
+            android:textColor="@color/text_black_cc"
+            android:textSize="@dimen/dp_16" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/np_tab_push"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/dp_16"
+        app:srcCompat="@drawable/ic_send" />
+
+</com.zhy.autolayout.AutoRelativeLayout>

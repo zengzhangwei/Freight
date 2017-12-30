@@ -2,11 +2,11 @@ package com.zl.freight.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -26,29 +26,29 @@ import butterknife.Unbinder;
 
 /**
  * @author zhanglei
- * @date 17/12/28
- * 我的常发货源
+ * @date 17/12/30
  */
-public class OftenFragment extends BaseFragment {
+public class MyNewsFragment extends BaseFragment {
 
 
-    @BindView(R.id.often_list_view)
-    ListView oftenListView;
-    @BindView(R.id.often_trl)
-    TwinklingRefreshLayout oftenTrl;
+    @BindView(R.id.news_listView)
+    ListView newsListView;
+    @BindView(R.id.news_trl)
+    TwinklingRefreshLayout newsTrl;
     Unbinder unbinder;
-    private List<String> mList = new ArrayList<>();
-    private UniversalAdapter<String> mAdapter;
 
-    public OftenFragment() {
+    private UniversalAdapter<String> mAdapter;
+    private List<String> mList = new ArrayList<>();
+
+    public MyNewsFragment() {
         // Required empty public constructor
     }
 
-    public static OftenFragment newInstance() {
+    public static MyNewsFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        OftenFragment fragment = new OftenFragment();
+        MyNewsFragment fragment = new MyNewsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,43 +57,44 @@ public class OftenFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_often, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_news, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
+        initData();
         initListener();
         return view;
     }
 
     private void initListener() {
-        oftenTrl.setOnRefreshListener(new RefreshListenerAdapter() {
+        newsTrl.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 super.onRefresh(refreshLayout);
-            }
-
-            @Override
-            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-                super.onLoadMore(refreshLayout);
-            }
-        });
-
-        oftenListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                newsTrl.finishRefreshing();
             }
         });
     }
 
+    private void initData() {
+        for (int i = 0; i < 10; i++) {
+            mList.add("");
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+
     private void initView() {
-        mAdapter = new UniversalAdapter<String>(mActivity, mList, R.layout.driver_list_location_item) {
+        mAdapter = new UniversalAdapter<String>(mActivity, mList, R.layout.top_item) {
             @Override
             public void convert(UniversalViewHolder holder, int position, String s) {
-
+                holder.getView(R.id.arl_type).setVisibility(View.VISIBLE);
+                Spanned spanned1 = Html.fromHtml("文章状态：<font color=\"#ce2538\">未支付</font>");
+                Spanned spanned2 = Html.fromHtml("文章状态：<font color=\"#079605\">已支付</font>");
+                holder.setText(R.id.tv_news_type, spanned1);
             }
         };
-        oftenListView.setAdapter(mAdapter);
-        oftenTrl.setHeaderView(new ProgressLayout(mActivity));
+        newsListView.setAdapter(mAdapter);
+        newsTrl.setHeaderView(new ProgressLayout(mActivity));
+        newsTrl.setEnableLoadmore(false);
     }
 
     @Override

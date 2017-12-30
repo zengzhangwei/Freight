@@ -106,7 +106,16 @@ public class GoodsMainActivity extends BaseActivity {
                     tvCarType.setVisibility(View.GONE);
                 }
 
+                if (item.getItemId() == R.id.send_goods) {
+                    mainTitle.setVisibility(View.GONE);
+                    mainAppbar.setVisibility(View.VISIBLE);
+                } else {
+                    mainTitle.setVisibility(View.VISIBLE);
+                    mainAppbar.setVisibility(View.GONE);
+                }
+
                 switch (item.getItemId()) {
+
                     //头条
                     case R.id.top_line:
                         helper.showFragment(topLineFragment);
@@ -181,6 +190,8 @@ public class GoodsMainActivity extends BaseActivity {
         carLengthDialog = new CarLengthDialog(mActivity);
         searchDialog = new DriverSearchDialog(mActivity);
         tvCarType.setVisibility(View.GONE);
+        mainTitle.setVisibility(View.GONE);
+        mainAppbar.setVisibility(View.VISIBLE);
         //默认选中发货
         mainRg.check(R.id.main_rb_send);
     }

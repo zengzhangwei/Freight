@@ -142,6 +142,31 @@
             android:background="@color/light_grey" />
 
         <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/linear_my_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="86px"
+                android:layout_height="86px"
+                android:padding="18px"
+                android:src="@mipmap/icon_news" />
+
+            <TextView
+                style="@style/TextStyle"
+                android:layout_gravity="center_vertical"
+                android:text="我的文章与广告" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/light_grey" />
+
+        <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/linear_user_check"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

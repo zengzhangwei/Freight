@@ -3,6 +3,7 @@ package com.zl.freight.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ public class GoodsOrderActivity extends BaseActivity {
     @BindView(R.id.tv_title_right)
     TextView tvTitleRight;
     @BindView(R.id.my_order_mrlv)
-    MRefreshRecyclerView myOrderMrlv;
+    RecyclerView myOrderMrlv;
     private List<String> mList = new ArrayList<>();
     private RecyclerAdapter<String> mAdapter;
 

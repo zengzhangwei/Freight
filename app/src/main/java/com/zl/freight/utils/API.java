@@ -80,6 +80,11 @@ public class API {
     public static final String DeleteInfo = "DeleteInfo";
 
     /**
+     * 支付发布广告所需的费用
+     */
+    public static final String InfoPayResult = "InfoPayResult";
+
+    /**
      * 货主发单
      */
     public static final String AddSend = "AddSend";
@@ -108,8 +113,6 @@ public class API {
      * 添加为熟车
      */
     public static final String InsertRelation = "InsertRelation";
-
-
 
 
 }
