@@ -114,5 +114,20 @@ public class API {
      */
     public static final String InsertRelation = "InsertRelation";
 
+    /**
+     * 提交反馈意见
+     */
+    public static final String InsertOpinion = "InsertOpinion";
+
+    /**
+     * 获取反馈意见
+     */
+    public static final String GetOpinion = "GetOpinion";
+
+    /**
+     * 删除反馈意见
+     */
+    public static final String DeleteOpinion = "DeleteOpinion";
+
 
 }

@@ -315,13 +315,12 @@ public class CheYuanListFragment extends BaseFragment {
     private void add() {
         CarUserBean carUserBean = mList.get(mPosition);
         Map<String, String> params = new HashMap<>();
-        params.put("ShipperId", carUserBean.getId());
+        params.put("ShipperId", SpUtils.getUserData(mActivity).getId());
         params.put("DriverId", carUserBean.getUserId());
-        //TODO 先注释掉，等接口
         SoapUtils.Post(mActivity, API.InsertRelation, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                Log.e("error", "error");
+                showToast(error);
             }
 
             @Override

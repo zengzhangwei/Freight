@@ -168,4 +168,10 @@
         <item name="android:background">@drawable/bg_main_radio_selector</item>
     </style>
 
+    <style name="MyStyle">
+        <item name="android:textColor">@color/Green</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
 </resources>

@@ -69,6 +69,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <!--付钱拉SDK张磊的测试KEY-->
         <meta-data
             android:name="FQL_APPKEY"
             android:value="fPXb00o5IvnxxlKCZmbM4w" />
@@ -159,7 +160,8 @@
         <activity android:name=".ui.activity.DriverDetailActivity" />
         <activity android:name=".ui.activity.URegisterActivity" />
         <activity android:name=".ui.activity.MyNewsActivity" />
-        <activity android:name=".ui.activity.ADActivity"></activity>
+        <activity android:name=".ui.activity.ADActivity" />
+        <activity android:name=".ui.activity.FeedbackActivity"></activity>
     </application>
 
 </manifest>

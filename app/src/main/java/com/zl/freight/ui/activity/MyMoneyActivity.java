@@ -13,6 +13,11 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.ui.fragment.TransactionLogFragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Random;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -104,11 +109,28 @@ public class MyMoneyActivity extends BaseActivity {
         FuQianLaPay pay = new FuQianLaPay.Builder(this)
                 .alipay(true)//支付宝通道
                 .wxpay(true)//微信通道
-                .orderID("YOUR_ORDERID")//订单号
+                .orderID(getOutTradeNo())//订单号
                 .amount(0.01)//金额
                 .subject("商品名称")
-                .notifyUrl("异步通知地址")
+                .notifyUrl("https://api.fuqian.la/pay-adapter/services/notify")
                 .build();
         pay.startPay();
+    }
+
+    /**
+     * 要求外部订单号必须唯一。
+     *
+     * @return
+     */
+    private static String getOutTradeNo() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+        Date date = new Date();
+        String key = format.format(date);
+
+        Random r = new Random();
+//        key = key + r.nextInt();
+//        key = key.substring(0, 15);
+        key = key + r.nextInt(100000);
+        return key;
     }
 }

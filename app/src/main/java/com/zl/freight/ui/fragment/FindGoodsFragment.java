@@ -19,6 +19,8 @@ import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.CarSendEntity;
+import com.zl.freight.mode.GoodsListBean;
 import com.zl.freight.ui.activity.GoodsDetailActivity;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.LocationUtils;
@@ -29,8 +31,11 @@ import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.ImageLoader;
 import com.zl.zlibrary.utils.SystemUtils;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,8 +68,8 @@ public class FindGoodsFragment extends BaseFragment {
     @BindView(R.id.linear_news)
     AutoLinearLayout linearNews;
 
-    private RecyclerAdapter<String> mAdapter;
-    private List<String> mList = new ArrayList<>();
+    private RecyclerAdapter<GoodsListBean> mAdapter;
+    private List<GoodsListBean> mList = new ArrayList<>();
     private LocationUtils locationUtils;
     private BDLocation bdLocation;
     private int page = 1;
@@ -139,7 +144,7 @@ public class FindGoodsFragment extends BaseFragment {
     /**
      * 获取列表数据
      */
-    private void getDataList(boolean b) {
+    private void getDataList(final boolean b) {
         if (bdLocation == null) return;
         BaseUserEntity userData = SpUtils.getUserData(mActivity);
         Map<String, String> params = new HashMap<>();
@@ -159,16 +164,32 @@ public class FindGoodsFragment extends BaseFragment {
         SoapUtils.Post(mActivity, API.GetNearBySend, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                findGoodsTrl.finishLoadmore();
-                findGoodsTrl.finishRefreshing();
-                Log.e("error", "error");
+                if (b) {
+                    findGoodsTrl.finishRefreshing();
+                } else {
+                    findGoodsTrl.finishLoadmore();
+                }
+                showToast(error);
             }
 
             @Override
             public void onSuccess(String data) {
-                Log.e("data", data);
-                findGoodsTrl.finishLoadmore();
-                findGoodsTrl.finishRefreshing();
+                if (b) {
+                    mList.clear();
+                    findGoodsTrl.finishRefreshing();
+                } else {
+                    findGoodsTrl.finishLoadmore();
+                }
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        GoodsListBean sendEntity = GsonUtils.fromJson(array.optString(i), GoodsListBean.class);
+                        mList.add(sendEntity);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
             }
         });
     }
@@ -186,10 +207,10 @@ public class FindGoodsFragment extends BaseFragment {
     }
 
     private void initView() {
-        mAdapter = new RecyclerAdapter<String>(mActivity, mList, R.layout.goods_item) {
+        mAdapter = new RecyclerAdapter<GoodsListBean>(mActivity, mList, R.layout.goods_item) {
             @Override
-            protected void convert(ViewHolder holder, String s, int position) {
-                handleData(holder);
+            protected void convert(ViewHolder holder, GoodsListBean s, int position) {
+                handleData(holder, s, position);
             }
         };
         findGoodsRlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
@@ -209,7 +230,7 @@ public class FindGoodsFragment extends BaseFragment {
      *
      * @param holder
      */
-    private void handleData(ViewHolder holder) {
+    private void handleData(ViewHolder holder, GoodsListBean s, int position) {
         CircleImageView imageView = holder.getView(R.id.iv_user_icon);
         ImageLoader.loadImageUrl(mActivity, "http://image.3761.com/pic/5111434675216.jpg", imageView);
         holder.getView(R.id.iv_phone).setOnClickListener(new View.OnClickListener() {
@@ -219,15 +240,18 @@ public class FindGoodsFragment extends BaseFragment {
             }
         });
         //出发地
-        holder.setText(R.id.tv_origin, "邢台");
+        holder.setText(R.id.tv_origin, s.getStartPlace());
         //目的地
-        holder.setText(R.id.tv_end_point, "广宗");
+        holder.setText(R.id.tv_end_point, s.getEndPlace());
         //发布人
-        holder.setText(R.id.tv_user_name, "张磊");
+        holder.setText(R.id.tv_user_name, s.getRealName());
         //货物发布时间
-        holder.setText(R.id.tv_goods_issue_time, "刚刚");
+        holder.setText(R.id.tv_goods_issue_time, s.getCreateAt());
         //货物描述
-        holder.setText(R.id.tv_car_data, getResources().getString(R.string.data));
+//        holder.setText(R.id.tv_car_data, getResources().getString(R.string.data));
+        String data = s.getCodeName1() + "米  " + s.getCodeName() + "/" + s.getGoodsWeight() + s.getWeightUnit() + " " + s.getGoodsType() + "\n装车时间"
+                + s.getGoDate() + s.getGoTime();
+        holder.setText(R.id.tv_car_data, data);
     }
 
     @Override
