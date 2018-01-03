@@ -116,6 +116,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void carLengthData(KeyValueBean length, KeyValueBean type, KeyValueBean goodsType) {
                 tvCarType.setText(length.getCodeName() + "  " + type.getCodeName());
+                findGoodsFragment.updateDataList(length.getId(), type.getId());
             }
         });
     }

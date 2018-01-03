@@ -9,7 +9,17 @@ public class BaseOpinionEntity {
     public String Opinion = "";
     public String UserId = "";
     public String CreateTime = "";
+    public String Createtime = "";
     public int IsDelete;
+
+
+    public String getCreatetime() {
+        return Createtime;
+    }
+
+    public void setCreatetime(String createtime) {
+        Createtime = createtime;
+    }
 
     public int getId() {
         return Id;

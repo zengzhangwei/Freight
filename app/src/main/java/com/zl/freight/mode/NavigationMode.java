@@ -8,10 +8,10 @@ package com.zl.freight.mode;
 public class NavigationMode {
     private double startLatitude;
     private double startLongitude;
-    private String startAddress;
+    private String startAddress = "";
     private double endLatitude;
     private double endLongitude;
-    private String endAddress;
+    private String endAddress = "";
 
     public double getStartLatitude() {
         return startLatitude;

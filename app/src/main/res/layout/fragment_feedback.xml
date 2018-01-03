@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/please_input_feedback"
             android:paddingLeft="@dimen/dp_8"
-            android:textSize="@dimen/dp_14" />
+            android:textSize="13sp" />
 
     </android.support.design.widget.TextInputLayout>
 

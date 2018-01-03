@@ -20,7 +20,9 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.NavigationMode;
 import com.zl.freight.utils.LocationUtils;
+import com.zl.freight.utils.NavigationUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,7 +47,7 @@ public class LookGoodsLocationActivity extends BaseActivity {
     TextView tvStartNavigation;
     private BaiduMap mBaiduMap;
     private LocationUtils locationUtils;
-    private double latitude, longitude;
+    private double latitude, longitude, startLatitude, startLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,8 @@ public class LookGoodsLocationActivity extends BaseActivity {
             @Override
             public void onReceiveLocation(BDLocation location) {
                 drawLocation(location.getLatitude(), location.getLongitude());
-
+                drawGoodsEnd();
+                setLoactionCenter(latitude, longitude);
             }
 
             @Override
@@ -78,7 +81,6 @@ public class LookGoodsLocationActivity extends BaseActivity {
         mBaiduMap = lglaMap.getMap();
         locationUtils = new LocationUtils(mActivity);
         locationUtils.startLocation();
-        drawGoodsEnd();
     }
 
     /**
@@ -100,19 +102,17 @@ public class LookGoodsLocationActivity extends BaseActivity {
         //在地图上添加Marker，并显示
         mBaiduMap.addOverlay(option);
 
-        //创建InfoWindow展示的view
-        TextView button = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.text_layout, null);
-        button.setText("货源地");
-        //定义用于显示该InfoWindow的坐标点
-        LatLng pt = new LatLng(latitude, longitude);
-
-        //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-        InfoWindow mInfoWindow = new InfoWindow(button, pt, -90);
-
-        //显示InfoWindow
-        mBaiduMap.showInfoWindow(mInfoWindow);
-
-        setLoactionCenter(latitude, longitude);
+//        //创建InfoWindow展示的view
+//        TextView button = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.text_layout, null);
+//        button.setText("货源地");
+//        //定义用于显示该InfoWindow的坐标点
+//        LatLng pt = new LatLng(latitude, longitude);
+//
+//        //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
+//        InfoWindow mInfoWindow = new InfoWindow(button, pt, -90);
+//
+//        //显示InfoWindow
+//        mBaiduMap.showInfoWindow(mInfoWindow);
     }
 
     /**
@@ -122,6 +122,8 @@ public class LookGoodsLocationActivity extends BaseActivity {
      * @param longitude
      */
     private void drawLocation(double latitude, double longitude) {
+        startLatitude = latitude;
+        startLongitude = longitude;
         //定义Maker坐标点
         LatLng point = new LatLng(latitude, longitude);
 
@@ -195,8 +197,25 @@ public class LookGoodsLocationActivity extends BaseActivity {
                 break;
             //开始导航
             case R.id.tv_start_navigation:
-
+                startNavigation();
                 break;
         }
+    }
+
+    /**
+     * 开始导航
+     */
+    private void startNavigation() {
+        if (startLongitude == 0 || longitude == 0 || startLatitude == 0 || latitude == 0) {
+            showDialog("位置信息不全无法进行导航");
+            return;
+        }
+        NavigationMode mode = new NavigationMode();
+        mode.setStartLatitude(startLatitude);
+        mode.setStartLongitude(startLongitude);
+        mode.setEndLatitude(latitude);
+        mode.setEndLongitude(longitude);
+
+        NavigationUtils.start(mActivity, mode);
     }
 }

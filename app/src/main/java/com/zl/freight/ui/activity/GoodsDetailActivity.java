@@ -9,7 +9,9 @@ import android.widget.TextView;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.GoodsListBean;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
@@ -66,6 +68,9 @@ public class GoodsDetailActivity extends BaseActivity {
     ImageView ivCall;
     @BindView(R.id.tv_jie_dan)
     TextView tvJieDan;
+    @BindView(R.id.tv_goods_name)
+    TextView tvGoodsName;
+    private GoodsListBean data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,21 @@ public class GoodsDetailActivity extends BaseActivity {
         } else {
             tvJieDan.setVisibility(View.GONE);
         }
+        data = (GoodsListBean) getIntent().getSerializableExtra("data");
+        tvOrigin.setText(data.getStartPlace());
+        tvEndPoint.setText(data.getEndPlace());
+        tvGoodsTime.setText("发布时间:" + data.getCreateAt());
+        tvGoodsType.setText(data.getCodeName5());
+        tvGoodsWeight.setText(data.getGoodsWeight() + data.getWeightUnit());
+        tvCarLength.setText(data.getCodeName1() + "米");
+        tvGoodsIf.setText(data.getCodeName2());
+        tvCarType.setText(data.getCodeName());
+        tvZhuangXieXuQiu.setText(data.getCodeName3());
+        ImageLoader.loadUserIcon(mActivity, data.getUserIcon(), ivGoodsUserIcon);
+        ivGoodsUserName.setText(data.getRealName());
+        tvGoodsName.setText(data.getGoodName());
+
+        tvTitle.setText("货物详情");
     }
 
     @OnClick({R.id.iv_back, R.id.tv_goods_location, R.id.iv_call, R.id.tv_jie_dan})
@@ -94,7 +114,10 @@ public class GoodsDetailActivity extends BaseActivity {
                 break;
             //查看货源位置
             case R.id.tv_goods_location:
-                startActivity(new Intent(mActivity, LookGoodsLocationActivity.class));
+                Intent intent = new Intent(mActivity, LookGoodsLocationActivity.class);
+                intent.putExtra(API.LATITUDE, data.getStartX());
+                intent.putExtra(API.LONGITUDE, data.getStartY());
+                startActivity(intent);
                 break;
             //联系货主
             case R.id.iv_call:
@@ -114,7 +137,7 @@ public class GoodsDetailActivity extends BaseActivity {
         BaseUserEntity userData = SpUtils.getUserData(mActivity);
         Map<String, String> params = new HashMap<>();
         params.put("UserId", userData.getId());
-        params.put("SendId", "");
+        params.put("SendId", "" + data.getId());
         showDialog("获取订单中...");
         SoapUtils.Post(mActivity, API.ReceiveSend, params, new SoapCallback() {
             @Override

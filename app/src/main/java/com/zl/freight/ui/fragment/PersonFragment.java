@@ -113,6 +113,7 @@ public class PersonFragment extends BaseFragment {
                 linearMyOrder.setVisibility(View.GONE);
                 linearMyJiFenStore.setVisibility(View.GONE);
                 linearMyMoney.setVisibility(View.GONE);
+                linearMyNews.setVisibility(View.GONE);
                 tvFeedback.setText(R.string.user_feedback);
                 break;
             //普通用户

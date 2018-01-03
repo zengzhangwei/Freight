@@ -211,6 +211,9 @@ public class LoginActivity extends BaseActivity {
      * @param baseUserEntity
      */
     private void goToUi(BaseUserEntity baseUserEntity) {
+        if (TextUtils.isEmpty(baseUserEntity.getUserRole())) {
+            baseUserEntity.setUserRole("0");
+        }
         //在这里判断是否越权登录(司机账号无法登录货主，反之则反之，管理员随便)
         if (!baseUserEntity.getUserRole().equals("0")) {
             if (!baseUserEntity.getUserRole().equals("" + role)) {
@@ -261,6 +264,9 @@ public class LoginActivity extends BaseActivity {
                     if (userData.getUserRole().equals(API.DRIVER + "")) {
                         userData.setCarLong(carUserBean.getCarLong());
                         userData.setCarType(carUserBean.getCarType());
+                    }
+                    if (TextUtils.isEmpty(userData.getUserRole())) {
+                        userData.setUserRole("0");
                     }
                     //登录成功，储存用户信息
                     SpUtils.setUserData(mActivity, userData);

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,11 @@ import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.BaseUserEntity;
-import com.zl.freight.mode.CarSendEntity;
 import com.zl.freight.mode.GoodsListBean;
 import com.zl.freight.ui.activity.GoodsDetailActivity;
+import com.zl.freight.ui.activity.WebActivity;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.LocationUtils;
 import com.zl.freight.utils.LoginUtils;
 import com.zl.freight.utils.SoapCallback;
@@ -32,7 +32,6 @@ import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.utils.GsonUtils;
-import com.zl.zlibrary.utils.ImageLoader;
 import com.zl.zlibrary.utils.SystemUtils;
 
 import org.json.JSONArray;
@@ -107,6 +106,7 @@ public class FindGoodsFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+                intent.putExtra("data", mList.get(position));
                 LoginUtils.jumpToActivity(mActivity, intent);
             }
         });
@@ -232,7 +232,7 @@ public class FindGoodsFragment extends BaseFragment {
      */
     private void handleData(ViewHolder holder, GoodsListBean s, int position) {
         CircleImageView imageView = holder.getView(R.id.iv_user_icon);
-        ImageLoader.loadImageUrl(mActivity, "http://image.3761.com/pic/5111434675216.jpg", imageView);
+        ImageLoader.loadUserIcon(mActivity, s.getUserIcon(), imageView);
         holder.getView(R.id.iv_phone).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -249,8 +249,8 @@ public class FindGoodsFragment extends BaseFragment {
         holder.setText(R.id.tv_goods_issue_time, s.getCreateAt());
         //货物描述
 //        holder.setText(R.id.tv_car_data, getResources().getString(R.string.data));
-        String data = s.getCodeName1() + "米  " + s.getCodeName() + "/" + s.getGoodsWeight() + s.getWeightUnit() + " " + s.getGoodsType() + "\n装车时间"
-                + s.getGoDate() + s.getGoTime();
+        String data = s.getCodeName1() + "米  " + s.getCodeName() + "/" + s.getGoodsWeight() + s.getWeightUnit() + " " + s.getCodeName5() + "\n装车时间"
+                + s.getGoDate() + s.getGoTime() + "  " + s.getCodeName3();
         holder.setText(R.id.tv_car_data, data);
     }
 
@@ -265,6 +265,10 @@ public class FindGoodsFragment extends BaseFragment {
         switch (view.getId()) {
             //点击广告
             case R.id.tv_top_news:
+                Intent intent = new Intent(mActivity, WebActivity.class);
+                intent.putExtra("title", "我是标题");
+                intent.putExtra("url", "http://www.baidu.com");
+                startActivity(intent);
                 break;
             //点击关闭广告
             case R.id.iv_close:

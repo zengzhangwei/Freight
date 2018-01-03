@@ -81,6 +81,7 @@
     <string name="user_feedback">用户反馈</string>
     <string name="opinion_feedback">意见反馈</string>
     <string name="please_input_feedback">请填写反馈意见（至少50个字）</string>
+    <string name="goods_status">货物类别</string>
 
     <string-array name="load_unload_mode_list">
         <item>一装一卸</item>

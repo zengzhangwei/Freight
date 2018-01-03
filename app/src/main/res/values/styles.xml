@@ -173,5 +173,11 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-
+    <style name="ProgressStyle" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:maxHeight">4dip</item>
+        <item name="android:minHeight">4dip</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:progressDrawable">@drawable/pro_bg</item>
+    </style>
 </resources>

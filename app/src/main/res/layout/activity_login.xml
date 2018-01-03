@@ -48,7 +48,6 @@
                 android:layout_height="@dimen/dp_44"
                 android:background="@color/white"
                 android:hint="请输入账号（手机号）"
-                android:inputType="phone"
                 android:paddingLeft="@dimen/dp_32"
                 android:textSize="@dimen/dp_16" />
 

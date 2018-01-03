@@ -1,10 +1,12 @@
 package com.zl.freight.mode;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2018/1/2.
  */
 
-public class GoodsListBean {
+public class GoodsListBean implements Serializable {
 
     /**
      * Id : 5
@@ -98,7 +100,16 @@ public class GoodsListBean {
     private String CodeName2;
     private String CodeName3;
     private String CodeName4;
+    private String CodeName5;
     private String juli;
+
+    public String getCodeName5() {
+        return CodeName5;
+    }
+
+    public void setCodeName5(String codeName5) {
+        CodeName5 = codeName5;
+    }
 
     public String getId() {
         return Id;

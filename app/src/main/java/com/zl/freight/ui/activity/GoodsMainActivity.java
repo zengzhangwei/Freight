@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.dialog.DriverSearchDialog;
 import com.zl.freight.ui.fragment.CheYuanFragment;
@@ -162,6 +163,14 @@ public class GoodsMainActivity extends BaseActivity {
                         helper.showFragment(oftenFragment);
                         break;
                 }
+            }
+        });
+
+        carLengthDialog.setOnGetCarLengthDataListener(new CarLengthDialog.OnGetCarLengthDataListener() {
+            @Override
+            public void carLengthData(KeyValueBean length, KeyValueBean type, KeyValueBean goodsType) {
+                tvCarType.setText(length.getCodeName() + "  " + type.getCodeName());
+                findGoodsFragment.updateDataList(length.getId(), type.getId());
             }
         });
     }

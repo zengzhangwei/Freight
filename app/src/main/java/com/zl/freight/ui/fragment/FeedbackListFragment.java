@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
@@ -17,6 +18,9 @@ import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.GsonUtils;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,15 +66,21 @@ public class FeedbackListFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
         initView();
         initData();
+        initListener();
         return view;
     }
 
+    private void initListener() {
+        feedbackTrl.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                super.onRefresh(refreshLayout);
+                getListData();
+            }
+        });
+    }
+
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            BaseOpinionEntity entity = new BaseOpinionEntity();
-            mList.add(entity);
-        }
-        mAdapter.notifyDataSetChanged();
         getListData();
     }
 
@@ -86,7 +96,18 @@ public class FeedbackListFragment extends BaseFragment {
 
             @Override
             public void onSuccess(String data) {
+                try {
+                    mList.clear();
+                    feedbackTrl.finishRefreshing();
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        BaseOpinionEntity entity = GsonUtils.fromJson(array.optString(i), BaseOpinionEntity.class);
+                        mList.add(entity);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
 
+                }
             }
         });
     }
@@ -96,7 +117,7 @@ public class FeedbackListFragment extends BaseFragment {
             @Override
             public void convert(UniversalViewHolder holder, int position, BaseOpinionEntity s) {
                 holder.setText(R.id.tv_feedback_item_content, s.getOpinion());
-                holder.setText(R.id.tv_feedback_issue_time, s.getCreateTime());
+                holder.setText(R.id.tv_feedback_issue_time, s.getCreatetime());
             }
         };
         feedbackListView.setAdapter(mAdapter);
