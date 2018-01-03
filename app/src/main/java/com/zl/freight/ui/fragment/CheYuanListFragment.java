@@ -176,6 +176,12 @@ public class CheYuanListFragment extends BaseFragment {
             @Override
             public void onError(String error) {
                 Log.e("data", "获取附近的车辆时发生异常");
+                if (b) {
+                    cheYuanTrl.finishRefreshing();
+                    mList.clear();
+                } else {
+                    cheYuanTrl.finishLoadmore();
+                }
             }
 
             @Override

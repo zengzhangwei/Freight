@@ -63,8 +63,6 @@ public class LookGoodsLocationActivity extends BaseActivity {
             @Override
             public void onReceiveLocation(BDLocation location) {
                 drawLocation(location.getLatitude(), location.getLongitude());
-                drawGoodsEnd();
-                setLoactionCenter(latitude, longitude);
             }
 
             @Override
@@ -79,6 +77,10 @@ public class LookGoodsLocationActivity extends BaseActivity {
         longitude = getIntent().getDoubleExtra("longitude", 0);
         tvTitle.setText("货源位置");
         mBaiduMap = lglaMap.getMap();
+        //绘制获取坐标点
+        drawGoodsEnd();
+        //绘制中心
+        setLoactionCenter(latitude, longitude);
         locationUtils = new LocationUtils(mActivity);
         locationUtils.startLocation();
     }
@@ -102,17 +104,17 @@ public class LookGoodsLocationActivity extends BaseActivity {
         //在地图上添加Marker，并显示
         mBaiduMap.addOverlay(option);
 
-//        //创建InfoWindow展示的view
-//        TextView button = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.text_layout, null);
-//        button.setText("货源地");
-//        //定义用于显示该InfoWindow的坐标点
-//        LatLng pt = new LatLng(latitude, longitude);
-//
-//        //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-//        InfoWindow mInfoWindow = new InfoWindow(button, pt, -90);
-//
-//        //显示InfoWindow
-//        mBaiduMap.showInfoWindow(mInfoWindow);
+        //创建InfoWindow展示的view
+        TextView button = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.text_layout, null);
+        button.setText("货源地");
+        //定义用于显示该InfoWindow的坐标点
+        LatLng pt = new LatLng(latitude, longitude);
+
+        //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
+        InfoWindow mInfoWindow = new InfoWindow(button, pt, -90);
+
+        //显示InfoWindow
+        mBaiduMap.showInfoWindow(mInfoWindow);
     }
 
     /**

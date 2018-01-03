@@ -115,8 +115,8 @@ public class GoodsDetailActivity extends BaseActivity {
             //查看货源位置
             case R.id.tv_goods_location:
                 Intent intent = new Intent(mActivity, LookGoodsLocationActivity.class);
-                intent.putExtra(API.LATITUDE, data.getStartX());
-                intent.putExtra(API.LONGITUDE, data.getStartY());
+                intent.putExtra(API.LATITUDE, Double.parseDouble(data.getStartX()));
+                intent.putExtra(API.LONGITUDE, Double.parseDouble(data.getStartY()));
                 startActivity(intent);
                 break;
             //联系货主
