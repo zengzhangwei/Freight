@@ -26,7 +26,7 @@ public class NavigationUtils {
         //判断百度地图是否被安装
         boolean isAppInstall = PackageUtils.getIsAppInstall(context, "com.baidu.BaiduMap");
         boolean isGaoDeInstall = PackageUtils.getIsAppInstall(context, "com.autonavi.minimap");
-        if (isAppInstall && isGaoDeInstall) {
+        if (!isAppInstall && !isGaoDeInstall) {
             Toast.makeText(context, "请先安装百度地图或高德地图", Toast.LENGTH_SHORT).show();
             return;
         }

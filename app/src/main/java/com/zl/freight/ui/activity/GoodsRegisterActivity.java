@@ -76,6 +76,7 @@ public class GoodsRegisterActivity extends BaseActivity {
     private BaseUserEntity userEntity;
     private String idCard1;
     private String idCard2;
+    private String companyPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +171,6 @@ public class GoodsRegisterActivity extends BaseActivity {
         final String content = etCompanyContent.getText().toString().trim();
         final String companyName = etCompanyName.getText().toString().trim();
         final String companyCode = etCompanyCode.getText().toString().trim();
-
         if (TextUtils.isEmpty(companyName)) {
             showToast("请输入公司名称");
             return;
@@ -181,11 +181,25 @@ public class GoodsRegisterActivity extends BaseActivity {
             return;
         }
 
+        if (photoList.size() <= 0) {
+            showToast("请添加照片");
+            return;
+        }
+
+        if (!TextUtils.isEmpty(companyCode)) {
+            if (TextUtils.isEmpty(imagePath)) {
+                showToast("请上传营业执照");
+                return;
+            }
+            companyPic = ImageFactory.base64Encode(ImageFactory.getimage(imagePath));
+        }
+
         final Map<String, String> params = new HashMap<>();
         //用户角色
         params.put("UserRole", "2");
         //此项为空
         params.put("CarEntityJson", "");
+        tvRegisterCommit.setEnabled(false);
         showNotTouchDialog("注册中，请勿退出");
         new Thread() {
             @Override
@@ -199,18 +213,9 @@ public class GoodsRegisterActivity extends BaseActivity {
                 BaseCompanyEntity companyEntity = new BaseCompanyEntity();
                 companyEntity.setCompanyName(companyName);
                 companyEntity.setCompanyAddress(address);
-                if (!TextUtils.isEmpty(companyCode)) {
-                    if (TextUtils.isEmpty(imagePath)) {
-                        showToast("请上传营业执照");
-                        return;
-                    }
-                    String s = ImageFactory.base64Encode(ImageFactory.getimage(imagePath));
-                    //机构代码不为空时必须添加营业执照
-                    companyEntity.setCompanyPic(s);
-                }
-                if (photoList.size() <= 0) {
-                    showToast("请添加照片");
-                    return;
+                //机构代码不为空时必须添加营业执照
+                if (!TextUtils.isEmpty(companyPic)) {
+                    companyEntity.setCompanyPic(companyPic);
                 }
 
                 for (int i = 0; i < photoList.size(); i++) {
@@ -237,12 +242,14 @@ public class GoodsRegisterActivity extends BaseActivity {
                 SoapUtils.Post(mActivity, API.Register, params, new SoapCallback() {
                     @Override
                     public void onError(String error) {
+                        tvRegisterCommit.setEnabled(true);
                         hideDialog();
                         showToast(error);
                     }
 
                     @Override
                     public void onSuccess(String data) {
+                        tvRegisterCommit.setEnabled(true);
                         showToast("注册成功");
                         URegisterActivity.uRegisterActivity.finish();
                         finish();

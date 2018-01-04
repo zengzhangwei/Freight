@@ -18,7 +18,9 @@ import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.CarInformationEntity;
 import com.zl.freight.mode.GoodsListBean;
+import com.zl.freight.mode.TopNewsBean;
 import com.zl.freight.ui.activity.GoodsDetailActivity;
 import com.zl.freight.ui.activity.WebActivity;
 import com.zl.freight.utils.API;
@@ -75,6 +77,7 @@ public class FindGoodsFragment extends BaseFragment {
     private BaseUserEntity userData;
     private String carLong;
     private String carType;
+    private TopNewsBean carInformationEntity;
 
     public FindGoodsFragment() {
         // Required empty public constructor
@@ -138,7 +141,31 @@ public class FindGoodsFragment extends BaseFragment {
     }
 
     private void initData() {
+        getNews();
+    }
 
+    /**
+     * 获取管理员发布的广告
+     */
+    private void getNews() {
+        SoapUtils.Post(mActivity, API.GetAdminInfo, null, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    carInformationEntity = GsonUtils.fromJson(array.optString(0), TopNewsBean.class);
+                    tvTopNews.setText(carInformationEntity.getInfoContent() + "                                   ");
+                    tvTopNews.setSelected(true);
+                } catch (Exception e) {
+
+                }
+            }
+        });
     }
 
     /**
@@ -221,8 +248,6 @@ public class FindGoodsFragment extends BaseFragment {
         BaseUserEntity userData = SpUtils.getUserData(mActivity);
         carLong = userData.getCarLong();
         carType = userData.getCarType();
-        tvTopNews.setText("春光无限好，只是近黄昏...春光无限好，只是近黄昏...春光无限好，只是近黄昏...");
-        tvTopNews.setSelected(true);
     }
 
     /**
@@ -230,13 +255,13 @@ public class FindGoodsFragment extends BaseFragment {
      *
      * @param holder
      */
-    private void handleData(ViewHolder holder, GoodsListBean s, int position) {
+    private void handleData(ViewHolder holder, final GoodsListBean s, int position) {
         CircleImageView imageView = holder.getView(R.id.iv_user_icon);
         ImageLoader.loadUserIcon(mActivity, s.getUserIcon(), imageView);
         holder.getView(R.id.iv_phone).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SystemUtils.call(mActivity, "15075993917");
+                SystemUtils.call(mActivity, s.getUserName());
             }
         });
         //出发地
@@ -265,10 +290,12 @@ public class FindGoodsFragment extends BaseFragment {
         switch (view.getId()) {
             //点击广告
             case R.id.tv_top_news:
-                Intent intent = new Intent(mActivity, WebActivity.class);
-                intent.putExtra("title", "我是标题");
-                intent.putExtra("url", "http://www.baidu.com");
-                startActivity(intent);
+                if (carInformationEntity != null) {
+                    Intent intent = new Intent(mActivity, WebActivity.class);
+                    intent.putExtra("title", carInformationEntity.getInfoTitle());
+                    intent.putExtra("url", carInformationEntity.getInfoLink());
+                    startActivity(intent);
+                }
                 break;
             //点击关闭广告
             case R.id.iv_close:

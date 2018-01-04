@@ -1,7 +1,9 @@
 package com.zl.freight.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,6 +44,7 @@ public class MyMoneyActivity extends BaseActivity {
     @BindView(R.id.tv_ti_xian_bt)
     TextView tvTiXianBt;
     private TransactionLogFragment logFragment;
+    private AlertDialog helperDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,14 @@ public class MyMoneyActivity extends BaseActivity {
         tvTitle.setText(R.string.my_money);
         tvTitleRight.setText("交易记录");
         logFragment = TransactionLogFragment.newInstance();
+        helperDialog = new AlertDialog.Builder(mActivity).setTitle("使用帮助")
+                .setMessage("1元 == 100积分，满1000积分可以提现，提现时需要收取手续费，最低提现额为10元也就是1000积分，提现时请输入大于等于10的整数")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).create();
     }
 
     @Override
@@ -79,7 +90,7 @@ public class MyMoneyActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_title_right, R.id.tv_top_up_bt, R.id.tv_ti_xian_bt})
+    @OnClick({R.id.iv_back, R.id.tv_title_right, R.id.tv_top_up_bt, R.id.tv_helper, R.id.tv_ti_xian_bt})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -97,6 +108,10 @@ public class MyMoneyActivity extends BaseActivity {
             //提现
             case R.id.tv_ti_xian_bt:
 
+                break;
+            //使用帮助说明
+            case R.id.tv_helper:
+                helperDialog.show();
                 break;
         }
     }

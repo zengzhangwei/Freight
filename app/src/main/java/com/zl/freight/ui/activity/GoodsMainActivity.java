@@ -123,6 +123,7 @@ public class GoodsMainActivity extends BaseActivity {
                         break;
                     //发货
                     case R.id.send_goods:
+                        mainRg.check(R.id.main_rb_send);
                         helper.showFragment(sendGoodsFragment);
                         break;
                     //找货

@@ -38,7 +38,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp_16"
                     android:layout_toRightOf="@id/user_icon"
-                    android:text="张磊"
+                    android:text="管理员"
                     android:textSize="@dimen/dp_18" />
 
                 <ImageView
@@ -80,7 +80,7 @@
             <TextView
                 style="@style/TextStyle"
                 android:layout_gravity="center_vertical"
-                android:text="@string/my_order" />
+                android:text="@string/my_run_order" />
 
         </com.zhy.autolayout.AutoLinearLayout>
 

@@ -3,6 +3,8 @@ package com.zl.freight.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,9 @@ public class MyGoodsFragment extends BaseFragment {
     @BindView(R.id.my_goods_pager)
     ViewPager myGoodsPager;
     Unbinder unbinder;
-    private List<String> mList = Arrays.asList("发布中", "已完成", "需换车");
+    private List<String> mList = Arrays.asList("发布中", "已完成");
+    private List<Fragment> fList = new ArrayList<>();
+    private FragmentStatePagerAdapter pagerAdapter;
 
     public MyGoodsFragment() {
         // Required empty public constructor
@@ -83,10 +87,24 @@ public class MyGoodsFragment extends BaseFragment {
         for (String s : mList) {
             myGoodsTab.addTab(myGoodsTab.newTab().setText(s));
         }
+        fList.add(MyGoodsListFragment.newInstance(0));
+        fList.add(MyGoodsListFragment.newInstance(1));
+        pagerAdapter.notifyDataSetChanged();
     }
 
     private void initView() {
+        pagerAdapter = new FragmentStatePagerAdapter(getFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fList.get(position);
+            }
 
+            @Override
+            public int getCount() {
+                return fList.size();
+            }
+        };
+        myGoodsPager.setAdapter(pagerAdapter);
     }
 
     @Override

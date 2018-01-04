@@ -79,7 +79,11 @@ public class SoapUtils {
                                     String data = object.optString("result");
                                     //如果data不为空则说明有错误，返回错误消息
                                     if (!TextUtils.isEmpty(data)) {
-                                        callback.onError(data);
+                                        try {
+                                            callback.onError(data);
+                                        } catch (Exception e) {
+
+                                        }
                                     } else {
                                         callback.onSuccess(result);
                                     }
@@ -97,9 +101,13 @@ public class SoapUtils {
                         mActivity.runOnUiThread(new TimerTask() {
                             @Override
                             public void run() {
-                                Log.e("error", soapFault.getMessage() == null ? "" : soapFault.getMessage());
+                                try {
+                                    Log.e("error", soapFault.getMessage() == null ? "" : soapFault.getMessage());
 //                                callback.onError("系统功能维护，请联系管理员");
-                                callback.onError(soapFault.getMessage() == null ? "" : soapFault.getMessage());
+                                    callback.onError(soapFault.getMessage() == null ? "" : soapFault.getMessage());
+                                } catch (Exception e) {
+
+                                }
                             }
                         });
                     }
@@ -109,9 +117,13 @@ public class SoapUtils {
                         mActivity.runOnUiThread(new TimerTask() {
                             @Override
                             public void run() {
-                                Log.e("error", e.getMessage() == null ? "" : e.getMessage());
+                                try {
+                                    Log.e("error", e.getMessage() == null ? "" : e.getMessage());
 //                                callback.onError("系统功能维护，请联系管理员");
-                                callback.onError( e.getMessage() == null ? "" : e.getMessage());
+                                    callback.onError(e.getMessage() == null ? "" : e.getMessage());
+                                } catch (Exception exception) {
+
+                                }
                             }
                         });
                     }

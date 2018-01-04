@@ -362,7 +362,7 @@ public class CheYuanListFragment extends BaseFragment {
 
         holder.setText(R.id.tv_driver_user, bean.getRealName());
         holder.setText(R.id.tv_car_code_item, bean.getCarNo());
-        holder.setText(R.id.tv_car_type_item, bean.getCarLong() + "米/" + bean.getCarType());
+        holder.setText(R.id.tv_car_type_item, bean.getCodeName1() + "米/" + bean.getCodeName());
         holder.setText(R.id.tv_car_location, bean.getCarAddress());
         CircleImageView image = holder.getView(R.id.iv_driver_icon);
         ImageLoader.loadUserIcon(mActivity, bean.getUserIcon(), image);

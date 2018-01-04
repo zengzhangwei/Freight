@@ -90,6 +90,11 @@ public class API {
     public static final String AddSend = "AddSend";
 
     /**
+     * 货主修改订单
+     */
+    public static final String UpdateSend = "UpdateSend";
+
+    /**
      * 获取附近的货物订单列表 CarX: CarY:
      */
     public static final String GetNearBySend = "GetNearBySend";
@@ -128,6 +133,16 @@ public class API {
      * 删除反馈意见
      */
     public static final String DeleteOpinion = "DeleteOpinion";
+
+    /**
+     * 获取管理员发布的信息
+     */
+    public static final String GetAdminInfo = "GetAdminInfo";
+
+    /**
+     * 获取自己发布的货物列表
+     */
+    public static final String GetCarSend = "GetCarSend";
 
 
 }

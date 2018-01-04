@@ -1,8 +1,8 @@
 package com.zl.freight.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
@@ -10,19 +10,22 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.zhy.autolayout.AutoRelativeLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.service.LocationService;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.fragment.FindGoodsFragment;
+import com.zl.freight.ui.fragment.MyGoodsFragment;
 import com.zl.freight.ui.fragment.NoLoginPersonFragment;
 import com.zl.freight.ui.fragment.PersonFragment;
 import com.zl.freight.ui.fragment.SendGoodsFragment;
-import com.zl.freight.ui.fragment.StoreFragment;
 import com.zl.freight.ui.fragment.TopLineFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ShareUtils;
@@ -57,6 +60,22 @@ public class MainActivity extends BaseActivity {
     AppBarLayout mainTitle;
     @BindView(R.id.main_rl)
     RelativeLayout mainRl;
+    @BindView(R.id.iv_into_order)
+    ImageView ivIntoOrder;
+    @BindView(R.id.main_rb_send)
+    RadioButton mainRbSend;
+    @BindView(R.id.main_rb_my_goods)
+    RadioButton mainRbMyGoods;
+    @BindView(R.id.main_rb_often)
+    RadioButton mainRbOften;
+    @BindView(R.id.main_rg)
+    RadioGroup mainRg;
+    @BindView(R.id.iv_main_share)
+    ImageView ivMainShare;
+    @BindView(R.id.main_appbar)
+    AppBarLayout mainAppbar;
+    @BindView(R.id.rl_title)
+    AutoRelativeLayout rlTitle;
     private FragmentHelper helper;
     //找货
     private FindGoodsFragment findGoodsFragment;
@@ -69,6 +88,7 @@ public class MainActivity extends BaseActivity {
     private CarLengthDialog carLengthDialog;
     private NoLoginPersonFragment noLoginPersonFragment;
     private long timecode = 0;
+    private MyGoodsFragment myGoodsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,11 +111,20 @@ public class MainActivity extends BaseActivity {
                     tvCarType.setVisibility(View.GONE);
                 }
 
+                if (item.getItemId() == R.id.send_goods) {
+                    mainTitle.setVisibility(View.GONE);
+                    mainAppbar.setVisibility(View.VISIBLE);
+                } else {
+                    mainTitle.setVisibility(View.VISIBLE);
+                    mainAppbar.setVisibility(View.GONE);
+                }
+
                 switch (item.getItemId()) {
                     case R.id.top_line:
                         helper.showFragment(topLineFragment);
                         break;
                     case R.id.send_goods:
+                        mainRg.check(R.id.main_rb_send);
                         helper.showFragment(sendGoodsFragment);
                         break;
                     case R.id.find_goods:
@@ -110,6 +139,21 @@ public class MainActivity extends BaseActivity {
                         break;
                 }
                 return true;
+            }
+        });
+        mainRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                switch (i) {
+                    //发货
+                    case R.id.main_rb_send:
+                        helper.showFragment(sendGoodsFragment);
+                        break;
+                    //我的货源
+                    case R.id.main_rb_my_goods:
+                        helper.showFragment(myGoodsFragment);
+                        break;
+                }
             }
         });
         carLengthDialog.setOnGetCarLengthDataListener(new CarLengthDialog.OnGetCarLengthDataListener() {
@@ -127,24 +171,28 @@ public class MainActivity extends BaseActivity {
         sendGoodsFragment = SendGoodsFragment.newInstance();
         topLineFragment = TopLineFragment.newInstance();
         noLoginPersonFragment = NoLoginPersonFragment.newInstance();
+        myGoodsFragment = MyGoodsFragment.newInstance();
         helper = FragmentHelper.builder(mActivity).attach(R.id.main_rl)
                 .addFragment(findGoodsFragment)
                 .addFragment(personFragment)
                 .addFragment(sendGoodsFragment)
                 .addFragment(topLineFragment)
                 .addFragment(noLoginPersonFragment)
+                .addFragment(myGoodsFragment)
                 .commit();
         helper.showFragment(findGoodsFragment);
         mainBottom.setSelectedItemId(R.id.find_goods);
         carLengthDialog = new CarLengthDialog(mActivity);
-
         //开启定位服务，上报司机位置
         if (SpUtils.isLogin(mActivity)) {
             startService(new Intent(mActivity, LocationService.class));
         }
+
+        //默认选中发货
+        mainRg.check(R.id.main_rb_send);
     }
 
-    @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.tv_car_type, R.id.main_img_weChat})
+    @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.tv_car_type, R.id.iv_into_order, R.id.main_img_weChat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //进入用户中心页面
@@ -158,6 +206,10 @@ public class MainActivity extends BaseActivity {
             //关注微信公众号
             case R.id.main_img_weChat:
 
+                break;
+            //进入司机运单页
+            case R.id.iv_into_order:
+                startActivity(new Intent(mActivity, GoodsOrderActivity.class));
                 break;
             //显示车长车宽选择器
             case R.id.tv_car_type:

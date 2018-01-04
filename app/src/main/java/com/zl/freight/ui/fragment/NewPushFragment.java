@@ -179,6 +179,7 @@ public class NewPushFragment extends BaseFragment {
         CarInformationEntity entity = new CarInformationEntity();
         entity.setInfoContent(content);
         entity.setInfoTitle(title);
+        entity.setUserId(SpUtils.getUserData(mActivity).getId());
         entity.setInfoKey(SpUtils.getUserData(mActivity).getId());
         entity.setInfoType(0);
         entity.setInfoPic(ImageFactory.base64Encode(ImageFactory.getimage(imagePath)));

@@ -8,30 +8,31 @@ import java.io.Serializable;
 
 public class GoodsListBean implements Serializable {
 
+
     /**
-     * Id : 5
+     * Id : 7
      * UserId : 42
      * StartPlace : 邢台市桥西区
      * StartX : 37.068761
      * StartY : 114.491676
-     * EndPlace : 邢台市桥西区
-     * EndX : 37.06538662185888
-     * EndY : 114.49391951731702
-     * UseCarType : 34
-     * UseCarLong : 30
-     * UseCarClass : 2
-     * GoodName : Yuki
-     * GoodsType : 46
-     * GoodsWeight : 12.00
+     * EndPlace : 邢台市桥东区
+     * EndX : 37.067315960234815
+     * EndY : 114.50059841878371
+     * UseCarType : 35
+     * UseCarLong : 27
+     * UseCarClass : 3
+     * GoodName : fog
+     * GoodsType : 47
+     * GoodsWeight : 10.00
      * WeightUnit : 吨
      * Freight : 1400.00
-     * GoDate : 01月01日(今天)
+     * GoDate : 01月03日(今天)
      * GoTime : 全天
      * IsAnyTime : 0
-     * HandlingType : 0
+     * HandlingType : 51
      * PayType : 0
      * Remark :
-     * GoodsPic : /images/2018/1/2 星期二/131593249588144527.png
+     * GoodsPic : /images/2018/1/4 星期四/131595040359181188.png
      * IsRetry : 0
      * IsOften : 1
      * Isvisible : 1
@@ -39,21 +40,41 @@ public class GoodsListBean implements Serializable {
      * InfoMoney : 0.00
      * ReceiveId : 0
      * ReceiveDatetime :
-     * CreateAt : 2018/1/2 星期二 上午 8:02:41
-     * UpdateAt : 2018/1/2 星期二 上午 8:02:41
+     * CreateAt : 2018/1/4 星期四 上午 9:47:15
+     * UpdateAt : 2018/1/4 星期四 上午 9:47:15
      * Times :
      * IsPay :
      * PayLimit :
-     * Range : 424.32
+     * Range : 807.63
      * Isdelete : 0
+     * Id1 : 42
+     * UserName : 15075993917
+     * PassWord : 123456
+     * Referral : leilei
+     * ReferralTel : 15075993917
      * RealName : zhanglei
      * UserIcon :
-     * CodeName : 平板
-     * CodeName1 : 18
-     * CodeName2 : 整车
-     * CodeName3 :
-     * CodeName4 :
-     * juli : 0
+     * IdCardNumber : 130526199311146498
+     * IdCard1 : /images/2017/12/27 星期三/131588376051676063.png
+     * IdCard2 : /images/2017/12/27 星期三/131588376055136261.png
+     * UserRole : 2
+     * OtherTel :
+     * OtherTel1 :
+     * Integral : 0
+     * IsSave : 1
+     * IsCheck : 0
+     * CreateAt1 : 2017/12/27 星期三 下午 4:40:05
+     * UpdateAt1 :
+     * CheckAt :
+     * CheckBy :
+     * CheckByName :
+     * IsDelete1 : 0
+     * CodeName : 高栏
+     * CodeName1 : 16
+     * CodeName2 : 零担
+     * CodeName3 : 重货
+     * CodeName4 : 一装一卸
+     * CodeName5 :
      */
 
     private String Id;
@@ -93,23 +114,34 @@ public class GoodsListBean implements Serializable {
     private String PayLimit;
     private String Range;
     private String Isdelete;
+    private String Id1;
+    private String UserName;
+    private String PassWord;
+    private String Referral;
+    private String ReferralTel;
     private String RealName;
     private String UserIcon;
+    private String IdCardNumber;
+    private String IdCard1;
+    private String IdCard2;
+    private String UserRole;
+    private String OtherTel;
+    private String OtherTel1;
+    private String Integral;
+    private String IsSave;
+    private String IsCheck;
+    private String CreateAt1;
+    private String UpdateAt1;
+    private String CheckAt;
+    private String CheckBy;
+    private String CheckByName;
+    private String IsDelete1;
     private String CodeName;
     private String CodeName1;
     private String CodeName2;
     private String CodeName3;
     private String CodeName4;
     private String CodeName5;
-    private String juli;
-
-    public String getCodeName5() {
-        return CodeName5;
-    }
-
-    public void setCodeName5(String codeName5) {
-        CodeName5 = codeName5;
-    }
 
     public String getId() {
         return Id;
@@ -407,6 +439,46 @@ public class GoodsListBean implements Serializable {
         this.Isdelete = Isdelete;
     }
 
+    public String getId1() {
+        return Id1;
+    }
+
+    public void setId1(String Id1) {
+        this.Id1 = Id1;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
+    }
+
+    public String getPassWord() {
+        return PassWord;
+    }
+
+    public void setPassWord(String PassWord) {
+        this.PassWord = PassWord;
+    }
+
+    public String getReferral() {
+        return Referral;
+    }
+
+    public void setReferral(String Referral) {
+        this.Referral = Referral;
+    }
+
+    public String getReferralTel() {
+        return ReferralTel;
+    }
+
+    public void setReferralTel(String ReferralTel) {
+        this.ReferralTel = ReferralTel;
+    }
+
     public String getRealName() {
         return RealName;
     }
@@ -421,6 +493,126 @@ public class GoodsListBean implements Serializable {
 
     public void setUserIcon(String UserIcon) {
         this.UserIcon = UserIcon;
+    }
+
+    public String getIdCardNumber() {
+        return IdCardNumber;
+    }
+
+    public void setIdCardNumber(String IdCardNumber) {
+        this.IdCardNumber = IdCardNumber;
+    }
+
+    public String getIdCard1() {
+        return IdCard1;
+    }
+
+    public void setIdCard1(String IdCard1) {
+        this.IdCard1 = IdCard1;
+    }
+
+    public String getIdCard2() {
+        return IdCard2;
+    }
+
+    public void setIdCard2(String IdCard2) {
+        this.IdCard2 = IdCard2;
+    }
+
+    public String getUserRole() {
+        return UserRole;
+    }
+
+    public void setUserRole(String UserRole) {
+        this.UserRole = UserRole;
+    }
+
+    public String getOtherTel() {
+        return OtherTel;
+    }
+
+    public void setOtherTel(String OtherTel) {
+        this.OtherTel = OtherTel;
+    }
+
+    public String getOtherTel1() {
+        return OtherTel1;
+    }
+
+    public void setOtherTel1(String OtherTel1) {
+        this.OtherTel1 = OtherTel1;
+    }
+
+    public String getIntegral() {
+        return Integral;
+    }
+
+    public void setIntegral(String Integral) {
+        this.Integral = Integral;
+    }
+
+    public String getIsSave() {
+        return IsSave;
+    }
+
+    public void setIsSave(String IsSave) {
+        this.IsSave = IsSave;
+    }
+
+    public String getIsCheck() {
+        return IsCheck;
+    }
+
+    public void setIsCheck(String IsCheck) {
+        this.IsCheck = IsCheck;
+    }
+
+    public String getCreateAt1() {
+        return CreateAt1;
+    }
+
+    public void setCreateAt1(String CreateAt1) {
+        this.CreateAt1 = CreateAt1;
+    }
+
+    public String getUpdateAt1() {
+        return UpdateAt1;
+    }
+
+    public void setUpdateAt1(String UpdateAt1) {
+        this.UpdateAt1 = UpdateAt1;
+    }
+
+    public String getCheckAt() {
+        return CheckAt;
+    }
+
+    public void setCheckAt(String CheckAt) {
+        this.CheckAt = CheckAt;
+    }
+
+    public String getCheckBy() {
+        return CheckBy;
+    }
+
+    public void setCheckBy(String CheckBy) {
+        this.CheckBy = CheckBy;
+    }
+
+    public String getCheckByName() {
+        return CheckByName;
+    }
+
+    public void setCheckByName(String CheckByName) {
+        this.CheckByName = CheckByName;
+    }
+
+    public String getIsDelete1() {
+        return IsDelete1;
+    }
+
+    public void setIsDelete1(String IsDelete1) {
+        this.IsDelete1 = IsDelete1;
     }
 
     public String getCodeName() {
@@ -463,11 +655,11 @@ public class GoodsListBean implements Serializable {
         this.CodeName4 = CodeName4;
     }
 
-    public String getJuli() {
-        return juli;
+    public String getCodeName5() {
+        return CodeName5;
     }
 
-    public void setJuli(String juli) {
-        this.juli = juli;
+    public void setCodeName5(String CodeName5) {
+        this.CodeName5 = CodeName5;
     }
 }

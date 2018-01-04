@@ -95,29 +95,27 @@ public class ADActivity extends BaseActivity {
             return;
         }
 
-//        CarInformationEntity entity = new CarInformationEntity();
-//        entity.setInfoContent(content);
-//        entity.setInfoTitle(title);
-//        entity.setInfoKey(SpUtils.getUserData(mActivity).getId());
-//        entity.setInfoType(0);
-//        showDialog("文章发布中...");
-//        Map<String, String> params = new HashMap<>();
-//        params.put("InfoJson", GsonUtils.toJson(entity));
-//        SoapUtils.Post(mActivity, API.AddInfo, params, new SoapCallback() {
-//            @Override
-//            public void onError(String error) {
-//                hideDialog();
-//                showToast(error);
-//            }
-//
-//            @Override
-//            public void onSuccess(String data) {
-//                hideDialog();
-//                showToast("发布成功");
-//                mActivity.finish();
-//            }
-//        });
+        CarInformationEntity entity = new CarInformationEntity();
+        entity.setInfoContent(content);
+        entity.setInfoTitle(title);
+        entity.setUserId(SpUtils.getUserData(mActivity).getId());
+        entity.setInfoLink(url);
+        showDialog("文章发布中...");
+        Map<String, String> params = new HashMap<>();
+        params.put("InfoJson", GsonUtils.toJson(entity));
+        SoapUtils.Post(mActivity, API.AddInfo, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                hideDialog();
+                showToast(error);
+            }
 
-        mActivity.finish();
+            @Override
+            public void onSuccess(String data) {
+                hideDialog();
+                showToast("发布成功");
+                finish();
+            }
+        });
     }
 }

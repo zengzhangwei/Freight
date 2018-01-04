@@ -187,6 +187,7 @@ public class WebPushFragment extends BaseFragment {
         CarInformationEntity entity = new CarInformationEntity();
         entity.setInfoLink(url);
         entity.setInfoTitle(title);
+        entity.setUserId(SpUtils.getUserData(mActivity).getId());
         entity.setInfoKey(SpUtils.getUserData(mActivity).getId());
         entity.setInfoType(1);
         entity.setInfoPic(ImageFactory.base64Encode(ImageFactory.getimage(imagePath)));

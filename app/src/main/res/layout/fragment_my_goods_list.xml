@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.zl.freight.ui.fragment.MyGoodsListFragment">
 
     <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
@@ -12,7 +13,8 @@
         <ListView
             android:id="@+id/my_goods_listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent"
+            android:divider="@color/white"></ListView>
 
     </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 

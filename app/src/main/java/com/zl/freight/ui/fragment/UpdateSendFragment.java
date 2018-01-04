@@ -15,6 +15,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.zl.freight.R;
 import com.zl.freight.mode.CarSendEntity;
+import com.zl.freight.mode.GoodsListBean;
 import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.ui.activity.AddressChooseActivity;
 import com.zl.freight.ui.dialog.ChooseTimeDialog;
@@ -28,6 +29,7 @@ import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.utils.GsonUtils;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +43,7 @@ import butterknife.Unbinder;
  * @date 17/12/7
  * 发货界面
  */
-public class SendGoodsFragment extends BaseFragment {
+public class UpdateSendFragment extends BaseFragment {
 
     @BindView(R.id.tv_tonne)
     TextView tvTonne;
@@ -91,16 +93,18 @@ public class SendGoodsFragment extends BaseFragment {
     private String c;
     private String goodsName;
     private KeyValueBean l, t, u, g, z, p;
+    private CarSendEntity sendEntity = new CarSendEntity();
 
-    public SendGoodsFragment() {
+    public UpdateSendFragment() {
         // Required empty public constructor
     }
 
-    public static SendGoodsFragment newInstance() {
+
+    public static UpdateSendFragment newInstance(GoodsListBean listBean) {
 
         Bundle args = new Bundle();
-
-        SendGoodsFragment fragment = new SendGoodsFragment();
+        args.putSerializable("listBean", listBean);
+        UpdateSendFragment fragment = new UpdateSendFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -112,8 +116,92 @@ public class SendGoodsFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_send_goods, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
+        initData();
         initListener();
         return view;
+    }
+
+    private void initData() {
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            GoodsListBean listBean = (GoodsListBean) arguments.getSerializable("listBean");
+            tvChooseStart.setText(listBean.getStartPlace());
+            tvChooseEnd.setText(listBean.getEndPlace());
+            tvChooseLength.setText(listBean.getCodeName1() + "  " + listBean.getCodeName());
+            tvChooseType.setText(listBean.getCodeName3() + "  " + listBean.getGoodName());
+            etWeight.setText(listBean.getGoodsWeight());
+            if (listBean.getWeightUnit().equals("吨")) {
+                tvTonne.setSelected(true);
+                tvSquare.setSelected(false);
+            } else {
+                tvTonne.setSelected(false);
+                tvSquare.setSelected(true);
+            }
+            etMoney.setText(listBean.getFreight());
+            tvChooseTime.setText(listBean.getGoDate() + listBean.getGoTime());
+            if (!TextUtils.isEmpty(listBean.getCodeName4()) || !TextUtils.isEmpty(listBean.getCodeName5()) || !TextUtils.isEmpty(listBean.getRemark())) {
+                tvChooseContent.setText(listBean.getCodeName4() + " " + listBean.getCodeName5() + " " + listBean.getRemark());
+            }
+
+            //是否为常发货源
+            if (listBean.getIsOften().equals("0")) {
+                tvChangFa.setSelected(true);
+            } else {
+                tvChangFa.setSelected(false);
+            }
+
+            //是否智能重发
+            if (listBean.getIsRetry().equals("0")) {
+                tvChongFa.setSelected(true);
+            } else {
+                tvChongFa.setSelected(false);
+            }
+
+            //是否同城不可见
+            if (listBean.getIsvisible().equals("0")) {
+                tvTongCheng.setSelected(true);
+            } else {
+                tvTongCheng.setSelected(false);
+            }
+
+            //赋值始发地和目的地
+            startCity = listBean.getStartPlace();
+            startLatitude = Double.parseDouble(listBean.getStartX());
+            startLongitude = Double.parseDouble(listBean.getStartY());
+            endCity = listBean.getEndPlace();
+            endLatitude = Double.parseDouble(listBean.getEndX());
+            endLongitude = Double.parseDouble(listBean.getEndY());
+
+            //初始化参数
+            sendEntity.setUserId(SpUtils.getUserData(mActivity).getId());
+            sendEntity.setStartPlace(listBean.getStartPlace());
+            sendEntity.setStartX(listBean.getStartX());
+            sendEntity.setStartY(listBean.getStartY());
+            sendEntity.setEndPlace(listBean.getEndPlace());
+            sendEntity.setEndX(listBean.getEndX());
+            sendEntity.setEndY(listBean.getEndY());
+            sendEntity.setUseCarLong(Integer.parseInt(listBean.getUseCarLong()));
+            sendEntity.setUseCarType(Integer.parseInt(listBean.getUseCarType()));
+            sendEntity.setUseCarClass(Integer.parseInt(listBean.getUseCarClass()));
+            sendEntity.setGoodsType(Integer.parseInt(listBean.getGoodsType()));
+            sendEntity.setGoodsWeight(Double.parseDouble(listBean.getGoodsWeight()));
+            sendEntity.setFreight(Double.parseDouble(listBean.getFreight()));
+            sendEntity.setGoodName(listBean.getGoodName());
+            sendEntity.setGoTime(listBean.getGoTime());
+            sendEntity.setGoDate(listBean.getGoDate());
+            sendEntity.setIsAnyTime(Integer.parseInt(listBean.getIsAnyTime()));
+            sendEntity.setIsvisible(Integer.parseInt(listBean.getIsvisible()));
+            sendEntity.setIsOften(Integer.parseInt(listBean.getIsOften()));
+            sendEntity.setIsRetry(Integer.parseInt(listBean.getIsRetry()));
+            sendEntity.setRange(Double.parseDouble(listBean.getRange()));
+            sendEntity.setWeightUnit(listBean.getWeightUnit());
+            //装卸方式
+            sendEntity.setHandlingType(Integer.parseInt(listBean.getHandlingType()));
+            //支付方式
+            sendEntity.setPayType(Integer.parseInt(listBean.getPayType()));
+            //备注信息
+            sendEntity.setRemark(listBean.getRemark());
+        }
     }
 
     private void initListener() {
@@ -154,13 +242,11 @@ public class SendGoodsFragment extends BaseFragment {
     }
 
     private void initView() {
-        tvTonne.setSelected(true);
         dialog = new SGCarLengthDialog(mActivity);
         goodsTypeDialog = new GoodsTypeDialog(mActivity);
         remarkDialog = new RemarkDialog(mActivity);
         timeDialog = new ChooseTimeDialog(mActivity);
-
-        tvChongFa.setSelected(true);
+        tvOkPush.setText("修改并发布");
     }
 
     @Override
@@ -170,7 +256,8 @@ public class SendGoodsFragment extends BaseFragment {
     }
 
     @OnClick({R.id.tv_tonne, R.id.tv_square, R.id.tv_choose_start, R.id.tv_choose_end, R.id.tv_choose_length,
-            R.id.tv_choose_type, R.id.tv_choose_time, R.id.tv_choose_content, R.id.tv_ok_push, R.id.tv_chong_fa, R.id.tv_chang_fa, R.id.tv_tong_cheng})
+            R.id.tv_choose_type, R.id.tv_choose_time, R.id.tv_choose_content, R.id.tv_ok_push, R.id.tv_chong_fa,
+            R.id.tv_chang_fa, R.id.tv_tong_cheng})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //选择吨
@@ -232,56 +319,40 @@ public class SendGoodsFragment extends BaseFragment {
     private void commit() {
         String weight = etWeight.getText().toString().trim();
         String money = etMoney.getText().toString().trim();
-        if (TextUtils.isEmpty(startAddress) || TextUtils.isEmpty(endAddress)) {
-            showToast("请选择起点和终点");
-            return;
+
+        if (l != null && t != null && u != null) {
+            sendEntity.setUseCarLong(Integer.parseInt(l.getId()));
+            sendEntity.setUseCarType(Integer.parseInt(t.getId()));
+            sendEntity.setUseCarClass(Integer.parseInt(u.getId()));
         }
 
-        if (l == null || t == null || u == null) {
-            showToast("请选择车长车型");
-            return;
+        if (g != null) {
+            sendEntity.setGoodsType(Integer.parseInt(g.getId()));
+            sendEntity.setGoodName(goodsName);
         }
 
-        if (g == null) {
-            showToast("请选择货物类型");
-            return;
+        if (!TextUtils.isEmpty(weight)) {
+            sendEntity.setGoodsWeight(Double.parseDouble(weight));
         }
 
-        if (TextUtils.isEmpty(weight)) {
-            showToast("请输入货物重量");
-            return;
+        if (!TextUtils.isEmpty(money)) {
+            sendEntity.setFreight(Double.parseDouble(money));
         }
 
-        if (TextUtils.isEmpty(money)) {
-            showToast("请输入运费金额");
-            return;
+        if (!TextUtils.isEmpty(goDate)) {
+            sendEntity.setGoTime(goTime);
+            sendEntity.setGoDate(goDate);
+            if (goDate.equals("随时装货")) {
+                sendEntity.setIsAnyTime(0);
+            }
         }
 
-        if (TextUtils.isEmpty(goDate)) {
-            showToast("请选择装车时间");
-            return;
-        }
-
-        CarSendEntity sendEntity = new CarSendEntity();
-        sendEntity.setUserId(SpUtils.getUserData(mActivity).getId());
         sendEntity.setStartPlace(startCity);
         sendEntity.setStartX(startLatitude + "");
         sendEntity.setStartY(startLongitude + "");
         sendEntity.setEndPlace(endCity);
         sendEntity.setEndX(endLatitude + "");
         sendEntity.setEndY(endLongitude + "");
-        sendEntity.setUseCarLong(Integer.parseInt(l.getId()));
-        sendEntity.setUseCarType(Integer.parseInt(t.getId()));
-        sendEntity.setUseCarClass(Integer.parseInt(u.getId()));
-        sendEntity.setGoodsType(Integer.parseInt(g.getId()));
-        sendEntity.setGoodsWeight(Double.parseDouble(weight));
-        sendEntity.setFreight(Double.parseDouble(money));
-        sendEntity.setGoodName(goodsName);
-        sendEntity.setGoTime(goTime);
-        sendEntity.setGoDate(goDate);
-        if (goDate.equals("随时装货")) {
-            sendEntity.setIsAnyTime(0);
-        }
 
         //是否标记为常发货源
         if (tvChangFa.isSelected()) {
@@ -314,7 +385,8 @@ public class SendGoodsFragment extends BaseFragment {
         LatLng p1 = new LatLng(startLatitude, startLongitude);
         LatLng p2 = new LatLng(endLatitude, endLongitude);
         double distance = DistanceUtil.getDistance(p1, p2);
-        sendEntity.setRange(distance);
+        String format = String.format("%.2f", distance);
+        sendEntity.setRange(Double.parseDouble(format));
 
         //装卸方式
         if (z != null) {
@@ -324,7 +396,6 @@ public class SendGoodsFragment extends BaseFragment {
         if (p != null) {
             sendEntity.setPayType(Integer.parseInt(p.getId()));
         }
-
         //备注信息
         if (!TextUtils.isEmpty(c)) {
             sendEntity.setRemark(c);
@@ -332,7 +403,7 @@ public class SendGoodsFragment extends BaseFragment {
         Map<String, String> params = new HashMap<>();
         params.put("sendJson", GsonUtils.toJson(sendEntity));
         showDialog("货物发布中...");
-        SoapUtils.Post(mActivity, API.AddSend, params, new SoapCallback() {
+        SoapUtils.Post(mActivity, API.UpdateSend, params, new SoapCallback() {
             @Override
             public void onError(String error) {
                 hideDialog();

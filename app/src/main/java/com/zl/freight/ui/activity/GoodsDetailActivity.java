@@ -121,7 +121,7 @@ public class GoodsDetailActivity extends BaseActivity {
                 break;
             //联系货主
             case R.id.iv_call:
-                SystemUtils.call(mActivity, "15075993917");
+                SystemUtils.call(mActivity, data.getUserName());
                 break;
             //接单
             case R.id.tv_jie_dan:

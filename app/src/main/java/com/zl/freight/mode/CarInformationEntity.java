@@ -7,6 +7,7 @@ package com.zl.freight.mode;
 public class CarInformationEntity {
     public int Id;
     public int InfoType;
+    public String UserId = "";
     public String InfoKey = "";
     public String InfoTitle = "";
     public String InfoContent = "";
@@ -16,6 +17,14 @@ public class CarInformationEntity {
     public int PayLimit;
     public String CreateAt = "";
     public String UpdateAt = "";
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
+    }
 
     public String getInfoTitle() {
         return InfoTitle;

@@ -209,7 +209,7 @@ public class LookGoodsLocationActivity extends BaseActivity {
      */
     private void startNavigation() {
         if (startLongitude == 0 || longitude == 0 || startLatitude == 0 || latitude == 0) {
-            showDialog("位置信息不全无法进行导航");
+            showToast("位置信息不全无法进行导航");
             return;
         }
         NavigationMode mode = new NavigationMode();

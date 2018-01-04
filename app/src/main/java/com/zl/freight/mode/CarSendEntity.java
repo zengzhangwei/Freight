@@ -1,10 +1,12 @@
 package com.zl.freight.mode;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/12/22.
  */
 
-public class CarSendEntity {
+public class CarSendEntity implements Serializable {
     public int Id;//Id
     public String UserId = "";//货主Id
     public String StartPlace = "";//出发地点

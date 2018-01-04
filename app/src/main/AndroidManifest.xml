@@ -163,7 +163,8 @@
         <activity android:name=".ui.activity.ADActivity" />
         <activity android:name=".ui.activity.FeedbackActivity" />
         <activity android:name=".ui.activity.WebActivity" />
-        <activity android:name=".ui.activity.ProgressTestActivity"></activity>
+        <activity android:name=".ui.activity.ProgressTestActivity" />
+        <activity android:name=".ui.activity.UpdateSendActivity"></activity>
     </application>
 
 </manifest>

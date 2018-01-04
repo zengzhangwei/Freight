@@ -25,6 +25,7 @@ import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.activity.MyNewsActivity;
 import com.zl.freight.ui.activity.MyOrderActivity;
 import com.zl.freight.ui.activity.UserCheckActivity;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
 
@@ -102,6 +103,17 @@ public class PersonFragment extends BaseFragment {
 
     private void initData() {
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        String realName = SpUtils.getUserData(mActivity).getRealName();
+        String userIcon = SpUtils.getUserData(mActivity).getUserIcon();
+        if (!TextUtils.isEmpty(realName)) {
+            tvShoujihao.setText(realName);
+        }
+        ImageLoader.loadUserIcon(mActivity, userIcon, this.userIcon);
     }
 
     private void initView() {
