@@ -223,7 +223,7 @@ public class GoodsMainActivity extends BaseActivity {
                 break;
             //显示车长车宽选择器
             case R.id.tv_car_type:
-                searchDialog.showDialog(view);
+                carLengthDialog.show(view);
                 break;
             //进入货主运单页
             case R.id.iv_into_order:

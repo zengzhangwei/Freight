@@ -4,7 +4,6 @@ package com.zl.freight.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +71,8 @@ public class SendGoodsFragment extends BaseFragment {
     TextView tvChangFa;
     @BindView(R.id.tv_tong_cheng)
     TextView tvTongCheng;
+    @BindView(R.id.et_info_money)
+    EditText etInfoMoney;
     private SGCarLengthDialog dialog;
     private GoodsTypeDialog goodsTypeDialog;
     private RemarkDialog remarkDialog;
@@ -232,6 +233,7 @@ public class SendGoodsFragment extends BaseFragment {
     private void commit() {
         String weight = etWeight.getText().toString().trim();
         String money = etMoney.getText().toString().trim();
+        String infoMoney = etInfoMoney.getText().toString().trim();
         if (TextUtils.isEmpty(startAddress) || TextUtils.isEmpty(endAddress)) {
             showToast("请选择起点和终点");
             return;
@@ -279,6 +281,15 @@ public class SendGoodsFragment extends BaseFragment {
         sendEntity.setGoodName(goodsName);
         sendEntity.setGoTime(goTime);
         sendEntity.setGoDate(goDate);
+
+        if (!TextUtils.isEmpty(infoMoney)) {
+            sendEntity.setInfoMoney(Double.parseDouble(infoMoney));
+            sendEntity.setIsInfoPay(0);
+        } else {
+            sendEntity.setInfoMoney(0);
+            sendEntity.setIsInfoPay(1);
+        }
+
         if (goDate.equals("随时装货")) {
             sendEntity.setIsAnyTime(0);
         }

@@ -3,7 +3,10 @@ package com.zl.freight.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -54,6 +57,7 @@ public class MyGoodsListFragment extends BaseFragment {
     private int type;
     private List<GoodsListBean> mList = new ArrayList<>();
     private UniversalAdapter<GoodsListBean> mAdapter;
+    private int position;
 
     public MyGoodsListFragment() {
         // Required empty public constructor
@@ -100,6 +104,50 @@ public class MyGoodsListFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
+        myGoodsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                position = i;
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(Menu.NONE, R.id.menu_delete_order, Menu.NONE, "删除订单");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_delete_order:
+                deleteOrder();
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * 删除订单
+     */
+    private void deleteOrder() {
+        Map<String, String> params = new HashMap<>();
+        params.put("SendId", mList.get(position).getId());
+        SoapUtils.Post(mActivity, API.DeleteSend, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                showToast("删除成功");
+                mList.remove(position);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void initView() {
@@ -116,6 +164,7 @@ public class MyGoodsListFragment extends BaseFragment {
         myGoodsListView.setAdapter(mAdapter);
         myGoodsTrl.setHeaderView(new ProgressLayout(mActivity));
         myGoodsTrl.setEnableLoadmore(false);
+        registerForContextMenu(myGoodsListView);
     }
 
     @Override

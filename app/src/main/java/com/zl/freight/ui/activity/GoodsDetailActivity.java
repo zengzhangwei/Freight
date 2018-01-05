@@ -1,11 +1,15 @@
 package com.zl.freight.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseUserEntity;
@@ -70,7 +74,14 @@ public class GoodsDetailActivity extends BaseActivity {
     TextView tvJieDan;
     @BindView(R.id.tv_goods_name)
     TextView tvGoodsName;
+    @BindView(R.id.tv_info_money)
+    TextView tvInfoMoney;
+    @BindView(R.id.linear_info_money)
+    AutoLinearLayout linearInfoMoney;
+    @BindView(R.id.linear_zhuang_xie)
+    AutoLinearLayout linearZhuangXie;
     private GoodsListBean data;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +92,7 @@ public class GoodsDetailActivity extends BaseActivity {
     }
 
     private void initView() {
+        tvTitle.setText("货物详情");
         BaseUserEntity userData = SpUtils.getUserData(mActivity);
         //如果是司机，则显示接单按钮
         if (userData.getUserRole().equals("" + API.DRIVER)) {
@@ -97,12 +109,34 @@ public class GoodsDetailActivity extends BaseActivity {
         tvCarLength.setText(data.getCodeName1() + "米");
         tvGoodsIf.setText(data.getCodeName2());
         tvCarType.setText(data.getCodeName());
-        tvZhuangXieXuQiu.setText(data.getCodeName3());
         ImageLoader.loadUserIcon(mActivity, data.getUserIcon(), ivGoodsUserIcon);
         ivGoodsUserName.setText(data.getRealName());
         tvGoodsName.setText(data.getGoodName());
 
-        tvTitle.setText("货物详情");
+        if (!TextUtils.isEmpty(data.getCodeName3())) {
+            linearZhuangXie.setVisibility(View.VISIBLE);
+            tvZhuangXieXuQiu.setText(data.getCodeName3());
+        }
+
+        if (Double.valueOf(data.getInfoMoney()) > 0) {
+            tvInfoMoney.setText(data.getInfoMoney() + "元");
+            linearInfoMoney.setVisibility(View.VISIBLE);
+        }
+
+        alertDialog = new AlertDialog.Builder(mActivity).setTitle("系统提示")
+                .setMessage("该订单需要支付 " + data.getInfoMoney() + "元 信息费用是否要继续接单，点击继续后将从账户余额中扣除该笔费用。")
+                .setPositiveButton("继续", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).create();
     }
 
     @OnClick({R.id.iv_back, R.id.tv_goods_location, R.id.iv_call, R.id.tv_jie_dan})
@@ -125,6 +159,11 @@ public class GoodsDetailActivity extends BaseActivity {
                 break;
             //接单
             case R.id.tv_jie_dan:
+                //判断是否需要支付信息费
+                if (Double.valueOf(data.getInfoMoney()) >= 0) { //需要支付信息费
+                    alertDialog.show();
+                    return;
+                }
                 jieDan();
                 break;
         }
@@ -150,6 +189,7 @@ public class GoodsDetailActivity extends BaseActivity {
             public void onSuccess(String data) {
                 hideDialog();
                 showToast("接单成功");
+                finish();
             }
         });
 

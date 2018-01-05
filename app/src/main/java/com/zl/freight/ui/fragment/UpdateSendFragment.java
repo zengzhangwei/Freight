@@ -4,7 +4,6 @@ package com.zl.freight.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,6 @@ import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.utils.GsonUtils;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,6 +72,8 @@ public class UpdateSendFragment extends BaseFragment {
     TextView tvChangFa;
     @BindView(R.id.tv_tong_cheng)
     TextView tvTongCheng;
+    @BindView(R.id.et_info_money)
+    EditText etInfoMoney;
     private SGCarLengthDialog dialog;
     private GoodsTypeDialog goodsTypeDialog;
     private RemarkDialog remarkDialog;
@@ -164,6 +164,12 @@ public class UpdateSendFragment extends BaseFragment {
                 tvTongCheng.setSelected(false);
             }
 
+            if (Double.valueOf(listBean.getInfoMoney()) <= 0) {
+                etInfoMoney.setText("");
+            } else {
+                etInfoMoney.setText(listBean.getInfoMoney());
+            }
+
             //赋值始发地和目的地
             startCity = listBean.getStartPlace();
             startLatitude = Double.parseDouble(listBean.getStartX());
@@ -195,6 +201,8 @@ public class UpdateSendFragment extends BaseFragment {
             sendEntity.setIsRetry(Integer.parseInt(listBean.getIsRetry()));
             sendEntity.setRange(Double.parseDouble(listBean.getRange()));
             sendEntity.setWeightUnit(listBean.getWeightUnit());
+            sendEntity.setIsInfoPay(Integer.parseInt(listBean.getIsInfoPay()));
+            sendEntity.setInfoMoney(Double.parseDouble(listBean.getInfoMoney()));
             //装卸方式
             sendEntity.setHandlingType(Integer.parseInt(listBean.getHandlingType()));
             //支付方式
@@ -319,7 +327,7 @@ public class UpdateSendFragment extends BaseFragment {
     private void commit() {
         String weight = etWeight.getText().toString().trim();
         String money = etMoney.getText().toString().trim();
-
+        String infoMoney = etInfoMoney.getText().toString().trim();
         if (l != null && t != null && u != null) {
             sendEntity.setUseCarLong(Integer.parseInt(l.getId()));
             sendEntity.setUseCarType(Integer.parseInt(t.getId()));
@@ -345,6 +353,14 @@ public class UpdateSendFragment extends BaseFragment {
             if (goDate.equals("随时装货")) {
                 sendEntity.setIsAnyTime(0);
             }
+        }
+
+        if (!TextUtils.isEmpty(infoMoney)) {
+            sendEntity.setInfoMoney(Double.parseDouble(infoMoney));
+            sendEntity.setIsInfoPay(0);
+        } else {
+            sendEntity.setInfoMoney(0);
+            sendEntity.setIsInfoPay(1);
         }
 
         sendEntity.setStartPlace(startCity);

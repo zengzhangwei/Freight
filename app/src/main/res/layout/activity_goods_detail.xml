@@ -63,7 +63,7 @@
             android:layout_alignBottom="@id/tv_goods_location"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/dp_16"
-            android:text="发布时间：2017-12-13 12:45"
+            android:text="发布时间："
             android:textSize="@dimen/dp_12" />
 
     </com.zhy.autolayout.AutoRelativeLayout>
@@ -135,7 +135,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="普货"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dp_12" />
 
@@ -145,7 +144,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="12吨"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dp_12" />
 
@@ -155,7 +153,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="整车"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dp_12" />
 
@@ -165,7 +162,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="整车"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dp_12" />
         </com.zhy.autolayout.AutoLinearLayout>
@@ -196,7 +192,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_32"
-                android:text="12米"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dp_14" />
         </com.zhy.autolayout.AutoLinearLayout>
@@ -220,16 +215,50 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_32"
-                android:text="高栏"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dp_14" />
         </com.zhy.autolayout.AutoLinearLayout>
 
         <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/linear_info_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_8"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <include layout="@layout/line_layout" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_16"
+                    android:text="信息费用"
+                    android:textSize="@dimen/dp_14" />
+
+                <TextView
+                    android:id="@+id/tv_info_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_32"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_14" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/linear_zhuang_xie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <include layout="@layout/line_layout" />
 
@@ -250,7 +279,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_32"
-                    android:text="一装一卸"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dp_14" />
             </com.zhy.autolayout.AutoLinearLayout>
@@ -310,7 +338,7 @@
                 android:layout_width="120px"
                 android:layout_height="120px"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/icon_touxiang" />
 
             <TextView
                 android:id="@+id/iv_goods_user_name"
@@ -319,7 +347,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_14"
                 android:layout_toRightOf="@id/iv_goods_user_icon"
-                android:text="张可可"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dp_16" />
 

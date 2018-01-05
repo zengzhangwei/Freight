@@ -2,5 +2,6 @@
 <resources>
 
     <item name="menu_delete_news" type="id">false</item>
+    <item name="menu_delete_order" type="id">false</item>
 
 </resources>

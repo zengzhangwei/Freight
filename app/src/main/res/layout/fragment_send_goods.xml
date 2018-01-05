@@ -201,6 +201,40 @@
 
                 <TextView
                     style="@style/SendGoodsTextStyle"
+                    android:drawableLeft="@mipmap/icon_price"
+                    android:text="@string/info_money" />
+
+                <EditText
+                    android:id="@+id/et_info_money"
+                    android:layout_width="460px"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:hint="点击输入（可选）"
+                    android:inputType="numberDecimal"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/dp_14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yuan"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_14" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginLeft="@dimen/dp_18"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/SendGoodsTextStyle"
                     android:drawableLeft="@mipmap/icon_load_time"
                     android:text="@string/loading_time" />
 
