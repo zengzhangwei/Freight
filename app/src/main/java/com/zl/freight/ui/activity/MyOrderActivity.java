@@ -1,21 +1,20 @@
 package com.zl.freight.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
-import com.zl.zlibrary.adapter.RecyclerAdapter;
-import com.zl.zlibrary.adapter.ViewHolder;
-import com.zl.zlibrary.view.MRefreshRecyclerView;
+import com.zl.freight.ui.fragment.GoodsOrderListFragment;
+import com.zl.freight.ui.fragment.OrderListFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,12 +34,13 @@ public class MyOrderActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.tv_title_right)
     TextView tvTitleRight;
-    @BindView(R.id.my_order_mrlv)
-    RecyclerView myOrderMrlv;
-    @BindView(R.id.my_order_trl)
-    TwinklingRefreshLayout myOrderTrl;
-    private List<String> mList = new ArrayList<>();
-    private RecyclerAdapter<String> mAdapter;
+    @BindView(R.id.my_order_tab)
+    TabLayout myOrderTab;
+    @BindView(R.id.my_order_pager)
+    ViewPager myOrderPager;
+    private List<Fragment> mList = new ArrayList<>();
+    private List<String> dList = Arrays.asList("我的运单", "货物运单");
+    private FragmentStatePagerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,38 +53,48 @@ public class MyOrderActivity extends BaseActivity {
     }
 
     private void initListener() {
-        myOrderTrl.setOnRefreshListener(new RefreshListenerAdapter() {
+        myOrderPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(myOrderTab));
+        myOrderTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-                super.onRefresh(refreshLayout);
+            public void onTabSelected(TabLayout.Tab tab) {
+                myOrderPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
-            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-                super.onLoadMore(refreshLayout);
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }
 
     private void initData() {
-        for (int i = 0; i < 5; i++) {
-            mList.add("");
-        }
+        mList.add(OrderListFragment.newInstance(0));
+        mList.add(GoodsOrderListFragment.newInstance(0));
         mAdapter.notifyDataSetChanged();
+        for (String s : dList) {
+            myOrderTab.addTab(myOrderTab.newTab().setText(s));
+        }
     }
 
     private void initView() {
         tvTitle.setText(R.string.my_order);
-        mAdapter = new RecyclerAdapter<String>(mActivity, mList, R.layout.order_list_item) {
+        mAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return mList.get(position);
+            }
 
             @Override
-            protected void convert(ViewHolder holder, String s, int position) {
-
+            public int getCount() {
+                return mList.size();
             }
         };
-        myOrderMrlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        myOrderMrlv.setAdapter(mAdapter);
-        myOrderTrl.setHeaderView(new ProgressLayout(mActivity));
+        myOrderPager.setAdapter(mAdapter);
     }
 
     @OnClick(R.id.iv_back)
