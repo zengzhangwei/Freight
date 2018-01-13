@@ -70,9 +70,12 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- 付钱拉SDK张磊的测试KEY -->
+        <!--<meta-data-->
+        <!--android:name="FQL_APPKEY"-->
+        <!--android:value="fPXb00o5IvnxxlKCZmbM4w" /> -->
         <meta-data
             android:name="FQL_APPKEY"
-            android:value="fPXb00o5IvnxxlKCZmbM4w" />
+            android:value="rfi68QEmnx9GvV9dN0S95w" />
 
         <!-- 支付宝需要添加 -->
         <activity
@@ -94,6 +97,17 @@
 
         <!-- 司机位置上传服务 -->
         <service android:name=".service.LocationService" />
+
+        <!-- 兼容Android7.0安装应用 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.zl.freight.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.LauncherActivity">

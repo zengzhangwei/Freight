@@ -128,7 +128,7 @@ public class GoodsDetailActivity extends BaseActivity {
                 .setPositiveButton("继续", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        jieDan();
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -350,7 +351,7 @@ public class CheYuanListFragment extends BaseFragment {
             holder.setText(R.id.tv_item_text, "移除熟车");
         }
         TextView ivStatus = holder.getView(R.id.tv_driver_status);
-        if (position < 4) {
+        if (bean.getSendId().equals("null") || TextUtils.isEmpty(bean.getSendId()) || bean.getSendId().equals("0")) {
             ivStatus.setBackgroundDrawable(getResources().getDrawable(R.drawable.green_empty_round_shpae));
             ivStatus.setTextColor(getResources().getColor(R.color.green_empty));
             ivStatus.setText("空车");
@@ -362,7 +363,7 @@ public class CheYuanListFragment extends BaseFragment {
 
         holder.setText(R.id.tv_driver_user, bean.getRealName());
         holder.setText(R.id.tv_car_code_item, bean.getCarNo());
-        holder.setText(R.id.tv_car_type_item, bean.getCodeName1() + "米/" + bean.getCodeName());
+        holder.setText(R.id.tv_car_type_item, bean.getCodeName() + "米/" + bean.getCodeName1());
         holder.setText(R.id.tv_car_location, bean.getCarAddress());
         CircleImageView image = holder.getView(R.id.iv_driver_icon);
         ImageLoader.loadUserIcon(mActivity, bean.getUserIcon(), image);

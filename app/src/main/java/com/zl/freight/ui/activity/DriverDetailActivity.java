@@ -12,6 +12,7 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.utils.SystemUtils;
@@ -74,8 +75,8 @@ public class DriverDetailActivity extends BaseActivity {
         if (carUser != null) {
             tvRealName.setText("真实姓名：" + carUser.getRealName());
             tvDriverPhone.setText(carUser.getUserName());
-            tvDriverCarType.setText(carUser.getCarLong() + "米/" + carUser.getCarType());
-
+            tvDriverCarType.setText(carUser.getCodeName() + "米/" + carUser.getCodeName1());
+            ImageLoader.loadUserIcon(mActivity, carUser.getUserIcon(), driverIcon);
         }
     }
 

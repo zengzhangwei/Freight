@@ -21,6 +21,7 @@ public class LoginUtils {
             int role = SpUtils.getRole(context);
             Intent i = new Intent(context, LoginActivity.class);
             i.putExtra("role", role);
+            i.putExtra(API.ISFINISH, true);
             context.startActivity(i);
             return;
         }

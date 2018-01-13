@@ -21,7 +21,8 @@ public class API {
     public static final int DRIVER = 1;
     public static final int GOODS = 2;
 
-    public static final String BaseUrl = "http://172.16.18.17";
+//    public static final String BaseUrl = "http://172.16.18.17";
+    public static final String BaseUrl = "http://139.129.131.31:8088/";
 
     /**
      * 登录
