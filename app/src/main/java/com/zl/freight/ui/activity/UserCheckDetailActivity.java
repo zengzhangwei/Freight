@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -19,12 +20,17 @@ import android.widget.Toast;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -150,7 +156,23 @@ public class UserCheckDetailActivity extends BaseActivity {
      * 通过审核
      */
     private void commitOk() {
-        finish();
+        Map<String, String> params = new HashMap<>();
+        params.put("UserName", "15075993917");
+        SoapUtils.Post(mActivity, API.SaveCheck, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                showToast(error);
+                Log.e("error", "");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("error", data);
+                showToast("审核通过");
+                finish();
+            }
+        });
+
     }
 
     /**

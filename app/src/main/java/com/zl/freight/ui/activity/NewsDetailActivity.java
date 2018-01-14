@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.TopNewsBean;
 import com.zl.freight.utils.ImageLoader;
 
 import butterknife.BindView;
@@ -33,6 +34,7 @@ public class NewsDetailActivity extends BaseActivity {
     TextView tvNewsContent;
 
     public static final String PICTURE = "img";
+    public static final String TEXT = "text";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,11 @@ public class NewsDetailActivity extends BaseActivity {
 
     private void initView() {
         tvTitle.setText("励志鸡汤");
-        String url = getIntent().getStringExtra("url");
-        ImageLoader.loadImageUrl(mActivity, url, ivNewsIcon);
-        ViewCompat.setTransitionName(ivNewsIcon, PICTURE);
+        TopNewsBean data = (TopNewsBean) getIntent().getSerializableExtra("data");
+        ImageLoader.loadImageUrl(mActivity, data.getInfoPic(), ivNewsIcon);
+        ViewCompat.setTransitionName(tvNewsTitle, TEXT);
+        tvNewsTitle.setText(data.getInfoTitle());
+        tvNewsContent.setText(data.getInfoContent());
     }
 
     @OnClick(R.id.iv_back)

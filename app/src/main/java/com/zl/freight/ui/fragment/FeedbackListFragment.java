@@ -2,9 +2,13 @@ package com.zl.freight.ui.fragment;
 
 
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -23,7 +27,9 @@ import com.zl.zlibrary.utils.GsonUtils;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +42,6 @@ import butterknife.Unbinder;
  */
 public class FeedbackListFragment extends BaseFragment {
 
-
     @BindView(R.id.feedback_listView)
     ListView feedbackListView;
     @BindView(R.id.feedback_trl)
@@ -44,6 +49,7 @@ public class FeedbackListFragment extends BaseFragment {
     Unbinder unbinder;
     private List<BaseOpinionEntity> mList = new ArrayList<>();
     private UniversalAdapter<BaseOpinionEntity> mAdapter;
+    private int mPostion;
 
     public FeedbackListFragment() {
         // Required empty public constructor
@@ -76,6 +82,51 @@ public class FeedbackListFragment extends BaseFragment {
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 super.onRefresh(refreshLayout);
                 getListData();
+            }
+        });
+        feedbackListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mPostion = i;
+                return false;
+            }
+        });
+        registerForContextMenu(feedbackListView);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(Menu.NONE, R.id.menu_delete_news, Menu.NONE, "删除");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_delete_news:
+                delete();
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * 删除反馈意见
+     */
+    private void delete() {
+        Map<String, String> params = new HashMap<>();
+        params.put("Id", mList.get(mPostion).getId() + "");
+        SoapUtils.Post(mActivity, API.DeleteOpinion, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                mList.remove(mPostion);
+                mAdapter.notifyDataSetChanged();
+                showToast("删除成功");
             }
         });
     }

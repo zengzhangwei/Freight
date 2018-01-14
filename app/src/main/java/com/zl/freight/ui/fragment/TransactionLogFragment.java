@@ -3,6 +3,7 @@ package com.zl.freight.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zl.freight.R;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,6 +97,25 @@ public class TransactionLogFragment extends BaseFragment {
             mList.add("");
         }
         mAdapter.notifyDataSetChanged();
+        getListData();
+    }
+
+    private void getListData() {
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", SpUtils.getUserData(mActivity).getId());
+        params.put("StartTime", "");
+        params.put("EndTime", "");
+        SoapUtils.Post(mActivity, API.GetPayLog, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("error", data);
+            }
+        });
     }
 
     private void initView() {

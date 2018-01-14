@@ -1,10 +1,12 @@
 package com.zl.freight.mode;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2018/1/4.
  */
 
-public class TopNewsBean {
+public class TopNewsBean implements Serializable {
 
     /**
      * Id : 8

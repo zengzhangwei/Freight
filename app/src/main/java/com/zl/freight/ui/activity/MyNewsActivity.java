@@ -2,6 +2,8 @@ package com.zl.freight.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +12,7 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.ui.fragment.MyNewsFragment;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +37,9 @@ public class MyNewsActivity extends BaseActivity {
     TabLayout myNewTab;
     @BindView(R.id.my_new_pager)
     ViewPager myNewPager;
-    private List<String> mList = Arrays.asList("全部", "未支付");
+    private List<String> mList = Arrays.asList("已支付", "未支付");
+    private List<Fragment> fList = new ArrayList<>();
+    private FragmentStatePagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +75,25 @@ public class MyNewsActivity extends BaseActivity {
         for (String s : mList) {
             myNewTab.addTab(myNewTab.newTab().setText(s));
         }
+        fList.add(MyNewsFragment.newInstance(0));
+        fList.add(MyNewsFragment.newInstance(1));
+        pagerAdapter.notifyDataSetChanged();
     }
 
     private void initView() {
         tvTitle.setText("我的文章与广告");
-        getSupportFragmentManager().beginTransaction().replace(R.id.my_news_rl, MyNewsFragment.newInstance()).commit();
+        pagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fList.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return fList.size();
+            }
+        };
+        myNewPager.setAdapter(pagerAdapter);
     }
 
     @OnClick(R.id.iv_back)

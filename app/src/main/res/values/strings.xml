@@ -26,7 +26,7 @@
     <string name="my_money">我的钱包</string>
     <string name="my_driver">我的司机</string>
     <string name="ji_fen_store">积分商城</string>
-    <string name="my_balance">我的余额</string>
+    <string name="my_balance">我的积分</string>
     <string name="user_check">用户审核</string>
     <string name="info_query">统计查询</string>
     <string name="new_push">广告及新闻发布</string>
@@ -85,6 +85,7 @@
     <string name="helper">使用帮助</string>
     <string name="my_run_order">我的运单</string>
     <string name="info_money">信息费用</string>
+    <string name="top_up">充值</string>
 
     <string-array name="load_unload_mode_list">
         <item>一装一卸</item>

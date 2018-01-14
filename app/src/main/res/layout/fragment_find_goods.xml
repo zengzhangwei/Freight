@@ -9,7 +9,7 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/linear_news"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_24"
+        android:layout_height="@dimen/dp_32"
         android:background="@color/blue"
         android:gravity="center_vertical">
 
@@ -27,7 +27,7 @@
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/dp_12" />
+            android:textSize="@dimen/dp_14" />
 
         <ImageView
             android:id="@+id/iv_close"

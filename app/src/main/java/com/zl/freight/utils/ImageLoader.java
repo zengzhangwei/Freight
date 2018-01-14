@@ -17,15 +17,15 @@ import com.zl.freight.R;
 public class ImageLoader {
 
     public static void loadImageUrl(Activity activity, String url, ImageView imageView) {
-        Glide.with(activity).load(url).into(imageView);
+        Glide.with(activity).load(API.BaseUrl + url).into(imageView);
     }
 
     public static void loadImageUrl(Fragment activity, String url, ImageView imageView) {
-        Glide.with(activity).load(url).into(imageView);
+        Glide.with(activity).load(API.BaseUrl + url).into(imageView);
     }
 
     public static void loadImageUrl(Context activity, String url, ImageView imageView) {
-        Glide.with(activity).load(url).into(imageView);
+        Glide.with(activity).load(API.BaseUrl + url).into(imageView);
     }
 
     public static void loadUserIcon(Activity activity, String url, ImageView imageView) {

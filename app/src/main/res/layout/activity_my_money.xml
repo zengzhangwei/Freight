@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_8"
-            android:text="￥73.81"
+            android:text="1000"
             android:textColor="@color/black"
             android:textSize="@dimen/dp_30"
             android:textStyle="bold" />
@@ -48,7 +48,7 @@
             android:layout_marginTop="@dimen/dp_34"
             android:background="@drawable/green_round_shape"
             android:gravity="center"
-            android:text="充值"
+            android:text="@string/top_up"
             android:textColor="@color/white"
             android:textSize="@dimen/dp_16" />
 

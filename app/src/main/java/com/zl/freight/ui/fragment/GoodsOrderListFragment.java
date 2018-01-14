@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +18,25 @@ import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
 import com.zl.freight.ui.activity.LookDriverActivity;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * A simple {@link Fragment} subclass.
+ * @author zhanglei
+ * 货主的运单页
  */
 public class GoodsOrderListFragment extends BaseFragment {
 
@@ -86,6 +93,28 @@ public class GoodsOrderListFragment extends BaseFragment {
             mList.add("");
         }
         mAdapter.notifyDataSetChanged();
+        getListData();
+    }
+
+    /**
+     * 获取列表数据
+     */
+    private void getListData() {
+        Map<String, String> params = new HashMap<>();
+        params.put("UserRole", "2");
+        params.put("UserId", SpUtils.getUserData(mActivity).getId());
+        params.put("SendState", "0");
+        SoapUtils.Post(mActivity, API.GetSend, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error","");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("error","onSuccess");
+            }
+        });
     }
 
     private void initView() {

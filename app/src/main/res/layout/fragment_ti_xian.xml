@@ -1,0 +1,41 @@
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.zl.freight.ui.fragment.TopUpFragment">
+
+    <include layout="@layout/title_layout" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16">
+
+        <EditText
+            android:id="@+id/et_input_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入提现金额（大于100元）"
+            android:inputType="number"
+            android:textSize="14sp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_ti_xian_bt"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_42"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@drawable/grey_line_round_shape"
+        android:gravity="center"
+        android:text="提现"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dp_16" />
+
+</com.zhy.autolayout.AutoLinearLayout>

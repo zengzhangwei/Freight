@@ -1,0 +1,41 @@
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.zl.freight.ui.fragment.TopUpFragment">
+
+    <include layout="@layout/title_layout" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16">
+
+        <EditText
+            android:id="@+id/et_input_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入充值金额（大于一元）"
+            android:inputType="number"
+            android:textSize="14sp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_top_up_bt"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_42"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:background="@drawable/green_round_shape"
+        android:gravity="center"
+        android:text="@string/top_up"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dp_16" />
+
+</com.zhy.autolayout.AutoLinearLayout>

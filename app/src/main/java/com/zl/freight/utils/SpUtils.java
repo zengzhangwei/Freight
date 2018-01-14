@@ -65,6 +65,7 @@ public class SpUtils {
         edit.putString("UserRole", userEntity.getUserRole());
         edit.putString("CarLong", userEntity.getCarLong());
         edit.putString("CarType", userEntity.getCarType());
+        edit.putString("Integral", userEntity.getIntegral());
         edit.commit();
     }
 
@@ -80,6 +81,7 @@ public class SpUtils {
         user.setUserRole(sp.getString("UserRole", "-1"));
         user.setCarLong(sp.getString("CarLong", "31"));
         user.setCarType(sp.getString("CarType", "33"));
+        user.setIntegral(sp.getString("Integral", "0"));
         return user;
     }
 

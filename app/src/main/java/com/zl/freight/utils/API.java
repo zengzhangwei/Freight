@@ -21,7 +21,7 @@ public class API {
     public static final int DRIVER = 1;
     public static final int GOODS = 2;
 
-//    public static final String BaseUrl = "http://172.16.18.17";
+    //    public static final String BaseUrl = "http://172.16.18.17";
     public static final String BaseUrl = "http://139.129.131.31:8088/";
 
     /**
@@ -144,6 +144,36 @@ public class API {
      * 获取自己发布的货物列表
      */
     public static final String GetCarSend = "GetCarSend";
+
+    /**
+     * 获取运单
+     */
+    public static final String GetSend = "GetSend";
+
+    /**
+     * 获取用户自己发布的文章
+     */
+    public static final String GetCarInfo = "GetCarInfo";
+
+    /**
+     * 审核用户资料通过
+     */
+    public static final String SaveCheck = "SaveCheck";
+
+    /**
+     * 查询充值和提现记录
+     */
+    public static final String GetPayLog = "GetPayLog";
+
+    /**
+     * 获取时间段内的支出情况
+     */
+    public static final String GetOutcome = "GetOutcome";
+
+    /**
+     * 时间段内收入
+     */
+    public static final String GetIncome = "GetIncome";
 
 
 }

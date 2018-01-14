@@ -13,7 +13,11 @@ import com.fuqianla.paysdk.FuQianLaPay;
 import com.fuqianla.paysdk.bean.FuQianLaResult;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.ui.fragment.TiXianFragment;
+import com.zl.freight.ui.fragment.TopUpFragment;
 import com.zl.freight.ui.fragment.TransactionLogFragment;
+import com.zl.freight.utils.SpUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,7 +33,7 @@ import butterknife.OnClick;
  * @date 17/12/11
  * 我的钱包
  */
-public class MyMoneyActivity extends BaseActivity {
+public class MyMoneyActivity extends BaseActivity implements TopUpFragment.OnPayListener, TiXianFragment.OnTiXianListener {
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -56,7 +60,7 @@ public class MyMoneyActivity extends BaseActivity {
     }
 
     private void initData() {
-
+        tvMoneyCount.setText(SpUtils.getUserData(mActivity).getIntegral());
     }
 
     private void initView() {
@@ -107,7 +111,7 @@ public class MyMoneyActivity extends BaseActivity {
                 break;
             //提现
             case R.id.tv_ti_xian_bt:
-
+                tiXian();
                 break;
             //使用帮助说明
             case R.id.tv_helper:
@@ -117,35 +121,59 @@ public class MyMoneyActivity extends BaseActivity {
     }
 
     /**
-     * 充值
+     * 提现
      */
-    private void topUp() {
-        //支付核心代码
-        FuQianLaPay pay = new FuQianLaPay.Builder(this)
-                .alipay(true)//支付宝通道
-                .wxpay(true)//微信通道
-                .orderID(getOutTradeNo())//订单号
-                .amount(0.01)//金额
-                .subject("商品名称")
-                .notifyUrl("https://api.fuqian.la/pay-adapter/services/notify")
-                .build();
-        pay.startPay();
+    private void tiXian() {
+        TiXianFragment tiXianFragment = new TiXianFragment();
+        tiXianFragment.setOnTiXianListener(this);
+        getSupportFragmentManager().beginTransaction().addToBackStack("topup")
+                .replace(R.id.my_money_rl, tiXianFragment).commit();
     }
 
     /**
-     * 要求外部订单号必须唯一。
-     *
-     * @return
+     * 充值
      */
-    private static String getOutTradeNo() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
-        Date date = new Date();
-        String key = format.format(date);
+    private void topUp() {
+        TopUpFragment topUpFragment = new TopUpFragment();
+        topUpFragment.setOnPayListener(this);
+        getSupportFragmentManager().beginTransaction().addToBackStack("topup")
+                .replace(R.id.my_money_rl, topUpFragment).commit();
+    }
 
-        Random r = new Random();
-//        key = key + r.nextInt();
-//        key = key.substring(0, 15);
-        key = key + r.nextInt(100000);
-        return key;
+    /**
+     * 支付成功
+     *
+     * @param money
+     */
+    @Override
+    public void onPaySuccess(int money) {
+        String count = tvMoneyCount.getText().toString().trim();
+        int i = Integer.parseInt(count);
+        int m = i + money * 100;
+        tvMoneyCount.setText(m + "");
+        //更改储存的积分
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        userData.setIntegral(m + "");
+        SpUtils.setUserData(mActivity, userData);
+    }
+
+    /**
+     * 支付失败
+     *
+     * @param message
+     */
+    @Override
+    public void onPayError(String message) {
+        showToast(message);
+    }
+
+    /**
+     * 提现的回调方法
+     *
+     * @param money
+     */
+    @Override
+    public void tiXianSuccess(int money) {
+
     }
 }
