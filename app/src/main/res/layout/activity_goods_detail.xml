@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,370 +8,383 @@
     android:orientation="vertical"
     tools:context="com.zl.freight.ui.activity.GoodsDetailActivity">
 
-    <include layout="@layout/title_layout" />
-
-    <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingBottom="@dimen/dp_8">
-
-        <TextView
-            android:id="@+id/tv_origin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_16"
-            android:text="@string/app_name"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_20"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/iv_arrows"
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_10"
-            android:layout_alignBottom="@id/tv_origin"
-            android:layout_marginBottom="@dimen/dp_4"
-            android:layout_toRightOf="@id/tv_origin"
-            android:src="@mipmap/icon_direction_short" />
-
-        <TextView
-            android:id="@+id/tv_end_point"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_16"
-            android:layout_toRightOf="@id/iv_arrows"
-            android:text="@string/app_name"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_20"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_goods_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_origin"
-            android:layout_marginLeft="@dimen/dp_16"
-            android:text="@string/look_goods_location"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/dp_14" />
-
-        <TextView
-            android:id="@+id/tv_goods_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/tv_goods_location"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_16"
-            android:text="发布时间："
-            android:textSize="@dimen/dp_12" />
-
-    </com.zhy.autolayout.AutoRelativeLayout>
-
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_16"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="@dimen/dp_16">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/goods_content"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_16" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_16">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/goods_type"
-                android:textSize="@dimen/dp_14" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/goods_weight"
-                android:textSize="@dimen/dp_14" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/goods_status"
-                android:textSize="@dimen/dp_14" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/goods_name"
-                android:textSize="@dimen/dp_14" />
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <include layout="@layout/line_layout" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8">
-
-            <TextView
-                android:id="@+id/tv_goods_type"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dp_12" />
-
-            <TextView
-                android:id="@+id/tv_goods_weight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dp_12" />
-
-            <TextView
-                android:id="@+id/tv_goods_if"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dp_12" />
-
-            <TextView
-                android:id="@+id/tv_goods_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dp_12" />
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_16"
-            android:text="@string/car_content"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_16" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_16">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_16"
-                android:text="@string/car_length_demand"
-                android:textSize="@dimen/dp_14" />
-
-            <TextView
-                android:id="@+id/tv_car_length"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_32"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dp_14" />
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <include layout="@layout/line_layout" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_16"
-                android:text="@string/car_type_demand"
-                android:textSize="@dimen/dp_14" />
-
-            <TextView
-                android:id="@+id/tv_car_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_32"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dp_14" />
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_info_money"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <include layout="@layout/line_layout" />
-
-            <com.zhy.autolayout.AutoLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_8">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/dp_16"
-                    android:text="信息费用"
-                    android:textSize="@dimen/dp_14" />
-
-                <TextView
-                    android:id="@+id/tv_info_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_32"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dp_14" />
-            </com.zhy.autolayout.AutoLinearLayout>
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_zhuang_xie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <include layout="@layout/line_layout" />
-
-            <com.zhy.autolayout.AutoLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_8">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/dp_16"
-                    android:text="装卸需求"
-                    android:textSize="@dimen/dp_14" />
-
-                <TextView
-                    android:id="@+id/tv_zhuang_xie_xu_qiu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_32"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dp_14" />
-            </com.zhy.autolayout.AutoLinearLayout>
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_32"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="@dimen/dp_10">
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="@dimen/dp_4"
-                android:layout_height="@dimen/dp_16"
-                android:background="@color/blue" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_8"
-                android:text="@string/goods_master"
-                android:textSize="@dimen/dp_14" />
-
-            <TextView
-                android:id="@+id/tv_jie_dan"
-                android:layout_width="130px"
-                android:layout_height="@dimen/dp_30"
-                android:layout_marginBottom="@dimen/dp_4"
-                android:layout_marginLeft="500px"
-                android:background="@drawable/blue_shape"
-                android:gravity="center"
-                android:text="接单"
-                android:textColor="@color/white" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <include layout="@layout/line_layout" />
+        <include layout="@layout/title_layout" />
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8"
-            android:padding="@dimen/dp_8">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_goods_user_icon"
-                android:layout_width="120px"
-                android:layout_height="120px"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/icon_touxiang" />
+            android:background="@color/white"
+            android:paddingBottom="@dimen/dp_8">
 
             <TextView
-                android:id="@+id/iv_goods_user_name"
+                android:id="@+id/tv_origin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_14"
-                android:layout_toRightOf="@id/iv_goods_user_icon"
+                android:layout_margin="@dimen/dp_16"
+                android:text="@string/app_name"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dp_16" />
+                android:textSize="@dimen/dp_20"
+                android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/iv_call"
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_8"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_phone" />
+                android:id="@+id/iv_arrows"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_10"
+                android:layout_alignBottom="@id/tv_origin"
+                android:layout_marginBottom="@dimen/dp_4"
+                android:layout_toRightOf="@id/tv_origin"
+                android:src="@mipmap/icon_direction_short" />
 
             <TextView
+                android:id="@+id/tv_end_point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/iv_call"
-                android:layout_marginTop="@dimen/dp_2"
-                android:text="@string/relation_goods_master"
+                android:layout_margin="@dimen/dp_16"
+                android:layout_toRightOf="@id/iv_arrows"
+                android:text="@string/app_name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_20"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_goods_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_origin"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:text="@string/look_goods_location"
                 android:textColor="@color/blue"
+                android:textSize="@dimen/dp_14" />
+
+            <TextView
+                android:id="@+id/tv_goods_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tv_goods_location"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_16"
+                android:text="发布时间："
                 android:textSize="@dimen/dp_12" />
 
         </com.zhy.autolayout.AutoRelativeLayout>
 
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/goods_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_16" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_16">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/goods_type"
+                    android:textSize="@dimen/dp_14" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/goods_weight"
+                    android:textSize="@dimen/dp_14" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/goods_status"
+                    android:textSize="@dimen/dp_14" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/goods_name"
+                    android:textSize="@dimen/dp_14" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <include layout="@layout/line_layout" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8">
+
+                <TextView
+                    android:id="@+id/tv_goods_type"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_12" />
+
+                <TextView
+                    android:id="@+id/tv_goods_weight"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_12" />
+
+                <TextView
+                    android:id="@+id/tv_goods_if"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_12" />
+
+                <TextView
+                    android:id="@+id/tv_goods_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_12" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="@string/car_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_16" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_16">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_16"
+                    android:text="@string/car_length_demand"
+                    android:textSize="@dimen/dp_14" />
+
+                <TextView
+                    android:id="@+id/tv_car_length"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_32"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_14" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <include layout="@layout/line_layout" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_16"
+                    android:text="@string/car_type_demand"
+                    android:textSize="@dimen/dp_14" />
+
+                <TextView
+                    android:id="@+id/tv_car_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_32"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_14" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_info_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include layout="@layout/line_layout" />
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp_16"
+                        android:text="信息费用"
+                        android:textSize="@dimen/dp_14" />
+
+                    <TextView
+                        android:id="@+id/tv_info_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_32"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dp_14" />
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_zhuang_xie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include layout="@layout/line_layout" />
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_8">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp_16"
+                        android:text="装卸需求"
+                        android:textSize="@dimen/dp_14" />
+
+                    <TextView
+                        android:id="@+id/tv_zhuang_xie_xu_qiu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_32"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dp_14" />
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_10">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="@dimen/dp_4"
+                    android:layout_height="@dimen/dp_16"
+                    android:background="@color/blue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_8"
+                    android:text="@string/goods_master"
+                    android:textSize="@dimen/dp_14" />
+
+                <TextView
+                    android:id="@+id/tv_jie_dan"
+                    android:layout_width="130px"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_marginBottom="@dimen/dp_4"
+                    android:layout_marginLeft="500px"
+                    android:background="@drawable/blue_shape"
+                    android:gravity="center"
+                    android:text="接单"
+                    android:textColor="@color/white" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <include layout="@layout/line_layout" />
+
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:padding="@dimen/dp_8">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_goods_user_icon"
+                    android:layout_width="120px"
+                    android:layout_height="120px"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_touxiang" />
+
+                <TextView
+                    android:id="@+id/iv_goods_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_14"
+                    android:layout_toRightOf="@id/iv_goods_user_icon"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_16" />
+
+                <ImageView
+                    android:id="@+id/iv_call"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:srcCompat="@drawable/ic_phone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/iv_call"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:text="@string/relation_goods_master"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/dp_12" />
+
+            </com.zhy.autolayout.AutoRelativeLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoLinearLayout>
 
-</com.zhy.autolayout.AutoLinearLayout>
+    <RelativeLayout
+        android:id="@+id/goods_detail_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </RelativeLayout>
+
+</com.zhy.autolayout.AutoRelativeLayout>

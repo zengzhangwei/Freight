@@ -14,6 +14,7 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.GoodsListBean;
+import com.zl.freight.ui.fragment.TopUpFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
@@ -34,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @date 17/12/15
  * 货源详情页
  */
-public class GoodsDetailActivity extends BaseActivity {
+public class GoodsDetailActivity extends BaseActivity implements TopUpFragment.OnPayListener {
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -82,6 +83,7 @@ public class GoodsDetailActivity extends BaseActivity {
     AutoLinearLayout linearZhuangXie;
     private GoodsListBean data;
     private AlertDialog alertDialog;
+    private AlertDialog messageDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +130,7 @@ public class GoodsDetailActivity extends BaseActivity {
                 .setPositiveButton("继续", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        jieDan();
+                        next();
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -137,6 +139,43 @@ public class GoodsDetailActivity extends BaseActivity {
 
                     }
                 }).create();
+        messageDialog = new AlertDialog.Builder(mActivity).setMessage("余额不足请充值")
+                .setPositiveButton("去充值", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        goTopUp();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).create();
+    }
+
+    /**
+     * 去充值
+     */
+    private void goTopUp() {
+        TopUpFragment topUpFragment = new TopUpFragment();
+        topUpFragment.setOnPayListener(this);
+        getSupportFragmentManager().beginTransaction().addToBackStack("topup")
+                .replace(R.id.goods_detail_rl, topUpFragment).commit();
+    }
+
+    /**
+     * 继续接单
+     */
+    private void next() {
+        String integral = SpUtils.getUserData(mActivity).getIntegral();
+        int i = Integer.parseInt(integral);
+        //余额不足提示用户去充值
+        if (i < Double.parseDouble(data.getInfoMoney()) * API.power) {
+            messageDialog.show();
+            return;
+        }
+        jieDan();
     }
 
     @OnClick({R.id.iv_back, R.id.tv_goods_location, R.id.iv_call, R.id.tv_jie_dan})
@@ -160,7 +199,7 @@ public class GoodsDetailActivity extends BaseActivity {
             //接单
             case R.id.tv_jie_dan:
                 //判断是否需要支付信息费
-                if (Double.valueOf(data.getInfoMoney()) >= 0) { //需要支付信息费
+                if (Double.valueOf(data.getInfoMoney()) > 0) { //需要支付信息费
                     alertDialog.show();
                     return;
                 }
@@ -193,5 +232,15 @@ public class GoodsDetailActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onPaySuccess(int money) {
+        showToast("成功充值：" + money + "元");
+    }
+
+    @Override
+    public void onPayError(String message) {
+        showToast(message);
     }
 }

@@ -18,7 +18,9 @@ import android.widget.ImageView;
 import com.blankj.utilcode.util.RegexUtils;
 import com.zl.freight.R;
 import com.zl.freight.mode.CarInformationEntity;
+import com.zl.freight.ui.activity.MyNewsActivity;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
@@ -86,15 +88,14 @@ public class WebPushFragment extends BaseFragment {
         tvNewsContent.setVisibility(View.GONE);
         photoDialog = new PhotoDialog(mActivity);
         payDialog = new AlertDialog.Builder(mActivity)
-                .setMessage("发布文章需要支付500积分，是否支付")
+                .setMessage("文章已暂存到我的文章与广告模块，需完成付费后方可被别人浏览。")
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        showToast("文章已保存，可在我的文章与广告中查看");
                         mActivity.finish();
                     }
                 })
-                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                .setPositiveButton("去付费", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         pay();
@@ -106,22 +107,8 @@ public class WebPushFragment extends BaseFragment {
      * 支付发布文章的费用
      */
     private void pay() {
-        Map<String, String> params = new HashMap<>();
-        params.put("PayResult", "");
-        params.put("SendId", "");
-        SoapUtils.Post(mActivity, API.InfoPayResult, params, new SoapCallback() {
-            @Override
-            public void onError(String error) {
-
-            }
-
-            @Override
-            public void onSuccess(String data) {
-                showToast("发布成功");
-                mActivity.finish();
-            }
-        });
-
+        startActivity(new Intent(mActivity, MyNewsActivity.class));
+        mActivity.finish();
     }
 
     @Override
@@ -131,13 +118,12 @@ public class WebPushFragment extends BaseFragment {
             switch (requestCode) {
                 case PhotoDialog.PICK_FROM_CAMERA:
                     imagePath = photoDialog.imagePath;
-                    ivAddImg.setImageBitmap(BitmapFactory.decodeFile(imagePath));
                     break;
                 case PhotoDialog.SELECT_PHOTO:
                     imagePath = MiPictureHelper.getPath(mActivity, data.getData());
-                    ivAddImg.setImageBitmap(BitmapFactory.decodeFile(imagePath));
                     break;
             }
+            ImageLoader.loadImageFile(imagePath, ivAddImg);
         }
     }
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.ui.fragment.MyNewsFragment;
+import com.zl.freight.ui.fragment.TopUpFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +26,7 @@ import butterknife.OnClick;
  * @date 17/12/30
  * 我的文章、新闻、广告
  */
-public class MyNewsActivity extends BaseActivity {
+public class MyNewsActivity extends BaseActivity implements MyNewsFragment.OnOpenMyNewsListener, TopUpFragment.OnPayListener {
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -40,6 +41,7 @@ public class MyNewsActivity extends BaseActivity {
     private List<String> mList = Arrays.asList("已支付", "未支付");
     private List<Fragment> fList = new ArrayList<>();
     private FragmentStatePagerAdapter pagerAdapter;
+    private MyNewsFragment myNewsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,9 @@ public class MyNewsActivity extends BaseActivity {
         for (String s : mList) {
             myNewTab.addTab(myNewTab.newTab().setText(s));
         }
-        fList.add(MyNewsFragment.newInstance(0));
+        myNewsFragment = MyNewsFragment.newInstance(0);
+        myNewsFragment.setOnOpenMyNewsListener(this);
+        fList.add(myNewsFragment);
         fList.add(MyNewsFragment.newInstance(1));
         pagerAdapter.notifyDataSetChanged();
     }
@@ -99,5 +103,26 @@ public class MyNewsActivity extends BaseActivity {
     @OnClick(R.id.iv_back)
     public void onViewClicked() {
         finish();
+    }
+
+    /**
+     * 去充值
+     */
+    @Override
+    public void openMyNews() {
+        TopUpFragment topUpFragment = new TopUpFragment();
+        topUpFragment.setOnPayListener(this);
+        getSupportFragmentManager().beginTransaction().addToBackStack("topup")
+                .replace(R.id.my_news_rl, topUpFragment).commit();
+    }
+
+    @Override
+    public void onPaySuccess(int money) {
+        showToast("成功充值：" + money + "元");
+    }
+
+    @Override
+    public void onPayError(String message) {
+        showToast(message);
     }
 }

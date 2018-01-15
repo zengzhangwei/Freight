@@ -21,6 +21,7 @@ import com.zl.freight.ui.dialog.GoodsTypeDialog;
 import com.zl.freight.ui.dialog.RemarkDialog;
 import com.zl.freight.ui.dialog.SGCarLengthDialog;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.DoubleUtils;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
@@ -283,7 +284,9 @@ public class SendGoodsFragment extends BaseFragment {
         sendEntity.setGoDate(goDate);
 
         if (!TextUtils.isEmpty(infoMoney)) {
-            sendEntity.setInfoMoney(Double.parseDouble(infoMoney));
+            double v = Double.parseDouble(infoMoney);
+            String s = DoubleUtils.format0_00(v);
+            sendEntity.setInfoMoney(Double.parseDouble(s));
             sendEntity.setIsInfoPay(0);
         } else {
             sendEntity.setInfoMoney(0);

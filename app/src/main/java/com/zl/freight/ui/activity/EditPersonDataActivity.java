@@ -16,6 +16,7 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.CarUserBean;
+import com.zl.freight.mode.UserBean;
 import com.zl.freight.ui.fragment.AddPhoneFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
@@ -25,6 +26,7 @@ import com.zl.freight.utils.SpUtils;
 import com.zl.freight.utils.StringUtils;
 import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.GsonUtils;
+import com.zl.zlibrary.utils.ImageFactory;
 import com.zl.zlibrary.utils.MiPictureHelper;
 
 import org.json.JSONArray;
@@ -36,6 +38,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 /**
  * @author zhanglei
@@ -75,6 +81,7 @@ public class EditPersonDataActivity extends BaseActivity {
     private String idCarNumber = "130526199311146498";
     private AddPhoneFragment addPhoneFragment;
     private BaseUserEntity userData;
+    private UserBean userEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +98,29 @@ public class EditPersonDataActivity extends BaseActivity {
             @Override
             public void onPhone(String phone1, String phone2) {
                 tvUserStandbyPhone.setText(phone1 + "," + phone2);
+                updatePhone(phone1,phone2);
+            }
+        });
+    }
+
+    /**
+     * @param phone1
+     * @param phone2
+     */
+    private void updatePhone(String phone1, String phone2) {
+        Map<String, String> params = new HashMap<>();
+        userEntity.setOtherTel(phone1);
+        userEntity.setOtherTel1(phone2);
+        params.put("UserEntityJson", GsonUtils.toJson(userEntity));
+        SoapUtils.Post(mActivity, API.UpdateBaseUser, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error","");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("error","");
             }
         });
     }
@@ -122,6 +152,17 @@ public class EditPersonDataActivity extends BaseActivity {
             tvCarLengthType.setText(userData.getCodeName1() + "米/" + userData.getCodeName());
             tvCarCode.setText(userData.getCarNo());
         }
+
+        userEntity = new UserBean();
+        userEntity.setReferral(userData.getReferral());
+        userEntity.setReferralTel(userData.getReferralTel());
+        userEntity.setRealName(userData.getRealName());
+        userEntity.setUserName(userData.getUserName());
+        userEntity.setPassWord(userData.getPassWord());
+        userEntity.setIdCardNumber(userData.getIdCardNumber());
+        userEntity.setUserRole(userData.getUserRole());
+//        userEntity.setIdCard1(userData.getIdCard1());
+//        userEntity.setIdCard2(userData.getIdCard2());
     }
 
     /**
@@ -165,15 +206,53 @@ public class EditPersonDataActivity extends BaseActivity {
                 //从相机返回照片
                 case PhotoDialog.PICK_FROM_CAMERA:
                     imagePath = dialog.imagePath;
-                    civUserIcon.setImageBitmap(BitmapFactory.decodeFile(imagePath));
                     break;
                 //从相册返回照片
                 case PhotoDialog.SELECT_PHOTO:
                     imagePath = MiPictureHelper.getPath(mActivity, data.getData());
-                    civUserIcon.setImageBitmap(BitmapFactory.decodeFile(imagePath));
                     break;
             }
+
+            //上传头像
+            showDialog("头像上传中...");
+            Observable.just(imagePath)
+                    .map(new Function<String, String>() {
+                        @Override
+                        public String apply(@NonNull String s) throws Exception {
+                            return ImageFactory.base64Encode(ImageFactory.getimage(imagePath));
+                        }
+                    })
+                    .subscribe(new Consumer<String>() {
+                        @Override
+                        public void accept(@NonNull String s) throws Exception {
+                            uploadTouXiang(s);
+                        }
+                    });
+
         }
+    }
+
+    /**
+     * 调用接口上传头像
+     *
+     * @param s
+     */
+    private void uploadTouXiang(String s) {
+        ImageLoader.loadImageFile(imagePath, civUserIcon);
+        Map<String, String> params = new HashMap<>();
+        userEntity.setUserIcon(s);
+        params.put("UserEntityJson", GsonUtils.toJson(userEntity));
+        SoapUtils.Post(mActivity, API.UpdateBaseUser, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error","");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("error","");
+            }
+        });
     }
 
     @OnClick({R.id.iv_back, R.id.civ_user_icon, R.id.rl_sex, R.id.tv_user_standby_phone})
@@ -185,6 +264,10 @@ public class EditPersonDataActivity extends BaseActivity {
                 break;
             //点击用户头像
             case R.id.civ_user_icon:
+                if (userEntity == null) {
+                    showToast("数据未加载完成");
+                    return;
+                }
                 dialog.show(view);
                 break;
             //添加备用手机号

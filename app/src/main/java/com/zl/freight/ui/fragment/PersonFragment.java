@@ -32,6 +32,7 @@ import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.FragmentHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,6 +79,10 @@ public class PersonFragment extends BaseFragment {
     AutoLinearLayout linearUserFeedback;
     @BindView(R.id.linear_real_user)
     AutoLinearLayout linearRealUser;
+    @BindView(R.id.tv_my_order)
+    TextView tvMyOrder;
+    @BindView(R.id.linear_my_run_order)
+    AutoLinearLayout linearMyRunOrder;
     private BaseUserEntity userData;
     private int userRole;
 
@@ -162,6 +167,19 @@ public class PersonFragment extends BaseFragment {
                 tvFeedback.setText("意见反馈");
                 break;
         }
+
+        try {
+            if (SpUtils.getUserData(mActivity).getUserRole().equals(API.DRIVER + "")) {
+                tvMyOrder.setText("临时货物运单");
+                linearMyRunOrder.setVisibility(View.VISIBLE);
+            } else {
+                linearMyRunOrder.setVisibility(View.GONE);
+                tvMyOrder.setText("我的运单");
+            }
+        } catch (Exception e) {
+
+        }
+
     }
 
     @Override
@@ -172,7 +190,7 @@ public class PersonFragment extends BaseFragment {
 
     @OnClick({R.id.arl_person, R.id.linear_my_order, R.id.linear_my_money, R.id.linear_user_check,
             R.id.linear_info_query, R.id.linear_news_push, R.id.btn_exit, R.id.linear_my_ji_fen_store,
-            R.id.linear_my_news, R.id.linear_real_user, R.id.linear_user_feedback})
+            R.id.linear_my_news, R.id.linear_real_user, R.id.linear_user_feedback, R.id.linear_my_run_order})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //个人信息
@@ -181,11 +199,7 @@ public class PersonFragment extends BaseFragment {
                 break;
             //我的订单
             case R.id.linear_my_order:
-                if (userRole == 1) {
-                    startActivity(new Intent(mActivity, MyOrderActivity.class));
-                } else {
-                    startActivity(new Intent(mActivity, GoodsOrderActivity.class));
-                }
+                startActivity(new Intent(mActivity, GoodsOrderActivity.class));
                 break;
             //我的钱包
             case R.id.linear_my_money:
@@ -227,6 +241,10 @@ public class PersonFragment extends BaseFragment {
             //用户实名认证
             case R.id.linear_real_user:
                 startActivity(new Intent(mActivity, UserDataActivity.class));
+                break;
+            //司机的运单
+            case R.id.linear_my_run_order:
+                startActivity(new Intent(mActivity, MyOrderActivity.class));
                 break;
         }
     }

@@ -1,6 +1,7 @@
 package com.zl.freight.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseCompanyEntity;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
@@ -35,6 +37,12 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author zhanglei
@@ -136,8 +144,7 @@ public class GoodsRegisterActivity extends BaseActivity {
     }
 
     private void setImage() {
-        byte[] getimage = ImageFactory.getimage(imagePath);
-        ivPersonPhoto.setImageBitmap(BitmapFactory.decodeByteArray(getimage, 0, getimage.length));
+        ImageLoader.loadImageFile(imagePath, ivPersonPhoto);
     }
 
     @OnClick({R.id.iv_back, R.id.tab_add_icon, R.id.tv_register_commit, R.id.tv_register_add_icon,

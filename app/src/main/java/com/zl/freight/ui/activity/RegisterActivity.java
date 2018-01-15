@@ -1,6 +1,7 @@
 package com.zl.freight.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.fragment.PushPersonFragment;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.dialog.PhotoDialog;
@@ -31,6 +33,12 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author zhanglei
@@ -143,9 +151,8 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 
-    private void setImage(ImageView image) {
-        byte[] getimage = ImageFactory.getimage(imagePath);
-        image.setImageBitmap(BitmapFactory.decodeByteArray(getimage, 0, getimage.length));
+    private void setImage(final ImageView image) {
+        ImageLoader.loadImageFile(imagePath, image);
     }
 
     @OnClick({R.id.iv_back, R.id.tv_title_right, R.id.iv_driving_photo, R.id.iv_run_photo,

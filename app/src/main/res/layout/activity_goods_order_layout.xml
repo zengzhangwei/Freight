@@ -9,9 +9,19 @@
 
     <include layout="@layout/title_layout" />
 
-    <RelativeLayout
-        android:id="@+id/goods_order_rl"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/my_new_tab"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></RelativeLayout>
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:tabIndicatorColor="@color/blue"
+        app:tabSelectedTextColor="@color/blue"
+        app:tabTextColor="@color/text_black_cc"></android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/my_new_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+
 
 </com.zhy.autolayout.AutoLinearLayout>

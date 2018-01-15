@@ -18,6 +18,7 @@ import com.zl.freight.mode.BaseCarEntity;
 import com.zl.freight.mode.BaseCompanyEntity;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.CarUserBean;
+import com.zl.freight.mode.UserBean;
 import com.zl.freight.ui.activity.GoodsRegisterActivity;
 import com.zl.freight.ui.activity.RegisterActivity;
 import com.zl.freight.ui.fragment.PushPersonFragment;
@@ -80,7 +81,7 @@ public class UserDataActivity extends BaseActivity {
     private final int PERSONTYPE = 0x1;
     private final int HANDTYPE = 0x2;
     public static UserDataActivity userDataActivity;
-    private BaseUserEntity userEntity;
+    private UserBean userEntity;
     BaseCompanyEntity companyEntity;
     //填充司机数据
     BaseCarEntity carEntity;
@@ -128,7 +129,7 @@ public class UserDataActivity extends BaseActivity {
      */
     private void upDateUi(CarUserBean carUserBean) {
         //初始化一下数据
-        userEntity = new BaseUserEntity();
+        userEntity = new UserBean();
         userEntity.setReferral(carUserBean.getReferral());
         userEntity.setReferralTel(carUserBean.getReferralTel());
         userEntity.setRealName(carUserBean.getRealName());
@@ -217,8 +218,7 @@ public class UserDataActivity extends BaseActivity {
     }
 
     private void setImage(ImageView image) {
-        byte[] getimage = ImageFactory.getimage(imagePath);
-        image.setImageBitmap(BitmapFactory.decodeByteArray(getimage, 0, getimage.length));
+        ImageLoader.loadImageFile(imagePath, image);
     }
 
     /**

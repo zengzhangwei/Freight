@@ -2,6 +2,7 @@ package com.zl.freight.ui.activity.register;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseCarEntity;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.KeyValueBean;
+import com.zl.freight.mode.UserBean;
 import com.zl.freight.ui.activity.URegisterActivity;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.fragment.PushPersonFragment;
@@ -33,6 +35,12 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class CarDataActivity extends BaseActivity {
 
@@ -71,7 +79,7 @@ public class CarDataActivity extends BaseActivity {
     private PushPersonFragment pushPersonFragment;
     private CarLengthDialog carLengthDialog;
     private KeyValueBean l, t;
-    private BaseUserEntity userEntity;
+    private UserBean userEntity;
     private String idCard1;
     private String idCard2, length, carType;
     private BaseCarEntity carEntity;
@@ -110,7 +118,7 @@ public class CarDataActivity extends BaseActivity {
         photoDialog = new PhotoDialog(mActivity);
         pushPersonFragment = PushPersonFragment.newInstance();
         carLengthDialog = new CarLengthDialog(mActivity, 0);
-        userEntity = (BaseUserEntity) getIntent().getSerializableExtra("userEntity");
+        userEntity = (UserBean) getIntent().getSerializableExtra("userEntity");
         carEntity = (BaseCarEntity) getIntent().getSerializableExtra("carEntity");
         idCard1 = getIntent().getStringExtra("idCard1");
         idCard2 = getIntent().getStringExtra("idCard2");
@@ -160,9 +168,24 @@ public class CarDataActivity extends BaseActivity {
         }
     }
 
-    private void setImage(ImageView image) {
-        byte[] getimage = ImageFactory.getimage(imagePath);
-        image.setImageBitmap(BitmapFactory.decodeByteArray(getimage, 0, getimage.length));
+    private void setImage(final ImageView image) {
+        ImageLoader.loadImageFile(imagePath, image);
+        Observable.just(imagePath)
+                .map(new Function<String, Bitmap>() {
+                    @Override
+                    public Bitmap apply(@NonNull String s) throws Exception {
+                        byte[] getimage = ImageFactory.getimage(imagePath);
+                        return BitmapFactory.decodeByteArray(getimage, 0, getimage.length);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Bitmap>() {
+                    @Override
+                    public void accept(@NonNull Bitmap bitmap) throws Exception {
+                        image.setImageBitmap(bitmap);
+                    }
+                });
     }
 
     @OnClick({R.id.iv_back, R.id.tv_title_right, R.id.iv_driving_photo, R.id.iv_run_photo,
@@ -227,11 +250,11 @@ public class CarDataActivity extends BaseActivity {
             @Override
             public void run() {
 
-                if (!TextUtils.isEmpty(idCard1)){
+                if (!TextUtils.isEmpty(idCard1)) {
                     String idCard1Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard1));
                     userEntity.setIdCard1(idCard1Data);
                 }
-                if (!TextUtils.isEmpty(idCard2)){
+                if (!TextUtils.isEmpty(idCard2)) {
                     String idCard2Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard2));
                     userEntity.setIdCard2(idCard2Data);
                 }

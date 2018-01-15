@@ -63,6 +63,7 @@ public class MyNewsFragment extends BaseFragment {
     private UniversalAdapter<TopNewsBean> mAdapter;
     private List<TopNewsBean> mList = new ArrayList<>();
     private int type;
+    private AlertDialog alertDialog;
 
     public MyNewsFragment() {
         // Required empty public constructor
@@ -186,6 +187,19 @@ public class MyNewsFragment extends BaseFragment {
         newsListView.setAdapter(mAdapter);
         newsTrl.setHeaderView(new ProgressLayout(mActivity));
         newsTrl.setEnableLoadmore(false);
+        alertDialog = new AlertDialog.Builder(mActivity).setMessage("余额不足请充值，建议充值100元").setPositiveButton("继续", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (onOpenMyNewsListener != null) {
+                    onOpenMyNewsListener.openMyNews();
+                }
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        }).create();
     }
 
     /**
@@ -194,23 +208,14 @@ public class MyNewsFragment extends BaseFragment {
      * @param s
      */
     private void toPay(final TopNewsBean s) {
-        String integral = SpUtils.getUserData(mActivity).getIntegral();
-        int i = Integer.parseInt(integral);
-        if (i < 1000) {
-            showToast("本次消费需要1000积分，余额不足请充值");
-            return;
-        }
-        new AlertDialog.Builder(mActivity).setMessage("本文章需支付1000积分，是否继续支付").setPositiveButton("继续", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                goPay(s);
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+        goPay(s);
+//        String integral = SpUtils.getUserData(mActivity).getIntegral();
+//        int i = Integer.parseInt(integral);
+//        if (i < 1000) {
+//            showToast("本次消费需要1000积分，余额不足请充值");
+//            return;
+//        }
 
-            }
-        }).show();
     }
 
     /**
@@ -219,7 +224,20 @@ public class MyNewsFragment extends BaseFragment {
      * @param s
      */
     private void goPay(TopNewsBean s) {
+        Map<String, String> params = new HashMap<>();
+        params.put("InfoId", s.getId());
+        SoapUtils.Post(mActivity, API.InfoPayResult, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "");
+                alertDialog.show();
+            }
 
+            @Override
+            public void onSuccess(String data) {
+                Log.e("error", "");
+            }
+        });
     }
 
     @Override
@@ -227,4 +245,15 @@ public class MyNewsFragment extends BaseFragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
+    private OnOpenMyNewsListener onOpenMyNewsListener;
+
+    public void setOnOpenMyNewsListener(OnOpenMyNewsListener onOpenMyNewsListener) {
+        this.onOpenMyNewsListener = onOpenMyNewsListener;
+    }
+
+    public interface OnOpenMyNewsListener {
+        void openMyNews();
+    }
+
 }

@@ -17,6 +17,7 @@ import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.ui.fragment.PushPersonFragment;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.GzipUtils;
 import com.zl.zlibrary.utils.ImageFactory;
@@ -25,6 +26,13 @@ import com.zl.zlibrary.utils.MiPictureHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author zhanglei
@@ -127,9 +135,13 @@ public class URegisterActivity extends BaseActivity {
         }
     }
 
-    private void setImage(ImageView image) {
-        byte[] getimage = ImageFactory.getimage(imagePath);
-        image.setImageBitmap(BitmapFactory.decodeByteArray(getimage, 0, getimage.length));
+    /**
+     * 显示图片
+     *
+     * @param image
+     */
+    private void setImage(final ImageView image) {
+        ImageLoader.loadImageFile(imagePath, image);
     }
 
     /**

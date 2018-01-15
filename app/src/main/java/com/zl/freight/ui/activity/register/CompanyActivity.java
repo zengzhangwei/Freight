@@ -2,6 +2,7 @@ package com.zl.freight.ui.activity.register;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseCompanyEntity;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.UserBean;
 import com.zl.freight.ui.activity.AddressChooseActivity;
 import com.zl.freight.ui.activity.URegisterActivity;
 import com.zl.freight.utils.API;
@@ -38,6 +40,12 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class CompanyActivity extends BaseActivity {
 
@@ -72,7 +80,7 @@ public class CompanyActivity extends BaseActivity {
     private String address;
     private PhotoDialog photoDialog;
     private String imagePath;
-    private BaseUserEntity userEntity;
+    private UserBean userEntity;
     private String idCard1;
     private String idCard2;
     private String companyPic;
@@ -102,7 +110,7 @@ public class CompanyActivity extends BaseActivity {
         };
         grImgGrid.setAdapter(mAdapter);
         photoDialog = new PhotoDialog(mActivity);
-        userEntity = (BaseUserEntity) getIntent().getSerializableExtra("userEntity");
+        userEntity = (UserBean) getIntent().getSerializableExtra("userEntity");
         companyEntity = (BaseCompanyEntity) getIntent().getSerializableExtra("companyEntity");
         idCard1 = getIntent().getStringExtra("idCard1");
         idCard2 = getIntent().getStringExtra("idCard2");
@@ -142,8 +150,7 @@ public class CompanyActivity extends BaseActivity {
     }
 
     private void setImage() {
-        byte[] getimage = ImageFactory.getimage(imagePath);
-        ivPersonPhoto.setImageBitmap(BitmapFactory.decodeByteArray(getimage, 0, getimage.length));
+        ImageLoader.loadImageFile(imagePath, ivPersonPhoto);
     }
 
     @OnClick({R.id.iv_back, R.id.tab_add_icon, R.id.tv_register_commit, R.id.tv_register_add_icon,
@@ -197,11 +204,11 @@ public class CompanyActivity extends BaseActivity {
         new Thread() {
             @Override
             public void run() {
-                if (!TextUtils.isEmpty(idCard1)){
+                if (!TextUtils.isEmpty(idCard1)) {
                     String idCard1Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard1));
                     userEntity.setIdCard1(idCard1Data);
                 }
-                if (!TextUtils.isEmpty(idCard2)){
+                if (!TextUtils.isEmpty(idCard2)) {
                     String idCard2Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard2));
                     userEntity.setIdCard2(idCard2Data);
                 }

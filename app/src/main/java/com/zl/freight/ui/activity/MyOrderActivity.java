@@ -34,18 +34,18 @@ public class MyOrderActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.tv_title_right)
     TextView tvTitleRight;
-    @BindView(R.id.my_order_tab)
-    TabLayout myOrderTab;
-    @BindView(R.id.my_order_pager)
-    ViewPager myOrderPager;
-    private List<Fragment> mList = new ArrayList<>();
-    private List<String> dList = Arrays.asList("我的运单", "货物运单");
-    private FragmentStatePagerAdapter mAdapter;
+    @BindView(R.id.my_new_tab)
+    TabLayout myNewTab;
+    @BindView(R.id.my_new_pager)
+    ViewPager myNewPager;
+    private List<String> mList = Arrays.asList("已支付", "未支付");
+    private List<Fragment> fList = new ArrayList<>();
+    private FragmentStatePagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_order);
+        setContentView(R.layout.activity_my_news);
         ButterKnife.bind(this);
         initView();
         initData();
@@ -53,11 +53,10 @@ public class MyOrderActivity extends BaseActivity {
     }
 
     private void initListener() {
-        myOrderPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(myOrderTab));
-        myOrderTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        myNewTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                myOrderPager.setCurrentItem(tab.getPosition());
+                myNewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -70,31 +69,32 @@ public class MyOrderActivity extends BaseActivity {
 
             }
         });
+        myNewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(myNewTab));
     }
 
     private void initData() {
-        mList.add(OrderListFragment.newInstance(0));
-        mList.add(GoodsOrderListFragment.newInstance(0));
-        mAdapter.notifyDataSetChanged();
-        for (String s : dList) {
-            myOrderTab.addTab(myOrderTab.newTab().setText(s));
+        for (String s : mList) {
+            myNewTab.addTab(myNewTab.newTab().setText(s));
         }
+        fList.add(OrderListFragment.newInstance(0));
+        fList.add(OrderListFragment.newInstance(1));
+        pagerAdapter.notifyDataSetChanged();
     }
 
     private void initView() {
-        tvTitle.setText(R.string.my_order);
-        mAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+        tvTitle.setText("我的运单");
+        pagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return mList.get(position);
+                return fList.get(position);
             }
 
             @Override
             public int getCount() {
-                return mList.size();
+                return fList.size();
             }
         };
-        myOrderPager.setAdapter(mAdapter);
+        myNewPager.setAdapter(pagerAdapter);
     }
 
     @OnClick(R.id.iv_back)
