@@ -111,6 +111,14 @@ public class CarUserBean implements Serializable {
     private String CheckBy1;
     private String CheckByName1;
     private String IsDelete1;
+    private String CompanyName;
+    private String CompanyCode;
+    private String CompanyAddress;
+    private String CompanyDescription;
+    private String CompanyPic;
+    private String StorePic;
+    private String StorePic1;
+    private String StorePic2;
     private String Range;
     private String CodeName;
     private String CodeName1;
@@ -529,5 +537,69 @@ public class CarUserBean implements Serializable {
 
     public void setRange(String Range) {
         this.Range = Range;
+    }
+
+    public String getCompanyPic() {
+        return CompanyPic;
+    }
+
+    public void setCompanyPic(String companyPic) {
+        CompanyPic = companyPic;
+    }
+
+    public String getStorePic() {
+        return StorePic;
+    }
+
+    public void setStorePic(String storePic) {
+        StorePic = storePic;
+    }
+
+    public String getStorePic1() {
+        return StorePic1;
+    }
+
+    public void setStorePic1(String storePic1) {
+        StorePic1 = storePic1;
+    }
+
+    public String getStorePic2() {
+        return StorePic2;
+    }
+
+    public void setStorePic2(String storePic2) {
+        StorePic2 = storePic2;
+    }
+
+    public String getCompanyName() {
+        return CompanyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        CompanyName = companyName;
+    }
+
+    public String getCompanyCode() {
+        return CompanyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        CompanyCode = companyCode;
+    }
+
+    public String getCompanyAddress() {
+        return CompanyAddress;
+    }
+
+    public void setCompanyAddress(String companyAddress) {
+        CompanyAddress = companyAddress;
+    }
+
+    public String getCompanyDescription() {
+        return CompanyDescription;
+    }
+
+    public void setCompanyDescription(String companyDescription) {
+        CompanyDescription = companyDescription;
     }
 }

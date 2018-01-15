@@ -87,11 +87,11 @@ public class NewPushFragment extends BaseFragment {
             switch (requestCode) {
                 case PhotoDialog.PICK_FROM_CAMERA:
                     imagePath = photoDialog.imagePath;
-                    ivAddImg.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+                    ivAddImg.setImageBitmap(ImageFactory.getSimpeImage(imagePath));
                     break;
                 case PhotoDialog.SELECT_PHOTO:
                     imagePath = MiPictureHelper.getPath(mActivity, data.getData());
-                    ivAddImg.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+                    ivAddImg.setImageBitmap(ImageFactory.getSimpeImage(imagePath));
                     break;
             }
         }

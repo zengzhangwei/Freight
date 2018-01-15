@@ -1,10 +1,12 @@
 package com.zl.freight.mode;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/12/22.
  */
 
-public class BaseCompanyEntity {
+public class BaseCompanyEntity implements Serializable {
     public int Id;
     public int UserId;
     public String CompanyName = "";

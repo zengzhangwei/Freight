@@ -1,10 +1,10 @@
-package com.zl.freight.ui.activity;
+package com.zl.freight.ui.activity.register;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,7 +17,10 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseCompanyEntity;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.ui.activity.AddressChooseActivity;
+import com.zl.freight.ui.activity.URegisterActivity;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
@@ -36,11 +39,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * @author zhanglei
- * @date 17/12/12
- */
-public class GoodsRegisterActivity extends BaseActivity {
+public class CompanyActivity extends BaseActivity {
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -77,6 +76,7 @@ public class GoodsRegisterActivity extends BaseActivity {
     private String idCard1;
     private String idCard2;
     private String companyPic;
+    private BaseCompanyEntity companyEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +103,14 @@ public class GoodsRegisterActivity extends BaseActivity {
         grImgGrid.setAdapter(mAdapter);
         photoDialog = new PhotoDialog(mActivity);
         userEntity = (BaseUserEntity) getIntent().getSerializableExtra("userEntity");
-        idCard1 = userEntity.getIdCard1();
-        idCard2 = userEntity.getIdCard2();
+        companyEntity = (BaseCompanyEntity) getIntent().getSerializableExtra("companyEntity");
+        idCard1 = getIntent().getStringExtra("idCard1");
+        idCard2 = getIntent().getStringExtra("idCard2");
+
+        etCompanyName.setText(companyEntity.getCompanyName());
+        etCompanyCode.setText(companyEntity.getCompanyCode());
+        tvChooseAddress.setText(companyEntity.getCompanyAddress());
+        ImageLoader.loadImageUrl(mActivity, companyEntity.getCompanyPic(), ivPersonPhoto);
     }
 
     @Override
@@ -176,22 +182,9 @@ public class GoodsRegisterActivity extends BaseActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(address)) {
-            showToast("请选择公司地址");
-            return;
-        }
-
-        if (photoList.size() <= 0) {
-            showToast("请添加照片");
-            return;
-        }
-
-        if (!TextUtils.isEmpty(companyCode)) {
-            if (TextUtils.isEmpty(imagePath)) {
-                showToast("请上传营业执照");
-                return;
-            }
+        if (!TextUtils.isEmpty(imagePath)) {
             companyPic = ImageFactory.base64Encode(ImageFactory.getimage(imagePath));
+            return;
         }
 
         final Map<String, String> params = new HashMap<>();
@@ -204,33 +197,45 @@ public class GoodsRegisterActivity extends BaseActivity {
         new Thread() {
             @Override
             public void run() {
-                String idCard1Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard1));
-                String idCard2Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard2));
-                userEntity.setIdCard1(idCard1Data);
-                userEntity.setIdCard2(idCard2Data);
+                if (!TextUtils.isEmpty(idCard1)){
+                    String idCard1Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard1));
+                    userEntity.setIdCard1(idCard1Data);
+                }
+                if (!TextUtils.isEmpty(idCard2)){
+                    String idCard2Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard2));
+                    userEntity.setIdCard2(idCard2Data);
+                }
 
-                //填充公司数据
-                BaseCompanyEntity companyEntity = new BaseCompanyEntity();
                 companyEntity.setCompanyName(companyName);
-                companyEntity.setCompanyAddress(address);
+                if (!TextUtils.isEmpty(address)) {
+                    companyEntity.setCompanyAddress(address);
+                    return;
+                }
+
                 //机构代码不为空时必须添加营业执照
-                if (!TextUtils.isEmpty(companyPic)) {
-                    companyEntity.setCompanyPic(companyPic);
+                if (!TextUtils.isEmpty(companyCode)) {
                     companyEntity.setCompanyCode(companyCode);
                 }
 
-                for (int i = 0; i < photoList.size(); i++) {
-                    String s = ImageFactory.base64Encode(ImageFactory.getimage(photoList.get(i)));
-                    switch (i) {
-                        case 0:
-                            companyEntity.setStorePic(s);
-                            break;
-                        case 1:
-                            companyEntity.setStorePic1(s);
-                            break;
-                        case 2:
-                            companyEntity.setStorePic2(s);
-                            break;
+                if (!TextUtils.isEmpty(companyPic)) {
+                    companyEntity.setCompanyPic(companyPic);
+
+                }
+
+                if (photoList.size() > 0) {
+                    for (int i = 0; i < photoList.size(); i++) {
+                        String s = ImageFactory.base64Encode(ImageFactory.getimage(photoList.get(i)));
+                        switch (i) {
+                            case 0:
+                                companyEntity.setStorePic(s);
+                                break;
+                            case 1:
+                                companyEntity.setStorePic1(s);
+                                break;
+                            case 2:
+                                companyEntity.setStorePic2(s);
+                                break;
+                        }
                     }
                 }
 
@@ -240,7 +245,7 @@ public class GoodsRegisterActivity extends BaseActivity {
                 params.put("UserEntityJson", GsonUtils.toJson(userEntity));
                 params.put("CompanyEntityJson", GsonUtils.toJson(companyEntity));
 
-                SoapUtils.Post(mActivity, API.Register, params, new SoapCallback() {
+                SoapUtils.Post(mActivity, API.UpdateUserInfo, params, new SoapCallback() {
                     @Override
                     public void onError(String error) {
                         tvRegisterCommit.setEnabled(true);
@@ -251,7 +256,7 @@ public class GoodsRegisterActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String data) {
                         tvRegisterCommit.setEnabled(true);
-                        showToast("注册成功");
+                        showToast("信息修改成功");
                         URegisterActivity.uRegisterActivity.finish();
                         finish();
                     }

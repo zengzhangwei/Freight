@@ -25,9 +25,16 @@ import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.activity.MyNewsActivity;
 import com.zl.freight.ui.activity.MyOrderActivity;
 import com.zl.freight.ui.activity.UserCheckActivity;
+import com.zl.freight.ui.activity.register.UserDataActivity;
+import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,6 +76,8 @@ public class PersonFragment extends BaseFragment {
     TextView tvFeedback;
     @BindView(R.id.linear_user_feedback)
     AutoLinearLayout linearUserFeedback;
+    @BindView(R.id.linear_real_user)
+    AutoLinearLayout linearRealUser;
     private BaseUserEntity userData;
     private int userRole;
 
@@ -114,6 +123,21 @@ public class PersonFragment extends BaseFragment {
             tvShoujihao.setText(realName);
         }
         ImageLoader.loadUserIcon(mActivity, userIcon, this.userIcon);
+
+        //判断用户是否已通过认证
+        Map<String, String> params = new HashMap<>();
+        params.put("UserName", SpUtils.getUserData(mActivity).getUserName());
+        SoapUtils.Post(mActivity, API.SaveCheck, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                SpUtils.setIsReal(mActivity, false);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                SpUtils.setIsReal(mActivity, true);
+            }
+        });
     }
 
     private void initView() {
@@ -126,6 +150,7 @@ public class PersonFragment extends BaseFragment {
                 linearMyJiFenStore.setVisibility(View.GONE);
                 linearMyMoney.setVisibility(View.GONE);
                 linearMyNews.setVisibility(View.GONE);
+                linearRealUser.setVisibility(View.GONE);
                 tvFeedback.setText(R.string.user_feedback);
                 break;
             //普通用户
@@ -133,6 +158,7 @@ public class PersonFragment extends BaseFragment {
                 linearNewsPush.setVisibility(View.GONE);
                 linearUserCheck.setVisibility(View.GONE);
                 linearInfoQuery.setVisibility(View.GONE);
+                linearRealUser.setVisibility(View.VISIBLE);
                 tvFeedback.setText("意见反馈");
                 break;
         }
@@ -146,7 +172,7 @@ public class PersonFragment extends BaseFragment {
 
     @OnClick({R.id.arl_person, R.id.linear_my_order, R.id.linear_my_money, R.id.linear_user_check,
             R.id.linear_info_query, R.id.linear_news_push, R.id.btn_exit, R.id.linear_my_ji_fen_store,
-            R.id.linear_my_news, R.id.linear_user_feedback})
+            R.id.linear_my_news, R.id.linear_real_user, R.id.linear_user_feedback})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //个人信息
@@ -197,6 +223,10 @@ public class PersonFragment extends BaseFragment {
             //用户反馈
             case R.id.linear_user_feedback:
                 startActivity(new Intent(mActivity, FeedbackActivity.class));
+                break;
+            //用户实名认证
+            case R.id.linear_real_user:
+                startActivity(new Intent(mActivity, UserDataActivity.class));
                 break;
         }
     }

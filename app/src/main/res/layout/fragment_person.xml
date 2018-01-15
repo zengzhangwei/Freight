@@ -1,4 +1,5 @@
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -133,6 +134,31 @@
                 style="@style/TextStyle"
                 android:layout_gravity="center_vertical"
                 android:text="@string/ji_fen_store" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/light_grey" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/linear_real_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="86px"
+                android:layout_height="86px"
+                android:padding="18px"
+                app:srcCompat="@drawable/ic_person" />
+
+            <TextView
+                style="@style/TextStyle"
+                android:layout_gravity="center_vertical"
+                android:text="实名认证（未认证）" />
 
         </com.zhy.autolayout.AutoLinearLayout>
 

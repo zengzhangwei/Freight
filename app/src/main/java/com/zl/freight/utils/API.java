@@ -175,5 +175,10 @@ public class API {
      */
     public static final String GetIncome = "GetIncome";
 
+    /**
+     * 用户更新资料
+     */
+    public static final String UpdateUserInfo = "UpdateUserInfo";
+
 
 }

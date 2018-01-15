@@ -70,9 +70,9 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- 付钱拉SDK张磊的测试KEY -->
-        <!--<meta-data-->
-        <!--android:name="FQL_APPKEY"-->
-        <!--android:value="fPXb00o5IvnxxlKCZmbM4w" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="FQL_APPKEY" -->
+        <!-- android:value="fPXb00o5IvnxxlKCZmbM4w" /> -->
         <meta-data
             android:name="FQL_APPKEY"
             android:value="rfi68QEmnx9GvV9dN0S95w" />
@@ -178,7 +178,10 @@
         <activity android:name=".ui.activity.FeedbackActivity" />
         <activity android:name=".ui.activity.WebActivity" />
         <activity android:name=".ui.activity.ProgressTestActivity" />
-        <activity android:name=".ui.activity.UpdateSendActivity"></activity>
+        <activity android:name=".ui.activity.UpdateSendActivity" />
+        <activity android:name=".ui.activity.register.UserDataActivity" />
+        <activity android:name=".ui.activity.register.CarDataActivity" />
+        <activity android:name=".ui.activity.register.CompanyActivity"></activity>
     </application>
 
 </manifest>

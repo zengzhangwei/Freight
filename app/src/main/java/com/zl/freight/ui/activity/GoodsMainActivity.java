@@ -6,7 +6,10 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +23,7 @@ import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.dialog.DriverSearchDialog;
+import com.zl.freight.ui.dialog.MessageDialog;
 import com.zl.freight.ui.fragment.CheYuanFragment;
 import com.zl.freight.ui.fragment.FindGoodsFragment;
 import com.zl.freight.ui.fragment.MyGoodsFragment;
@@ -30,8 +34,13 @@ import com.zl.freight.ui.fragment.SendGoodsFragment;
 import com.zl.freight.ui.fragment.TopLineFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ShareUtils;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.utils.FragmentHelper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,6 +94,7 @@ public class GoodsMainActivity extends BaseActivity {
     private DriverSearchDialog searchDialog;
     private MyGoodsFragment myGoodsFragment;
     private OftenFragment oftenFragment;
+    private MessageDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +102,27 @@ public class GoodsMainActivity extends BaseActivity {
         setContentView(R.layout.activity_goods_main);
         ButterKnife.bind(this);
         initView();
+        initData();
         initListener();
         upLoadRegId();
+    }
+
+    private void initData() {
+        Map<String, String> params = new HashMap<>();
+        params.put("UserName", SpUtils.getUserData(mActivity).getUserName());
+        SoapUtils.Post(mActivity, API.SaveCheck, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                alertDialog.show();
+                SpUtils.setIsReal(mActivity,false);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                SpUtils.setIsReal(mActivity,true);
+                alertDialog.show();
+            }
+        });
     }
 
     private void initListener() {
@@ -204,6 +233,8 @@ public class GoodsMainActivity extends BaseActivity {
         mainAppbar.setVisibility(View.VISIBLE);
         //默认选中发货
         mainRg.check(R.id.main_rb_send);
+        //审核状态的对话框
+        alertDialog = new MessageDialog(mActivity);
     }
 
     @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.tv_car_type, R.id.main_img_weChat, R.id.iv_into_order, R.id.iv_main_share})

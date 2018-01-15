@@ -85,4 +85,18 @@ public class SpUtils {
         return user;
     }
 
+    //储存登录信息
+    public static void setIsReal(Context context, boolean isReal) {
+        SharedPreferences sp = context.getSharedPreferences("isReal", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putBoolean("isLogin", isReal);
+        edit.commit();
+    }
+
+    //获取登录信息（是否登录）
+    public static boolean isReal(Context context) {
+        SharedPreferences sp = context.getSharedPreferences("isReal", Context.MODE_PRIVATE);
+        return sp.getBoolean("isLogin", false);
+    }
+
 }
