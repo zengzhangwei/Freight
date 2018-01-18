@@ -38,7 +38,7 @@ public class MyNewsActivity extends BaseActivity implements MyNewsFragment.OnOpe
     TabLayout myNewTab;
     @BindView(R.id.my_new_pager)
     ViewPager myNewPager;
-    private List<String> mList = Arrays.asList("已支付", "未支付");
+    private List<String> mList = Arrays.asList("未支付", "已支付");
     private List<Fragment> fList = new ArrayList<>();
     private FragmentStatePagerAdapter pagerAdapter;
     private MyNewsFragment myNewsFragment;

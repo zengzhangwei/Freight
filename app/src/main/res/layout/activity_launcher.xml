@@ -18,7 +18,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
-        android:text="软件版权属于广宗货物运输公司所有"
+        android:text="软件版权属于河北振超货物运输公司所有"
         android:textSize="@dimen/dp_12" />
 
 </com.zhy.autolayout.AutoRelativeLayout>

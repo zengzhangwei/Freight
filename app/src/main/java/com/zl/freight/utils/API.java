@@ -188,5 +188,10 @@ public class API {
      */
     public static final String UpdateBaseUser = "UpdateBaseUser";
 
+    /**
+     * 积分变动
+     */
+    public static final String IntegralChange = "IntegralChange ";
+
 
 }

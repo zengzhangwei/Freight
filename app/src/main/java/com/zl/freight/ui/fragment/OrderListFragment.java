@@ -44,6 +44,7 @@ public class OrderListFragment extends BaseFragment {
     Unbinder unbinder;
     private List<String> mList = new ArrayList<>();
     private RecyclerAdapter<String> mAdapter;
+    private int type;
 
     public OrderListFragment() {
         // Required empty public constructor
@@ -85,28 +86,29 @@ public class OrderListFragment extends BaseFragment {
     }
 
     private void initData() {
-        for (int i = 0; i < 5; i++) {
-            mList.add("");
-        }
-        mAdapter.notifyDataSetChanged();
+//        for (int i = 0; i < 5; i++) {
+//            mList.add("");
+//        }
+//        mAdapter.notifyDataSetChanged();
+        type = getArguments().getInt("type", 0);
         getListData();
     }
 
 
     private void getListData() {
         Map<String, String> params = new HashMap<>();
-        params.put("UserRole", "2");
+        params.put("UserRole", "1");
         params.put("UserId", SpUtils.getUserData(mActivity).getId());
-        params.put("SendState", "0");
+        params.put("SendState", "" + type);
         SoapUtils.Post(mActivity, API.GetSend, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                Log.e("error","");
+                Log.e("error", "");
             }
 
             @Override
             public void onSuccess(String data) {
-                Log.e("error","onSuccess");
+                Log.e("error", "onSuccess");
             }
         });
     }

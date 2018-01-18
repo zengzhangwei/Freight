@@ -1,4 +1,4 @@
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,325 +6,336 @@
     android:background="@color/bg_color"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_8">
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <com.zhy.autolayout.AutoRelativeLayout
-                android:id="@+id/arl_person"
-                android:layout_width="match_parent"
-                android:layout_height="200px"
-                android:background="@color/colorPrimary">
-
-                <ImageView
-                    android:id="@+id/user_icon"
-                    android:layout_width="140px"
-                    android:layout_height="140px"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp_16"
-                    android:src="@mipmap/icon_touxiang" />
-
-                <TextView
-                    android:id="@+id/tv_shoujihao"
-                    style="@style/white_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp_16"
-                    android:layout_toRightOf="@id/user_icon"
-                    android:text="管理员"
-                    android:textSize="@dimen/dp_18" />
-
-                <ImageView
-                    android:layout_width="@dimen/dp_22"
-                    android:layout_height="@dimen/dp_22"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_16"
-                    android:src="@mipmap/icon_right" />
-
-            </com.zhy.autolayout.AutoRelativeLayout>
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_8"
-        android:layout_marginRight="@dimen/dp_8"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/dp_16">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_my_order"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center_vertical">
+            android:layout_margin="@dimen/dp_8">
 
-            <ImageView
-                android:layout_width="86px"
-                android:layout_height="86px"
-                android:padding="18px"
-                android:src="@mipmap/icon_order" />
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_my_order"
-                style="@style/TextStyle"
-                android:layout_gravity="center_vertical"
-                android:text="@string/my_run_order" />
 
-        </com.zhy.autolayout.AutoLinearLayout>
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:id="@+id/arl_person"
+                    android:layout_width="match_parent"
+                    android:layout_height="200px"
+                    android:background="@color/colorPrimary">
+
+                    <ImageView
+                        android:id="@+id/user_icon"
+                        android:layout_width="140px"
+                        android:layout_height="140px"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_16"
+                        android:src="@mipmap/icon_touxiang" />
+
+                    <TextView
+                        android:id="@+id/tv_shoujihao"
+                        style="@style/white_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_16"
+                        android:layout_toRightOf="@id/user_icon"
+                        android:text="管理员"
+                        android:textSize="@dimen/dp_18" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_22"
+                        android:layout_height="@dimen/dp_22"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_16"
+                        android:src="@mipmap/icon_right" />
+
+                </com.zhy.autolayout.AutoRelativeLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </android.support.design.widget.AppBarLayout>
 
         <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_my_run_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center_vertical"
-            android:visibility="gone">
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginRight="@dimen/dp_8"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dp_16">
 
-            <ImageView
-                android:layout_width="86px"
-                android:layout_height="86px"
-                android:padding="18px"
-                app:srcCompat="@drawable/ic_run_order" />
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_my_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="86px"
+                    android:layout_height="86px"
+                    android:padding="18px"
+                    android:src="@mipmap/icon_order" />
+
+                <TextView
+                    android:id="@+id/tv_my_order"
+                    style="@style/TextStyle"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/my_run_order" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
 
             <TextView
-                style="@style/TextStyle"
-                android:layout_gravity="center_vertical"
-                android:text="@string/my_run_order" />
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_my_run_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="86px"
+                    android:layout_height="86px"
+                    android:padding="18px"
+                    app:srcCompat="@drawable/ic_run_order" />
+
+                <TextView
+                    style="@style/TextStyle"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/my_run_order" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/light_grey" />
+
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_my_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="86px"
+                    android:layout_height="86px"
+                    android:padding="18px"
+                    android:src="@mipmap/icon_my_money" />
+
+                <TextView
+                    style="@style/TextStyle"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/my_money" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_my_ji_fen_store"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="86px"
+                    android:layout_height="86px"
+                    android:padding="18px"
+                    android:src="@mipmap/icon_ji_fen_store" />
+
+                <TextView
+                    style="@style/TextStyle"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/ji_fen_store" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_real_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="86px"
+                    android:layout_height="86px"
+                    android:padding="18px"
+                    app:srcCompat="@drawable/ic_person" />
+
+                <TextView
+                    style="@style/TextStyle"
+                    android:layout_gravity="center_vertical"
+                    android:text="实名认证（未认证）" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_my_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="86px"
+                    android:layout_height="86px"
+                    android:padding="18px"
+                    android:src="@mipmap/icon_news" />
+
+                <TextView
+                    style="@style/TextStyle"
+                    android:layout_gravity="center_vertical"
+                    android:text="我的文章与广告" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_user_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="86px"
+                    android:layout_height="86px"
+                    android:padding="16px"
+                    android:src="@mipmap/icon_opinion" />
+
+                <TextView
+                    android:id="@+id/tv_feedback"
+                    style="@style/TextStyle"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/user_feedback" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_user_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="86px"
+                    android:layout_height="86px"
+                    android:padding="18px"
+                    android:src="@mipmap/icon_user_check" />
+
+                <TextView
+                    style="@style/TextStyle"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/user_check" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_info_query"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="86px"
+                    android:layout_height="86px"
+                    android:padding="18px"
+                    android:src="@mipmap/icon_query" />
+
+                <TextView
+                    style="@style/TextStyle"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/info_query" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/light_grey" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_news_push"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="86px"
+                    android:layout_height="86px"
+                    android:padding="18px"
+                    android:src="@mipmap/icon_news_push" />
+
+                <TextView
+                    style="@style/TextStyle"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/new_push" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
 
         </com.zhy.autolayout.AutoLinearLayout>
-
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/light_grey" />
-
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_my_money"
+            android:id="@+id/btn_exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="86px"
-                android:layout_height="86px"
-                android:padding="18px"
-                android:src="@mipmap/icon_my_money" />
-
-            <TextView
-                style="@style/TextStyle"
-                android:layout_gravity="center_vertical"
-                android:text="@string/my_money" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/light_grey" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_my_ji_fen_store"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="86px"
-                android:layout_height="86px"
-                android:padding="18px"
-                android:src="@mipmap/icon_ji_fen_store" />
-
-            <TextView
-                style="@style/TextStyle"
-                android:layout_gravity="center_vertical"
-                android:text="@string/ji_fen_store" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/light_grey" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_real_user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="86px"
-                android:layout_height="86px"
-                android:padding="18px"
-                app:srcCompat="@drawable/ic_person" />
-
-            <TextView
-                style="@style/TextStyle"
-                android:layout_gravity="center_vertical"
-                android:text="实名认证（未认证）" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/light_grey" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_my_news"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="86px"
-                android:layout_height="86px"
-                android:padding="18px"
-                android:src="@mipmap/icon_news" />
-
-            <TextView
-                style="@style/TextStyle"
-                android:layout_gravity="center_vertical"
-                android:text="我的文章与广告" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/light_grey" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_user_feedback"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="86px"
-                android:layout_height="86px"
-                android:padding="16px"
-                android:src="@mipmap/icon_opinion" />
-
-            <TextView
-                android:id="@+id/tv_feedback"
-                style="@style/TextStyle"
-                android:layout_gravity="center_vertical"
-                android:text="@string/user_feedback" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/light_grey" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_user_check"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="86px"
-                android:layout_height="86px"
-                android:padding="18px"
-                android:src="@mipmap/icon_user_check" />
-
-            <TextView
-                style="@style/TextStyle"
-                android:layout_gravity="center_vertical"
-                android:text="@string/user_check" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/light_grey" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_info_query"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="86px"
-                android:layout_height="86px"
-                android:padding="18px"
-                android:src="@mipmap/icon_query" />
-
-            <TextView
-                style="@style/TextStyle"
-                android:layout_gravity="center_vertical"
-                android:text="@string/info_query" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/light_grey" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/linear_news_push"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="86px"
-                android:layout_height="86px"
-                android:padding="18px"
-                android:src="@mipmap/icon_news_push" />
-
-            <TextView
-                style="@style/TextStyle"
-                android:layout_gravity="center_vertical"
-                android:text="@string/new_push" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="50px"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginRight="@dimen/dp_8"
+            android:layout_marginTop="140px"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:padding="@dimen/dp_12"
+            android:text="退出当前账号"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_16" />
     </com.zhy.autolayout.AutoLinearLayout>
-
-    <TextView
-        android:id="@+id/btn_exit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/dp_8"
-        android:layout_marginRight="@dimen/dp_8"
-        android:layout_marginTop="140px"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:padding="@dimen/dp_12"
-        android:text="退出当前账号"
-        android:textColor="@color/white"
-        android:textSize="@dimen/dp_16" />
-
-</com.zhy.autolayout.AutoLinearLayout>
+</ScrollView>

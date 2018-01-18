@@ -161,8 +161,8 @@ public class EditPersonDataActivity extends BaseActivity {
         userEntity.setPassWord(userData.getPassWord());
         userEntity.setIdCardNumber(userData.getIdCardNumber());
         userEntity.setUserRole(userData.getUserRole());
-//        userEntity.setIdCard1(userData.getIdCard1());
-//        userEntity.setIdCard2(userData.getIdCard2());
+        userEntity.setIdCard1("");
+        userEntity.setIdCard2("");
     }
 
     /**
