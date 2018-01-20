@@ -23,7 +23,7 @@ public class API {
 
     public static final int power = 100;
 
-    //    public static final String BaseUrl = "http://172.16.18.17";
+    //        public static final String BaseUrl = "http://172.16.18.17";
     public static final String BaseUrl = "http://139.129.131.31:8088/";
 
     /**
@@ -192,6 +192,11 @@ public class API {
      * 积分变动
      */
     public static final String IntegralChange = "IntegralChange ";
+
+    /**
+     * 审核用户信息列表
+     */
+    public static final String CheckList = "CheckList ";
 
 
 }

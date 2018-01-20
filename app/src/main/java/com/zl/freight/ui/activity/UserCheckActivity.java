@@ -11,6 +11,9 @@ import com.zl.freight.base.BaseActivity;
 import com.zl.freight.ui.fragment.UserCheckListFragment;
 import com.zl.zlibrary.utils.FragmentHelper;
 
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,6 +35,7 @@ public class UserCheckActivity extends BaseActivity {
     TextView tvUcTitle;
     private UserCheckListFragment fragment0, fragment1, fragment2, fragment3;
     private FragmentHelper helper;
+    private List<String> mList = Arrays.asList("未审核", "审核通过", "审核未通过");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +82,8 @@ public class UserCheckActivity extends BaseActivity {
     private void initView() {
         tvUcTitle.setText(R.string.user_check);
         fragment0 = UserCheckListFragment.newInstance(0);
-        fragment1 = UserCheckListFragment.newInstance(0);
-        fragment2 = UserCheckListFragment.newInstance(0);
+        fragment1 = UserCheckListFragment.newInstance(1);
+        fragment2 = UserCheckListFragment.newInstance(2);
         fragment3 = UserCheckListFragment.newInstance(0);
         helper = FragmentHelper.builder(mActivity).attach(R.id.uc_rl)
                 .addFragment(fragment0)
@@ -91,18 +95,9 @@ public class UserCheckActivity extends BaseActivity {
     }
 
     private void initData() {
-        TabLayout.Tab tab1 = ucTab.newTab();
-        TabLayout.Tab tab2 = ucTab.newTab();
-        TabLayout.Tab tab3 = ucTab.newTab();
-        TabLayout.Tab tab4 = ucTab.newTab();
-        tab1.setText("全部");
-        tab2.setText("审核中");
-        tab3.setText("已通过");
-        tab4.setText("未通过");
-        ucTab.addTab(tab1, true);
-        ucTab.addTab(tab2, false);
-        ucTab.addTab(tab3, false);
-        ucTab.addTab(tab4, false);
+        for (String s : mList) {
+            ucTab.addTab(ucTab.newTab().setText(s));
+        }
     }
 
     @OnClick(R.id.iv_uc_back)

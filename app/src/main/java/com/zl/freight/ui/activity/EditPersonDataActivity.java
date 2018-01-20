@@ -42,6 +42,7 @@ import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author zhanglei
@@ -98,7 +99,7 @@ public class EditPersonDataActivity extends BaseActivity {
             @Override
             public void onPhone(String phone1, String phone2) {
                 tvUserStandbyPhone.setText(phone1 + "," + phone2);
-                updatePhone(phone1,phone2);
+                updatePhone(phone1, phone2);
             }
         });
     }
@@ -115,12 +116,14 @@ public class EditPersonDataActivity extends BaseActivity {
         SoapUtils.Post(mActivity, API.UpdateBaseUser, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                Log.e("error","");
+                showToast(error);
+                Log.e("error", "");
             }
 
             @Override
             public void onSuccess(String data) {
-                Log.e("error","");
+                showToast("更新成功");
+                Log.e("error", "");
             }
         });
     }
@@ -202,6 +205,8 @@ public class EditPersonDataActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == mActivity.RESULT_OK) {
+
+
             switch (requestCode) {
                 //从相机返回照片
                 case PhotoDialog.PICK_FROM_CAMERA:
@@ -212,7 +217,6 @@ public class EditPersonDataActivity extends BaseActivity {
                     imagePath = MiPictureHelper.getPath(mActivity, data.getData());
                     break;
             }
-
             //上传头像
             showDialog("头像上传中...");
             Observable.just(imagePath)
@@ -222,6 +226,7 @@ public class EditPersonDataActivity extends BaseActivity {
                             return ImageFactory.base64Encode(ImageFactory.getimage(imagePath));
                         }
                     })
+                    .subscribeOn(Schedulers.io())
                     .subscribe(new Consumer<String>() {
                         @Override
                         public void accept(@NonNull String s) throws Exception {
@@ -245,12 +250,12 @@ public class EditPersonDataActivity extends BaseActivity {
         SoapUtils.Post(mActivity, API.UpdateBaseUser, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                Log.e("error","");
+                Log.e("error", "");
             }
 
             @Override
             public void onSuccess(String data) {
-                Log.e("error","");
+                Log.e("error", "");
             }
         });
     }

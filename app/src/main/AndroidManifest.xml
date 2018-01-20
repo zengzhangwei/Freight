@@ -109,7 +109,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".ui.activity.MainActivity" />
+        <activity android:name=".ui.activity.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            ></activity>
         <activity android:name=".ui.activity.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -132,7 +134,9 @@
         <activity android:name=".ui.activity.InfoQueryActivity" />
         <activity android:name=".ui.activity.EditPersonDataActivity" />
         <activity android:name=".ui.activity.MyMoneyActivity" />
-        <activity android:name=".ui.activity.GoodsMainActivity" />
+        <activity android:name=".ui.activity.GoodsMainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            ></activity>
         <activity android:name=".ui.activity.GoodsRegisterActivity" />
         <!-- 图片选择器 -->
         <activity

@@ -18,9 +18,11 @@ import android.widget.TextView;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.service.LocationService;
 import com.zl.freight.ui.dialog.CarLengthDialog;
+import com.zl.freight.ui.dialog.MessageDialog;
 import com.zl.freight.ui.fragment.FindGoodsFragment;
 import com.zl.freight.ui.fragment.MyGoodsFragment;
 import com.zl.freight.ui.fragment.NoLoginPersonFragment;
@@ -89,6 +91,7 @@ public class MainActivity extends BaseActivity {
     private NoLoginPersonFragment noLoginPersonFragment;
     private long timecode = 0;
     private MyGoodsFragment myGoodsFragment;
+    private MessageDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +99,16 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
+        initData();
         initListener();
         upLoadRegId();
+    }
+
+    private void initData() {
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        if (!userData.getIsCheck().equals("1")) {
+            alertDialog.show();
+        }
     }
 
     private void initListener() {
@@ -190,6 +201,8 @@ public class MainActivity extends BaseActivity {
 
         //默认选中发货
         mainRg.check(R.id.main_rb_send);
+        //审核状态的对话框
+        alertDialog = new MessageDialog(mActivity);
     }
 
     @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.tv_car_type, R.id.iv_into_order, R.id.main_img_weChat})

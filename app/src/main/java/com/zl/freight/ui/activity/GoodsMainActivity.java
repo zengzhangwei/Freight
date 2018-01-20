@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.dialog.DriverSearchDialog;
@@ -108,21 +109,25 @@ public class GoodsMainActivity extends BaseActivity {
     }
 
     private void initData() {
-        Map<String, String> params = new HashMap<>();
-        params.put("UserName", SpUtils.getUserData(mActivity).getUserName());
-        SoapUtils.Post(mActivity, API.SaveCheck, params, new SoapCallback() {
-            @Override
-            public void onError(String error) {
-                alertDialog.show();
-                SpUtils.setIsReal(mActivity,false);
-            }
-
-            @Override
-            public void onSuccess(String data) {
-                SpUtils.setIsReal(mActivity,true);
-                alertDialog.show();
-            }
-        });
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        if (!userData.getIsCheck().equals("1")){
+            alertDialog.show();
+        }
+//        Map<String, String> params = new HashMap<>();
+//        params.put("UserName", SpUtils.getUserData(mActivity).getUserName());
+//        SoapUtils.Post(mActivity, API.SaveCheck, params, new SoapCallback() {
+//            @Override
+//            public void onError(String error) {
+//
+//                SpUtils.setIsReal(mActivity,false);
+//            }
+//
+//            @Override
+//            public void onSuccess(String data) {
+//                SpUtils.setIsReal(mActivity,true);
+//                alertDialog.show();
+//            }
+//        });
     }
 
     private void initListener() {

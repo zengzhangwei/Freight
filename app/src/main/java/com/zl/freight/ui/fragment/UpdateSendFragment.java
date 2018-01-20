@@ -369,7 +369,6 @@ public class UpdateSendFragment extends BaseFragment {
         sendEntity.setEndPlace(endCity);
         sendEntity.setEndX(endLatitude + "");
         sendEntity.setEndY(endLongitude + "");
-
         //是否标记为常发货源
         if (tvChangFa.isSelected()) {
             sendEntity.setIsOften(0);
@@ -430,6 +429,7 @@ public class UpdateSendFragment extends BaseFragment {
             public void onSuccess(String data) {
                 hideDialog();
                 showToast("货物发布成功");
+                getFragmentManager().popBackStack();
             }
         });
     }

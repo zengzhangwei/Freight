@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -19,12 +20,15 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
+import com.zl.freight.mode.TopNewsBean;
 import com.zl.freight.ui.activity.NewsDetailActivity;
 import com.zl.freight.ui.activity.PublishNewsActivity;
+import com.zl.freight.ui.activity.WebActivity;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
@@ -34,8 +38,12 @@ import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -61,13 +69,14 @@ public class TopLineFragment extends BaseFragment {
     @BindView(R.id.top_line_trl)
     TwinklingRefreshLayout topLineTrl;
     private int page = 1;
-    private List<String> mList = Arrays.asList("http://image.3761.com/pic/85241434675216.jpg",
-            "http://image.3761.com/pic/5111434675216.jpg",
-            "http://image.3761.com/pic/58601434675217.jpg",
-            "http://image.3761.com/pic/43701434675217.jpg",
-            "http://image.3761.com/pic/1191434675217.jpg",
-            "http://image.3761.com/pic/34951434675217.jpg");
-    private UniversalAdapter<String> mAdapter;
+    //    private List<String> mList = Arrays.asList("http://image.3761.com/pic/85241434675216.jpg",
+//            "http://image.3761.com/pic/5111434675216.jpg",
+//            "http://image.3761.com/pic/58601434675217.jpg",
+//            "http://image.3761.com/pic/43701434675217.jpg",
+//            "http://image.3761.com/pic/1191434675217.jpg",
+//            "http://image.3761.com/pic/34951434675217.jpg");
+    private List<TopNewsBean> mList = new ArrayList<>();
+    private UniversalAdapter<TopNewsBean> mAdapter;
     private int mPostion;
 
     public TopLineFragment() {
@@ -103,7 +112,7 @@ public class TopLineFragment extends BaseFragment {
     /**
      * 获取列表数据
      */
-    private void getListData(boolean b) {
+    private void getListData(final boolean b) {
         if (b) {
             page = 1;
         } else {
@@ -113,15 +122,35 @@ public class TopLineFragment extends BaseFragment {
         params.put("PageIndex", page + "");
         params.put("PageSize", "10");
         //TODO 等待数据接入
-        SoapUtils.Post(mActivity, API.GetInfo, null, new SoapCallback() {
+        SoapUtils.Post(mActivity, API.GetInfo, params, new SoapCallback() {
             @Override
             public void onError(String error) {
                 Log.e("error", "error");
+                if (b) {
+                    topLineTrl.finishLoadmore();
+                } else {
+                    topLineTrl.finishLoadmore();
+                }
             }
 
             @Override
             public void onSuccess(String data) {
                 Log.e("data", data);
+                if (b) {
+                    mList.clear();
+                    topLineTrl.finishLoadmore();
+                } else {
+                    topLineTrl.finishLoadmore();
+                }
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        mList.add(GsonUtils.fromJson(array.optString(i), TopNewsBean.class));
+                    }
+
+                } catch (Exception e) {
+
+                }
             }
         });
     }
@@ -132,23 +161,33 @@ public class TopLineFragment extends BaseFragment {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 super.onRefresh(refreshLayout);
+                getListData(true);
             }
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
                 super.onLoadMore(refreshLayout);
+                getListData(false);
             }
         });
         topRlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                View img = view.findViewById(R.id.iv_top_icon);
-                Intent intent = new Intent(mActivity, NewsDetailActivity.class);
-                intent.putExtra("url", mList.get(i));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, img, NewsDetailActivity.PICTURE);
-                    startActivity(intent, options.toBundle());
+                View img = view.findViewById(R.id.tv_news_item_title);
+                TopNewsBean topNewsBean = mList.get(i);
+                if (TextUtils.isEmpty(topNewsBean.getInfoLink())) {
+                    Intent intent = new Intent(mActivity, NewsDetailActivity.class);
+                    intent.putExtra("data", topNewsBean);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, img, NewsDetailActivity.TEXT);
+                        startActivity(intent, options.toBundle());
+                    } else {
+                        startActivity(intent);
+                    }
                 } else {
+                    Intent intent = new Intent(mActivity, WebActivity.class);
+                    intent.putExtra("title", "文章详情");
+                    intent.putExtra("url", topNewsBean.getInfoLink());
                     startActivity(intent);
                 }
             }
@@ -163,14 +202,14 @@ public class TopLineFragment extends BaseFragment {
     }
 
     private void initView() {
-        mAdapter = new UniversalAdapter<String>(mActivity, mList, R.layout.top_item) {
+        mAdapter = new UniversalAdapter<TopNewsBean>(mActivity, mList, R.layout.top_item) {
 
             @Override
-            public void convert(UniversalViewHolder holder, int position, String s) {
+            public void convert(UniversalViewHolder holder, int position, TopNewsBean s) {
                 ImageView view = holder.getView(R.id.iv_top_icon);
-                ImageLoader.loadImageUrl(TopLineFragment.this, s, view);
-                holder.setText(R.id.tv_news_item_title, "我就是标题，不一样的标题");
-                holder.setText(R.id.tv_news_item_user, "这里是用户名");
+                ImageLoader.loadImageUrl(TopLineFragment.this, s.getInfoPic(), view);
+                holder.setText(R.id.tv_news_item_title, s.getInfoTitle());
+                holder.setText(R.id.tv_news_item_user, s.getCreateAt());
             }
         };
         topRlv.setAdapter(mAdapter);

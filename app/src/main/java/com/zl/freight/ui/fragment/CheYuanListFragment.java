@@ -199,7 +199,7 @@ public class CheYuanListFragment extends BaseFragment {
                         CarUserBean carUserBean = GsonUtils.fromJson(array.optString(i), CarUserBean.class);
                         mList.add(carUserBean);
                     }
-//                    mAdapter.notifyDataSetChanged();
+                    mAdapter.notifyDataSetChanged();
                 } catch (Exception e) {
 
                 }

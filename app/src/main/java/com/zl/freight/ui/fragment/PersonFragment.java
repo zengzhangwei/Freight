@@ -32,7 +32,6 @@ import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
-import com.zl.zlibrary.utils.FragmentHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,6 +82,8 @@ public class PersonFragment extends BaseFragment {
     TextView tvMyOrder;
     @BindView(R.id.linear_my_run_order)
     AutoLinearLayout linearMyRunOrder;
+    @BindView(R.id.tv_check)
+    TextView tvCheck;
     private BaseUserEntity userData;
     private int userRole;
 
@@ -178,6 +179,15 @@ public class PersonFragment extends BaseFragment {
             }
         } catch (Exception e) {
 
+        }
+
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        if (userData.getIsCheck().equals("1")) {
+            tvCheck.setText("实名认证（已认证）");
+            linearRealUser.setEnabled(false);
+        } else {
+            tvCheck.setText("实名认证（未通过认证）");
+            linearRealUser.setEnabled(true);
         }
 
     }

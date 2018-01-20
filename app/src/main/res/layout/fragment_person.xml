@@ -188,9 +188,10 @@
                     app:srcCompat="@drawable/ic_person" />
 
                 <TextView
+                    android:id="@+id/tv_check"
                     style="@style/TextStyle"
                     android:layout_gravity="center_vertical"
-                    android:text="实名认证（未认证）" />
+                    android:text="实名认证（未通过认证）" />
 
             </com.zhy.autolayout.AutoLinearLayout>
 

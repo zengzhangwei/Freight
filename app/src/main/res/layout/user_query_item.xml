@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="司机资质审核"
+        android:text="实名认证审核"
         android:textSize="@dimen/dp_14" />
 
     <TextView
@@ -32,13 +32,14 @@
         android:textSize="@dimen/dp_12" />
 
     <TextView
+        android:id="@+id/tv_check_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/tv_item_user_name"
         android:layout_marginTop="@dimen/dp_6"
-        android:textSize="@dimen/dp_12"
-        android:text="审核未通过" />
+        android:text="审核未通过"
+        android:textSize="@dimen/dp_12" />
 
     <TextView
         android:layout_width="match_parent"

@@ -2,8 +2,6 @@ package com.zl.freight.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,13 +11,7 @@ import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
-import com.zl.freight.utils.SoapCallback;
-import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.utils.SystemUtils;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
