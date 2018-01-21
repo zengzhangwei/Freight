@@ -4,19 +4,21 @@ package com.zl.freight.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.ui.activity.UserCheckDetailActivity;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
-import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
@@ -43,8 +45,10 @@ public class UserCheckListFragment extends BaseFragment {
 
 
     @BindView(R.id.fucl_mrlv)
-    MRefreshRecyclerView fuclMrlv;
+    RecyclerView fuclMrlv;
     Unbinder unbinder;
+    @BindView(R.id.user_check_list_trl)
+    TwinklingRefreshLayout userCheckListTrl;
     private RecyclerAdapter<BaseUserEntity> mAdapter;
     private List<BaseUserEntity> mList = new ArrayList<>();
     private int type;
@@ -78,9 +82,20 @@ public class UserCheckListFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(mActivity, UserCheckDetailActivity.class));
+                Intent intent = new Intent(mActivity, UserCheckDetailActivity.class);
+                intent.putExtra("data", mList.get(position));
+                startActivity(intent);
             }
         });
+
+        userCheckListTrl.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                super.onRefresh(refreshLayout);
+                initData();
+            }
+        });
+
     }
 
     private void initData() {
@@ -97,12 +112,15 @@ public class UserCheckListFragment extends BaseFragment {
         SoapUtils.Post(mActivity, API.CheckList, params, new SoapCallback() {
             @Override
             public void onError(String error) {
+                userCheckListTrl.finishRefreshing();
                 showToast(error);
             }
 
             @Override
             public void onSuccess(String data) {
                 try {
+                    userCheckListTrl.finishRefreshing();
+                    mList.clear();
                     JSONArray array = new JSONArray(data);
                     for (int i = 0; i < array.length(); i++) {
                         mList.add(GsonUtils.fromJson(array.optString(i), BaseUserEntity.class));
@@ -141,6 +159,8 @@ public class UserCheckListFragment extends BaseFragment {
         };
         fuclMrlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         fuclMrlv.setAdapter(mAdapter);
+        userCheckListTrl.setHeaderView(new ProgressLayout(mActivity));
+        userCheckListTrl.setEnableLoadmore(false);
     }
 
     @Override

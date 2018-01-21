@@ -163,6 +163,11 @@ public class API {
     public static final String SaveCheck = "SaveCheck";
 
     /**
+     * 审核用户资料
+     */
+    public static final String CheckSave  = "CheckSave";
+
+    /**
      * 查询充值和提现记录
      */
     public static final String GetPayLog = "GetPayLog";
@@ -191,12 +196,17 @@ public class API {
     /**
      * 积分变动
      */
-    public static final String IntegralChange = "IntegralChange ";
+    public static final String IntegralChange = "IntegralChange";
 
     /**
      * 审核用户信息列表
      */
     public static final String CheckList = "CheckList ";
+
+    /**
+     * 插入充值记录
+     */
+    public static final String InsertPayLog = "InsertPayLog ";
 
 
 }

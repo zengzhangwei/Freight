@@ -114,4 +114,27 @@ public class BaseActivity extends AutoLayoutActivity {
         });
     }
 
+    /**
+     * 更新积分
+     *
+     * @param type  0增1减
+     * @param jiFen
+     */
+    protected void upDateMoney(int type, int jiFen) {
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        int i = Integer.parseInt(userData.getIntegral());
+        if (type == 0) {
+            userData.setIntegral((i + jiFen) + "");
+        } else if (type == 1) {
+            if (jiFen <= i) {
+                userData.setIntegral((i - jiFen) + "");
+            } else {
+                userData.setIntegral(i + "");
+                showToast("发生异常");
+            }
+        }
+
+        SpUtils.setUserData(mActivity, userData);
+    }
+
 }

@@ -127,7 +127,7 @@ public class TopLineFragment extends BaseFragment {
             public void onError(String error) {
                 Log.e("error", "error");
                 if (b) {
-                    topLineTrl.finishLoadmore();
+                    topLineTrl.finishRefreshing();
                 } else {
                     topLineTrl.finishLoadmore();
                 }
@@ -138,7 +138,7 @@ public class TopLineFragment extends BaseFragment {
                 Log.e("data", data);
                 if (b) {
                     mList.clear();
-                    topLineTrl.finishLoadmore();
+                    topLineTrl.finishRefreshing();
                 } else {
                     topLineTrl.finishLoadmore();
                 }

@@ -169,7 +169,8 @@ public class MyNewsFragment extends BaseFragment {
                 holder.setText(R.id.tv_news_item_title, s.getInfoTitle());
                 holder.setText(R.id.tv_news_item_user, s.getCreateAt());
                 holder.getView(R.id.arl_type).setVisibility(View.VISIBLE);
-                holder.getView(R.id.tv_to_pay).setOnClickListener(new View.OnClickListener() {
+                View view = holder.getView(R.id.tv_to_pay);
+                view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         toPay(s);
@@ -177,8 +178,10 @@ public class MyNewsFragment extends BaseFragment {
                 });
                 Spanned spanned;
                 if (type == 0) {
+                    view.setVisibility(View.VISIBLE);
                     spanned = Html.fromHtml("文章状态：<font color=\"#ce2538\">未支付</font>");
                 } else {
+                    view.setVisibility(View.GONE);
                     spanned = Html.fromHtml("文章状态：<font color=\"#079605\">已支付</font>");
                 }
                 holder.setText(R.id.tv_news_type, spanned);

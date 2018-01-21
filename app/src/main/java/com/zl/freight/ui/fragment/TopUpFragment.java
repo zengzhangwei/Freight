@@ -1,6 +1,7 @@
 package com.zl.freight.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IntegerRes;
 import android.text.TextUtils;
@@ -11,13 +12,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fuqianla.paysdk.FuQianLa;
 import com.fuqianla.paysdk.FuQianLaPay;
+import com.fuqianla.paysdk.bean.FuQianLaResult;
 import com.zl.freight.R;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.MoneyUtils;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -43,6 +53,7 @@ public class TopUpFragment extends BaseFragment {
     @BindView(R.id.tv_top_up_bt)
     TextView tvTopUpBt;
     Unbinder unbinder;
+    private String money;
 
     public TopUpFragment() {
         // Required empty public constructor
@@ -62,6 +73,47 @@ public class TopUpFragment extends BaseFragment {
 
     private void initView() {
         tvTitle.setText("充值");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //返回结果
+        if (requestCode == FuQianLa.REQUESTCODE
+                && resultCode == FuQianLa.RESULTCODE
+                && data != null) {
+            //result结果包括code和message
+            FuQianLaResult result = data.getParcelableExtra(FuQianLa.PAYRESULT_KEY);
+            if (result.payCode.equals("9000")) {
+                upDataMoney();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * 更新余额
+     */
+    private void upDataMoney() {
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", SpUtils.getUserData(mActivity).getId());
+        params.put("Moreorless", "0");
+        params.put("Value", "" + money);
+
+        SoapUtils.Post(mActivity, API.IntegralChange, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                if (onPayListener != null) {
+                    //更新本地存储的积分
+                    MoneyUtils.upDateMoney(mActivity, 0, Integer.parseInt(money) * 100);
+                    onPayListener.onPaySuccess(Integer.parseInt(money));
+                }
+            }
+        });
     }
 
     @Override
@@ -86,7 +138,7 @@ public class TopUpFragment extends BaseFragment {
      * 充值
      */
     private void topUp() {
-        String money = etInputMoney.getText().toString().trim();
+        money = etInputMoney.getText().toString().trim();
         if (TextUtils.isEmpty(money)) {
             showToast("金额不能为空");
             return;

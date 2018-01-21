@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -17,16 +18,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
+import com.zl.zlibrary.utils.GsonUtils;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -61,17 +67,12 @@ public class UserCheckDetailActivity extends BaseActivity {
     GridView userCheckDetailGrid;
     private AlertDialog alertDialog;
     private AlertDialog etDialog;
-    private List<String> mList = Arrays.asList("姓名：张磊", "手机号：15075993917", "身份证号：130526199311146468",
-            "类别：司机审核", "提交日期：2017-12-13 16:57", "审核状态：未审核");
-    private List<String> imgList = Arrays.asList("http://image.3761.com/pic/85241434675216.jpg",
-            "http://image.3761.com/pic/5111434675216.jpg",
-            "http://image.3761.com/pic/58601434675217.jpg",
-            "http://image.3761.com/pic/43701434675217.jpg",
-            "http://image.3761.com/pic/1191434675217.jpg",
-            "http://image.3761.com/pic/34951434675217.jpg");
+    private List<String> mList = new ArrayList<>();
+    private List<String> imgList = new ArrayList<>();
 
     private UniversalAdapter<String> mAdapter;
     private UniversalAdapter<String> imgAdapter;
+    private BaseUserEntity userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,36 @@ public class UserCheckDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_user_check_detail);
         ButterKnife.bind(this);
         initView();
+        initData();
         initListener();
+    }
+
+    private void initData() {
+        userData = (BaseUserEntity) getIntent().getSerializableExtra("data");
+//       "姓名：张磊", "手机号：15075993917", "身份证号：130526199311146468",
+//                "类别：实名认证审核", "提交日期：2017-12-13 16:57", "审核状态：未审核";
+        mList.add("姓名：" + userData.getRealName());
+        mList.add("手机号：" + userData.getUserName());
+        mList.add("身份证号：" + userData.getIdCardNumber());
+        mList.add("类别：实名认证审核");
+        mList.add("提交日期：" + userData.getCreateAt());
+        String isCheck = userData.getIsCheck();
+        if (!TextUtils.isEmpty(isCheck)) {
+            if (isCheck.equals("0")) {
+                mList.add("审核状态：未审核");
+            } else if (isCheck.equals("1")) {
+                mList.add("审核状态：已审核");
+            } else if (isCheck.equals("2")) {
+                mList.add("审核状态：审核未通过");
+            }
+        }
+
+        imgList.add(userData.getIdCard1());
+        imgList.add(userData.getIdCard2());
+
+        mAdapter.notifyDataSetChanged();
+        imgAdapter.notifyDataSetChanged();
+
     }
 
     private void initListener() {
@@ -99,6 +129,7 @@ public class UserCheckDetailActivity extends BaseActivity {
     }
 
     private void initView() {
+
         tvTitle.setText(R.string.user_check);
         alertDialog = new AlertDialog.Builder(mActivity)
                 .setMessage("确定通过审核吗")
@@ -114,10 +145,10 @@ public class UserCheckDetailActivity extends BaseActivity {
                     }
                 }).create();
 
-        final EditText et = new EditText(this);
-
+        View view = LayoutInflater.from(mActivity).inflate(R.layout.et_layout, null);
+        final EditText et = view.findViewById(R.id.et_input);
         etDialog = new AlertDialog.Builder(this).setTitle("添加问题描述")
-                .setView(et)
+                .setView(view)
                 .setPositiveButton("提交", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String data = et.getText().toString().trim();
@@ -157,8 +188,11 @@ public class UserCheckDetailActivity extends BaseActivity {
      */
     private void commitOk() {
         Map<String, String> params = new HashMap<>();
-        params.put("UserName", "15075993917");
-        SoapUtils.Post(mActivity, API.SaveCheck, params, new SoapCallback() {
+        userData.setIsCheck("1");
+        params.put("baseUserEntityJson", GsonUtils.toJson(userData));
+        params.put("IsCheck", "1");
+        params.put("unCheckInfo", "");
+        SoapUtils.Post(mActivity, API.CheckSave, params, new SoapCallback() {
             @Override
             public void onError(String error) {
                 showToast(error);
@@ -181,6 +215,25 @@ public class UserCheckDetailActivity extends BaseActivity {
      * @param content
      */
     private void commitNo(String content) {
+        Map<String, String> params = new HashMap<>();
+        userData.setIsCheck("2");
+        params.put("baseUserEntityJson", GsonUtils.toJson(userData));
+        params.put("IsCheck", "2");
+        params.put("unCheckInfo", content);
+        SoapUtils.Post(mActivity, API.CheckSave, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                showToast(error);
+                Log.e("error", "");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("error", data);
+                showToast("审核通过");
+                finish();
+            }
+        });
         finish();
     }
 

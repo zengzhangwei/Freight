@@ -241,7 +241,7 @@ public class CarDataActivity extends BaseActivity {
 
         final Map<String, String> params = new HashMap<>();
         //用户角色
-        params.put("UserRole", "1");
+//        params.put("UserRole", "1");
         //此项为空
         params.put("CompanyEntityJson", "");
         showNotTouchDialog("注册中，请勿退出");
@@ -260,7 +260,6 @@ public class CarDataActivity extends BaseActivity {
                 }
 
                 //填充司机数据
-                BaseCarEntity carEntity = new BaseCarEntity();
                 if (t != null && l != null) {
                     carEntity.setCarLong(Integer.parseInt(l.getId()));
                     carEntity.setCarType(Integer.parseInt(t.getId()));
@@ -275,7 +274,7 @@ public class CarDataActivity extends BaseActivity {
                     String frontData = ImageFactory.base64Encode(ImageFactory.getimage(IMGFRONTPATH));
                     carEntity.setCarPic1(frontData);
                 }
-                if (TextUtils.isEmpty(IMGRUNPATH)) {
+                if (!TextUtils.isEmpty(IMGRUNPATH)) {
                     String runData = ImageFactory.base64Encode(ImageFactory.getimage(IMGRUNPATH));
                     carEntity.setVehicleLicense(runData);
                 }

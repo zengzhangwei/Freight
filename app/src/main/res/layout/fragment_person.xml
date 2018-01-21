@@ -28,7 +28,7 @@
                     android:layout_height="200px"
                     android:background="@color/colorPrimary">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/user_icon"
                         android:layout_width="140px"
                         android:layout_height="140px"

@@ -49,6 +49,7 @@ public class MyMoneyActivity extends BaseActivity implements TopUpFragment.OnPay
     TextView tvTiXianBt;
     private TransactionLogFragment logFragment;
     private AlertDialog helperDialog;
+    private TopUpFragment topUpFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,9 @@ public class MyMoneyActivity extends BaseActivity implements TopUpFragment.OnPay
 
             }
             showToast(result.payMessage);
+        }
+        if (topUpFragment != null) {
+            topUpFragment.onActivityResult(requestCode, resultCode, data);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -134,7 +138,7 @@ public class MyMoneyActivity extends BaseActivity implements TopUpFragment.OnPay
      * 充值
      */
     private void topUp() {
-        TopUpFragment topUpFragment = new TopUpFragment();
+        topUpFragment = new TopUpFragment();
         topUpFragment.setOnPayListener(this);
         getSupportFragmentManager().beginTransaction().addToBackStack("topup")
                 .replace(R.id.my_money_rl, topUpFragment).commit();

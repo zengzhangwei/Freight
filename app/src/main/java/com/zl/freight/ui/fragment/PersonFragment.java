@@ -40,6 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * @author zhanglei
@@ -50,7 +51,7 @@ public class PersonFragment extends BaseFragment {
 
 
     @BindView(R.id.user_icon)
-    ImageView userIcon;
+    CircleImageView userIcon;
     @BindView(R.id.tv_shoujihao)
     TextView tvShoujihao;
     @BindView(R.id.linear_my_order)

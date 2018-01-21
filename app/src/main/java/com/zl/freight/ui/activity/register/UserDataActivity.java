@@ -130,11 +130,13 @@ public class UserDataActivity extends BaseActivity {
     private void upDateUi(CarUserBean carUserBean) {
         //初始化一下数据
         userEntity = new UserBean();
+        userEntity.setId(carUserBean.getId());
         userEntity.setReferral(carUserBean.getReferral());
         userEntity.setReferralTel(carUserBean.getReferralTel());
         userEntity.setRealName(carUserBean.getRealName());
         userEntity.setUserName(carUserBean.getUserName());
         userEntity.setPassWord(carUserBean.getPassWord());
+        userEntity.setUserRole(SpUtils.getUserData(mActivity).getUserRole());
         userEntity.setIdCardNumber(carUserBean.getIdCardNumber());
         userEntity.setIdCard1(carUserBean.getIdCard1());
         userEntity.setIdCard2(carUserBean.getIdCard2());

@@ -28,22 +28,35 @@ public class ImageLoader {
 
     public static void loadImageUrl(Activity activity, String url, ImageView imageView) {
         if (TextUtils.isEmpty(url)) return;
-        Glide.with(activity).load(API.BaseUrl + url).into(imageView);
+
+        Glide.with(activity)
+                .load(API.BaseUrl + url)
+                .placeholder(R.drawable.icon_loding)
+                .crossFade()
+                .into(imageView);
     }
 
     public static void loadImageUrl(Fragment activity, String url, ImageView imageView) {
         if (TextUtils.isEmpty(url)) return;
-        Glide.with(activity).load(API.BaseUrl + url).into(imageView);
+        Glide.with(activity)
+                .load(API.BaseUrl + url)
+                .placeholder(R.drawable.icon_loding)
+                .crossFade()
+                .into(imageView);
     }
 
     public static void loadImageUrl(Context activity, String url, ImageView imageView) {
         if (TextUtils.isEmpty(url)) return;
-        Glide.with(activity).load(API.BaseUrl + url).into(imageView);
+        Glide.with(activity)
+                .load(API.BaseUrl + url)
+                .placeholder(R.drawable.icon_loding)
+                .crossFade()
+                .into(imageView);
     }
 
     public static void loadUserIcon(Activity activity, String url, ImageView imageView) {
         if (!TextUtils.isEmpty(url)) {
-            ImageLoader.loadImageUrl(activity, API.BaseUrl + url, imageView);
+            ImageLoader.loadImageUrl(activity, url, imageView);
         } else {
             imageView.setImageResource(R.mipmap.icon_touxiang);
         }

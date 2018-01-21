@@ -157,6 +157,7 @@ public class EditPersonDataActivity extends BaseActivity {
         }
 
         userEntity = new UserBean();
+        userEntity.setId(userData.getId());
         userEntity.setReferral(userData.getReferral());
         userEntity.setReferralTel(userData.getReferralTel());
         userEntity.setRealName(userData.getRealName());
@@ -166,6 +167,8 @@ public class EditPersonDataActivity extends BaseActivity {
         userEntity.setUserRole(userData.getUserRole());
         userEntity.setIdCard1("");
         userEntity.setIdCard2("");
+        userEntity.setOtherTel(userData.getOtherTel());
+        userEntity.setOtherTel1(userData.getOtherTel1());
     }
 
     /**
@@ -250,12 +253,14 @@ public class EditPersonDataActivity extends BaseActivity {
         SoapUtils.Post(mActivity, API.UpdateBaseUser, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                Log.e("error", "");
+                hideDialog();
+                showToast(error);
             }
 
             @Override
             public void onSuccess(String data) {
-                Log.e("error", "");
+                hideDialog();
+                showToast("更新成功");
             }
         });
     }
