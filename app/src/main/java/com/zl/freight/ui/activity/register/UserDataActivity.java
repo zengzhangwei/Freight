@@ -143,6 +143,8 @@ public class UserDataActivity extends BaseActivity {
 
         if (TextUtils.isEmpty(carUserBean.getStorePic())) {
             carEntity = new BaseCarEntity();
+            carEntity.setId(Integer.parseInt(carUserBean.getId1()));
+            carEntity.setUserId(Integer.parseInt(carUserBean.getId()));
             carEntity.setCarLong(Integer.parseInt(carUserBean.getCarLong()));
             carEntity.setCarType(Integer.parseInt(carUserBean.getCarType()));
             carEntity.setCarNo(carUserBean.getCarNo());
@@ -153,6 +155,8 @@ public class UserDataActivity extends BaseActivity {
             carEntity.setCarPic3("");
         } else {
             companyEntity = new BaseCompanyEntity();
+            companyEntity.setId(Integer.parseInt(carUserBean.getId1()));
+            companyEntity.setUserId(Integer.parseInt(carUserBean.getId()));
             companyEntity.setCompanyName(carUserBean.getCompanyName());
             companyEntity.setCompanyAddress(carUserBean.getCompanyAddress());
             companyEntity.setCompanyPic(carUserBean.getCompanyPic());

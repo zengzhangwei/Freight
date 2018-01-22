@@ -46,30 +46,34 @@
 
     </com.zhy.autolayout.AutoLinearLayout>
 
-    <com.zhy.autolayout.AutoLinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@id/user_check_detail_bottom"
-        android:layout_below="@id/user_check_detail_title"
-        android:orientation="vertical">
+        android:layout_below="@id/user_check_detail_title">
 
-        <ListView
-            android:id="@+id/user_check_detail_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ListView>
-
-        <GridView
-            android:id="@+id/user_check_detail_grid"
+        <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_6"
-            android:layout_marginRight="@dimen/dp_6"
-            android:layout_marginTop="@dimen/dp_6"
-            android:horizontalSpacing="3dp"
-            android:numColumns="3"
-            android:verticalSpacing="3dp"></GridView>
+            android:orientation="vertical">
 
-    </com.zhy.autolayout.AutoLinearLayout>
+            <com.zl.zlibrary.view.MyListView
+                android:id="@+id/user_check_detail_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></com.zl.zlibrary.view.MyListView>
 
+            <com.zl.zlibrary.view.MyGridView
+                android:id="@+id/user_check_detail_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:layout_marginRight="@dimen/dp_6"
+                android:layout_marginTop="@dimen/dp_6"
+                android:horizontalSpacing="3dp"
+                android:numColumns="3"
+                android:verticalSpacing="3dp"></com.zl.zlibrary.view.MyGridView>
 
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </ScrollView>
 </com.zhy.autolayout.AutoRelativeLayout>

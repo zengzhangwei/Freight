@@ -112,6 +112,7 @@ public class EditPersonDataActivity extends BaseActivity {
         Map<String, String> params = new HashMap<>();
         userEntity.setOtherTel(phone1);
         userEntity.setOtherTel1(phone2);
+        userEntity.setUserIcon("");
         params.put("UserEntityJson", GsonUtils.toJson(userEntity));
         SoapUtils.Post(mActivity, API.UpdateBaseUser, params, new SoapCallback() {
             @Override

@@ -83,6 +83,10 @@ public class CarDataActivity extends BaseActivity {
     private String idCard1;
     private String idCard2, length, carType;
     private BaseCarEntity carEntity;
+    private String vehicleLicense;
+    private String drivingLlicence;
+    private String carPic1;
+    private String carPic2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,11 +131,18 @@ public class CarDataActivity extends BaseActivity {
 
         etInputCarCode.setText(carEntity.getCarNo());
         tvChooseCarLengthType.setText(length + "米/" + carType);
-
-        ImageLoader.loadImageUrl(mActivity, carEntity.getVehicleLicense(), ivRunPhoto);
-        ImageLoader.loadImageUrl(mActivity, carEntity.getDrivingLlicence(), ivDrivingPhoto);
-        ImageLoader.loadImageUrl(mActivity, carEntity.getCarPic1(), ivCarFrontPhoto);
-        ImageLoader.loadImageUrl(mActivity, carEntity.getCarPic2(), ivCarBackPhoto);
+        vehicleLicense = carEntity.getVehicleLicense();
+        drivingLlicence = carEntity.getDrivingLlicence();
+        carPic1 = carEntity.getCarPic1();
+        carPic2 = carEntity.getCarPic2();
+        ImageLoader.loadImageUrl(mActivity, vehicleLicense, ivRunPhoto);
+        ImageLoader.loadImageUrl(mActivity, drivingLlicence, ivDrivingPhoto);
+        ImageLoader.loadImageUrl(mActivity, carPic1, ivCarFrontPhoto);
+        ImageLoader.loadImageUrl(mActivity, carPic2, ivCarBackPhoto);
+        carEntity.setVehicleLicense("");
+        carEntity.setDrivingLlicence("");
+        carEntity.setCarPic1("");
+        carEntity.setCarPic2("");
     }
 
     @Override

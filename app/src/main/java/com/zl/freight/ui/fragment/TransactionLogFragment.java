@@ -11,14 +11,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zl.freight.R;
+import com.zl.freight.mode.BasePayLogEntity;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
+import com.zl.freight.utils.StringUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,9 +53,9 @@ public class TransactionLogFragment extends BaseFragment {
     MRefreshRecyclerView logMrl;
     Unbinder unbinder;
 
-    private List<String> mList = new ArrayList<>();
+    private List<BasePayLogEntity> mList = new ArrayList<>();
 
-    private RecyclerAdapter<String> mAdapter;
+    private RecyclerAdapter<BasePayLogEntity> mAdapter;
 
     public TransactionLogFragment() {
         // Required empty public constructor
@@ -93,18 +98,15 @@ public class TransactionLogFragment extends BaseFragment {
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            mList.add("");
-        }
-        mAdapter.notifyDataSetChanged();
         getListData();
     }
 
     private void getListData() {
+
         Map<String, String> params = new HashMap<>();
         params.put("UserId", SpUtils.getUserData(mActivity).getId());
-        params.put("StartTime", "");
-        params.put("EndTime", "");
+        params.put("StartTime", "2018-01-20");
+        params.put("EndTime", StringUtils.dateYYYY_MM_DD(System.currentTimeMillis()));
         SoapUtils.Post(mActivity, API.GetPayLog, params, new SoapCallback() {
             @Override
             public void onError(String error) {
@@ -114,15 +116,25 @@ public class TransactionLogFragment extends BaseFragment {
             @Override
             public void onSuccess(String data) {
                 Log.e("error", data);
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        BasePayLogEntity entity = GsonUtils.fromJson(array.optString(i), BasePayLogEntity.class);
+                        mList.add(entity);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
             }
         });
     }
 
     private void initView() {
         tvTitle.setText("交易明细");
-        mAdapter = new RecyclerAdapter<String>(mActivity, mList, R.layout.deal_log_item_layout) {
+        mAdapter = new RecyclerAdapter<BasePayLogEntity>(mActivity, mList, R.layout.deal_log_item_layout) {
             @Override
-            protected void convert(ViewHolder holder, String s, int position) {
+            protected void convert(ViewHolder holder, BasePayLogEntity s, int position) {
                 TextView view = holder.getView(R.id.tv_deal_log_money);
                 if (position > 3 && position < 6) {
                     view.setTextColor(mActivity.getResources().getColor(R.color.green));

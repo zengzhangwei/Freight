@@ -179,7 +179,8 @@ public class UpdateSendFragment extends BaseFragment {
             endLongitude = Double.parseDouble(listBean.getEndY());
 
             //初始化参数
-            sendEntity.setUserId(SpUtils.getUserData(mActivity).getId());
+            sendEntity.setId(Integer.parseInt(listBean.getId()));
+            sendEntity.setUserId(listBean.getUserId());
             sendEntity.setStartPlace(listBean.getStartPlace());
             sendEntity.setStartX(listBean.getStartX());
             sendEntity.setStartY(listBean.getStartY());

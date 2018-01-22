@@ -62,39 +62,20 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <!-- 付钱拉SDK需要添加 -->
+        <!-- alipay sdk begin -->
 
-        <activity
-            android:name="com.fuqianla.paysdk.app.FuQianLaActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <!-- 付钱拉SDK张磊的测试KEY -->
-        <!-- <meta-data -->
-        <!-- android:name="FQL_APPKEY" -->
-        <!-- android:value="fPXb00o5IvnxxlKCZmbM4w" /> -->
-        <meta-data
-            android:name="FQL_APPKEY"
-            android:value="rfi68QEmnx9GvV9dN0S95w" />
-
-        <!-- 支付宝需要添加 -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <!-- 微信需要添加 -->
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
-            android:name="com.fuqianla.paysdk.wxapi.PaymentActivity"
-            android:launchMode="singleTop" />
-
-        <activity-alias
-            android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:targetActivity="com.fuqianla.paysdk.wxapi.PaymentActivity" />
-
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <!-- 司机位置上传服务 -->
         <service android:name=".service.LocationService" />
 
@@ -109,9 +90,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".ui.activity.MainActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            ></activity>
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".ui.activity.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -134,9 +115,9 @@
         <activity android:name=".ui.activity.InfoQueryActivity" />
         <activity android:name=".ui.activity.EditPersonDataActivity" />
         <activity android:name=".ui.activity.MyMoneyActivity" />
-        <activity android:name=".ui.activity.GoodsMainActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            ></activity>
+        <activity
+            android:name=".ui.activity.GoodsMainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".ui.activity.GoodsRegisterActivity" />
         <!-- 图片选择器 -->
         <activity

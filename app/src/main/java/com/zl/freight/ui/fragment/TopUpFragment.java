@@ -1,9 +1,10 @@
 package com.zl.freight.ui.fragment;
 
 
-import android.content.Intent;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fuqianla.paysdk.FuQianLa;
-import com.fuqianla.paysdk.FuQianLaPay;
-import com.fuqianla.paysdk.bean.FuQianLaResult;
 import com.zl.freight.R;
+import com.zl.freight.ui.dialog.PayTypeDialog;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.MoneyUtils;
 import com.zl.freight.utils.SoapCallback;
@@ -54,6 +53,7 @@ public class TopUpFragment extends BaseFragment {
     TextView tvTopUpBt;
     Unbinder unbinder;
     private String money;
+    private PayTypeDialog typeDialog;
 
     public TopUpFragment() {
         // Required empty public constructor
@@ -75,25 +75,10 @@ public class TopUpFragment extends BaseFragment {
         tvTitle.setText("充值");
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //返回结果
-        if (requestCode == FuQianLa.REQUESTCODE
-                && resultCode == FuQianLa.RESULTCODE
-                && data != null) {
-            //result结果包括code和message
-            FuQianLaResult result = data.getParcelableExtra(FuQianLa.PAYRESULT_KEY);
-            if (result.payCode.equals("9000")) {
-                upDataMoney();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     /**
      * 更新余额
      */
-    private void upDataMoney() {
+    private void upDateMoney() {
         Map<String, String> params = new HashMap<>();
         params.put("UserId", SpUtils.getUserData(mActivity).getId());
         params.put("Moreorless", "0");
@@ -110,6 +95,7 @@ public class TopUpFragment extends BaseFragment {
                 if (onPayListener != null) {
                     //更新本地存储的积分
                     MoneyUtils.upDateMoney(mActivity, 0, Integer.parseInt(money) * 100);
+                    getFragmentManager().popBackStack();
                     onPayListener.onPaySuccess(Integer.parseInt(money));
                 }
             }
@@ -143,20 +129,24 @@ public class TopUpFragment extends BaseFragment {
             showToast("金额不能为空");
             return;
         }
-        if (Integer.parseInt(money) > 0) {
+        if (Integer.parseInt(money) < 0) {
             showToast("金额必须大于0");
             return;
         }
-        //支付核心代码
-        FuQianLaPay pay = new FuQianLaPay.Builder(mActivity)
-                .alipay(true)//支付宝通道
-                .wxpay(true)//微信通道
-                .orderID(getOutTradeNo())//订单号
-                .amount(0.01)//金额
-                .subject("商品名称")
-                .notifyUrl("https://api.fuqian.la/pay-adapter/services/notify")
-                .build();
-        pay.startPay();
+        typeDialog = new PayTypeDialog(mActivity, Double.parseDouble(money));
+        typeDialog.setOnReturnPayListener(new PayTypeDialog.OnReturnPayListener() {
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess() {
+                showToast("支付成功");
+                upDateMoney();
+            }
+        });
+        typeDialog.showDialog(tvTopUpBt);
     }
 
     /**

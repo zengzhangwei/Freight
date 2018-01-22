@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -74,6 +75,8 @@ public class ImageLoader {
                     @Override
                     public Bitmap apply(@NonNull String s) throws Exception {
                         byte[] getimage = ImageFactory.getimage(imagePath);
+                        int length = getimage.length;
+                        Log.e("length", length + "");
                         return BitmapFactory.decodeByteArray(getimage, 0, getimage.length);
                     }
                 })

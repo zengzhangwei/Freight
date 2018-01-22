@@ -1,5 +1,8 @@
 package com.zl.freight.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Administrator on 2017/12/24.
  */
@@ -32,6 +35,17 @@ public class StringUtils {
         } else {
             return "男";
         }
+    }
+
+    /**
+     * 格式化日期
+     *
+     * @param date
+     * @return
+     */
+    public static String dateYYYY_MM_DD(long date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(new Date(date));
     }
 
 }

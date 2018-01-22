@@ -23,6 +23,7 @@ import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
@@ -30,6 +31,10 @@ import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.utils.GsonUtils;
+import com.zl.zlibrary.view.MyGridView;
+import com.zl.zlibrary.view.MyListView;
+
+import org.json.JSONArray;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,9 +67,9 @@ public class UserCheckDetailActivity extends BaseActivity {
     @BindView(R.id.user_check_detail_bottom)
     AutoLinearLayout userCheckDetailBottom;
     @BindView(R.id.user_check_detail_list)
-    ListView userCheckDetailList;
+    MyListView userCheckDetailList;
     @BindView(R.id.user_check_detail_grid)
-    GridView userCheckDetailGrid;
+    MyGridView userCheckDetailGrid;
     private AlertDialog alertDialog;
     private AlertDialog etDialog;
     private List<String> mList = new ArrayList<>();
@@ -86,8 +91,43 @@ public class UserCheckDetailActivity extends BaseActivity {
 
     private void initData() {
         userData = (BaseUserEntity) getIntent().getSerializableExtra("data");
-//       "姓名：张磊", "手机号：15075993917", "身份证号：130526199311146468",
-//                "类别：实名认证审核", "提交日期：2017-12-13 16:57", "审核状态：未审核";
+        userData.setCarType("");
+        userData.setCarLong("");
+        getData();
+    }
+
+    /**
+     * 获取用户信息
+     */
+    private void getData() {
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", userData.getId());
+        params.put("UserRole", userData.getUserRole());
+        SoapUtils.Post(mActivity, API.ShowUserInfo, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "获取用户信息失败");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    CarUserBean carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
+                    upDateUi(carUserBean);
+                } catch (Exception e) {
+
+                }
+            }
+        });
+    }
+
+    /**
+     * 更新界面
+     *
+     * @param carUserBean
+     */
+    private void upDateUi(CarUserBean carUserBean) {
         mList.add("姓名：" + userData.getRealName());
         mList.add("手机号：" + userData.getUserName());
         mList.add("身份证号：" + userData.getIdCardNumber());
@@ -106,10 +146,30 @@ public class UserCheckDetailActivity extends BaseActivity {
 
         imgList.add(userData.getIdCard1());
         imgList.add(userData.getIdCard2());
+        if (carUserBean.getUserRole().equals(API.DRIVER + "")) {
+            mList.add("车牌照：" + carUserBean.getCarNo());
+            mList.add("车长车型：" + carUserBean.getCodeName1() + "米/" + carUserBean.getCodeName());
+            imgList.add(carUserBean.getDrivingLlicence());
+            imgList.add(carUserBean.getVehicleLicense());
+            imgList.add(carUserBean.getCarPic1());
+            imgList.add(carUserBean.getCarPic2());
+        } else {
+            if (!TextUtils.isEmpty(carUserBean.getCompanyPic())) {
+                imgList.add(carUserBean.getCompanyPic());
+            }
+            if (!TextUtils.isEmpty(carUserBean.getStorePic())) {
+                imgList.add(carUserBean.getStorePic());
+            }
+            if (!TextUtils.isEmpty(carUserBean.getStorePic1())) {
+                imgList.add(carUserBean.getStorePic1());
+            }
+            if (!TextUtils.isEmpty(carUserBean.getStorePic2())) {
+                imgList.add(carUserBean.getStorePic2());
+            }
+        }
 
         mAdapter.notifyDataSetChanged();
         imgAdapter.notifyDataSetChanged();
-
     }
 
     private void initListener() {
@@ -234,7 +294,6 @@ public class UserCheckDetailActivity extends BaseActivity {
                 finish();
             }
         });
-        finish();
     }
 
     @OnClick({R.id.iv_back, R.id.tv_check_ok, R.id.tv_check_no})
