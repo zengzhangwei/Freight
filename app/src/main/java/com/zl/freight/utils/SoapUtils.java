@@ -29,8 +29,8 @@ public class SoapUtils {
     // 命名空间
     public static final String nameSpace = "http://tempuri.org/";
     // EndPoint
-//    public static final String endPoint = "http://139.129.131.31:8088/WebService1.asmx";
-    public static final String endPoint = "http://172.16.18.17/WebService1.asmx";
+    public static final String endPoint = "http://139.129.131.31:8088/WebService1.asmx";
+//    public static final String endPoint = "http://172.16.18.17/WebService1.asmx";
 
     /**
      * @param mActivity
@@ -78,6 +78,7 @@ public class SoapUtils {
                                     //先判断是否是错误消息
                                     object = new JSONObject(result);
                                     String data = object.optString("result");
+                                    String success = object.optString("Success");
                                     //如果data不为空则说明有错误，返回错误消息
                                     if (!TextUtils.isEmpty(data)) {
                                         try {
@@ -85,6 +86,8 @@ public class SoapUtils {
                                         } catch (Exception e) {
 
                                         }
+                                    } else if (!TextUtils.isEmpty(success)){
+                                        callback.onSuccess(success);
                                     } else {
                                         callback.onSuccess(result);
                                     }

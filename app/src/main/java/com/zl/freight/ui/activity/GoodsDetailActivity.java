@@ -158,10 +158,11 @@ public class GoodsDetailActivity extends BaseActivity implements TopUpFragment.O
      * 去充值
      */
     private void goTopUp() {
-        TopUpFragment topUpFragment = new TopUpFragment();
-        topUpFragment.setOnPayListener(this);
-        getSupportFragmentManager().beginTransaction().addToBackStack("topup")
-                .replace(R.id.goods_detail_rl, topUpFragment).commit();
+//        TopUpFragment topUpFragment = new TopUpFragment();
+//        topUpFragment.setOnPayListener(this);
+//        getSupportFragmentManager().beginTransaction().addToBackStack("topup")
+//                .replace(R.id.goods_detail_rl, topUpFragment).commit();
+        startActivity(new Intent(mActivity, MyMoneyActivity.class));
     }
 
     /**

@@ -204,6 +204,12 @@ public class CompanyActivity extends BaseActivity {
         new Thread() {
             @Override
             public void run() {
+                userEntity.setIdCard1("");
+                userEntity.setIdCard2("");
+                companyEntity.setCompanyPic("");
+                companyEntity.setStorePic("");
+                companyEntity.setStorePic1("");
+                companyEntity.setStorePic2("");
                 if (!TextUtils.isEmpty(idCard1)) {
                     String idCard1Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard1));
                     userEntity.setIdCard1(idCard1Data);

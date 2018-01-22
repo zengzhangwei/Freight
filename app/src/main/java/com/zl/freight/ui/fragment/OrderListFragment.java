@@ -13,6 +13,7 @@ import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
+import com.zl.freight.mode.GoodsListBean;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
@@ -20,6 +21,10 @@ import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.GsonUtils;
+import com.zl.zlibrary.utils.SystemUtils;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,8 +47,8 @@ public class OrderListFragment extends BaseFragment {
     @BindView(R.id.my_order_trl)
     TwinklingRefreshLayout myOrderTrl;
     Unbinder unbinder;
-    private List<String> mList = new ArrayList<>();
-    private RecyclerAdapter<String> mAdapter;
+    private List<GoodsListBean> mList = new ArrayList<>();
+    private RecyclerAdapter<GoodsListBean> mAdapter;
     private int type;
 
     public OrderListFragment() {
@@ -76,22 +81,13 @@ public class OrderListFragment extends BaseFragment {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 super.onRefresh(refreshLayout);
-            }
-
-            @Override
-            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-                super.onLoadMore(refreshLayout);
+                getListData();
             }
         });
     }
 
     private void initData() {
-//        for (int i = 0; i < 5; i++) {
-//            mList.add("");
-//        }
-//        mAdapter.notifyDataSetChanged();
-        type = getArguments().getInt("type", 0);
-        getListData();
+        myOrderTrl.startRefresh();
     }
 
 
@@ -103,27 +99,51 @@ public class OrderListFragment extends BaseFragment {
         SoapUtils.Post(mActivity, API.GetSend, params, new SoapCallback() {
             @Override
             public void onError(String error) {
+                myOrderTrl.finishRefreshing();
                 Log.e("error", "");
             }
 
             @Override
             public void onSuccess(String data) {
+                try {
+                    mList.clear();
+                    myOrderTrl.finishRefreshing();
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        mList.add(GsonUtils.fromJson(array.optString(i), GoodsListBean.class));
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+
+                }
                 Log.e("error", "onSuccess");
             }
         });
     }
 
     private void initView() {
-        mAdapter = new RecyclerAdapter<String>(mActivity, mList, R.layout.order_list_item) {
+        type = getArguments().getInt("type", 0);
+        mAdapter = new RecyclerAdapter<GoodsListBean>(mActivity, mList, R.layout.order_list_item) {
 
             @Override
-            protected void convert(ViewHolder holder, String s, int position) {
-
+            protected void convert(ViewHolder holder, final GoodsListBean s, int position) {
+                holder.setText(R.id.tv_order_number, "运  单  号：" + s.getId());
+                holder.setText(R.id.tv_order_time, "下单时间：" + s.getCreateAt());
+                holder.setText(R.id.tv_order_start, s.getStartPlace());
+                holder.setText(R.id.tv_order_end, s.getEndPlace());
+                holder.setText(R.id.tv_order_goods_data, s.getGoodName() + "/" + s.getGoodsWeight() + s.getWeightUnit());
+                holder.getView(R.id.tv_call_master).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SystemUtils.call(mActivity, s.getUserName());
+                    }
+                });
             }
         };
         myOrderMrlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         myOrderMrlv.setAdapter(mAdapter);
         myOrderTrl.setHeaderView(new ProgressLayout(mActivity));
+        myOrderTrl.setEnableLoadmore(false);
     }
 
     @Override

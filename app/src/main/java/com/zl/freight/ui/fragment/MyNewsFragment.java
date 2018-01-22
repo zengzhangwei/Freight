@@ -24,6 +24,7 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.TopNewsBean;
+import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.activity.NewsDetailActivity;
 import com.zl.freight.ui.activity.WebActivity;
 import com.zl.freight.utils.API;
@@ -193,9 +194,10 @@ public class MyNewsFragment extends BaseFragment {
         alertDialog = new AlertDialog.Builder(mActivity).setMessage("余额不足请充值，建议充值100元").setPositiveButton("继续", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (onOpenMyNewsListener != null) {
-                    onOpenMyNewsListener.openMyNews();
-                }
+//                if (onOpenMyNewsListener != null) {
+//                    onOpenMyNewsListener.openMyNews();
+//                }
+                startActivity(new Intent(mActivity, MyMoneyActivity.class));
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override

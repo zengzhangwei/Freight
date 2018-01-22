@@ -3,6 +3,8 @@ package com.zl.freight.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.BasePayLogEntity;
 import com.zl.freight.utils.API;
@@ -21,7 +26,6 @@ import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.utils.GsonUtils;
-import com.zl.zlibrary.view.MRefreshRecyclerView;
 
 import org.json.JSONArray;
 
@@ -49,10 +53,11 @@ public class TransactionLogFragment extends BaseFragment {
     TextView tvTitle;
     @BindView(R.id.tv_title_right)
     TextView tvTitleRight;
-    @BindView(R.id.log_mrl)
-    MRefreshRecyclerView logMrl;
+    @BindView(R.id.log_rlv)
+    RecyclerView logRlv;
+    @BindView(R.id.log_trl)
+    TwinklingRefreshLayout logTrl;
     Unbinder unbinder;
-
     private List<BasePayLogEntity> mList = new ArrayList<>();
 
     private RecyclerAdapter<BasePayLogEntity> mAdapter;
@@ -84,15 +89,11 @@ public class TransactionLogFragment extends BaseFragment {
     }
 
     private void initListener() {
-        logMrl.setOnMRefreshListener(new MRefreshRecyclerView.OnMRefreshListener() {
+        logTrl.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
-            public void onRefresh() {
-                logMrl.setRefreshing(false);
-            }
-
-            @Override
-            public void onLoadMore() {
-                logMrl.setRefreshing(false);
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                super.onRefresh(refreshLayout);
+                getListData();
             }
         });
     }
@@ -110,6 +111,7 @@ public class TransactionLogFragment extends BaseFragment {
         SoapUtils.Post(mActivity, API.GetPayLog, params, new SoapCallback() {
             @Override
             public void onError(String error) {
+                logTrl.finishRefreshing();
                 Log.e("error", error);
             }
 
@@ -117,6 +119,8 @@ public class TransactionLogFragment extends BaseFragment {
             public void onSuccess(String data) {
                 Log.e("error", data);
                 try {
+                    mList.clear();
+                    logTrl.finishRefreshing();
                     JSONArray array = new JSONArray(data);
                     for (int i = 0; i < array.length(); i++) {
                         BasePayLogEntity entity = GsonUtils.fromJson(array.optString(i), BasePayLogEntity.class);
@@ -136,16 +140,23 @@ public class TransactionLogFragment extends BaseFragment {
             @Override
             protected void convert(ViewHolder holder, BasePayLogEntity s, int position) {
                 TextView view = holder.getView(R.id.tv_deal_log_money);
-                if (position > 3 && position < 6) {
+                if (!TextUtils.isEmpty(s.getPayMoney() + "")) {
+                    holder.setText(R.id.tv_deal_log_title, "充值");
+                    view.setText("+ " + s.getPayMoney() + "元");
                     view.setTextColor(mActivity.getResources().getColor(R.color.green));
                 } else {
-                    view.setTextColor(mActivity.getResources().getColor(R.color.black));
+                    holder.setText(R.id.tv_deal_log_title, "提现");
+                    view.setText("- " + s.getCashValue() + "元");
+                    view.setTextColor(mActivity.getResources().getColor(R.color.red));
                 }
+                holder.setText(R.id.tv_deal_log_time, s.getCreateTime());
+
             }
         };
-        logMrl.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        logMrl.setAdapter(mAdapter);
-        logMrl.setColorSchemeResources(R.color.colorPrimary);
+        logRlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
+        logRlv.setAdapter(mAdapter);
+        logTrl.setHeaderView(new ProgressLayout(mActivity));
+        logTrl.setEnableLoadmore(false);
     }
 
     @Override

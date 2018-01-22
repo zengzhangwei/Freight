@@ -8,11 +8,18 @@
 
     <include layout="@layout/title_layout" />
 
-    <com.zl.zlibrary.view.MRefreshRecyclerView
-        android:id="@+id/log_mrl"
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/log_trl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.zl.zlibrary.view.MRefreshRecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/log_rlv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
 </com.zhy.autolayout.AutoLinearLayout>

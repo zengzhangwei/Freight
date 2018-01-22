@@ -33,7 +33,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/dp_10"
             android:text="已取消"
-            android:textSize="@dimen/dp_16" />
+            android:textSize="@dimen/dp_16"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_order_top_line"
