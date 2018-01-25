@@ -7,7 +7,7 @@
         android:id="@+id/iv_item"
         android:layout_width="match_parent"
         android:layout_height="231px"
-        android:src="@mipmap/ic_launcher"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_loding" />
 
 </com.zhy.autolayout.AutoLinearLayout>

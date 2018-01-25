@@ -18,6 +18,8 @@ import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.ui.fragment.PushPersonFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
+import com.zl.freight.utils.SendCodeUtils;
+import com.zl.freight.utils.SoapCallback;
 import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.GzipUtils;
 import com.zl.zlibrary.utils.ImageFactory;
@@ -75,6 +77,7 @@ public class URegisterActivity extends BaseActivity {
     private int type;
     private String Referral;
     private String ReferralTel;
+    private String sendCode;
     private final int PERSONTYPE = 0x1;
     private final int HANDTYPE = 0x2;
     private int role;
@@ -164,7 +167,7 @@ public class URegisterActivity extends BaseActivity {
                 break;
             //发送验证码
             case R.id.tv_send_code:
-
+                sendCode();
                 break;
             //选择推介人
             case R.id.tv_choose_push_p:
@@ -184,6 +187,25 @@ public class URegisterActivity extends BaseActivity {
                 next();
                 break;
         }
+    }
+
+    private void sendCode() {
+        String trim = etInputPhone.getText().toString().trim();
+        if (TextUtils.isEmpty(trim)) {
+            showToast("请输入手机号");
+            return;
+        }
+        SendCodeUtils.sendCode(trim, tvSendCode, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                sendCode = data;
+            }
+        });
     }
 
 
@@ -241,17 +263,27 @@ public class URegisterActivity extends BaseActivity {
             return;
         }
 
+//        if (TextUtils.isEmpty(sendCode)) {
+//            showToast("验证码还未发送");
+//            return;
+//        }
+
         if (TextUtils.isEmpty(code)) {
             showToast("请输入验证码");
             return;
         }
+
+//        if (!sendCode.equals(code)) {
+//            showToast("验证码输入不正确");
+//            return;
+//        }
 
         if (TextUtils.isEmpty(password)) {
             showToast("请输入密码");
             return;
         }
 
-        if (password.length() < 6 || password.length() > 12) {
+        if (password.length() != 6) {
             showToast("密码长度不符合标准");
             return;
         }

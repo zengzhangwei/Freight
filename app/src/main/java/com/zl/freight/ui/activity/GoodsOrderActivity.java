@@ -40,7 +40,7 @@ public class GoodsOrderActivity extends BaseActivity {
     TabLayout myNewTab;
     @BindView(R.id.my_new_pager)
     ViewPager myNewPager;
-    private List<String> mList = Arrays.asList("已支付", "未支付");
+    private List<String> mList = Arrays.asList("已完成", "未完成");
     private List<Fragment> fList = new ArrayList<>();
     private FragmentStatePagerAdapter pagerAdapter;
 

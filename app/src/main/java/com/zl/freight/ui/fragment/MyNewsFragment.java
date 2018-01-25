@@ -23,6 +23,8 @@ import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
+import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.mode.TopNewsBean;
 import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.activity.NewsDetailActivity;
@@ -102,13 +104,13 @@ public class MyNewsFragment extends BaseFragment {
         newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                View img = view.findViewById(R.id.tv_news_item_title);
+                View img = view.findViewById(R.id.iv_top_icon);
                 TopNewsBean topNewsBean = mList.get(i);
                 if (TextUtils.isEmpty(topNewsBean.getInfoLink())) {
                     Intent intent = new Intent(mActivity, NewsDetailActivity.class);
                     intent.putExtra("data", topNewsBean);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, img, NewsDetailActivity.TEXT);
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, img, NewsDetailActivity.PICTURE);
                         startActivity(intent, options.toBundle());
                     } else {
                         startActivity(intent);
@@ -164,7 +166,7 @@ public class MyNewsFragment extends BaseFragment {
     private void initView() {
         mAdapter = new UniversalAdapter<TopNewsBean>(mActivity, mList, R.layout.top_item) {
             @Override
-            public void convert(UniversalViewHolder holder, int position, final TopNewsBean s) {
+            public void convert(UniversalViewHolder holder, final int position, final TopNewsBean s) {
                 ImageView icon = holder.getView(R.id.iv_top_icon);
                 ImageLoader.loadImageUrl(mActivity, s.getInfoPic(), icon);
                 holder.setText(R.id.tv_news_item_title, s.getInfoTitle());
@@ -174,7 +176,7 @@ public class MyNewsFragment extends BaseFragment {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        toPay(s);
+                        toPay(s, position);
                     }
                 });
                 Spanned spanned;
@@ -212,15 +214,8 @@ public class MyNewsFragment extends BaseFragment {
      *
      * @param s
      */
-    private void toPay(final TopNewsBean s) {
-        goPay(s);
-//        String integral = SpUtils.getUserData(mActivity).getIntegral();
-//        int i = Integer.parseInt(integral);
-//        if (i < 1000) {
-//            showToast("本次消费需要1000积分，余额不足请充值");
-//            return;
-//        }
-
+    private void toPay(final TopNewsBean s, int position) {
+        goPay(s, position);
     }
 
     /**
@@ -228,19 +223,55 @@ public class MyNewsFragment extends BaseFragment {
      *
      * @param s
      */
-    private void goPay(TopNewsBean s) {
+    private void goPay(TopNewsBean s, final int position) {
+        showDialog("支付中...");
         Map<String, String> params = new HashMap<>();
         params.put("InfoId", s.getId());
         SoapUtils.Post(mActivity, API.InfoPayResult, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                Log.e("error", "");
+                hideDialog();
                 alertDialog.show();
             }
 
             @Override
             public void onSuccess(String data) {
+                hideDialog();
+                showToast("支付成功");
+                mList.remove(position);
+                mAdapter.notifyDataSetChanged();
+                updateInternal();
                 Log.e("error", "");
+            }
+        });
+    }
+
+    /**
+     * 更新积分
+     */
+    private void updateInternal() {
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", userData.getId());
+        params.put("UserRole", userData.getUserRole());
+        SoapUtils.Post(mActivity, API.ShowUserInfo, params, new SoapCallback() {
+
+            @Override
+            public void onError(String error) {
+                Log.e("error", "获取用户信息失败");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    CarUserBean carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
+                    BaseUserEntity userEntity = SpUtils.getUserData(mActivity);
+                    userEntity.setIntegral(carUserBean.getIntegral());
+                    SpUtils.setUserData(mActivity, userEntity);
+                } catch (Exception e) {
+
+                }
             }
         });
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -81,36 +82,104 @@
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
             android:layout_below="@id/tv_order_start"
+            android:layout_marginTop="@dimen/dp_4"
             android:background="@color/light_grey" />
 
         <TextView
             android:id="@+id/tv_order_goods_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_order_bottom_line"
-            android:layout_marginTop="@dimen/dp_16"
+            android:layout_above="@+id/tv_order_bottom_line"
+            android:layout_centerHorizontal="true"
             android:text="普货/10吨"
             android:textColor="@color/blue"
             android:textSize="@dimen/dp_16" />
 
-        <TextView
-            android:id="@+id/tv_call_master"
-            android:layout_width="wrap_content"
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/auto_ll"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@id/tv_order_bottom_line"
-            android:layout_marginTop="@dimen/dp_12"
-            android:background="@drawable/grey_line_shape"
-            android:padding="@dimen/dp_6"
-            android:text="联系货主" />
+            android:layout_marginTop="0.8dp"
+            android:paddingTop="@dimen/dp_6">
 
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_call"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:src="@mipmap/cargo_intent_phone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:text="联系货主"
+                    android:textSize="@dimen/dp_12" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_finish"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    app:srcCompat="@drawable/ic_finish" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:text="我已装货"
+                    android:textSize="@dimen/dp_12" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_please"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_item_icon"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:src="@mipmap/icon_add_driver_info" />
+
+                <TextView
+                    android:id="@+id/tv_item_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:text="请求收货"
+                    android:textSize="@dimen/dp_12" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
 
     </com.zhy.autolayout.AutoRelativeLayout>
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_18"
-        android:layout_below="@id/tv_call_master"
+        android:layout_below="@id/auto_ll"
         android:background="@color/bg_color" />
 
 </com.zhy.autolayout.AutoLinearLayout>

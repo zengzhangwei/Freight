@@ -56,11 +56,14 @@ public class ImageLoader {
     }
 
     public static void loadUserIcon(Activity activity, String url, ImageView imageView) {
-        if (!TextUtils.isEmpty(url)) {
-            ImageLoader.loadImageUrl(activity, url, imageView);
-        } else {
+        if (TextUtils.isEmpty(url)) {
             imageView.setImageResource(R.mipmap.icon_touxiang);
+            return;
         }
+        Glide.with(activity)
+                .load(API.BaseUrl + url)
+                .crossFade()
+                .into(imageView);
     }
 
     /**
@@ -74,10 +77,7 @@ public class ImageLoader {
                 .map(new Function<String, Bitmap>() {
                     @Override
                     public Bitmap apply(@NonNull String s) throws Exception {
-                        byte[] getimage = ImageFactory.getimage(imagePath);
-                        int length = getimage.length;
-                        Log.e("length", length + "");
-                        return BitmapFactory.decodeByteArray(getimage, 0, getimage.length);
+                        return ImageFactory.getSimpeImage(imagePath);
                     }
                 })
                 .subscribeOn(Schedulers.io())

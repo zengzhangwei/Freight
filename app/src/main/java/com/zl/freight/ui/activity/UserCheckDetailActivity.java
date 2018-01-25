@@ -93,6 +93,9 @@ public class UserCheckDetailActivity extends BaseActivity {
         userData = (BaseUserEntity) getIntent().getSerializableExtra("data");
         userData.setCarType("");
         userData.setCarLong("");
+        userData.setCreateAt("");
+        userData.setCheckAt("");
+        userData.setUpdateAt("");
         getData();
     }
 
@@ -131,14 +134,17 @@ public class UserCheckDetailActivity extends BaseActivity {
         mList.add("姓名：" + userData.getRealName());
         mList.add("手机号：" + userData.getUserName());
         mList.add("身份证号：" + userData.getIdCardNumber());
-        mList.add("类别：实名认证审核");
-        mList.add("提交日期：" + userData.getCreateAt());
+        if (!TextUtils.isEmpty(userData.getReferralTel())) {
+            mList.add("推荐人：" + userData.getReferral() + " " + userData.getReferralTel());
+        }
+
         String isCheck = userData.getIsCheck();
         if (!TextUtils.isEmpty(isCheck)) {
             if (isCheck.equals("0")) {
                 mList.add("审核状态：未审核");
             } else if (isCheck.equals("1")) {
-                mList.add("审核状态：已审核");
+                mList.add("审核状态：审核已通过");
+//                userCheckDetailBottom.setVisibility(View.GONE);
             } else if (isCheck.equals("2")) {
                 mList.add("审核状态：审核未通过");
             }
@@ -147,6 +153,7 @@ public class UserCheckDetailActivity extends BaseActivity {
         imgList.add(userData.getIdCard1());
         imgList.add(userData.getIdCard2());
         if (carUserBean.getUserRole().equals(API.DRIVER + "")) {
+            mList.add("类别：司机实名认证审核");
             mList.add("车牌照：" + carUserBean.getCarNo());
             mList.add("车长车型：" + carUserBean.getCodeName1() + "米/" + carUserBean.getCodeName());
             imgList.add(carUserBean.getDrivingLlicence());
@@ -154,6 +161,7 @@ public class UserCheckDetailActivity extends BaseActivity {
             imgList.add(carUserBean.getCarPic1());
             imgList.add(carUserBean.getCarPic2());
         } else {
+            mList.add("类别：货主实名认证审核");
             if (!TextUtils.isEmpty(carUserBean.getCompanyPic())) {
                 imgList.add(carUserBean.getCompanyPic());
             }
@@ -263,6 +271,9 @@ public class UserCheckDetailActivity extends BaseActivity {
             public void onSuccess(String data) {
                 Log.e("error", data);
                 showToast("审核通过");
+                Intent intent = new Intent();
+                intent.putExtra("type", 1);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -290,7 +301,10 @@ public class UserCheckDetailActivity extends BaseActivity {
             @Override
             public void onSuccess(String data) {
                 Log.e("error", data);
-                showToast("审核通过");
+                showToast("驳回成功");
+                Intent intent = new Intent();
+                intent.putExtra("type", 2);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });

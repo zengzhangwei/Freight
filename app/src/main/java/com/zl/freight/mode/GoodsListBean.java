@@ -142,6 +142,15 @@ public class GoodsListBean implements Serializable {
     private String CodeName3;
     private String CodeName4;
     private String CodeName5;
+    private String UserName1;
+
+    public String getUserName1() {
+        return UserName1;
+    }
+
+    public void setUserName1(String userName1) {
+        UserName1 = userName1;
+    }
 
     public String getId() {
         return Id;

@@ -176,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:hint="@string/touch_output"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/dp_14" />
 
@@ -210,7 +210,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:hint="点击输入（可选）"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/dp_14" />
 

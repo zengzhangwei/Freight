@@ -3,6 +3,8 @@ package com.zl.zlibrary.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 /**
  * Created by zhanglei on 2017\12\8 0008.
@@ -17,6 +19,12 @@ public class SystemUtils {
      * @param phone 电话号码
      */
     public static void call(Context context, String phone) {
+
+        if (TextUtils.isEmpty(phone)) {
+            Toast.makeText(context, "无法拨打电话，手机号未被获取", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);

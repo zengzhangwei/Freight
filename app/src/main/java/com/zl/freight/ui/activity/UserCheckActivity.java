@@ -1,5 +1,6 @@
 package com.zl.freight.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.widget.ImageView;
@@ -77,6 +78,17 @@ public class UserCheckActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (fragment0 != null) {
+            fragment0.onActivityResult(requestCode, resultCode, data);
+        }
+        if (fragment2 != null) {
+            fragment2.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void initView() {

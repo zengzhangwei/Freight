@@ -86,9 +86,7 @@ public class DriverDetailActivity extends BaseActivity {
             //查看司机位置
             case R.id.tv_driver_location:
                 Intent intent = new Intent(mActivity, LookDriverActivity.class);
-                intent.putExtra(API.LATITUDE, carUser.getCarX());
-                intent.putExtra(API.LONGITUDE, carUser.getCarY());
-                intent.putExtra(API.USERID, carUser.getUserId());
+                intent.putExtra("id", carUser.getId());
                 startActivity(intent);
                 break;
             //给司机打电话

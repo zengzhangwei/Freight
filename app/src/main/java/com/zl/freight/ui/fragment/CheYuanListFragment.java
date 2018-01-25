@@ -380,9 +380,7 @@ public class CheYuanListFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mActivity, LookDriverActivity.class);
-                intent.putExtra(API.LATITUDE, bean.getCarX());
-                intent.putExtra(API.LONGITUDE, bean.getCarY());
-                intent.putExtra(API.USERID, bean.getUserId());
+                intent.putExtra("id", bean.getUserId());
                 startActivity(intent);
             }
         });

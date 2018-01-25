@@ -1,9 +1,11 @@
 package com.zl.freight.ui.activity.register;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.zl.freight.ui.activity.RegisterActivity;
 import com.zl.freight.ui.fragment.PushPersonFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
+import com.zl.freight.utils.SendCodeUtils;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
@@ -86,6 +89,8 @@ public class UserDataActivity extends BaseActivity {
     //填充司机数据
     BaseCarEntity carEntity;
     private CarUserBean carUserBean;
+    private String sendCode;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +121,7 @@ public class UserDataActivity extends BaseActivity {
                     carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
                     upDateUi(carUserBean);
                 } catch (Exception e) {
-
+                    showToast("用户信息出错，请联系管理员");
                 }
             }
         });
@@ -141,7 +146,7 @@ public class UserDataActivity extends BaseActivity {
         userEntity.setIdCard1(carUserBean.getIdCard1());
         userEntity.setIdCard2(carUserBean.getIdCard2());
 
-        if (TextUtils.isEmpty(carUserBean.getStorePic())) {
+        if (carUserBean.getUserRole().equals("" + API.DRIVER)) {
             carEntity = new BaseCarEntity();
             carEntity.setId(Integer.parseInt(carUserBean.getId1()));
             carEntity.setUserId(Integer.parseInt(carUserBean.getId()));
@@ -175,6 +180,20 @@ public class UserDataActivity extends BaseActivity {
         tvChoosePushP.setText(carUserBean.getReferral() + "  " + carUserBean.getReferralTel());
         ImageLoader.loadImageUrl(mActivity, carUserBean.getIdCard1(), ivPersonPhoto);
         ImageLoader.loadImageUrl(mActivity, carUserBean.getIdCard2(), ivHandPhoto);
+
+        if (!TextUtils.isEmpty(carUserBean.getUnCheckInfo())) {
+            alertDialog = new AlertDialog.Builder(mActivity)
+                    .setTitle("错误原因")
+                    .setMessage(carUserBean.getUnCheckInfo())
+                    .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).create();
+            alertDialog.show();
+            tvTitleRight.setText("查看错误原因");
+        }
     }
 
 
@@ -195,6 +214,25 @@ public class UserDataActivity extends BaseActivity {
         tvTitle.setText("实名认证");
         photoDialog = new PhotoDialog(mActivity);
         pushPersonFragment = PushPersonFragment.newInstance();
+    }
+
+    private void sendCode() {
+        String trim = etInputPhone.getText().toString().trim();
+        if (TextUtils.isEmpty(trim)) {
+            showToast("请输入手机号");
+            return;
+        }
+        SendCodeUtils.sendCode(trim, tvSendCode, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                sendCode = data;
+            }
+        });
     }
 
     @Override
@@ -238,7 +276,8 @@ public class UserDataActivity extends BaseActivity {
         photoDialog.show(view);
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_send_code, R.id.tv_choose_push_p, R.id.iv_person_photo, R.id.iv_hand_photo, R.id.tv_next})
+    @OnClick({R.id.iv_back, R.id.tv_send_code, R.id.tv_choose_push_p, R.id.iv_person_photo,
+            R.id.iv_hand_photo, R.id.tv_title_right, R.id.tv_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -247,7 +286,7 @@ public class UserDataActivity extends BaseActivity {
                 break;
             //发送验证码
             case R.id.tv_send_code:
-
+                sendCode();
                 break;
             //选择推介人
             case R.id.tv_choose_push_p:
@@ -264,6 +303,11 @@ public class UserDataActivity extends BaseActivity {
             //下一步
             case R.id.tv_next:
                 next();
+                break;
+            //下一步
+            case R.id.tv_title_right:
+                if (alertDialog == null) return;
+                alertDialog.show();
                 break;
         }
     }
@@ -303,17 +347,27 @@ public class UserDataActivity extends BaseActivity {
             return;
         }
 
+//        if (TextUtils.isEmpty(sendCode)) {
+//            showToast("验证码还未发送");
+//            return;
+//        }
+
         if (TextUtils.isEmpty(code)) {
             showToast("请输入验证码");
             return;
         }
+
+//        if (!sendCode.equals(code)) {
+//            showToast("验证码输入不正确");
+//            return;
+//        }
 
         if (TextUtils.isEmpty(password)) {
             showToast("请输入密码");
             return;
         }
 
-        if (password.length() < 6 || password.length() > 12) {
+        if (password.length() != 6) {
             showToast("密码长度不符合标准");
             return;
         }
@@ -340,12 +394,13 @@ public class UserDataActivity extends BaseActivity {
             intent.putExtra("companyEntity", companyEntity);
         }
 
-        if (!TextUtils.isEmpty(IMGHANDPATH)) {
-            intent.putExtra("idCard1", IMGHANDPATH);
-        }
         if (!TextUtils.isEmpty(IMGPERSONPATH)) {
-            intent.putExtra("idCard2", IMGPERSONPATH);
+            intent.putExtra("idCard1", IMGPERSONPATH);
         }
+        if (!TextUtils.isEmpty(IMGHANDPATH)) {
+            intent.putExtra("idCard2", IMGHANDPATH);
+        }
+
         intent.putExtra("userEntity", userEntity);
         startActivity(intent);
     }

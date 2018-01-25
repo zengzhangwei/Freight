@@ -65,6 +65,15 @@ public class BaseUserEntity implements Serializable {
     private String IsDelete;
     private String CarLong = "31";
     private String CarType = "33";
+    private String UnCheckInfo = "";
+
+    public String getUnCheckInfo() {
+        return UnCheckInfo;
+    }
+
+    public void setUnCheckInfo(String unCheckInfo) {
+        UnCheckInfo = unCheckInfo;
+    }
 
     public String getCarLong() {
         return CarLong;

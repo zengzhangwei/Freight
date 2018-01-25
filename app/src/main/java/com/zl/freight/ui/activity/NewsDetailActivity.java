@@ -48,7 +48,7 @@ public class NewsDetailActivity extends BaseActivity {
         tvTitle.setText("文章详情");
         TopNewsBean data = (TopNewsBean) getIntent().getSerializableExtra("data");
         ImageLoader.loadImageUrl(mActivity, data.getInfoPic(), ivNewsIcon);
-        ViewCompat.setTransitionName(tvNewsTitle, TEXT);
+        ViewCompat.setTransitionName(ivNewsIcon, PICTURE);
         tvNewsTitle.setText(data.getInfoTitle());
         tvNewsContent.setText(data.getInfoContent());
     }

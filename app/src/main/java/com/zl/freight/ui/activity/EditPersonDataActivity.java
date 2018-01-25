@@ -1,7 +1,6 @@
 package com.zl.freight.ui.activity;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -77,6 +76,8 @@ public class EditPersonDataActivity extends BaseActivity {
     AutoLinearLayout linearDriver;
     @BindView(R.id.edit_user_rl)
     RelativeLayout editUserRl;
+    @BindView(R.id.tv_ali_account)
+    TextView tvAliAccount;
     private PhotoDialog dialog;
     private String imagePath = "";
     private String idCarNumber = "130526199311146498";
@@ -220,6 +221,10 @@ public class EditPersonDataActivity extends BaseActivity {
                 case PhotoDialog.SELECT_PHOTO:
                     imagePath = MiPictureHelper.getPath(mActivity, data.getData());
                     break;
+                case 666:
+                    String ali = data.getStringExtra("ali");
+                    tvAliAccount.setText(ali);
+                    break;
             }
             //上传头像
             showDialog("头像上传中...");
@@ -266,7 +271,7 @@ public class EditPersonDataActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.iv_back, R.id.civ_user_icon, R.id.rl_sex, R.id.tv_user_standby_phone})
+    @OnClick({R.id.iv_back, R.id.civ_user_icon, R.id.rl_sex, R.id.tv_user_standby_phone, R.id.tv_ali_account})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -284,6 +289,10 @@ public class EditPersonDataActivity extends BaseActivity {
             //添加备用手机号
             case R.id.tv_user_standby_phone:
                 getSupportFragmentManager().beginTransaction().addToBackStack("phone").replace(R.id.edit_user_rl, addPhoneFragment).commit();
+                break;
+            //添加备用手机号
+            case R.id.tv_ali_account:
+                startActivityForResult(new Intent(mActivity, BindAliActivity.class), 666);
                 break;
         }
     }

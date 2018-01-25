@@ -24,6 +24,7 @@
             android:id="@+id/et_input_phone1"
             style="@style/RegisterEtStyle"
             android:hint="请输入电话号码"
+            android:inputType="phone"
             android:maxLength="20" />
 
     </com.zhy.autolayout.AutoLinearLayout>
@@ -48,6 +49,7 @@
             android:id="@+id/et_input_phone2"
             style="@style/RegisterEtStyle"
             android:hint="请输入电话号码"
+            android:inputType="phone"
             android:maxLength="20" />
 
     </com.zhy.autolayout.AutoLinearLayout>

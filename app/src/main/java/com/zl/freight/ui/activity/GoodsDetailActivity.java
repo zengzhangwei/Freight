@@ -17,6 +17,7 @@ import com.zl.freight.mode.GoodsListBean;
 import com.zl.freight.ui.fragment.TopUpFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
+import com.zl.freight.utils.MoneyUtils;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
@@ -172,7 +173,7 @@ public class GoodsDetailActivity extends BaseActivity implements TopUpFragment.O
         String integral = SpUtils.getUserData(mActivity).getIntegral();
         int i = Integer.parseInt(integral);
         //余额不足提示用户去充值
-        if (i < Double.parseDouble(data.getInfoMoney()) * API.power) {
+        if (i < Double.parseDouble(data.getInfoMoney()) * API.ratio) {
             messageDialog.show();
             return;
         }
@@ -226,9 +227,13 @@ public class GoodsDetailActivity extends BaseActivity implements TopUpFragment.O
             }
 
             @Override
-            public void onSuccess(String data) {
+            public void onSuccess(String d) {
                 hideDialog();
                 showToast("接单成功");
+                if (Double.valueOf(data.getInfoMoney()) > 0) { //修改本地帐户余额
+                    int v = (int) Double.parseDouble(data.getInfoMoney());
+                    MoneyUtils.upDateMoney(mActivity, 1, v);
+                }
                 finish();
             }
         });

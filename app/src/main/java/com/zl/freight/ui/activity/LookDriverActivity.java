@@ -28,6 +28,7 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseCarEntity;
 import com.zl.freight.mode.CarTrackEntity;
+import com.zl.freight.mode.GoodsListBean;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
@@ -66,11 +67,11 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
     @BindView(R.id.driver_location_list)
     ListView driverLocationList;
     private BaiduMap mBaiduMap;
-    private double latitude, longitude;
     private GeoCoder mSearch;
     private List<CarTrackEntity> mList = new ArrayList<>();
     private UniversalAdapter<CarTrackEntity> mAdapter;
     private String userId;
+    private double latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,11 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
     }
 
     private void getDriverLocation() {
+        if (TextUtils.isEmpty(userId)) {
+            return;
+        }
         Map<String, String> params = new HashMap<>();
+        //这就固定写0
         params.put("SendId", "0");
         params.put("UserId", userId);
         SoapUtils.Post(mActivity, API.QueryCarTrack, params, new SoapCallback() {
@@ -105,6 +110,8 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
                         mList.add(carEntity);
                     }
                     mAdapter.notifyDataSetChanged();
+                    //绘制司机当前位置的坐标点
+                    drawGoodsEnd();
                 } catch (Exception e) {
 
                 }
@@ -119,14 +126,15 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
 
     private void initView() {
         tvTitle.setText(R.string.driver_location);
-        latitude = getIntent().getDoubleExtra(API.LATITUDE, 0);
-        longitude = getIntent().getDoubleExtra(API.LONGITUDE, 0);
-        userId = getIntent().getStringExtra(API.USERID);
+        userId = getIntent().getStringExtra("id");
+        if (TextUtils.isEmpty(userId)) {
+            showToast("没有获取到司机位置");
+            return;
+        }
+
         mBaiduMap = ldaMap.getMap();
         //获取搜索模块
         mSearch = GeoCoder.newInstance();
-        //绘制司机当前位置的坐标点
-        drawGoodsEnd();
 
         mAdapter = new UniversalAdapter<CarTrackEntity>(mActivity, mList, R.layout.driver_list_location_item) {
             @Override
@@ -136,13 +144,19 @@ public class LookDriverActivity extends BaseActivity implements OnGetGeoCoderRes
             }
         };
         driverLocationList.setAdapter(mAdapter);
-
     }
 
     /**
-     * 在地图上绘制货源标记
+     * 在地图上绘制司机当前位置标记
      */
     private void drawGoodsEnd() {
+        if (mList.size() <= 0) {
+            showToast("暂无司机位置");
+            return;
+        }
+        CarTrackEntity trackEntity = mList.get(0);
+        latitude = Double.parseDouble(trackEntity.getCarX());
+        longitude = Double.parseDouble(trackEntity.getCarY());
         //定义Maker坐标点
         LatLng point = new LatLng(latitude, longitude);
 

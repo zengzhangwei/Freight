@@ -40,7 +40,8 @@
                 android:id="@+id/driver_location_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@color/white"></ListView>
+                android:divider="@color/white"
+                android:scrollbars="none"></ListView>
 
         </com.zhy.autolayout.AutoLinearLayout>
 

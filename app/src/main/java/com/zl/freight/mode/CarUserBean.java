@@ -122,6 +122,15 @@ public class CarUserBean implements Serializable {
     private String Range;
     private String CodeName;
     private String CodeName1;
+    private String UnCheckInfo;
+
+    public String getUnCheckInfo() {
+        return UnCheckInfo;
+    }
+
+    public void setUnCheckInfo(String unCheckInfo) {
+        UnCheckInfo = unCheckInfo;
+    }
 
     public String getCodeName() {
         return CodeName;

@@ -26,14 +26,12 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="org.simalliance.openmobileapi.SMARTCARD" />
-    <uses-permission android:name="android.permission.NFC" />
 
-    <uses-feature android:name="android.hardware.nfc.hce" />
 
     <application
         android:name=".APP"
         android:allowBackup="true"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/icon_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -69,13 +67,13 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- 司机位置上传服务 -->
         <service android:name=".service.LocationService" />
 
@@ -92,7 +90,7 @@
 
         <activity
             android:name=".ui.activity.MainActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".ui.activity.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -117,7 +115,7 @@
         <activity android:name=".ui.activity.MyMoneyActivity" />
         <activity
             android:name=".ui.activity.GoodsMainActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".ui.activity.GoodsRegisterActivity" />
         <!-- 图片选择器 -->
         <activity
@@ -166,7 +164,8 @@
         <activity android:name=".ui.activity.UpdateSendActivity" />
         <activity android:name=".ui.activity.register.UserDataActivity" />
         <activity android:name=".ui.activity.register.CarDataActivity" />
-        <activity android:name=".ui.activity.register.CompanyActivity"></activity>
+        <activity android:name=".ui.activity.register.CompanyActivity" />
+        <activity android:name=".ui.activity.BindAliActivity"></activity>
     </application>
 
 </manifest>

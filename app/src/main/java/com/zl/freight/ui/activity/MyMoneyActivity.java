@@ -69,7 +69,7 @@ public class MyMoneyActivity extends BaseActivity implements TopUpFragment.OnPay
         tvTitleRight.setText("充值提现记录");
         logFragment = TransactionLogFragment.newInstance();
         helperDialog = new AlertDialog.Builder(mActivity).setTitle("使用帮助")
-                .setMessage("1元 == 100积分，满1000积分可以提现，提现时需要收取手续费，最低提现额为10元也就是1000积分，提现时请输入大于等于10的整数")
+                .setMessage("1元 == 100积分，提现时需要收取手续费，最低提现额为100元也就是10000积分，提现时请输入大于等于100的整数")
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -161,7 +161,7 @@ public class MyMoneyActivity extends BaseActivity implements TopUpFragment.OnPay
      */
     @Override
     public void tiXianSuccess(int money) {
-
+        
     }
 
     private void insertPayLog(int money) {

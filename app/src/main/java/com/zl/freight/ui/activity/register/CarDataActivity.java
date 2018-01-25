@@ -139,10 +139,6 @@ public class CarDataActivity extends BaseActivity {
         ImageLoader.loadImageUrl(mActivity, drivingLlicence, ivDrivingPhoto);
         ImageLoader.loadImageUrl(mActivity, carPic1, ivCarFrontPhoto);
         ImageLoader.loadImageUrl(mActivity, carPic2, ivCarBackPhoto);
-        carEntity.setVehicleLicense("");
-        carEntity.setDrivingLlicence("");
-        carEntity.setCarPic1("");
-        carEntity.setCarPic2("");
     }
 
     @Override
@@ -260,7 +256,12 @@ public class CarDataActivity extends BaseActivity {
         new Thread() {
             @Override
             public void run() {
-
+                userEntity.setIdCard1("");
+                userEntity.setIdCard2("");
+                carEntity.setVehicleLicense("");
+                carEntity.setDrivingLlicence("");
+                carEntity.setCarPic1("");
+                carEntity.setCarPic2("");
                 if (!TextUtils.isEmpty(idCard1)) {
                     String idCard1Data = ImageFactory.base64Encode(ImageFactory.getimage(idCard1));
                     userEntity.setIdCard1(idCard1Data);

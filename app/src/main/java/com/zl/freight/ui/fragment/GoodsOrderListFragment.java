@@ -1,16 +1,16 @@
 package com.zl.freight.ui.fragment;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
@@ -23,9 +23,12 @@ import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
+import com.zl.zlibrary.adapter.UniversalAdapter;
+import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.utils.GsonUtils;
+import com.zl.zlibrary.utils.SystemUtils;
 
 import org.json.JSONArray;
 
@@ -45,14 +48,16 @@ import butterknife.Unbinder;
 public class GoodsOrderListFragment extends BaseFragment {
 
 
-    @BindView(R.id.my_order_mrlv)
-    RecyclerView myOrderMrlv;
     @BindView(R.id.my_order_trl)
     TwinklingRefreshLayout myOrderTrl;
     Unbinder unbinder;
+    @BindView(R.id.my_order_listView)
+    ListView myOrderListView;
     private List<GoodsListBean> mList = new ArrayList<>();
-    private RecyclerAdapter<GoodsListBean> mAdapter;
+    private UniversalAdapter<GoodsListBean> mAdapter;
     private int type;
+    private int mPosition;
+    private AlertDialog alertDialog;
 
     public GoodsOrderListFragment() {
         // Required empty public constructor
@@ -84,11 +89,7 @@ public class GoodsOrderListFragment extends BaseFragment {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 super.onRefresh(refreshLayout);
-            }
-
-            @Override
-            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-                super.onLoadMore(refreshLayout);
+                getListData();
             }
         });
     }
@@ -131,29 +132,89 @@ public class GoodsOrderListFragment extends BaseFragment {
 
     private void initView() {
         type = getArguments().getInt("type", 0);
-        mAdapter = new RecyclerAdapter<GoodsListBean>(mActivity, mList, R.layout.goods_order_item_layout) {
+        mAdapter = new UniversalAdapter<GoodsListBean>(mActivity, mList, R.layout.goods_order_item_layout) {
+
 
             @Override
-            protected void convert(ViewHolder holder, final GoodsListBean s, int position) {
+            public void convert(UniversalViewHolder holder, final int position, final GoodsListBean s) {
                 holder.setText(R.id.tv_order_number, "运  单  号：" + s.getId());
                 holder.setText(R.id.tv_order_time, "下单时间：" + s.getCreateAt());
                 holder.setText(R.id.tv_order_start, s.getStartPlace());
                 holder.setText(R.id.tv_order_end, s.getEndPlace());
                 holder.setText(R.id.tv_order_goods_data, s.getGoodName() + "/" + s.getGoodsWeight() + s.getWeightUnit());
-                holder.getView(R.id.tv_look_location).setOnClickListener(new View.OnClickListener() {
+
+                //联系司机
+                holder.getView(R.id.linear_call).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SystemUtils.call(mActivity, s.getUserName1());
+                    }
+                });
+                //查看司机位置
+                holder.getView(R.id.linear_location).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(mActivity, LookDriverActivity.class);
-                        intent.putExtra(API.LATITUDE, s.getStartX());
-                        intent.putExtra(API.LONGITUDE, s.getStartY());
+                        intent.putExtra("id", s.getReceiveId());
+                        intent.putExtra("sendId", s.getId());
                         startActivity(intent);
                     }
                 });
+                //确认收货
+                holder.getView(R.id.linear_ok).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (type == 0) {
+                            showToast("改订单已完成");
+                            return;
+                        }
+                        mPosition = position;
+                        alertDialog.show();
+
+                    }
+                });
+
             }
         };
-        myOrderMrlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        myOrderMrlv.setAdapter(mAdapter);
+        myOrderListView.setAdapter(mAdapter);
         myOrderTrl.setHeaderView(new ProgressLayout(mActivity));
+        myOrderTrl.setEnableLoadmore(false);
+        alertDialog = new AlertDialog.Builder(mActivity)
+                .setMessage("确认完成该笔订单吗")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finishOrder();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).create();
+    }
+
+    /**
+     * 完成订单
+     */
+    private void finishOrder() {
+        GoodsListBean goodsListBean = mList.get(mPosition);
+        Map<String, String> params = new HashMap<>();
+        params.put("", "");
+        SoapUtils.Post(mActivity, API.ForgetPassword, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                mList.remove(mPosition);
+                mAdapter.notifyDataSetChanged();
+                showToast("成功完成订单");
+            }
+        });
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.zl.freight.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.ui.activity.ADActivity;
 import com.zl.freight.ui.activity.EditPersonDataActivity;
 import com.zl.freight.ui.activity.FeedbackActivity;
@@ -32,6 +34,9 @@ import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.GsonUtils;
+
+import org.json.JSONArray;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -124,25 +129,47 @@ public class PersonFragment extends BaseFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        String realName = SpUtils.getUserData(mActivity).getRealName();
-        String userIcon = SpUtils.getUserData(mActivity).getUserIcon();
-        if (!TextUtils.isEmpty(realName)) {
-            tvShoujihao.setText(realName);
+        if (!hidden){
+            updateUi();
         }
-        ImageLoader.loadUserIcon(mActivity, userIcon, this.userIcon);
+    }
 
-        //判断用户是否已通过认证
+    /**
+     * 更新积分
+     */
+    private void updateUi() {
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
         Map<String, String> params = new HashMap<>();
-        params.put("UserName", SpUtils.getUserData(mActivity).getUserName());
-        SoapUtils.Post(mActivity, API.SaveCheck, params, new SoapCallback() {
+        params.put("UserId", userData.getId());
+        params.put("UserRole", userData.getUserRole());
+        SoapUtils.Post(mActivity, API.ShowUserInfo, params, new SoapCallback() {
+
             @Override
             public void onError(String error) {
-                SpUtils.setIsReal(mActivity, false);
+                showToast("用户信息获取失败，请新进入");
             }
 
             @Override
             public void onSuccess(String data) {
-                SpUtils.setIsReal(mActivity, true);
+                try {
+                    JSONArray array = new JSONArray(data);
+                    CarUserBean carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
+                    String realName = carUserBean.getRealName();
+                    String userPic = carUserBean.getUserIcon();
+                    if (carUserBean.getIsCheck().equals("1")) {
+                        tvCheck.setText("实名认证（已认证）");
+                        linearRealUser.setEnabled(false);
+                    } else {
+                        tvCheck.setText("实名认证（未通过认证）");
+                        linearRealUser.setEnabled(true);
+                    }
+                    if (!TextUtils.isEmpty(realName)) {
+                        tvShoujihao.setText(realName);
+                    }
+                    ImageLoader.loadUserIcon(mActivity, userPic, userIcon);
+                } catch (Exception e) {
+
+                }
             }
         });
     }
@@ -180,15 +207,6 @@ public class PersonFragment extends BaseFragment {
             }
         } catch (Exception e) {
 
-        }
-
-        BaseUserEntity userData = SpUtils.getUserData(mActivity);
-        if (userData.getIsCheck().equals("1")) {
-            tvCheck.setText("实名认证（已认证）");
-            linearRealUser.setEnabled(false);
-        } else {
-            tvCheck.setText("实名认证（未通过认证）");
-            linearRealUser.setEnabled(true);
         }
 
     }

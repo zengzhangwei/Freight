@@ -9,7 +9,9 @@ import android.util.Log;
 
 
 import com.zl.freight.ui.activity.GoodsMainActivity;
+import com.zl.freight.ui.activity.LoginActivity;
 import com.zl.freight.ui.activity.MainActivity;
+import com.zl.freight.utils.API;
 import com.zl.freight.utils.SpUtils;
 
 import org.json.JSONException;
@@ -66,6 +68,19 @@ public class MyReceiver extends BroadcastReceiver {
             String string = bundle.getString(JPushInterface.EXTRA_EXTRA);
             Log.d(TAG, "[MyReceiver] 附加的消息"+string);
             int type = SpUtils.getRole(context);
+
+            //在这里判断是否登录
+            boolean login = SpUtils.isLogin(context);
+            if (!login) {
+                //在这里进行身份判断
+                int role = SpUtils.getRole(context);
+                Intent i = new Intent(context, LoginActivity.class);
+                i.putExtra("role", role);
+                i.putExtra(API.ISFINISH, true);
+                context.startActivity(i);
+                return;
+            }
+
             //打开自定义的Activity
             Intent i;
             //进行角色判断

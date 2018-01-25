@@ -71,24 +71,25 @@
 
         <EditText
             android:id="@+id/et_input_code"
-            android:layout_width="330px"
+            android:layout_width="300px"
             android:layout_height="@dimen/dp_44"
             android:background="@color/white"
             android:hint="请输入验证码"
             android:maxLength="6"
+            android:inputType="number"
             android:paddingLeft="@dimen/dp_32"
             android:textSize="@dimen/dp_16" />
 
         <TextView
             android:id="@+id/tv_send_code"
-            android:layout_width="175px"
+            android:layout_width="185px"
             android:layout_height="@dimen/dp_36"
             android:layout_marginLeft="@dimen/dp_12"
             android:background="@drawable/bg_blue_round"
             android:gravity="center"
             android:text="@string/send_code"
             android:textColor="@color/white"
-            android:textSize="22px" />
+            android:textSize="23px" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 

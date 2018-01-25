@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -97,27 +98,117 @@
             android:layout_marginTop="@dimen/dp_16"
             android:background="@color/light_grey" />
 
-        <TextView
-            android:id="@+id/tv_look_location"
-            android:layout_width="wrap_content"
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/auto_ll"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_order_bottom_line"
-            android:layout_marginTop="@dimen/dp_12"
-            android:background="@drawable/blue_shape"
-            android:padding="@dimen/dp_6"
-            android:text="查看司机位置"
-            android:textColor="@color/white" />
+            android:layout_marginTop="0.8dp"
+            android:paddingTop="@dimen/dp_6">
 
-        <TextView
-            android:id="@+id/tv_call_driver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/tv_order_bottom_line"
-            android:layout_marginTop="@dimen/dp_12"
-            android:background="@drawable/grey_line_shape"
-            android:padding="@dimen/dp_6"
-            android:text="联系司机" />
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_call"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:src="@mipmap/cargo_intent_phone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:text="联系司机"
+                    android:textSize="@dimen/dp_12" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:src="@mipmap/driver_local" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:text="司机位置"
+                    android:textSize="@dimen/dp_12" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_ok"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_item_icon"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    app:srcCompat="@drawable/ic_finish" />
+
+                <TextView
+                    android:id="@+id/tv_item_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:text="确认收货"
+                    android:textSize="@dimen/dp_12" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_look_location"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/tv_order_bottom_line"-->
+        <!--android:layout_marginTop="@dimen/dp_12"-->
+        <!--android:background="@drawable/blue_shape"-->
+        <!--android:padding="@dimen/dp_6"-->
+        <!--android:text="司机位置"-->
+        <!--android:textColor="@color/white" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_finish_order"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/tv_order_bottom_line"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="@dimen/dp_12"-->
+        <!--android:background="@drawable/blue_shape"-->
+        <!--android:padding="@dimen/dp_6"-->
+        <!--android:text="完成订单"-->
+        <!--android:textColor="@color/white" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_call_driver"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_below="@id/tv_order_bottom_line"-->
+        <!--android:layout_marginTop="@dimen/dp_12"-->
+        <!--android:background="@drawable/grey_line_shape"-->
+        <!--android:padding="@dimen/dp_6"-->
+        <!--android:text="联系司机" />-->
 
     </com.zhy.autolayout.AutoRelativeLayout>
 

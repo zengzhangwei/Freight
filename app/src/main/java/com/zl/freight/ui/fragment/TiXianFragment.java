@@ -100,7 +100,6 @@ public class TiXianFragment extends BaseFragment {
             showToast("本次最多可以提现" + count + "元");
             return;
         }
-//        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do","app_id","your private_key","json","GBK","alipay_public_key","RSA2");
     }
 
     private OnTiXianListener onTiXianListener;

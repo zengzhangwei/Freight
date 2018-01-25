@@ -52,6 +52,7 @@ public class UserCheckListFragment extends BaseFragment {
     private RecyclerAdapter<BaseUserEntity> mAdapter;
     private List<BaseUserEntity> mList = new ArrayList<>();
     private int type;
+    private int mPosition;
 
     public UserCheckListFragment() {
         // Required empty public constructor
@@ -82,9 +83,10 @@ public class UserCheckListFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                mPosition = position;
                 Intent intent = new Intent(mActivity, UserCheckDetailActivity.class);
                 intent.putExtra("data", mList.get(position));
-                startActivity(intent);
+                startActivityForResult(intent, 666);
             }
         });
 
@@ -161,6 +163,32 @@ public class UserCheckListFragment extends BaseFragment {
         fuclMrlv.setAdapter(mAdapter);
         userCheckListTrl.setHeaderView(new ProgressLayout(mActivity));
         userCheckListTrl.setEnableLoadmore(false);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            getListData();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == mActivity.RESULT_OK) {
+            switch (requestCode) {
+                case 666:
+                    int t = data.getIntExtra("type", 0);
+                    if (type != t) {
+                        mList.remove(mPosition);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @Override

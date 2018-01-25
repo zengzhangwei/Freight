@@ -1,9 +1,6 @@
 package com.zl.freight.ui.activity.register;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,10 +14,10 @@ import com.foamtrace.photopicker.intent.PhotoPickerIntent;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseCompanyEntity;
-import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.UserBean;
 import com.zl.freight.ui.activity.AddressChooseActivity;
 import com.zl.freight.ui.activity.URegisterActivity;
+import com.zl.freight.ui.dialog.PriviewImageDialog;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
@@ -40,12 +37,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 public class CompanyActivity extends BaseActivity {
 
@@ -73,6 +64,7 @@ public class CompanyActivity extends BaseActivity {
     ImageView ivPersonPhoto;
 
     private ArrayList<String> photoList = new ArrayList<>();
+    private ArrayList<String> imgs = new ArrayList<>();
     private final int REQUEST_CAMERA_CODE = 0x427;
     private UniversalAdapter<String> mAdapter;
     private double latitude;
@@ -101,11 +93,12 @@ public class CompanyActivity extends BaseActivity {
 
     private void initView() {
         tvTitle.setText("货主注册");
+        tvTitleRight.setText("查看其他照片");
         mAdapter = new UniversalAdapter<String>(mActivity, photoList, R.layout.image_item_layout) {
             @Override
             public void convert(UniversalViewHolder holder, int position, String s) {
                 ImageView view = holder.getView(R.id.iv_item);
-                view.setImageBitmap(ImageFactory.getSimpeImage(s));
+                ImageLoader.loadImageFile(s, view);
             }
         };
         grImgGrid.setAdapter(mAdapter);
@@ -119,6 +112,17 @@ public class CompanyActivity extends BaseActivity {
         etCompanyCode.setText(companyEntity.getCompanyCode());
         tvChooseAddress.setText(companyEntity.getCompanyAddress());
         ImageLoader.loadImageUrl(mActivity, companyEntity.getCompanyPic(), ivPersonPhoto);
+        tvRegisterCommit.setText("修改提交");
+
+        if (!TextUtils.isEmpty(companyEntity.getStorePic())) {
+            imgs.add(companyEntity.getStorePic());
+        }
+        if (!TextUtils.isEmpty(companyEntity.getStorePic1())) {
+            imgs.add(companyEntity.getStorePic1());
+        }
+        if (!TextUtils.isEmpty(companyEntity.getStorePic2())) {
+            imgs.add(companyEntity.getStorePic2());
+        }
     }
 
     @Override
@@ -154,7 +158,7 @@ public class CompanyActivity extends BaseActivity {
     }
 
     @OnClick({R.id.iv_back, R.id.tab_add_icon, R.id.tv_register_commit, R.id.tv_register_add_icon,
-            R.id.tv_choose_address, R.id.iv_person_photo})
+            R.id.tv_choose_address, R.id.tv_title_right, R.id.iv_person_photo})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -177,6 +181,14 @@ public class CompanyActivity extends BaseActivity {
             case R.id.iv_person_photo:
                 photoDialog.show(view);
                 break;
+            //查看其他照片
+            case R.id.tv_title_right:
+                if (imgs.size() > 0) {
+                    new PriviewImageDialog(mActivity, imgs).showDialog(view);
+                } else {
+                    showToast("没有其他照片");
+                }
+                break;
         }
     }
 
@@ -186,11 +198,6 @@ public class CompanyActivity extends BaseActivity {
         final String companyCode = etCompanyCode.getText().toString().trim();
         if (TextUtils.isEmpty(companyName)) {
             showToast("请输入公司名称");
-            return;
-        }
-
-        if (!TextUtils.isEmpty(imagePath)) {
-            companyPic = ImageFactory.base64Encode(ImageFactory.getimage(imagePath));
             return;
         }
 
@@ -222,7 +229,6 @@ public class CompanyActivity extends BaseActivity {
                 companyEntity.setCompanyName(companyName);
                 if (!TextUtils.isEmpty(address)) {
                     companyEntity.setCompanyAddress(address);
-                    return;
                 }
 
                 //机构代码不为空时必须添加营业执照
@@ -230,9 +236,9 @@ public class CompanyActivity extends BaseActivity {
                     companyEntity.setCompanyCode(companyCode);
                 }
 
-                if (!TextUtils.isEmpty(companyPic)) {
+                if (!TextUtils.isEmpty(imagePath)) {
+                    companyPic = ImageFactory.base64Encode(ImageFactory.getimage(imagePath));
                     companyEntity.setCompanyPic(companyPic);
-
                 }
 
                 if (photoList.size() > 0) {

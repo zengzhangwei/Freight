@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
@@ -19,6 +20,8 @@ import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
+import com.zl.zlibrary.adapter.UniversalAdapter;
+import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.utils.GsonUtils;
@@ -42,13 +45,13 @@ import butterknife.Unbinder;
 public class OrderListFragment extends BaseFragment {
 
 
-    @BindView(R.id.my_order_mrlv)
-    RecyclerView myOrderMrlv;
     @BindView(R.id.my_order_trl)
     TwinklingRefreshLayout myOrderTrl;
     Unbinder unbinder;
+    @BindView(R.id.my_order_listView)
+    ListView myOrderListView;
     private List<GoodsListBean> mList = new ArrayList<>();
-    private RecyclerAdapter<GoodsListBean> mAdapter;
+    private UniversalAdapter<GoodsListBean> mAdapter;
     private int type;
 
     public OrderListFragment() {
@@ -123,25 +126,40 @@ public class OrderListFragment extends BaseFragment {
 
     private void initView() {
         type = getArguments().getInt("type", 0);
-        mAdapter = new RecyclerAdapter<GoodsListBean>(mActivity, mList, R.layout.order_list_item) {
+        mAdapter = new UniversalAdapter<GoodsListBean>(mActivity, mList, R.layout.order_list_item) {
+
 
             @Override
-            protected void convert(ViewHolder holder, final GoodsListBean s, int position) {
+            public void convert(UniversalViewHolder holder, int position, final GoodsListBean s) {
                 holder.setText(R.id.tv_order_number, "运  单  号：" + s.getId());
                 holder.setText(R.id.tv_order_time, "下单时间：" + s.getCreateAt());
                 holder.setText(R.id.tv_order_start, s.getStartPlace());
                 holder.setText(R.id.tv_order_end, s.getEndPlace());
                 holder.setText(R.id.tv_order_goods_data, s.getGoodName() + "/" + s.getGoodsWeight() + s.getWeightUnit());
-                holder.getView(R.id.tv_call_master).setOnClickListener(new View.OnClickListener() {
+                //联系货主
+                holder.getView(R.id.linear_call).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SystemUtils.call(mActivity, s.getUserName());
+                        SystemUtils.call(mActivity, s.getUserName1());
+                    }
+                });
+                //我已装货
+                holder.getView(R.id.linear_finish).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SystemUtils.call(mActivity, s.getUserName1());
+                    }
+                });
+                //请求收货
+                holder.getView(R.id.linear_please).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SystemUtils.call(mActivity, s.getUserName1());
                     }
                 });
             }
         };
-        myOrderMrlv.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        myOrderMrlv.setAdapter(mAdapter);
+        myOrderListView.setAdapter(mAdapter);
         myOrderTrl.setHeaderView(new ProgressLayout(mActivity));
         myOrderTrl.setEnableLoadmore(false);
     }

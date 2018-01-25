@@ -21,10 +21,10 @@ public class API {
     public static final int DRIVER = 1;
     public static final int GOODS = 2;
 
-    public static final int power = 100;
+    public static final int ratio = 100;
 
-//            public static final String BaseUrl = "http://172.16.18.17";
-    public static final String BaseUrl = "http://139.129.131.31:8088/";
+    public static final String BaseUrl = "http://172.16.18.17";
+//    public static final String BaseUrl = "http://139.129.131.31:8088/";
 
     /**
      * 登录
@@ -165,7 +165,7 @@ public class API {
     /**
      * 审核用户资料
      */
-    public static final String CheckSave  = "CheckSave";
+    public static final String CheckSave = "CheckSave";
 
     /**
      * 查询充值和提现记录
@@ -206,7 +206,22 @@ public class API {
     /**
      * 插入充值记录
      */
-    public static final String InsertPayLog = "InsertPayLog ";
+    public static final String InsertPayLog = "InsertPayLog";
+
+    /**
+     * 发送验证码
+     */
+    public static final String MessageCheck = "MessageCheck";
+
+    /**
+     * 修改密码
+     */
+    public static final String ForgetPassword = "ForgetPassword";
+
+    /**
+     * 提现
+     */
+    public static final String Casch = "Casch";
 
 
 }

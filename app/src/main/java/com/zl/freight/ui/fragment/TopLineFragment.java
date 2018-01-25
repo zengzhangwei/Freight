@@ -33,6 +33,7 @@ import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
@@ -147,7 +148,7 @@ public class TopLineFragment extends BaseFragment {
                     for (int i = 0; i < array.length(); i++) {
                         mList.add(GsonUtils.fromJson(array.optString(i), TopNewsBean.class));
                     }
-
+                    mAdapter.notifyDataSetChanged();
                 } catch (Exception e) {
 
                 }
@@ -173,13 +174,13 @@ public class TopLineFragment extends BaseFragment {
         topRlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                View img = view.findViewById(R.id.tv_news_item_title);
+                View img = view.findViewById(R.id.iv_top_icon);
                 TopNewsBean topNewsBean = mList.get(i);
                 if (TextUtils.isEmpty(topNewsBean.getInfoLink())) {
                     Intent intent = new Intent(mActivity, NewsDetailActivity.class);
                     intent.putExtra("data", topNewsBean);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, img, NewsDetailActivity.TEXT);
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, img, NewsDetailActivity.PICTURE);
                         startActivity(intent, options.toBundle());
                     } else {
                         startActivity(intent);
@@ -214,7 +215,11 @@ public class TopLineFragment extends BaseFragment {
         };
         topRlv.setAdapter(mAdapter);
         topLineTrl.setHeaderView(new ProgressLayout(mActivity));
-        registerForContextMenu(topRlv);
+        //管理员角色才有删除文章的权利
+        String userRole = SpUtils.getUserData(mActivity).getUserRole();
+        if (userRole.equals("0") || TextUtils.isEmpty(userRole)) {
+            registerForContextMenu(topRlv);
+        }
     }
 
     @Override

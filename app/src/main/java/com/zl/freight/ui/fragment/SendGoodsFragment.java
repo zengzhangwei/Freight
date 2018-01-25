@@ -1,8 +1,10 @@
 package com.zl.freight.ui.fragment;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import com.zl.freight.R;
 import com.zl.freight.mode.CarSendEntity;
 import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.ui.activity.AddressChooseActivity;
+import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.dialog.ChooseTimeDialog;
 import com.zl.freight.ui.dialog.GoodsTypeDialog;
 import com.zl.freight.ui.dialog.RemarkDialog;
@@ -93,6 +96,7 @@ public class SendGoodsFragment extends BaseFragment {
     private String c;
     private String goodsName;
     private KeyValueBean l, t, u, g, z, p;
+    private AlertDialog alertDialog;
 
     public SendGoodsFragment() {
         // Required empty public constructor
@@ -163,6 +167,20 @@ public class SendGoodsFragment extends BaseFragment {
         timeDialog = new ChooseTimeDialog(mActivity);
 
         tvChongFa.setSelected(true);
+
+        alertDialog = new AlertDialog.Builder(mActivity).setMessage("账户余额不足请充值，建议充值100元以上")
+                .setPositiveButton("充值", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(mActivity, MyMoneyActivity.class));
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).create();
     }
 
     @Override
@@ -345,10 +363,16 @@ public class SendGoodsFragment extends BaseFragment {
         }
         Map<String, String> params = new HashMap<>();
         params.put("sendJson", GsonUtils.toJson(sendEntity));
+        params.put("UserRole", SpUtils.getUserData(mActivity).getUserRole());
+
         showDialog("货物发布中...");
         SoapUtils.Post(mActivity, API.AddSend, params, new SoapCallback() {
             @Override
             public void onError(String error) {
+                if (error.equals("账户余额不足")) {
+                    alertDialog.show();
+                    return;
+                }
                 hideDialog();
                 showToast(error);
             }
@@ -359,6 +383,15 @@ public class SendGoodsFragment extends BaseFragment {
                 showToast("货物发布成功");
             }
         });
+    }
+
+    /**
+     * 支付发货的费用
+     *
+     * @param params
+     */
+    private void payMoney(Map<String, String> params) {
+
     }
 
     @Override

@@ -104,8 +104,8 @@ public class GoodsRegisterActivity extends BaseActivity {
         mAdapter = new UniversalAdapter<String>(mActivity, photoList, R.layout.image_item_layout) {
             @Override
             public void convert(UniversalViewHolder holder, int position, String s) {
-                ImageView view = holder.getView(R.id.iv_item);
-                view.setImageBitmap(ImageFactory.getSimpeImage(s));
+                final ImageView view = holder.getView(R.id.iv_item);
+                ImageLoader.loadImageFile(s, view);
             }
         };
         grImgGrid.setAdapter(mAdapter);
@@ -193,14 +193,6 @@ public class GoodsRegisterActivity extends BaseActivity {
             return;
         }
 
-        if (!TextUtils.isEmpty(companyCode)) {
-            if (TextUtils.isEmpty(imagePath)) {
-                showToast("请上传营业执照");
-                return;
-            }
-            companyPic = ImageFactory.base64Encode(ImageFactory.getimage(imagePath));
-        }
-
         final Map<String, String> params = new HashMap<>();
         //用户角色
         params.put("UserRole", "2");
@@ -220,10 +212,14 @@ public class GoodsRegisterActivity extends BaseActivity {
                 BaseCompanyEntity companyEntity = new BaseCompanyEntity();
                 companyEntity.setCompanyName(companyName);
                 companyEntity.setCompanyAddress(address);
-                //机构代码不为空时必须添加营业执照
-                if (!TextUtils.isEmpty(companyPic)) {
-                    companyEntity.setCompanyPic(companyPic);
+                //机构代码不为空上传机构代码
+                if (!TextUtils.isEmpty(companyCode)) {
                     companyEntity.setCompanyCode(companyCode);
+                }
+                //营业执照不为空上传营业执照
+                if (!TextUtils.isEmpty(imagePath)) {
+                    companyPic = ImageFactory.base64Encode(ImageFactory.getimage(imagePath));
+                    companyEntity.setCompanyPic(companyPic);
                 }
 
                 for (int i = 0; i < photoList.size(); i++) {
