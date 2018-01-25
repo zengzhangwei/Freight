@@ -221,7 +221,12 @@ public class API {
     /**
      * 提现
      */
-    public static final String Casch = "Casch";
+    public static final String DoCasch = "DoCasch";
+
+    /**
+     * 查询可提现的金额
+     */
+    public static final String AbleCasch = "AbleCasch";
 
 
 }

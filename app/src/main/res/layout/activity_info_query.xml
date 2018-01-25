@@ -17,72 +17,69 @@
         android:orientation="vertical">
 
         <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/auto_ll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.8dp"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6">
 
-            <TextView
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_start_time"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/dp_40"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/send_goods_count"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dp_16" />
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="0.8dp"
-                android:layout_height="match_parent"
-                android:background="@color/light_grey" />
+                <ImageView
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    app:srcCompat="@drawable/ic_today" />
 
-            <TextView
-                android:id="@+id/tv_send_goods_count"
+                <TextView
+                    android:id="@+id/tv_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:text="开始时间"
+                    android:textSize="@dimen/dp_12" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/linear_end_time"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/dp_40"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textColor="@color/text_black_cc"
-                android:textSize="@dimen/dp_14" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_item_icon"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    app:srcCompat="@drawable/ic_today" />
+
+                <TextView
+                    android:id="@+id/tv_end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:text="结束时间"
+                    android:textSize="@dimen/dp_12" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
 
         </com.zhy.autolayout.AutoLinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
             android:background="@color/light_grey" />
 
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dp_40"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/get_goods_count"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dp_16" />
-
-            <TextView
-                android:layout_width="0.8dp"
-                android:layout_height="match_parent"
-                android:background="@color/light_grey" />
-
-            <TextView
-                android:id="@+id/tv_get_goods_count"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dp_40"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textColor="@color/text_black_cc"
-                android:textSize="@dimen/dp_14" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:background="@color/light_grey" />
 
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
@@ -104,6 +101,40 @@
 
             <TextView
                 android:id="@+id/tv_top_up_money"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="@color/text_black_cc"
+                android:textSize="@dimen/dp_14" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@color/light_grey" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="提现总额"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_16" />
+
+            <TextView
+                android:layout_width="0.8dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_grey" />
+
+            <TextView
+                android:id="@+id/tv_ti_xian_money"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_40"
                 android:layout_weight="2"
