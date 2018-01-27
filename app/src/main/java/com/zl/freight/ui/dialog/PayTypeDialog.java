@@ -16,11 +16,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.google.gson.Gson;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zl.freight.R;
 import com.zl.freight.alipay.AuthResult;
 import com.zl.freight.alipay.PayResult;
 import com.zl.freight.alipay.util.OrderInfoUtil2_0;
 import com.zl.freight.mode.PayTypeMode;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.Constants;
+import com.zl.freight.utils.WxPayUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.base.BaseDialog;
@@ -111,6 +118,71 @@ public class PayTypeDialog extends BaseDialog {
         initListener();
     }
 
+    private void initData() {
+        PayTypeMode typeMode = new PayTypeMode();
+        typeMode.setIcon(R.mipmap.icon_alipay);
+        typeMode.setPayType("aliPay");
+        typeMode.setPayTypeName("支付保");
+        PayTypeMode wxPay = new PayTypeMode();
+        wxPay.setIcon(R.mipmap.icon_wx);
+        wxPay.setPayType("wxPay");
+        wxPay.setPayTypeName("微信支付");
+        mList.add(typeMode);
+        mList.add(wxPay);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void initView() {
+        View inflate = LayoutInflater.from(mActivity).inflate(R.layout.listview_layout, null);
+        listView = inflate.findViewById(R.id.listView);
+        mAdapter = new UniversalAdapter<PayTypeMode>(mActivity, mList, R.layout.pay_type_item) {
+            @Override
+            public void convert(UniversalViewHolder holder, int position, PayTypeMode payTypeMode) {
+                ImageView icon = holder.getView(R.id.iv_pay_icon);
+                icon.setImageResource(payTypeMode.getIcon());
+                holder.setText(R.id.tv_pay_name, payTypeMode.getPayTypeName());
+            }
+        };
+        listView.setAdapter(mAdapter);
+        initPopupWindow(inflate);
+    }
+
+    private void initListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                dismissDialog();
+                switch (mList.get(i).getPayType()) {
+                    case "aliPay":
+                        payV2();
+                        break;
+                    case "wxPay":
+                        weiXinPay();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    /**
+     * 吊起微信支付
+     */
+    private void weiXinPay() {
+        API.money = (int) payMoney;
+        final IWXAPI msgApi = WXAPIFactory.createWXAPI(mActivity, Constants.APP_ID);
+        // 将该app注册到微信
+        msgApi.registerApp(Constants.APP_ID);
+        new WxPayUtils(mActivity).getPayData(new WxPayUtils.OnWxPayListener() {
+            @Override
+            public void wxPay(PayReq req) {
+                //发起微信支付
+                msgApi.sendReq(req);
+            }
+        });
+    }
+
     /**
      * 支付宝支付业务
      */
@@ -158,46 +230,6 @@ public class PayTypeDialog extends BaseDialog {
 
         Thread payThread = new Thread(payRunnable);
         payThread.start();
-    }
-
-    private void initData() {
-        PayTypeMode typeMode = new PayTypeMode();
-        typeMode.setIcon(R.mipmap.icon_alipay);
-        typeMode.setPayType("alipay");
-        typeMode.setPayTypeName("支付保");
-        mList.add(typeMode);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    private void initView() {
-        View inflate = LayoutInflater.from(mActivity).inflate(R.layout.listview_layout, null);
-        listView = inflate.findViewById(R.id.listView);
-        mAdapter = new UniversalAdapter<PayTypeMode>(mActivity, mList, R.layout.pay_type_item) {
-            @Override
-            public void convert(UniversalViewHolder holder, int position, PayTypeMode payTypeMode) {
-                ImageView icon = holder.getView(R.id.iv_pay_icon);
-                icon.setImageResource(payTypeMode.getIcon());
-                holder.setText(R.id.tv_pay_name, payTypeMode.getPayTypeName());
-            }
-        };
-        listView.setAdapter(mAdapter);
-        initPopupWindow(inflate);
-    }
-
-    private void initListener() {
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                dismissDialog();
-                switch (mList.get(i).getPayType()) {
-                    case "alipay":
-                        payV2();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
     }
 
     private OnReturnPayListener onReturnPayListener;

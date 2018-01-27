@@ -2,6 +2,7 @@ package com.zl.freight.ui.activity;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -102,28 +103,33 @@ public class InfoQueryActivity extends BaseActivity {
         Map<String, String> params = new HashMap<>();
         params.put("StartTime", startTime);
         params.put("EndTime", endTime);
+        showDialog();
         //提现金额
         SoapUtils.Post(mActivity, API.GetOutcome, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-
+                hideDialog();
+                showToast(error);
             }
 
             @Override
             public void onSuccess(String data) {
-
+                hideDialog();
+                tvTiXianMoney.setText(data);
             }
         });
         //充值金额
         SoapUtils.Post(mActivity, API.GetIncome, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-
+                hideDialog();
+                showToast(error);
             }
 
             @Override
             public void onSuccess(String data) {
-
+                hideDialog();
+                tvTopUpMoney.setText(data);
             }
         });
     }

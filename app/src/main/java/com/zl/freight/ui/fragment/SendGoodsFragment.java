@@ -250,6 +250,19 @@ public class SendGoodsFragment extends BaseFragment {
      * 发布货物
      */
     private void commit() {
+
+        if (!SpUtils.getUserData(mActivity).getIsCheck().equals("1")) {
+            new AlertDialog.Builder(mActivity)
+                    .setMessage("您的实名认证还未通过无法发货")
+                    .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).show();
+            return;
+        }
+
         String weight = etWeight.getText().toString().trim();
         String money = etMoney.getText().toString().trim();
         String infoMoney = etInfoMoney.getText().toString().trim();

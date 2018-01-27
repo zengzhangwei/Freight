@@ -1,10 +1,7 @@
 package com.zl.freight.ui.fragment;
 
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,7 +75,7 @@ public class TopUpFragment extends BaseFragment {
     /**
      * 更新余额
      */
-    private void upDateMoney() {
+    private void updateMoney() {
         Map<String, String> params = new HashMap<>();
         params.put("UserId", SpUtils.getUserData(mActivity).getId());
         params.put("Moreorless", "0");
@@ -124,6 +121,9 @@ public class TopUpFragment extends BaseFragment {
      * 充值
      */
     private void topUp() {
+
+        hideKeyboard(etInputMoney);
+
         money = etInputMoney.getText().toString().trim();
         if (TextUtils.isEmpty(money)) {
             showToast("金额不能为空");
@@ -134,6 +134,7 @@ public class TopUpFragment extends BaseFragment {
             return;
         }
         typeDialog = new PayTypeDialog(mActivity, Double.parseDouble(money));
+        //这里的回调就只是支付宝的回调
         typeDialog.setOnReturnPayListener(new PayTypeDialog.OnReturnPayListener() {
             @Override
             public void onError(String error) {
@@ -143,7 +144,7 @@ public class TopUpFragment extends BaseFragment {
             @Override
             public void onSuccess() {
                 showToast("支付成功");
-                upDateMoney();
+                updateMoney();
             }
         });
         typeDialog.showDialog(tvTopUpBt);

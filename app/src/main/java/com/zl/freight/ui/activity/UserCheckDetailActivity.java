@@ -144,7 +144,7 @@ public class UserCheckDetailActivity extends BaseActivity {
                 mList.add("审核状态：未审核");
             } else if (isCheck.equals("1")) {
                 mList.add("审核状态：审核已通过");
-//                userCheckDetailBottom.setVisibility(View.GONE);
+                userCheckDetailBottom.setVisibility(View.GONE);
             } else if (isCheck.equals("2")) {
                 mList.add("审核状态：审核未通过");
             }

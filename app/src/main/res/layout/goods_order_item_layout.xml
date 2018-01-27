@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_arrows"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_8"
             android:text="普货/10吨"
             android:textColor="@color/blue"
             android:textSize="@dimen/dp_16" />
@@ -94,8 +94,8 @@
             android:id="@+id/tv_order_bottom_line"
             android:layout_width="match_parent"
             android:layout_height="0.8dp"
-            android:layout_below="@id/tv_order_start"
-            android:layout_marginTop="@dimen/dp_16"
+            android:layout_below="@id/tv_order_goods_data"
+            android:layout_marginTop="@dimen/dp_6"
             android:background="@color/light_grey" />
 
         <com.zhy.autolayout.AutoLinearLayout

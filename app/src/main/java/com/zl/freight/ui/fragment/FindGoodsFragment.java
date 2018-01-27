@@ -107,6 +107,12 @@ public class FindGoodsFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDataList(true);
+    }
+
     private void initListener() {
         mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override

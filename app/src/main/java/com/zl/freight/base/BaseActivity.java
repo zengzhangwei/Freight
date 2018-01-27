@@ -1,12 +1,14 @@
 package com.zl.freight.base;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.zhy.autolayout.AutoLayoutActivity;
@@ -135,6 +137,17 @@ public class BaseActivity extends AutoLayoutActivity {
         }
 
         SpUtils.setUserData(mActivity, userData);
+    }
+
+    protected void hideKeyboard(View view){
+        //隐藏软键盘
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        // 获取软键盘的显示状态
+        boolean isOpen = imm.isActive();
+        if (isOpen) {
+            // 隐藏软键盘
+            imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
 }

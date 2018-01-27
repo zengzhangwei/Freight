@@ -81,7 +81,7 @@ public class FeedbackFragment extends BaseFragment {
             return;
         }
 
-        if (content.length() < 50) {
+        if (content.length() < 20) {
             showToast("内容长度不足");
             return;
         }

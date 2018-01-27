@@ -134,7 +134,6 @@ public class GoodsOrderListFragment extends BaseFragment {
         type = getArguments().getInt("type", 0);
         mAdapter = new UniversalAdapter<GoodsListBean>(mActivity, mList, R.layout.goods_order_item_layout) {
 
-
             @Override
             public void convert(UniversalViewHolder holder, final int position, final GoodsListBean s) {
                 holder.setText(R.id.tv_order_number, "运  单  号：" + s.getId());
@@ -164,13 +163,12 @@ public class GoodsOrderListFragment extends BaseFragment {
                 holder.getView(R.id.linear_ok).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (type == 0) {
-                            showToast("改订单已完成");
+                        if (type == 1) {
+                            showToast("该订单已完成");
                             return;
                         }
                         mPosition = position;
                         alertDialog.show();
-
                     }
                 });
 
@@ -180,7 +178,7 @@ public class GoodsOrderListFragment extends BaseFragment {
         myOrderTrl.setHeaderView(new ProgressLayout(mActivity));
         myOrderTrl.setEnableLoadmore(false);
         alertDialog = new AlertDialog.Builder(mActivity)
-                .setMessage("确认完成该笔订单吗")
+                .setMessage("确定要完成该笔订单吗")
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -201,11 +199,12 @@ public class GoodsOrderListFragment extends BaseFragment {
     private void finishOrder() {
         GoodsListBean goodsListBean = mList.get(mPosition);
         Map<String, String> params = new HashMap<>();
-        params.put("", "");
-        SoapUtils.Post(mActivity, API.ForgetPassword, params, new SoapCallback() {
+        params.put("SendId", goodsListBean.getId());
+        params.put("IsPay", "1");
+        SoapUtils.Post(mActivity, API.OverSend, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-
+                showToast(error);
             }
 
             @Override

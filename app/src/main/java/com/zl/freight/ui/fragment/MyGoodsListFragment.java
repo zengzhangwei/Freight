@@ -79,9 +79,14 @@ public class MyGoodsListFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_my_goods_list, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
-        initData();
         initListener();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
     }
 
     private void initData() {
@@ -104,51 +109,8 @@ public class MyGoodsListFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-        myGoodsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                position = i;
-                return false;
-            }
-        });
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(Menu.NONE, R.id.menu_delete_order, Menu.NONE, "删除订单");
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_delete_order:
-                deleteOrder();
-                break;
-        }
-        return true;
-    }
-
-    /**
-     * 删除订单
-     */
-    private void deleteOrder() {
-        Map<String, String> params = new HashMap<>();
-        params.put("SendId", mList.get(position).getId());
-        SoapUtils.Post(mActivity, API.DeleteSend, params, new SoapCallback() {
-            @Override
-            public void onError(String error) {
-                showToast(error);
-            }
-
-            @Override
-            public void onSuccess(String data) {
-                showToast("删除成功");
-                mList.remove(position);
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-    }
 
     private void initView() {
         Bundle arguments = getArguments();
@@ -164,7 +126,6 @@ public class MyGoodsListFragment extends BaseFragment {
         myGoodsListView.setAdapter(mAdapter);
         myGoodsTrl.setHeaderView(new ProgressLayout(mActivity));
         myGoodsTrl.setEnableLoadmore(false);
-        registerForContextMenu(myGoodsListView);
     }
 
     @Override
@@ -198,7 +159,7 @@ public class MyGoodsListFragment extends BaseFragment {
 
         BaseUserEntity userData = SpUtils.getUserData(mActivity);
         Map<String, String> params = new HashMap<>();
-        params.put("UserRole", userData.getUserRole());
+        params.put("UserRole", "2");
         params.put("UserId", userData.getId());
         params.put("SendState", type + "");
         SoapUtils.Post(mActivity, API.GetCarSend, params, new SoapCallback() {

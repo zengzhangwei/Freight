@@ -2,6 +2,7 @@ package com.zl.zlibrary.base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 /**
@@ -79,5 +81,21 @@ public class BaseFragment extends Fragment {
 
     protected void hideDialog() {
         baseDialog.dismiss();
+    }
+
+    /**
+     * 隐藏软键盘
+     *
+     * @param view
+     */
+    protected void hideKeyboard(View view) {
+        //隐藏软键盘
+        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        // 获取软键盘的显示状态
+        boolean isOpen = imm.isActive();
+        if (isOpen) {
+            // 隐藏软键盘
+            imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }

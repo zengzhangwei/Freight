@@ -135,7 +135,7 @@ public class PersonFragment extends BaseFragment {
     }
 
     /**
-     * 更新积分
+     * 更新界面
      */
     private void updateUi() {
         BaseUserEntity userData = SpUtils.getUserData(mActivity);

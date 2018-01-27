@@ -16,9 +16,9 @@ public class MoneyUtils {
      * 更新积分
      *
      * @param type  0增1减
-     * @param jiFen
      */
-    public static void upDateMoney(Context context, int type, int jiFen) {
+    public static void upDateMoney(Context context, int type, int money) {
+        int jiFen = money * API.ratio;
         BaseUserEntity userData = SpUtils.getUserData(context);
         int i = Integer.parseInt(userData.getIntegral());
         if (type == 0) {

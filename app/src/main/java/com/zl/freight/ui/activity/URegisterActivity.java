@@ -263,20 +263,20 @@ public class URegisterActivity extends BaseActivity {
             return;
         }
 
-//        if (TextUtils.isEmpty(sendCode)) {
-//            showToast("验证码还未发送");
-//            return;
-//        }
+        if (TextUtils.isEmpty(sendCode)) {
+            showToast("验证码还未发送");
+            return;
+        }
 
         if (TextUtils.isEmpty(code)) {
             showToast("请输入验证码");
             return;
         }
 
-//        if (!sendCode.equals(code)) {
-//            showToast("验证码输入不正确");
-//            return;
-//        }
+        if (!sendCode.equals(code)) {
+            showToast("验证码输入不正确");
+            return;
+        }
 
         if (TextUtils.isEmpty(password)) {
             showToast("请输入密码");

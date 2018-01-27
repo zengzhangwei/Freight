@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BasePayLogEntity;
+import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.ui.fragment.TiXianFragment;
 import com.zl.freight.ui.fragment.TopUpFragment;
 import com.zl.freight.ui.fragment.TransactionLogFragment;
@@ -20,6 +22,8 @@ import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.utils.GsonUtils;
+
+import org.json.JSONArray;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +65,30 @@ public class MyMoneyActivity extends BaseActivity implements TopUpFragment.OnPay
     }
 
     private void initData() {
-        tvMoneyCount.setText(SpUtils.getUserData(mActivity).getIntegral());
+        final BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", userData.getId());
+        params.put("UserRole", userData.getUserRole());
+        SoapUtils.Post(mActivity, API.ShowUserInfo, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "获取用户信息失败");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    CarUserBean carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
+                    tvMoneyCount.setText(carUserBean.getIntegral());
+                    userData.setIntegral(carUserBean.getIntegral());
+                    SpUtils.setUserData(mActivity, userData);
+                } catch (Exception e) {
+
+                }
+            }
+        });
+
     }
 
     private void initView() {
@@ -161,9 +188,39 @@ public class MyMoneyActivity extends BaseActivity implements TopUpFragment.OnPay
      */
     @Override
     public void tiXianSuccess(int money) {
-        
+        insertTiXianLog(money);
     }
 
+    /**
+     * 插入提现记录
+     *
+     * @param money
+     */
+    private void insertTiXianLog(int money) {
+        BasePayLogEntity entity = new BasePayLogEntity();
+        entity.setCashValue(money);
+        entity.setUserId(Integer.parseInt(SpUtils.getUserData(mActivity).getId()));
+        entity.setUserName(SpUtils.getUserData(mActivity).getUserName());
+        Map<String, String> params = new HashMap<>();
+        params.put("PayLogJson", GsonUtils.toJson(entity));
+        SoapUtils.Post(mActivity, API.InsertPayLog, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("error", data);
+            }
+        });
+    }
+
+    /**
+     * 插入充值记录
+     *
+     * @param money
+     */
     private void insertPayLog(int money) {
         BasePayLogEntity entity = new BasePayLogEntity();
         entity.setPayMoney(money);

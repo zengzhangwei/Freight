@@ -22,9 +22,10 @@ public class API {
     public static final int GOODS = 2;
 
     public static final int ratio = 100;
+    public static int money = 0;
 
-    public static final String BaseUrl = "http://172.16.18.17";
-//    public static final String BaseUrl = "http://139.129.131.31:8088/";
+//    public static final String BaseUrl = "http://172.16.18.17";
+    public static final String BaseUrl = "http://139.129.131.31:8088/";
 
     /**
      * 登录
@@ -158,7 +159,7 @@ public class API {
     public static final String GetCarInfo = "GetCarInfo";
 
     /**
-     * 审核用户资料通过
+     * 查询用户资料是否通过
      */
     public static final String SaveCheck = "SaveCheck";
 
@@ -227,6 +228,21 @@ public class API {
      * 查询可提现的金额
      */
     public static final String AbleCasch = "AbleCasch";
+
+    /**
+     * 司机装货
+     */
+    public static final String ReceiveGoods = "ReceiveGoods";
+
+    /**
+     * 完成订单
+     */
+    public static final String OverSend = "OverSend";
+
+    /**
+     * 司机请求货主完成订单
+     */
+    public static final String RequsetOverSend = "RequsetOverSend";
 
 
 }

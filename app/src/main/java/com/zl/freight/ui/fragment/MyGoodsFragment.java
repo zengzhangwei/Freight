@@ -34,7 +34,7 @@ public class MyGoodsFragment extends BaseFragment {
     @BindView(R.id.my_goods_pager)
     ViewPager myGoodsPager;
     Unbinder unbinder;
-    private List<String> mList = Arrays.asList("发布中", "已完成");
+    private List<String> mList = Arrays.asList("发布中", "已关闭");
     private List<Fragment> fList = new ArrayList<>();
     private FragmentStatePagerAdapter pagerAdapter;
 

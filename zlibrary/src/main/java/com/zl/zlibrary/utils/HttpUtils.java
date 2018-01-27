@@ -328,6 +328,38 @@ public class HttpUtils {
     }
 
     /**
+     * get形式的请求方式
+     *
+     * @param url
+     * @param callback
+     */
+    public void POST(String url, String params, final OnOkHttpCallback callback) {
+        RequestBody body = RequestBody.create(MediaType.parse("application/xml; charset=utf-8"), params);
+        Request request = new Request.Builder().post(body).url(url).build();
+
+        mOkClient.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(final Call call, final IOException e) {
+                if (callback != null) {
+                    callback.onError(call.request(), e);
+                }
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String string = response.body().string();
+                if (!TextUtils.isEmpty(string)) {
+                    if (callback != null) {
+                        callback.onSuccess(string);
+                    }
+                }
+            }
+
+        });
+    }
+
+    /**
      * 下载文件
      */
     public void downLoadFile(final String url, final String filePath, final OnDownloadListener listener) {

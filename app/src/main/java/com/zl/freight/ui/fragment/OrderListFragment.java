@@ -1,7 +1,9 @@
 package com.zl.freight.ui.fragment;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -147,14 +149,48 @@ public class OrderListFragment extends BaseFragment {
                 holder.getView(R.id.linear_finish).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SystemUtils.call(mActivity, s.getUserName1());
+                        if (type == 1) {
+                            showToast("订单已完成");
+                            return;
+                        }
+                        new AlertDialog.Builder(mActivity)
+                                .setMessage("确认提醒货主我已装货吗")
+                                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        uploadGoods(s);
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                }).show();
                     }
                 });
                 //请求收货
                 holder.getView(R.id.linear_please).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SystemUtils.call(mActivity, s.getUserName1());
+                        if (type == 1) {
+                            showToast("订单已完成");
+                            return;
+                        }
+                        new AlertDialog.Builder(mActivity)
+                                .setMessage("确认提醒货主收货吗")
+                                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        remindGoods(s);
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                }).show();
                     }
                 });
             }
@@ -162,6 +198,50 @@ public class OrderListFragment extends BaseFragment {
         myOrderListView.setAdapter(mAdapter);
         myOrderTrl.setHeaderView(new ProgressLayout(mActivity));
         myOrderTrl.setEnableLoadmore(false);
+    }
+
+    /**
+     * 提醒货主收货
+     *
+     * @param s
+     */
+    private void remindGoods(GoodsListBean s) {
+        Map<String, String> params = new HashMap<>();
+        params.put("SendId", s.getId());
+        SoapUtils.Post(mActivity, API.RequsetOverSend, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                showToast("已成功提醒");
+            }
+        });
+    }
+
+
+    /**
+     * 我已装货
+     *
+     * @param s
+     */
+    private void uploadGoods(GoodsListBean s) {
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", SpUtils.getUserData(mActivity).getId());
+        params.put("SendId", s.getId());
+        SoapUtils.Post(mActivity, API.ReceiveGoods, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                showToast("成功装货");
+            }
+        });
     }
 
     @Override
