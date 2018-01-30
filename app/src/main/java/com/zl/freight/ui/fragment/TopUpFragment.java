@@ -123,16 +123,23 @@ public class TopUpFragment extends BaseFragment {
     private void topUp() {
 
         hideKeyboard(etInputMoney);
-
         money = etInputMoney.getText().toString().trim();
         if (TextUtils.isEmpty(money)) {
             showToast("金额不能为空");
             return;
         }
-        if (Integer.parseInt(money) < 0) {
+        int m = 0;
+        try {
+            m = Integer.parseInt(money);
+        } catch (Exception e) {
+
+        }
+        if (m < 0) {
             showToast("金额必须大于0");
             return;
         }
+        //修改API中money的值，为微信支付提供金额
+        API.money = m;
         typeDialog = new PayTypeDialog(mActivity, Double.parseDouble(money));
         //这里的回调就只是支付宝的回调
         typeDialog.setOnReturnPayListener(new PayTypeDialog.OnReturnPayListener() {

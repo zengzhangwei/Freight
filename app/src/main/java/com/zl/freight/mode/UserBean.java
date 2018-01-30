@@ -32,7 +32,16 @@ public class UserBean implements Serializable {
     private String CheckAt = "";
     private String CheckBy = "";
     private String CheckByName = "";
+    private String Bankaccount = "";
     private int IsDelete;
+
+    public String getBankaccount() {
+        return Bankaccount;
+    }
+
+    public void setBankaccount(String bankaccount) {
+        Bankaccount = bankaccount;
+    }
 
     public String getId() {
         return Id;

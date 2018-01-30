@@ -84,6 +84,7 @@ public class EditPersonDataActivity extends BaseActivity {
     private AddPhoneFragment addPhoneFragment;
     private BaseUserEntity userData;
     private UserBean userEntity;
+    private CarUserBean carUserBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +92,13 @@ public class EditPersonDataActivity extends BaseActivity {
         setContentView(R.layout.activity_edit_person_data);
         ButterKnife.bind(this);
         initView();
-        initData();
         initListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
     }
 
     private void initListener() {
@@ -158,6 +164,14 @@ public class EditPersonDataActivity extends BaseActivity {
             tvCarCode.setText(userData.getCarNo());
         }
 
+        if (!TextUtils.isEmpty(userData.getBankaccount())) {
+            tvAliAccount.setText(userData.getBankaccount());
+        }
+
+        //储存或更改支付宝账号
+        this.userData.setBankaccount(userData.getBankaccount());
+        SpUtils.setUserData(mActivity, this.userData);
+
         userEntity = new UserBean();
         userEntity.setId(userData.getId());
         userEntity.setReferral(userData.getReferral());
@@ -167,6 +181,7 @@ public class EditPersonDataActivity extends BaseActivity {
         userEntity.setPassWord(userData.getPassWord());
         userEntity.setIdCardNumber(userData.getIdCardNumber());
         userEntity.setUserRole(userData.getUserRole());
+        userEntity.setBankaccount(userData.getBankaccount());
         userEntity.setIdCard1("");
         userEntity.setIdCard2("");
         userEntity.setOtherTel(userData.getOtherTel());
@@ -190,7 +205,7 @@ public class EditPersonDataActivity extends BaseActivity {
             public void onSuccess(String data) {
                 try {
                     JSONArray array = new JSONArray(data);
-                    CarUserBean carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
+                    carUserBean = GsonUtils.fromJson(array.optString(0), CarUserBean.class);
                     upDateUi(carUserBean);
                 } catch (Exception e) {
 
@@ -220,10 +235,6 @@ public class EditPersonDataActivity extends BaseActivity {
                 //从相册返回照片
                 case PhotoDialog.SELECT_PHOTO:
                     imagePath = MiPictureHelper.getPath(mActivity, data.getData());
-                    break;
-                case 666:
-                    String ali = data.getStringExtra("ali");
-                    tvAliAccount.setText(ali);
                     break;
             }
             //上传头像
@@ -290,9 +301,11 @@ public class EditPersonDataActivity extends BaseActivity {
             case R.id.tv_user_standby_phone:
                 getSupportFragmentManager().beginTransaction().addToBackStack("phone").replace(R.id.edit_user_rl, addPhoneFragment).commit();
                 break;
-            //添加备用手机号
+            //绑定支付宝账号
             case R.id.tv_ali_account:
-                startActivityForResult(new Intent(mActivity, BindAliActivity.class), 666);
+                Intent intent = new Intent(mActivity, BindAliActivity.class);
+                intent.putExtra("ali", carUserBean.getBankaccount());
+                startActivity(intent);
                 break;
         }
     }

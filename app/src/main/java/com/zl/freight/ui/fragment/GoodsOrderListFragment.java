@@ -163,7 +163,7 @@ public class GoodsOrderListFragment extends BaseFragment {
                 holder.getView(R.id.linear_ok).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (type == 1) {
+                        if (type == 2) {
                             showToast("该订单已完成");
                             return;
                         }
@@ -200,7 +200,7 @@ public class GoodsOrderListFragment extends BaseFragment {
         GoodsListBean goodsListBean = mList.get(mPosition);
         Map<String, String> params = new HashMap<>();
         params.put("SendId", goodsListBean.getId());
-        params.put("IsPay", "1");
+        params.put("IsOver", "2");
         SoapUtils.Post(mActivity, API.OverSend, params, new SoapCallback() {
             @Override
             public void onError(String error) {

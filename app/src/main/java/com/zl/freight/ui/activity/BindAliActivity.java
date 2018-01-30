@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -14,7 +15,13 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +58,12 @@ public class BindAliActivity extends BaseActivity {
     }
 
     private void initView() {
+        String ali = getIntent().getStringExtra("ali");
+        if (!TextUtils.isEmpty(ali)) {
+            tvCurrentAliAccount.setText("* " + ali);
+        } else {
+            tvCurrentAliAccount.setText("* 无");
+        }
         tvTitle.setText("绑定支付宝");
         View view = LayoutInflater.from(mActivity).inflate(R.layout.et_layout, null);
         final EditText et = view.findViewById(R.id.et_input);
@@ -83,11 +96,23 @@ public class BindAliActivity extends BaseActivity {
      * 绑定支付宝账号
      */
     private void bindAli() {
-        showToast("绑定成功");
-        Intent intent = new Intent();
-        intent.putExtra("ali", aliAccount);
-        setResult(RESULT_OK, intent);
-        finish();
+
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", SpUtils.getUserData(mActivity).getId());
+        params.put("BankCard", aliAccount);
+        SoapUtils.Post(mActivity, API.AddBankCard, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                showToast(error);
+                finish();
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                showToast("绑定成功");
+                finish();
+            }
+        });
     }
 
     @OnClick({R.id.iv_back, R.id.tv_bind_ali})

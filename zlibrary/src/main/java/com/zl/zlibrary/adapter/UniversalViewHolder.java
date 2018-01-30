@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.zl.zlibrary.utils.ImageLoader;
-
 /**
  * Created by zhanglei on 2016/12/15.
  * 通用的ViewHolder类Universal
@@ -90,11 +88,10 @@ public class UniversalViewHolder {
      * @param viewId
      * @param spanned
      */
-    public void setText(int viewId,   Spanned spanned) {
+    public void setText(int viewId, Spanned spanned) {
         TextView view = getView(viewId);
         view.setText(spanned);
     }
-
 
     /**
      * 为Text添加数据
@@ -118,24 +115,14 @@ public class UniversalViewHolder {
 
     /**
      * 加载图片，让其变成圆形图
+     *
      * @param activity
      * @param viewId
      * @param imageUrl
      */
-    public void setCircleImageUrl(Activity activity, int viewId, String imageUrl){
+    public void setCircleImageUrl(Activity activity, int viewId, String imageUrl) {
 
     }
-
-    /**
-     * 为Text添加数据
-     *
-     * @param viewId
-     */
-    public void setImageUrl(Fragment activity, int viewId, String imageUrl) {
-        ImageView view = getView(viewId);
-        ImageLoader.loadImageUrl(activity, imageUrl, view);
-    }
-
 
     /**
      * 为Text添加数据

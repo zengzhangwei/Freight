@@ -66,6 +66,15 @@ public class BaseUserEntity implements Serializable {
     private String CarLong = "31";
     private String CarType = "33";
     private String UnCheckInfo = "";
+    private String Bankaccount = "";
+
+    public String getBankaccount() {
+        return Bankaccount;
+    }
+
+    public void setBankaccount(String bankaccount) {
+        Bankaccount = bankaccount;
+    }
 
     public String getUnCheckInfo() {
         return UnCheckInfo;

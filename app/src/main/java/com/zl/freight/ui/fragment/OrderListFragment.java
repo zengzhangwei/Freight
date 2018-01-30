@@ -149,7 +149,7 @@ public class OrderListFragment extends BaseFragment {
                 holder.getView(R.id.linear_finish).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (type == 1) {
+                        if (type == 2) {
                             showToast("订单已完成");
                             return;
                         }
@@ -173,7 +173,7 @@ public class OrderListFragment extends BaseFragment {
                 holder.getView(R.id.linear_please).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (type == 1) {
+                        if (type == 2) {
                             showToast("订单已完成");
                             return;
                         }

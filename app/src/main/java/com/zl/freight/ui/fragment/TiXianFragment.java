@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zl.freight.R;
-import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
@@ -45,6 +44,8 @@ public class TiXianFragment extends BaseFragment {
     @BindView(R.id.tv_ti_xian_bt)
     TextView tvTiXianBt;
     Unbinder unbinder;
+    @BindView(R.id.tv_current_ali_account)
+    TextView tvCurrentAliAccount;
     private String myMoney;
 
     public TiXianFragment() {
@@ -70,6 +71,12 @@ public class TiXianFragment extends BaseFragment {
 
     private void initView() {
         tvTitle.setText("提现");
+        String bankaccount = SpUtils.getUserData(mActivity).getBankaccount();
+        if (!TextUtils.isEmpty(bankaccount)) {
+            tvCurrentAliAccount.setText("* " + bankaccount);
+        } else {
+            tvCurrentAliAccount.setText("* 无");
+        }
     }
 
     @Override
@@ -94,8 +101,10 @@ public class TiXianFragment extends BaseFragment {
      * 提现的方法,这个方法主要是为了验证
      */
     private void tiXian() {
-        //TODO 在这里判断是否绑定了支付宝
-
+        if (TextUtils.isEmpty(SpUtils.getUserData(mActivity).getBankaccount())) {
+            showToast("您还未绑定支付宝账号，请先绑定");
+            return;
+        }
         final String money = etInputMoney.getText().toString().trim();
         if (TextUtils.isEmpty(money)) {
             showToast("金额不能为空");
@@ -152,7 +161,8 @@ public class TiXianFragment extends BaseFragment {
     private void commit(final int money) {
         Map<String, String> params = new HashMap<>();
         params.put("UserId", SpUtils.getUserData(mActivity).getId());
-        params.put("Money", money + "");
+//        params.put("Money", money + "");
+        params.put("Money", "1");
         SoapUtils.Post(mActivity, API.DoCasch, params, new SoapCallback() {
             @Override
             public void onError(String error) {

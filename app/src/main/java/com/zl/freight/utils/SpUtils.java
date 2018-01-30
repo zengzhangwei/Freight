@@ -67,6 +67,7 @@ public class SpUtils {
         edit.putString("CarLong", userEntity.getCarLong());
         edit.putString("CarType", userEntity.getCarType());
         edit.putString("Integral", userEntity.getIntegral());
+        edit.putString("Bankaccount", userEntity.getBankaccount());
         edit.commit();
     }
 
@@ -84,6 +85,7 @@ public class SpUtils {
         user.setCarType(sp.getString("CarType", "33"));
         user.setIntegral(sp.getString("Integral", "0"));
         user.setIsCheck(sp.getString("IsCheck", "0"));
+        user.setBankaccount(sp.getString("Bankaccount", ""));
         return user;
     }
 

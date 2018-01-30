@@ -26,6 +26,25 @@
         android:layout_marginTop="@dimen/dp_6"
         android:text="* 提现时会将钱转入到您绑定的支付宝账号中，若没绑定支付宝账号请先绑定。" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:text="提现到："
+        android:textColor="@color/black"
+        android:textSize="@dimen/dp_16"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_current_ali_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_6"
+        android:text="* " />
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

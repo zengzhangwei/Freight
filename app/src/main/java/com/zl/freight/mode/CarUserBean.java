@@ -123,6 +123,15 @@ public class CarUserBean implements Serializable {
     private String CodeName;
     private String CodeName1;
     private String UnCheckInfo;
+    private String Bankaccount;
+
+    public String getBankaccount() {
+        return Bankaccount;
+    }
+
+    public void setBankaccount(String bankaccount) {
+        Bankaccount = bankaccount;
+    }
 
     public String getUnCheckInfo() {
         return UnCheckInfo;
