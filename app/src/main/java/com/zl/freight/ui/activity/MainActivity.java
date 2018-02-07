@@ -28,6 +28,7 @@ import com.zl.freight.ui.fragment.MyGoodsFragment;
 import com.zl.freight.ui.fragment.NoLoginPersonFragment;
 import com.zl.freight.ui.fragment.PersonFragment;
 import com.zl.freight.ui.fragment.SendGoodsFragment;
+import com.zl.freight.ui.fragment.SiJiFindGoodsFragment;
 import com.zl.freight.ui.fragment.TopLineFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.BottomNavigationViewHelper;
@@ -90,6 +91,7 @@ public class MainActivity extends BaseActivity {
     private long timecode = 0;
     private MyGoodsFragment myGoodsFragment;
     private MessageDialog alertDialog;
+    private SiJiFindGoodsFragment siJiFindGoodsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,11 +113,16 @@ public class MainActivity extends BaseActivity {
 
     private void initListener() {
         mainBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                 if (item.getItemId() == R.id.send_goods) {
                     mainTitle.setVisibility(View.GONE);
                     mainAppbar.setVisibility(View.VISIBLE);
+                } else if (item.getItemId() == R.id.find_goods) {
+                    mainTitle.setVisibility(View.GONE);
+                    mainAppbar.setVisibility(View.GONE);
                 } else {
                     mainTitle.setVisibility(View.VISIBLE);
                     mainAppbar.setVisibility(View.GONE);
@@ -130,7 +137,7 @@ public class MainActivity extends BaseActivity {
                         helper.showFragment(sendGoodsFragment);
                         break;
                     case R.id.find_goods:
-                        helper.showFragment(findGoodsFragment);
+                        helper.showFragment(siJiFindGoodsFragment);
                         break;
                     case R.id.person:
                         if (!SpUtils.isLogin(mActivity)) {
@@ -161,21 +168,22 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
-        findGoodsFragment = FindGoodsFragment.newInstance();
+//        findGoodsFragment = FindGoodsFragment.newInstance();
+        siJiFindGoodsFragment = SiJiFindGoodsFragment.newInstance();
         personFragment = PersonFragment.newInstance();
         sendGoodsFragment = SendGoodsFragment.newInstance();
         topLineFragment = TopLineFragment.newInstance();
         noLoginPersonFragment = NoLoginPersonFragment.newInstance();
         myGoodsFragment = MyGoodsFragment.newInstance();
         helper = FragmentHelper.builder(mActivity).attach(R.id.main_rl)
-                .addFragment(findGoodsFragment)
+                .addFragment(siJiFindGoodsFragment)
                 .addFragment(personFragment)
                 .addFragment(sendGoodsFragment)
                 .addFragment(topLineFragment)
                 .addFragment(noLoginPersonFragment)
                 .addFragment(myGoodsFragment)
                 .commit();
-        helper.showFragment(findGoodsFragment);
+        helper.showFragment(siJiFindGoodsFragment);
         mainBottom.setSelectedItemId(R.id.find_goods);
         //开启定位服务，上报司机位置
         if (SpUtils.isLogin(mActivity)) {
@@ -188,6 +196,8 @@ public class MainActivity extends BaseActivity {
         alertDialog = new MessageDialog(mActivity);
 
         BottomNavigationViewHelper.disableShiftMode(mainBottom);
+
+        mainTitle.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.iv_into_order, R.id.main_img_weChat})

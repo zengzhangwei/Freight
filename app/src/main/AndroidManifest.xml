@@ -27,7 +27,6 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="org.simalliance.openmobileapi.SMARTCARD" />
 
-
     <application
         android:name=".APP"
         android:allowBackup="true"
@@ -75,7 +74,7 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <!--微信支付-->
+        <!-- 微信支付 -->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -172,7 +171,9 @@
         <activity android:name=".ui.activity.register.UserDataActivity" />
         <activity android:name=".ui.activity.register.CarDataActivity" />
         <activity android:name=".ui.activity.register.CompanyActivity" />
-        <activity android:name=".ui.activity.BindAliActivity"></activity>
+        <activity android:name=".ui.activity.BindAliActivity" />
+        <activity android:name=".ui.activity.AddPathActivity" />
+        <activity android:name=".ui.activity.PathListActivity"></activity>
     </application>
 
 </manifest>

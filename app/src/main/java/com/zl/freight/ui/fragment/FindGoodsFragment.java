@@ -19,6 +19,7 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
+import com.zl.freight.base.BaseWindow;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.GoodsListBean;
 import com.zl.freight.mode.KeyValueBean;
@@ -31,6 +32,7 @@ import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.LocationUtils;
 import com.zl.freight.utils.LoginUtils;
+import com.zl.freight.utils.OnDismissListener;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
@@ -92,6 +94,7 @@ public class FindGoodsFragment extends BaseFragment {
     private TopNewsBean carInformationEntity;
     private CarLengthDialog carLengthDialog;
     private ChooseAddressWindow addressWindow;
+    private TextView mTextView;
 
     public FindGoodsFragment() {
         // Required empty public constructor
@@ -119,9 +122,11 @@ public class FindGoodsFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getDataList(true);
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            getDataList(true);
+        }
     }
 
     private void initListener() {
@@ -165,7 +170,19 @@ public class FindGoodsFragment extends BaseFragment {
                 updateDataList(length.getId(), type.getId());
             }
         });
-        addressWindow = new ChooseAddressWindow(mActivity);
+        carLengthDialog.setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                falseCheck();
+            }
+        });
+        addressWindow.setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                falseCheck();
+            }
+        });
+
     }
 
     private void initData() {
@@ -227,6 +244,9 @@ public class FindGoodsFragment extends BaseFragment {
             public void onSuccess(String data) {
                 isFnish(b);
                 try {
+                    if (b) {
+                        mList.clear();
+                    }
                     JSONArray array = new JSONArray(data);
                     for (int i = 0; i < array.length(); i++) {
                         GoodsListBean sendEntity = GsonUtils.fromJson(array.optString(i), GoodsListBean.class);
@@ -280,6 +300,7 @@ public class FindGoodsFragment extends BaseFragment {
         carType = userData.getCarType();
 
         carLengthDialog = new CarLengthDialog(mActivity);
+        addressWindow = new ChooseAddressWindow(mActivity);
     }
 
     /**
@@ -336,15 +357,33 @@ public class FindGoodsFragment extends BaseFragment {
             //选择车长和车型
             case R.id.tv_car_type:
                 carLengthDialog.show(view);
+                setCheck(tvCarType);
                 break;
             //起点
             case R.id.tv_start:
                 addressWindow.showWindow(view);
+                setCheck(tvStart);
                 break;
             //终点
             case R.id.tv_end:
                 addressWindow.showWindow(view);
+                setCheck(tvEnd);
                 break;
         }
+    }
+
+    private void setCheck(TextView textView) {
+        falseCheck();
+        mTextView = textView;
+        textView.setSelected(true);
+    }
+
+    /**
+     * 取消选中
+     */
+    private void falseCheck() {
+        tvCarType.setSelected(false);
+        tvStart.setSelected(false);
+        tvEnd.setSelected(false);
     }
 }

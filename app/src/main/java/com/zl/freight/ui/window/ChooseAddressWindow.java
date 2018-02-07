@@ -2,7 +2,6 @@ package com.zl.freight.ui.window;
 
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.zl.freight.R;
 import com.zl.freight.base.BaseWindow;
+import com.zl.freight.utils.OnDismissListener;
 import com.zl.zlibrary.view.WheelView;
 
 import java.util.ArrayList;
@@ -124,6 +124,9 @@ public class ChooseAddressWindow extends BaseWindow {
             @Override
             public void onDismiss() {
                 setAlpha(1f);
+                if (onDismissListener != null) {
+                    onDismissListener.onDismiss();
+                }
             }
         });
     }
@@ -175,6 +178,12 @@ public class ChooseAddressWindow extends BaseWindow {
 
     public interface OnOkClickListener {
         void onClickOk(int[] indexs, String address);
+    }
+
+    protected OnDismissListener onDismissListener;
+
+    public void setOnDismissListener(OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
     }
 
 }

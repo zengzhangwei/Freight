@@ -13,8 +13,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.zl.freight.R;
+import com.zl.freight.base.BaseWindow;
 import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.OnDismissListener;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.zlibrary.adapter.UniversalAdapter;
@@ -205,6 +207,9 @@ public class CarLengthDialog {
             @Override
             public void onDismiss() {
                 WindowUtils.setAlpha(mActivity, 1.0f);
+                if (onDismissListener != null) {
+                    onDismissListener.onDismiss();
+                }
             }
         });
     }
@@ -298,6 +303,12 @@ public class CarLengthDialog {
 
     public interface OnGetCarLengthDataListener {
         void carLengthData(KeyValueBean length, KeyValueBean type, KeyValueBean goodsType);
+    }
+
+    protected OnDismissListener onDismissListener;
+
+    public void setOnDismissListener(OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
     }
 
 }

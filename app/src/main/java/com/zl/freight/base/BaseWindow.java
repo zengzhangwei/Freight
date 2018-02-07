@@ -24,14 +24,6 @@ public class BaseWindow {
         window.setAttributes(params);
     }
 
-    protected OnDismissListener onDismissListener;
 
-    public void setOnDismissListener(OnDismissListener onDismissListener) {
-        this.onDismissListener = onDismissListener;
-    }
-
-    public interface OnDismissListener {
-        void onDismiss();
-    }
 
 }
