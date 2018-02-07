@@ -26,6 +26,7 @@ import android.view.animation.Interpolator;
 import com.zl.zlibrary.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WheelView extends View {
     private static final String TAG = "WheelView";
@@ -66,11 +67,11 @@ public class WheelView extends View {
     /**
      * 选择的内容
      */
-    private ArrayList<ItemObject> itemList = new ArrayList<>();
+    private List<ItemObject> itemList = new ArrayList<>();
     /**
      * 设置数据
      */
-    private ArrayList<String> dataList = new ArrayList<>();
+    private List<String> dataList = new ArrayList<>();
     /**
      * 按下的Y坐标
      */
@@ -865,7 +866,7 @@ public class WheelView extends View {
      *
      * @param data 数据集
      */
-    public void setData(ArrayList<String> data) {
+    public void setData(List<String> data) {
         this.dataList = data;
         initData();
     }
@@ -875,7 +876,7 @@ public class WheelView extends View {
      *
      * @param data 数据集
      */
-    public void refreshData(ArrayList<String> data) {
+    public void refreshData(List<String> data) {
         setData(data);
         findItemsToShow();
         invalidate();

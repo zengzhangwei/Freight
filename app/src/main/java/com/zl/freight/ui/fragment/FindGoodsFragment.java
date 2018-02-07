@@ -1,10 +1,9 @@
 package com.zl.freight.ui.fragment;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,11 +20,13 @@ import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.BaseUserEntity;
-import com.zl.freight.mode.CarInformationEntity;
 import com.zl.freight.mode.GoodsListBean;
+import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.mode.TopNewsBean;
 import com.zl.freight.ui.activity.GoodsDetailActivity;
 import com.zl.freight.ui.activity.WebActivity;
+import com.zl.freight.ui.dialog.CarLengthDialog;
+import com.zl.freight.ui.window.ChooseAddressWindow;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.LocationUtils;
@@ -71,6 +72,14 @@ public class FindGoodsFragment extends BaseFragment {
     ImageView ivClose;
     @BindView(R.id.linear_news)
     AutoLinearLayout linearNews;
+    @BindView(R.id.tv_car_type)
+    TextView tvCarType;
+    @BindView(R.id.tv_start)
+    TextView tvStart;
+    @BindView(R.id.iv_vv)
+    ImageView ivVv;
+    @BindView(R.id.tv_end)
+    TextView tvEnd;
 
     private RecyclerAdapter<GoodsListBean> mAdapter;
     private List<GoodsListBean> mList = new ArrayList<>();
@@ -81,6 +90,8 @@ public class FindGoodsFragment extends BaseFragment {
     private String carLong;
     private String carType;
     private TopNewsBean carInformationEntity;
+    private CarLengthDialog carLengthDialog;
+    private ChooseAddressWindow addressWindow;
 
     public FindGoodsFragment() {
         // Required empty public constructor
@@ -147,6 +158,14 @@ public class FindGoodsFragment extends BaseFragment {
                 Log.e("error", s);
             }
         });
+        carLengthDialog.setOnGetCarLengthDataListener(new CarLengthDialog.OnGetCarLengthDataListener() {
+            @Override
+            public void carLengthData(KeyValueBean length, KeyValueBean type, KeyValueBean goodsType) {
+                tvCarType.setText(length.getCodeName() + "  " + type.getCodeName());
+                updateDataList(length.getId(), type.getId());
+            }
+        });
+        addressWindow = new ChooseAddressWindow(mActivity);
     }
 
     private void initData() {
@@ -259,6 +278,8 @@ public class FindGoodsFragment extends BaseFragment {
         BaseUserEntity userData = SpUtils.getUserData(mActivity);
         carLong = userData.getCarLong();
         carType = userData.getCarType();
+
+        carLengthDialog = new CarLengthDialog(mActivity);
     }
 
     /**
@@ -296,7 +317,7 @@ public class FindGoodsFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_top_news, R.id.iv_close})
+    @OnClick({R.id.tv_top_news, R.id.iv_close, R.id.tv_car_type, R.id.tv_start, R.id.tv_end})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //点击广告
@@ -311,6 +332,18 @@ public class FindGoodsFragment extends BaseFragment {
             //点击关闭广告
             case R.id.iv_close:
                 linearNews.setVisibility(View.GONE);
+                break;
+            //选择车长和车型
+            case R.id.tv_car_type:
+                carLengthDialog.show(view);
+                break;
+            //起点
+            case R.id.tv_start:
+                addressWindow.showWindow(view);
+                break;
+            //终点
+            case R.id.tv_end:
+                addressWindow.showWindow(view);
                 break;
         }
     }

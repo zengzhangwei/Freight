@@ -57,8 +57,6 @@ public class MainActivity extends BaseActivity {
     ImageView mainImgWeChat;
     @BindView(R.id.main_bottom)
     BottomNavigationView mainBottom;
-    @BindView(R.id.tv_car_type)
-    TextView tvCarType;
     @BindView(R.id.main_title)
     AppBarLayout mainTitle;
     @BindView(R.id.main_rl)
@@ -88,7 +86,6 @@ public class MainActivity extends BaseActivity {
     private SendGoodsFragment sendGoodsFragment;
     //头条
     private TopLineFragment topLineFragment;
-    private CarLengthDialog carLengthDialog;
     private NoLoginPersonFragment noLoginPersonFragment;
     private long timecode = 0;
     private MyGoodsFragment myGoodsFragment;
@@ -116,13 +113,6 @@ public class MainActivity extends BaseActivity {
         mainBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                if (item.getItemId() == R.id.find_goods) {
-                    tvCarType.setVisibility(View.VISIBLE);
-                } else {
-                    tvCarType.setVisibility(View.GONE);
-                }
-
                 if (item.getItemId() == R.id.send_goods) {
                     mainTitle.setVisibility(View.GONE);
                     mainAppbar.setVisibility(View.VISIBLE);
@@ -168,13 +158,6 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-        carLengthDialog.setOnGetCarLengthDataListener(new CarLengthDialog.OnGetCarLengthDataListener() {
-            @Override
-            public void carLengthData(KeyValueBean length, KeyValueBean type, KeyValueBean goodsType) {
-                tvCarType.setText(length.getCodeName() + "  " + type.getCodeName());
-                findGoodsFragment.updateDataList(length.getId(), type.getId());
-            }
-        });
     }
 
     private void initView() {
@@ -194,7 +177,6 @@ public class MainActivity extends BaseActivity {
                 .commit();
         helper.showFragment(findGoodsFragment);
         mainBottom.setSelectedItemId(R.id.find_goods);
-        carLengthDialog = new CarLengthDialog(mActivity);
         //开启定位服务，上报司机位置
         if (SpUtils.isLogin(mActivity)) {
             startService(new Intent(mActivity, LocationService.class));
@@ -208,7 +190,7 @@ public class MainActivity extends BaseActivity {
         BottomNavigationViewHelper.disableShiftMode(mainBottom);
     }
 
-    @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.tv_car_type, R.id.iv_into_order, R.id.main_img_weChat})
+    @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.iv_into_order, R.id.main_img_weChat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //进入用户中心页面
@@ -226,10 +208,6 @@ public class MainActivity extends BaseActivity {
             //进入司机运单页
             case R.id.iv_into_order:
                 startActivity(new Intent(mActivity, GoodsOrderActivity.class));
-                break;
-            //显示车长车宽选择器
-            case R.id.tv_car_type:
-                carLengthDialog.show(view);
                 break;
         }
     }

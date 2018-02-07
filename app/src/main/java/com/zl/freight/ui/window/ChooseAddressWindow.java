@@ -1,5 +1,6 @@
 package com.zl.freight.ui.window;
 
+import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -14,6 +15,8 @@ import com.zl.freight.base.BaseWindow;
 import com.zl.zlibrary.view.WheelView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -30,15 +33,18 @@ public class ChooseAddressWindow extends BaseWindow {
 
     private ArrayList<String> mList = new ArrayList<>();
 
-    private ArrayList<String> xianList = new ArrayList<>();
-    private ArrayList<String> xiangList = new ArrayList<>();
-    private ArrayList<String> cunList = new ArrayList<>();
+    //    private ArrayList<String> xianList = new ArrayList<>();
+//    private ArrayList<String> xiangList = new ArrayList<>();
+//    private ArrayList<String> cunList = new ArrayList<>();
+    private List<String> xianList = Arrays.asList("河北", "天津", "北京", "北京", "河南", "湖南", "福建", "湖北");
+    private List<String> xiangList = Arrays.asList("河北", "天津", "北京", "北京", "河南", "湖南", "福建", "湖北");
+    private List<String> cunList = Arrays.asList("河北", "天津", "北京", "北京", "河南", "湖南", "福建", "湖北");
 
     private int xianIndex = 0;
     private int xiangIndex = 0;
     private int cunIndex = 0;
 
-    public ChooseAddressWindow(AppCompatActivity mActivity) {
+    public ChooseAddressWindow(Activity mActivity) {
         super(mActivity);
         view = LayoutInflater.from(mActivity).inflate(R.layout.choose_address_layout, null);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -47,6 +53,7 @@ public class ChooseAddressWindow extends BaseWindow {
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setAnimationStyle(R.style.WindowAnim);
         initView();
+        initData();
         initListener();
     }
 
@@ -130,10 +137,10 @@ public class ChooseAddressWindow extends BaseWindow {
      * 初始化数据
      */
     public void initData() {
-        mList.clear();
-        xianList.clear();
-        xiangList.clear();
-        cunList.clear();
+//        mList.clear();
+//        xianList.clear();
+//        xiangList.clear();
+//        cunList.clear();
 
         wheelview.refreshData(xianList);
         xiangWv.refreshData(xiangList);

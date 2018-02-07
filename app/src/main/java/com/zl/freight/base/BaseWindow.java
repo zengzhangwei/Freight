@@ -1,5 +1,6 @@
 package com.zl.freight.base;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
@@ -10,9 +11,9 @@ import android.view.WindowManager;
 
 public class BaseWindow {
 
-    protected AppCompatActivity mActivity;
+    protected Activity mActivity;
 
-    public BaseWindow(AppCompatActivity mActivity) {
+    public BaseWindow(Activity mActivity) {
         this.mActivity = mActivity;
     }
 

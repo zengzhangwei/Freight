@@ -55,19 +55,6 @@
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_wechat" />
 
-                <TextView
-                    android:id="@+id/tv_car_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_6"
-                    android:layout_toLeftOf="@id/main_img_share"
-                    android:drawableRight="@mipmap/jiao"
-                    android:gravity="center_vertical"
-                    android:text="@string/car_length_type"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/dp_14" />
-
             </com.zhy.autolayout.AutoRelativeLayout>
 
         </android.support.design.widget.AppBarLayout>
