@@ -200,22 +200,13 @@ public class FindGoodsFragment extends BaseFragment {
         SoapUtils.Post(mActivity, API.GetNearBySend, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                if (b) {
-                    findGoodsTrl.finishRefreshing();
-                } else {
-                    findGoodsTrl.finishLoadmore();
-                }
+                isFnish(b);
                 showToast(error);
             }
 
             @Override
             public void onSuccess(String data) {
-                if (b) {
-                    mList.clear();
-                    findGoodsTrl.finishRefreshing();
-                } else {
-                    findGoodsTrl.finishLoadmore();
-                }
+                isFnish(b);
                 try {
                     JSONArray array = new JSONArray(data);
                     for (int i = 0; i < array.length(); i++) {
@@ -228,6 +219,17 @@ public class FindGoodsFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    private void isFnish(boolean b) {
+        if (findGoodsTrl == null) {
+            return;
+        }
+        if (b) {
+            findGoodsTrl.finishRefreshing();
+        } else {
+            findGoodsTrl.finishLoadmore();
+        }
     }
 
     /**

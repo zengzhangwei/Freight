@@ -190,8 +190,7 @@ public class GoodsDetailActivity extends BaseActivity implements TopUpFragment.O
             //查看货源位置
             case R.id.tv_goods_location:
                 Intent intent = new Intent(mActivity, LookGoodsLocationActivity.class);
-                intent.putExtra(API.LATITUDE, Double.parseDouble(data.getStartX()));
-                intent.putExtra(API.LONGITUDE, Double.parseDouble(data.getStartY()));
+                intent.putExtra("data",data);
                 startActivity(intent);
                 break;
             //联系货主

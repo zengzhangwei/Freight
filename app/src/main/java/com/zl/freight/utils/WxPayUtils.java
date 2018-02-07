@@ -176,13 +176,14 @@ public class WxPayUtils {
             xml.append("<xml>");
             List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
             packageParams.add(new BasicNameValuePair("appid", Constants.APP_ID));
+            packageParams.add(new BasicNameValuePair("body", "货车多充值"));
             packageParams.add(new BasicNameValuePair("mch_id", Constants.MCH_ID));
             packageParams.add(new BasicNameValuePair("nonce_str", nonceStr));
-            packageParams.add(new BasicNameValuePair("body", "车多多充值"));
-            packageParams.add(new BasicNameValuePair("out_trade_no", genOutTradNo()));
-            packageParams.add(new BasicNameValuePair("total_fee", API.money + ""));
-            packageParams.add(new BasicNameValuePair("spbill_create_ip", getHostIP()));
             packageParams.add(new BasicNameValuePair("notify_url", "http://www.weixin.qq.com/wxpay/pay.php"));//写你们的回调地址
+            packageParams.add(new BasicNameValuePair("out_trade_no", genOutTradNo()));
+            packageParams.add(new BasicNameValuePair("spbill_create_ip", getHostIP()));
+//            packageParams.add(new BasicNameValuePair("total_fee", API.money + ""));
+            packageParams.add(new BasicNameValuePair("total_fee", API.money * 100 + ""));
             packageParams.add(new BasicNameValuePair("trade_type", "APP"));
 
             String sign = getPackageSign(packageParams);

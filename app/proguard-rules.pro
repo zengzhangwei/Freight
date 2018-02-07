@@ -51,3 +51,12 @@
 #微信支付混淆
 -dontwarn  com.tencent.**
 -keep class com.tencent.** {*;}
+-keep class com.tencent.mm.opensdk.** {
+*;
+}
+-keep class com.tencent.wxop.** {
+*;
+}
+-keep class com.tencent.mm.sdk.** {
+*;
+}

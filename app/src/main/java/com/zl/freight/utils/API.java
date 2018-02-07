@@ -24,8 +24,8 @@ public class API {
     public static final int ratio = 100;
     public static int money = 0;
 
-        public static final String BaseUrl = "http://172.16.18.17";
-//    public static final String BaseUrl = "http://139.129.131.31:8088/";
+//            public static final String BaseUrl = "http://172.16.18.17";
+    public static final String BaseUrl = "http://139.129.131.31:8088/";
 
     /**
      * 登录
@@ -248,6 +248,11 @@ public class API {
      * 绑定支付宝账号
      */
     public static final String AddBankCard = "AddBankCard";
+
+    /**
+     * 根据车牌号搜索司机
+     */
+    public static final String GetDriverList = "GetDriverList";
 
 
 }

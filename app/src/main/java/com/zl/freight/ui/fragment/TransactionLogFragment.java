@@ -140,7 +140,7 @@ public class TransactionLogFragment extends BaseFragment {
             @Override
             protected void convert(ViewHolder holder, BasePayLogEntity s, int position) {
                 TextView view = holder.getView(R.id.tv_deal_log_money);
-                if (!TextUtils.isEmpty(s.getPayMoney() + "")) {
+                if (!TextUtils.isEmpty(s.getPayMoney() + "") && !(s.getPayMoney() + "").equals("0")) {
                     holder.setText(R.id.tv_deal_log_title, "充值");
                     view.setText("+ " + s.getPayMoney() + "元");
                     view.setTextColor(mActivity.getResources().getColor(R.color.green));

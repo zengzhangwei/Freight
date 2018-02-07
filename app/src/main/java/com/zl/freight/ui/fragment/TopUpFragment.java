@@ -91,7 +91,7 @@ public class TopUpFragment extends BaseFragment {
             public void onSuccess(String data) {
                 if (onPayListener != null) {
                     //更新本地存储的积分
-                    MoneyUtils.upDateMoney(mActivity, 0, Integer.parseInt(money) * 100);
+                    MoneyUtils.upDateMoney(mActivity, 0, Integer.parseInt(money));
                     getFragmentManager().popBackStack();
                     onPayListener.onPaySuccess(Integer.parseInt(money));
                 }

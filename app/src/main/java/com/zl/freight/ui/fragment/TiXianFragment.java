@@ -2,7 +2,9 @@ package com.zl.freight.ui.fragment;
 
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zl.freight.R;
+import com.zl.freight.mode.AliMsgModel;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.base.BaseFragment;
+import com.zl.zlibrary.utils.GsonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +50,10 @@ public class TiXianFragment extends BaseFragment {
     Unbinder unbinder;
     @BindView(R.id.tv_current_ali_account)
     TextView tvCurrentAliAccount;
+    @BindView(R.id.tv_real_money)
+    TextView tvRealMoney;
     private String myMoney;
+    private double realMoney;
 
     public TiXianFragment() {
         // Required empty public constructor
@@ -62,7 +69,36 @@ public class TiXianFragment extends BaseFragment {
         view.setClickable(true);
         initView();
         initData();
+        initListener();
         return view;
+    }
+
+    private void initListener() {
+        etInputMoney.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String s = editable.toString();
+                if (!TextUtils.isEmpty(s)) {
+                    double i = Double.parseDouble(s);
+                    double v = i * 0.006;
+                    realMoney = i - v;
+                    tvRealMoney.setText("实际到账金额为：" + realMoney);
+                } else {
+
+                }
+            }
+        });
     }
 
     private void initData() {
@@ -101,6 +137,9 @@ public class TiXianFragment extends BaseFragment {
      * 提现的方法,这个方法主要是为了验证
      */
     private void tiXian() {
+
+        hideKeyboard(etInputMoney);
+
         if (TextUtils.isEmpty(SpUtils.getUserData(mActivity).getBankaccount())) {
             showToast("您还未绑定支付宝账号，请先绑定");
             return;
@@ -116,6 +155,11 @@ public class TiXianFragment extends BaseFragment {
             return;
         }
 
+        double i = Double.parseDouble(money);
+        double v = i * 0.006;
+        realMoney = i - v;
+
+        showNotTouchDialog("提现中...");
         Map<String, String> params = new HashMap<>();
         params.put("Id", SpUtils.getUserData(mActivity).getId());
         SoapUtils.Post(mActivity, API.AbleCasch, params, new SoapCallback() {
@@ -126,8 +170,10 @@ public class TiXianFragment extends BaseFragment {
 
             @Override
             public void onSuccess(String data) {
+
                 myMoney = data;
                 if (TextUtils.isEmpty(myMoney)) {
+                    hideDialog();
                     showToast("未获取到账户余额");
                     return;
                 }
@@ -137,6 +183,7 @@ public class TiXianFragment extends BaseFragment {
                     int m = Integer.parseInt(money);
                     if (i >= 100) {
                         if (m > i) {
+                            hideDialog();
                             showToast("本次最多可以提现" + i + "元");
                             return;
                         }
@@ -144,6 +191,7 @@ public class TiXianFragment extends BaseFragment {
                         commit(m);
 
                     } else {
+                        hideDialog();
                         showToast("账户余额为" + i + ",满100元才可提现");
                     }
                 } catch (Exception e) {
@@ -161,17 +209,57 @@ public class TiXianFragment extends BaseFragment {
     private void commit(final int money) {
         Map<String, String> params = new HashMap<>();
         params.put("UserId", SpUtils.getUserData(mActivity).getId());
-//        params.put("Money", money + "");
-        params.put("Money", "1");
+        //这个金额是扣除手续费后的
+        params.put("Money", realMoney + "");
         SoapUtils.Post(mActivity, API.DoCasch, params, new SoapCallback() {
             @Override
             public void onError(String error) {
+                hideDialog();
                 showToast(error);
             }
 
             @Override
             public void onSuccess(String data) {
+                if (!TextUtils.isEmpty(data)) {
+                    AliMsgModel aliMsgModel = GsonUtils.fromJson(data, AliMsgModel.class);
+                    if (aliMsgModel.getAlipay_fund_trans_toaccount_transfer_response().getCode().equals("10000")) {
+                        updateMoney(money);
+                    }else if (aliMsgModel.getAlipay_fund_trans_toaccount_transfer_response().getCode().equals("40004")){
+                        hideDialog();
+                        showToast("系统维护中暂时无法提现");
+                    } else {
+                        hideDialog();
+                        showToast(aliMsgModel.getAlipay_fund_trans_toaccount_transfer_response().getSub_msg());
+                    }
+                } else {
+                    hideDialog();
+                    showToast("系统维护中");
+                }
+            }
+        });
+    }
+
+    /**
+     * 更新余额
+     */
+    private void updateMoney(final int money) {
+        Map<String, String> params = new HashMap<>();
+        params.put("UserId", SpUtils.getUserData(mActivity).getId());
+        params.put("Moreorless", "1");
+        params.put("Value", "" + money);
+
+        SoapUtils.Post(mActivity, API.IntegralChange, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                hideDialog();
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                hideDialog();
                 showToast("提现成功，请注意查收");
+                getFragmentManager().popBackStack();
                 if (onTiXianListener != null) {
                     onTiXianListener.tiXianSuccess(money);
                 }

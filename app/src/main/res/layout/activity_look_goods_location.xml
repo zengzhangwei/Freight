@@ -10,23 +10,47 @@
         android:id="@+id/lgla_title"
         layout="@layout/title_layout" />
 
-    <TextView
-        android:id="@+id/tv_start_navigation"
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/linear_start_nav"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:gravity="center"
-        android:text="@string/start_navigation"
-        android:textColor="@color/black"
-        android:textSize="@dimen/dp_16" />
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_distance"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_48"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="运输距离约为："
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_16" />
+
+        <TextView
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:background="@color/bg_color" />
+
+        <TextView
+            android:id="@+id/tv_start_navigation"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_48"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/start_navigation"
+            android:textColor="@color/Blue"
+            android:textSize="@dimen/dp_16" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
 
 
     <com.baidu.mapapi.map.MapView
-        android:layout_above="@id/tv_start_navigation"
         android:id="@+id/lgla_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/linear_start_nav"
         android:layout_below="@id/lgla_title"></com.baidu.mapapi.map.MapView>
 
 

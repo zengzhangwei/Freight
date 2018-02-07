@@ -34,6 +34,7 @@ import com.zl.freight.ui.fragment.PersonFragment;
 import com.zl.freight.ui.fragment.SendGoodsFragment;
 import com.zl.freight.ui.fragment.TopLineFragment;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.BottomNavigationViewHelper;
 import com.zl.freight.utils.ShareUtils;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
@@ -240,6 +241,8 @@ public class GoodsMainActivity extends BaseActivity {
         mainRg.check(R.id.main_rb_send);
         //审核状态的对话框
         alertDialog = new MessageDialog(mActivity);
+
+        BottomNavigationViewHelper.disableShiftMode(mainBottom);
     }
 
     @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.tv_car_type, R.id.main_img_weChat, R.id.iv_into_order, R.id.iv_main_share})

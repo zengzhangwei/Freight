@@ -80,7 +80,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             @Override
             public void onSuccess(String data) {
                 //更新本地存储的积分
-                MoneyUtils.upDateMoney(mActivity, 0, API.money * 100);
+                MoneyUtils.upDateMoney(mActivity, 0, API.money);
                 insertPayLog();
             }
         });

@@ -75,7 +75,7 @@ public class CheYuanListFragment extends BaseFragment {
     private AlertDialog addDialog, removeDialog;
     private int mPosition = 0;
     private LocationUtils locationUtils;
-    private BDLocation mLocation;
+    private BDLocation mLocation = null;
 
     public CheYuanListFragment() {
         // Required empty public constructor
@@ -127,7 +127,7 @@ public class CheYuanListFragment extends BaseFragment {
 
         locationUtils.setOnLocationListener(new LocationUtils.OnLocationListener() {
             @Override
-            public void onReceiveLocation(BDLocation location) {
+            public void onReceiveLocation(final BDLocation location) {
                 mLocation = location;
                 getListData(true);
             }
@@ -292,6 +292,9 @@ public class CheYuanListFragment extends BaseFragment {
         locationUtils = new LocationUtils(mActivity);
         if (type != 0) {
             locationUtils.startLocation();
+            searchLinear.setVisibility(View.VISIBLE);
+        } else {
+            searchLinear.setVisibility(View.GONE);
         }
         //禁止上拉加载更多
         cheYuanTrl.setEnableLoadmore(false);
@@ -413,21 +416,31 @@ public class CheYuanListFragment extends BaseFragment {
      */
     private void search() {
         String data = etSearchData.getText().toString().trim();
-        if (data == null) {
-            data = "";
+        if (TextUtils.isEmpty(data)) {
+            showToast("内容不能为空");
+            return;
         }
+
+        if (mLocation == null) {
+            showToast("未获取定位信息，无法搜索");
+            return;
+        }
+
         Map<String, String> params = new HashMap<>();
-        //TODO 待补充接口
-//        SoapUtils.Post(mActivity, API.BaseDict, params, new SoapCallback() {
-//            @Override
-//            public void onError(String error) {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(String data) {
-//
-//            }
-//        });
+        params.put("nameorcarNumber", data);
+        params.put("x", mLocation.getLatitude() + "");
+        params.put("y", mLocation.getLongitude() + "");
+
+        SoapUtils.Post(mActivity, API.GetDriverList, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("error", data);
+            }
+        });
     }
 }

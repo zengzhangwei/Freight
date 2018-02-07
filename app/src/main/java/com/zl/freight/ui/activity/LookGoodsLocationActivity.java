@@ -1,7 +1,7 @@
 package com.zl.freight.ui.activity;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,16 +10,24 @@ import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.overlayutil.DrivingRouteOverlay;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
+import com.baidu.mapapi.search.route.DrivingRouteResult;
+import com.baidu.mapapi.search.route.IndoorRouteResult;
+import com.baidu.mapapi.search.route.MassTransitRouteResult;
+import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
+import com.baidu.mapapi.search.route.PlanNode;
+import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.GoodsListBean;
 import com.zl.freight.mode.NavigationMode;
 import com.zl.freight.utils.LocationUtils;
 import com.zl.freight.utils.NavigationUtils;
@@ -33,7 +41,7 @@ import butterknife.OnClick;
  * @date 17/12/15
  * 查看货源位置及导航
  */
-public class LookGoodsLocationActivity extends BaseActivity {
+public class LookGoodsLocationActivity extends BaseActivity implements OnGetRoutePlanResultListener {
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -45,9 +53,16 @@ public class LookGoodsLocationActivity extends BaseActivity {
     MapView lglaMap;
     @BindView(R.id.tv_start_navigation)
     TextView tvStartNavigation;
+    @BindView(R.id.tv_distance)
+    TextView tvDistance;
+    @BindView(R.id.linear_start_nav)
+    AutoLinearLayout linearStartNav;
     private BaiduMap mBaiduMap;
     private LocationUtils locationUtils;
-    private double latitude, longitude, startLatitude, startLongitude;
+    private double startLatitude, startLongitude;
+    private RoutePlanSearch mSearch;
+    private DrivingRouteOverlay mrouteOverlay;
+    private GoodsListBean goodsListBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,48 +88,32 @@ public class LookGoodsLocationActivity extends BaseActivity {
     }
 
     private void initView() {
-        latitude = getIntent().getDoubleExtra("latitude", 0);
-        longitude = getIntent().getDoubleExtra("longitude", 0);
+        goodsListBean = (GoodsListBean) getIntent().getSerializableExtra("data");
         tvTitle.setText("货源位置");
         mBaiduMap = lglaMap.getMap();
-        //绘制获取坐标点
-        drawGoodsEnd();
-        //绘制中心
-        setLoactionCenter(latitude, longitude);
+        int mapLevel = lglaMap.getMapLevel();
+        Log.e("mapLevel", mapLevel + "");
         locationUtils = new LocationUtils(mActivity);
         locationUtils.startLocation();
+
+        // 初始化路线规划模块，注册事件监听;
+        mSearch = RoutePlanSearch.newInstance();
+        mSearch.setOnGetRoutePlanResultListener(this);
+
+        startSearch();
+
+        long round = Math.round(Double.valueOf(goodsListBean.getRange()) / 1000);
+        tvDistance.setText("运输距离约为：" + round + "公里");
     }
 
-    /**
-     * 在地图上绘制货源标记
-     */
-    private void drawGoodsEnd() {
-        //定义Maker坐标点
-        LatLng point = new LatLng(latitude, longitude);
-
-        //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.icon_red_location);
-
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(point)
-                .icon(bitmap);
-
-        //在地图上添加Marker，并显示
-        mBaiduMap.addOverlay(option);
-
-        //创建InfoWindow展示的view
-        TextView button = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.text_layout, null);
-        button.setText("货源地");
-        //定义用于显示该InfoWindow的坐标点
-        LatLng pt = new LatLng(latitude, longitude);
-
-        //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-        InfoWindow mInfoWindow = new InfoWindow(button, pt, -90);
-
-        //显示InfoWindow
-        mBaiduMap.showInfoWindow(mInfoWindow);
+    private void startSearch() {
+        if (goodsListBean.getStartX().equals(goodsListBean.getEndX()) && goodsListBean.getStartY().equals(goodsListBean.getEndY())) {
+            showToast("货物起始位置相同，无法导航");
+            return;
+        }
+        PlanNode stNode = PlanNode.withLocation(new LatLng(Double.parseDouble(goodsListBean.getStartX()), Double.parseDouble(goodsListBean.getStartY())));
+        PlanNode enNode = PlanNode.withLocation(new LatLng(Double.parseDouble(goodsListBean.getEndX()), Double.parseDouble(goodsListBean.getEndY())));
+        mSearch.drivingSearch((new DrivingRoutePlanOption()).from(stNode).to(enNode));
     }
 
     /**
@@ -126,32 +125,6 @@ public class LookGoodsLocationActivity extends BaseActivity {
     private void drawLocation(double latitude, double longitude) {
         startLatitude = latitude;
         startLongitude = longitude;
-        //定义Maker坐标点
-        LatLng point = new LatLng(latitude, longitude);
-
-        //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.icon_blue_location);
-
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(point)
-                .icon(bitmap);
-
-        //在地图上添加Marker，并显示
-        mBaiduMap.addOverlay(option);
-
-        //创建InfoWindow展示的view
-        TextView button = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.text_layout, null);
-        button.setText("当前位置");
-        //定义用于显示该InfoWindow的坐标点
-        LatLng pt = new LatLng(latitude, longitude);
-
-        //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-        InfoWindow mInfoWindow = new InfoWindow(button, pt, -90);
-
-        //显示InfoWindow
-        mBaiduMap.showInfoWindow(mInfoWindow);
     }
 
     @Override
@@ -172,24 +145,6 @@ public class LookGoodsLocationActivity extends BaseActivity {
         lglaMap.onDestroy();
     }
 
-    /**
-     * 设定地图中心位置
-     */
-    private void setLoactionCenter(double latitude, double longitude) {
-        //设定中心点坐标
-        LatLng cenpt = new LatLng(latitude, longitude);
-        //定义地图状态
-        MapStatus mMapStatus = new MapStatus.Builder()
-                .target(cenpt)
-                .zoom(18)
-                .build();
-        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-        //改变地图状态
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
-    }
-
-
     @OnClick({R.id.iv_back, R.id.tv_start_navigation})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -208,16 +163,93 @@ public class LookGoodsLocationActivity extends BaseActivity {
      * 开始导航
      */
     private void startNavigation() {
-        if (startLongitude == 0 || longitude == 0 || startLatitude == 0 || latitude == 0) {
+        if (goodsListBean == null) {
             showToast("位置信息不全无法进行导航");
             return;
         }
         NavigationMode mode = new NavigationMode();
         mode.setStartLatitude(startLatitude);
         mode.setStartLongitude(startLongitude);
-        mode.setEndLatitude(latitude);
-        mode.setEndLongitude(longitude);
+        mode.setEndLatitude(Double.parseDouble(goodsListBean.getEndX()));
+        mode.setEndLongitude(Double.parseDouble(goodsListBean.getEndY()));
 
         NavigationUtils.start(mActivity, mode);
+    }
+
+    @Override
+    public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
+
+    }
+
+    @Override
+    public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
+
+    }
+
+    @Override
+    public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
+
+    }
+
+    @Override
+    public void onGetDrivingRouteResult(DrivingRouteResult result) {
+        if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            //result.getSuggestAddrInfo()
+            showToast("起终点或途经点地址有岐义");
+            return;
+        }
+        if (result.error == SearchResult.ERRORNO.PERMISSION_UNFINISHED) {
+            //权限鉴定未完成则再次尝试
+            showToast("权限鉴定未完成,请重试");
+            return;
+        }
+        if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+            showToast("抱歉，未找到结果");
+            return;
+        }
+
+        try {
+            if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+                mBaiduMap.clear();
+                // mroute = result.getRouteLines().get(0);
+                DrivingRouteOverlay overlay = new MyDrivingRouteOverlay(mBaiduMap);
+                mrouteOverlay = overlay;
+                mBaiduMap.setOnMarkerClickListener(overlay);
+                overlay.setData(result.getRouteLines().get(0));
+                overlay.addToMap();
+                overlay.zoomToSpan();
+            }
+        } catch (Exception e) {
+            showToast("导航出错，可能起始点位置太近");
+        }
+    }
+
+    @Override
+    public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
+
+    }
+
+    @Override
+    public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
+
+    }
+
+    //定制RouteOverly
+    private class MyDrivingRouteOverlay extends DrivingRouteOverlay {
+
+        public MyDrivingRouteOverlay(BaiduMap baiduMap) {
+            super(baiduMap);
+        }
+
+        @Override
+        public BitmapDescriptor getStartMarker() {
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_map_location);
+        }
+
+        @Override
+        public BitmapDescriptor getTerminalMarker() {
+            return BitmapDescriptorFactory.fromResource(R.mipmap.icon_map_location_empty);
+        }
     }
 }

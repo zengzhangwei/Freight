@@ -62,6 +62,11 @@ public class MyMoneyActivity extends BaseActivity implements TopUpFragment.OnPay
         setContentView(R.layout.activity_my_money);
         ButterKnife.bind(this);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initData();
     }
 
@@ -198,6 +203,16 @@ public class MyMoneyActivity extends BaseActivity implements TopUpFragment.OnPay
      * @param money
      */
     private void insertTiXianLog(int money) {
+        int count = money * 100;
+        BaseUserEntity userData = SpUtils.getUserData(mActivity);
+        int i = Integer.parseInt(userData.getIntegral());
+        int m = i - count;
+        //更新显示
+        tvMoneyCount.setText(m + "");
+        userData.setIntegral(m + "");
+        //更新本地储存的余额
+        SpUtils.setUserData(mActivity, userData);
+
         BasePayLogEntity entity = new BasePayLogEntity();
         entity.setCashValue(money);
         entity.setUserId(Integer.parseInt(SpUtils.getUserData(mActivity).getId()));
