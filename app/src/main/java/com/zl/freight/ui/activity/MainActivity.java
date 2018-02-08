@@ -200,7 +200,7 @@ public class MainActivity extends BaseActivity {
         mainTitle.setVisibility(View.GONE);
     }
 
-    @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.iv_into_order, R.id.main_img_weChat})
+    @OnClick({R.id.main_usericon, R.id.main_img_share, R.id.iv_into_order, R.id.iv_main_share, R.id.main_img_weChat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //进入用户中心页面
@@ -209,6 +209,10 @@ public class MainActivity extends BaseActivity {
                 break;
             //分享应用
             case R.id.main_img_share:
+                ShareUtils.share(mActivity);
+                break;
+            //分享应用
+            case R.id.iv_main_share:
                 ShareUtils.share(mActivity);
                 break;
             //关注微信公众号

@@ -26,6 +26,9 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="org.simalliance.openmobileapi.SMARTCARD" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
     <application
         android:name=".APP"
@@ -44,6 +47,11 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="e0c1a5ae408c8f3ba0700a0a" />
+
+        <!-- 友盟KEY -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a7ba4468f4a9d295e00084b" />
 
         <!-- 注册设计图纸 -->
         <meta-data
@@ -80,8 +88,36 @@
             android:exported="true"
             android:label="@string/app_name" />
 
+        <!-- 微信分享 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <!-- 司机位置上传服务 -->
         <service android:name=".service.LocationService" />
+
+        <!-- QQ精简版分享 -->
+        <activity
+            android:name="com.umeng.qq.tencent.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1106700742" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.umeng.qq.tencent.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- 兼容Android7.0安装应用 -->
         <provider
@@ -93,6 +129,21 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <!-- User defined.  For test only  用户自定义的广播接收器 -->
+        <receiver
+            android:name=".jpush.MyReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.zl.freight" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".ui.activity.MainActivity"
@@ -108,7 +159,10 @@
             android:name=".ui.activity.RoleChooseActivity"
             android:theme="@style/RoleTheme" />
         <activity android:name=".ui.activity.LoginActivity" />
-        <activity android:name=".ui.activity.PictureActivity" />
+        <activity
+            android:name=".ui.activity.PictureActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="sensor" />
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.ShipperActivity" />
         <activity
@@ -143,22 +197,6 @@
         <activity
             android:name=".ui.activity.LookDriverActivity"
             android:theme="@style/AddressTheme" />
-
-        <!-- User defined.  For test only  用户自定义的广播接收器 -->
-        <receiver
-            android:name=".jpush.MyReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="com.zl.freight" />
-            </intent-filter>
-        </receiver>
-
         <activity android:name=".ui.activity.JiFenStoreActivity" />
         <activity android:name=".ui.activity.DriverDetailActivity" />
         <activity android:name=".ui.activity.URegisterActivity" />
@@ -173,7 +211,11 @@
         <activity android:name=".ui.activity.register.CompanyActivity" />
         <activity android:name=".ui.activity.BindAliActivity" />
         <activity android:name=".ui.activity.AddPathActivity" />
-        <activity android:name=".ui.activity.PathListActivity"></activity>
+        <activity android:name=".ui.activity.PathListActivity" />
+        <activity
+            android:name=".ui.activity.CameraActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".ui.activity.FrontCameraActivity"></activity>
     </application>
 
 </manifest>

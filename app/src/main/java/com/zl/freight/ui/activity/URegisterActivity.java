@@ -125,16 +125,29 @@ public class URegisterActivity extends BaseActivity {
                     break;
             }
 
-            switch (type) {
+            switch (requestCode) {
                 case PERSONTYPE:
+                    imagePath = data.getStringExtra("path");
                     IMGPERSONPATH = imagePath;
                     setImage(ivPersonPhoto);
                     break;
                 case HANDTYPE:
+                    imagePath = MiPictureHelper.getPath(mActivity, data.getData());
                     IMGHANDPATH = imagePath;
                     setImage(ivHandPhoto);
                     break;
             }
+
+//            switch (type) {
+//                case PERSONTYPE:
+//                    IMGPERSONPATH = imagePath;
+//                    setImage(ivPersonPhoto);
+//                    break;
+//                case HANDTYPE:
+//                    IMGHANDPATH = imagePath;
+//                    setImage(ivHandPhoto);
+//                    break;
+//            }
         }
     }
 
@@ -175,7 +188,9 @@ public class URegisterActivity extends BaseActivity {
                 break;
             //上传身份证照片
             case R.id.iv_person_photo:
-                choosePhoto(PERSONTYPE, view);
+//                choosePhoto(PERSONTYPE, view);
+//                startActivityForResult(new Intent(mActivity, CameraActivity.class), PERSONTYPE);
+                startActivityForResult(new Intent(mActivity, FrontCameraActivity.class), PERSONTYPE);
                 break;
             //上传手持身份证照片
             case R.id.iv_hand_photo:

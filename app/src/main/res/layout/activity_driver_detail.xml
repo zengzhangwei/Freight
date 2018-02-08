@@ -24,7 +24,7 @@
             android:id="@+id/driver_icon"
             android:layout_width="140px"
             android:layout_height="140px"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@mipmap/icon_touxiang" />
 
         <TextView
             android:id="@+id/tv_real_name"

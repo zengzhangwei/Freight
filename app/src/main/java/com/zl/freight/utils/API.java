@@ -1,5 +1,7 @@
 package com.zl.freight.utils;
 
+import android.os.Environment;
+
 /**
  * Created by Administrator on 2017/12/16.
  */
@@ -23,6 +25,8 @@ public class API {
 
     public static final int ratio = 100;
     public static int money = 0;
+    //图片存储父路径
+    public static final String image_file_path = Environment.getExternalStorageDirectory().getPath() + "/HuoCheDuo/";
 
 //            public static final String BaseUrl = "http://172.16.18.17";
     public static final String BaseUrl = "http://139.129.131.31:8088/";

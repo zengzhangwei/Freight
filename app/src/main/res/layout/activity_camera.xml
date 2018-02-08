@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_camera"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SurfaceView
+        android:id="@+id/camera_sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/camera_k"
+        android:layout_width="900px"
+        android:layout_height="562px"
+        android:layout_centerInParent="true"
+        android:background="@mipmap/kkk">
+
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/camera_k"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="6px"
+        android:text="点击屏幕进行拍照"
+        android:textColor="@color/white"
+        android:textSize="31px"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/camera_km"
+        android:layout_width="140px"
+        android:layout_height="140px"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="55px"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="10px"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_camera_white" />
+
+</com.zhy.autolayout.AutoRelativeLayout>

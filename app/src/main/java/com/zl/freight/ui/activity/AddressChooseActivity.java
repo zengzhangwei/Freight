@@ -38,7 +38,9 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.SearchLocation;
 import com.zl.freight.ui.dialog.AddressSearchDialog;
+import com.zl.freight.ui.window.ChooseAddressWindow;
 import com.zl.freight.utils.LocationUtils;
+import com.zl.zlibrary.dialog.AddressDialog;
 import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.utils.HttpUtils;
 
@@ -89,6 +91,8 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
     private String city;
     private AlertDialog locationErrorDialog;
     private AlertDialog helperDialog;
+    private ChooseAddressWindow addressWindow;
+    private boolean isFocus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +139,13 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
         mBaiduMap.setOnMapStatusChangeListener(this);
         mSearch.setOnGetGeoCodeResultListener(this);
         mSuggestionSearch.setOnGetSuggestionResultListener(this);
+
+        addressWindow.setOnOkClickListener(new ChooseAddressWindow.OnOkClickListener() {
+            @Override
+            public void onClickOk(int[] indexs, String address) {
+                search();
+            }
+        });
     }
 
     private void initData() {
@@ -184,6 +195,8 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
 
                     }
                 }).create();
+
+        addressWindow = new ChooseAddressWindow(mActivity);
     }
 
 
@@ -194,6 +207,7 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
         mMapView.onDestroy();
         mSearch.destroy();
         mSuggestionSearch.destroy();
+        isFocus = false;
     }
 
 
@@ -204,6 +218,14 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
         mMapView.onResume();
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (!isFocus) {
+            addressWindow.showWindow(ivList);
+            isFocus = true;
+        }
+    }
 
     @Override
     protected void onPause() {
@@ -299,7 +321,7 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
                 break;
             //显示搜索结果窗口
             case R.id.iv_list:
-                searchDialog.show(searchLinear);
+                addressWindow.showWindow(view);
                 break;
             //进入使用帮助
             case R.id.tv_title_right:
