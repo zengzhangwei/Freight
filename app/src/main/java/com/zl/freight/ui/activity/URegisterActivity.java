@@ -132,7 +132,8 @@ public class URegisterActivity extends BaseActivity {
                     setImage(ivPersonPhoto);
                     break;
                 case HANDTYPE:
-                    imagePath = MiPictureHelper.getPath(mActivity, data.getData());
+                    imagePath = data.getStringExtra("path");
+//                    imagePath = MiPictureHelper.getPath(mActivity, data.getData());
                     IMGHANDPATH = imagePath;
                     setImage(ivHandPhoto);
                     break;
@@ -189,12 +190,13 @@ public class URegisterActivity extends BaseActivity {
             //上传身份证照片
             case R.id.iv_person_photo:
 //                choosePhoto(PERSONTYPE, view);
-//                startActivityForResult(new Intent(mActivity, CameraActivity.class), PERSONTYPE);
-                startActivityForResult(new Intent(mActivity, FrontCameraActivity.class), PERSONTYPE);
+                startActivityForResult(new Intent(mActivity, CameraActivity.class), PERSONTYPE);
+
                 break;
             //上传手持身份证照片
             case R.id.iv_hand_photo:
-                choosePhoto(HANDTYPE, view);
+//                choosePhoto(HANDTYPE, view);
+                startActivityForResult(new Intent(mActivity, FrontCameraActivity.class), HANDTYPE);
                 break;
             //下一步
             case R.id.tv_next:

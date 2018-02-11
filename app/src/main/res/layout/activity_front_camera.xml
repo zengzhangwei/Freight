@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,4 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</com.zhy.autolayout.AutoLinearLayout>
+    <ImageView
+        android:id="@+id/iv_take_picture"
+        android:layout_width="140px"
+        android:layout_height="140px"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="10px"
+        app:srcCompat="@drawable/ic_camera_white" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/lun_kuo"></RelativeLayout>
+
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -181,7 +181,6 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
         byte[] tmp = os.toByteArray();
 
         //创建一个文件流将拍的照片存储到本地
-//        String format = new SimpleDateFormat("yyyy-MM-dd mm:hh:ss").format(new Date(System.currentTimeMillis()));
         String path = API.image_file_path + System.currentTimeMillis() + ".jpg";
         FileOutputStream fos = null;
         try {
