@@ -8,10 +8,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
+import com.zl.freight.R;
 import com.zl.freight.ui.activity.GoodsMainActivity;
 import com.zl.freight.ui.activity.LoginActivity;
 import com.zl.freight.ui.activity.MainActivity;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.Mp3Utils;
 import com.zl.freight.utils.SpUtils;
 
 import org.json.JSONException;
@@ -35,6 +37,7 @@ public class MyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Mp3Utils.paly(context, R.raw.order_account_remind);
         Bundle bundle = intent.getExtras();
         String s = printBundle(bundle);
         Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + s);
@@ -66,7 +69,7 @@ public class MyReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             String string = bundle.getString(JPushInterface.EXTRA_EXTRA);
-            Log.d(TAG, "[MyReceiver] 附加的消息"+string);
+            Log.d(TAG, "[MyReceiver] 附加的消息" + string);
             int type = SpUtils.getRole(context);
 
             //在这里判断是否登录
