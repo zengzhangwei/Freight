@@ -124,6 +124,7 @@ public class GoodsListBean implements Serializable {
     private String IdCardNumber;
     private String IdCard1;
     private String IdCard2;
+    private String IsOver;
     private String UserRole;
     private String OtherTel;
     private String OtherTel1;
@@ -143,6 +144,14 @@ public class GoodsListBean implements Serializable {
     private String CodeName4;
     private String CodeName5;
     private String UserName1;
+
+    public String getIsOver() {
+        return IsOver;
+    }
+
+    public void setIsOver(String isOver) {
+        IsOver = isOver;
+    }
 
     public String getUserName1() {
         return UserName1;

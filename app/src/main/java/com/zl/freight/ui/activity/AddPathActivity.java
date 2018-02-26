@@ -1,6 +1,7 @@
 package com.zl.freight.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,9 +9,17 @@ import android.widget.TextView;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.AddressListBean;
 import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.window.ChooseAddressWindow;
+import com.zl.freight.utils.API;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
+import com.zl.freight.utils.SpUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +55,8 @@ public class AddPathActivity extends BaseActivity {
     private KeyValueBean mLength, mType;
     private CarLengthDialog carLengthDialog;
     private ChooseAddressWindow addressWindow;
+    private boolean isEnd;
+    private AddressListBean endBean, startBean, endShiBean, startShiBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +78,19 @@ public class AddPathActivity extends BaseActivity {
             }
         });
         addressWindow.setOnOkClickListener(new ChooseAddressWindow.OnOkClickListener() {
-            @Override
-            public void onClickOk(int[] indexs, String address) {
 
+            @Override
+            public void onClickOk(AddressListBean sheng, AddressListBean shi, AddressListBean xian) {
+                //是否是目的地
+                if (!isEnd) {
+                    tvStartName.setText(sheng.getCodeName() + shi.getCodeName() + xian.getCodeName());
+                    startBean = xian;
+                    startShiBean = shi;
+                } else {
+                    tvEndName.setText(sheng.getCodeName() + shi.getCodeName() + xian.getCodeName());
+                    endBean = xian;
+                    endShiBean = shi;
+                }
             }
         });
     }
@@ -94,10 +115,12 @@ public class AddPathActivity extends BaseActivity {
             //选择出发地
             case R.id.linear_start_name:
                 addressWindow.showWindow(view);
+                isEnd = false;
                 break;
             //选择目的地
             case R.id.linear_end_name:
                 addressWindow.showWindow(view);
+                isEnd = true;
                 break;
             //选择车长和车型
             case R.id.linear_car_length_type:
@@ -114,6 +137,31 @@ public class AddPathActivity extends BaseActivity {
      * 添加
      */
     private void commit() {
-        finish();
+
+        if (endBean == null || startBean == null) {
+            showToast("请选择完整地址");
+            return;
+        }
+        String from = (startShiBean.getCodeName() + startBean.getCodeName().replace(" ", ""));
+        String to = (endShiBean.getCodeName() + endBean.getCodeName().replace(" ", ""));
+        Map<String, String> params = new HashMap<>();
+        params.put("From", from);
+        params.put("to", to);
+//        params.put("From", "邢台市桥西区");
+//        params.put("to",  "邢台市桥东区");
+        params.put("UserId", SpUtils.getUserData(mActivity).getId());
+
+        SoapUtils.Post(mActivity, API.AddLine, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                showToast("添加路线失败，请重试");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                showToast("添加路线成功");
+                finish();
+            }
+        });
     }
 }

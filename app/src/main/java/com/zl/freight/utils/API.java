@@ -28,8 +28,8 @@ public class API {
     //图片存储父路径
     public static final String image_file_path = Environment.getExternalStorageDirectory().getPath() + "/HuoCheDuo/";
 
-//            public static final String BaseUrl = "http://172.16.18.17";
-    public static final String BaseUrl = "http://139.129.131.31:8088/";
+    public static final String BaseUrl = "http://172.16.18.17";
+//    public static final String BaseUrl = "http://139.129.131.31:8088/";
 
     /**
      * 登录
@@ -257,6 +257,36 @@ public class API {
      * 根据车牌号搜索司机
      */
     public static final String GetDriverList = "GetDriverList";
+
+    /**
+     * 添加订阅路线
+     */
+    public static final String AddLine = "AddLine";
+
+    /**
+     * 删除订阅路线
+     */
+    public static final String DelLine = "DelLine";
+
+    /**
+     * 编辑专线
+     */
+    public static final String EditLine = "EditLine";
+
+    /**
+     * 显示我的专线
+     */
+    public static final String ShowLine = "ShowLine";
+
+    /**
+     * 获取省列表
+     */
+    public static final String GetSheng = "GetSheng";
+
+    /**
+     * 获取省辖内市区,市辖区内县列表
+     */
+    public static final String GetCity = "GetCity";
 
 
 }

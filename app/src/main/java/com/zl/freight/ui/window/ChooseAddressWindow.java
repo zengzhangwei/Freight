@@ -2,6 +2,7 @@ package com.zl.freight.ui.window;
 
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,14 +10,25 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseWindow;
+import com.zl.freight.mode.AddressListBean;
+import com.zl.freight.utils.API;
 import com.zl.freight.utils.OnDismissListener;
+import com.zl.freight.utils.SoapCallback;
+import com.zl.freight.utils.SoapUtils;
+import com.zl.zlibrary.utils.GsonUtils;
 import com.zl.zlibrary.view.WheelView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -36,9 +48,13 @@ public class ChooseAddressWindow extends BaseWindow {
     //    private ArrayList<String> xianList = new ArrayList<>();
 //    private ArrayList<String> xiangList = new ArrayList<>();
 //    private ArrayList<String> cunList = new ArrayList<>();
-    private List<String> xianList = Arrays.asList("河北", "天津", "北京", "北京", "河南", "湖南", "福建", "湖北");
-    private List<String> xiangList = Arrays.asList("河北", "天津", "北京", "北京", "河南", "湖南", "福建", "湖北");
-    private List<String> cunList = Arrays.asList("河北", "天津", "北京", "北京", "河南", "湖南", "福建", "湖北");
+    private List<String> xianList = new ArrayList<>();
+    private List<String> xiangList = new ArrayList<>();
+    private List<String> cunList = new ArrayList<>();
+
+    private List<AddressListBean> shenList = new ArrayList<>();
+    private List<AddressListBean> shiList = new ArrayList<>();
+    private List<AddressListBean> xList = new ArrayList<>();
 
     private int xianIndex = 0;
     private int xiangIndex = 0;
@@ -61,7 +77,8 @@ public class ChooseAddressWindow extends BaseWindow {
         wheelview.setOnSelectListener(new WheelView.OnSelectListener() {
             @Override
             public void endSelect(int id, String text) {
-
+                xianIndex = id;
+                getCityList(shenList.get(id).getId());
             }
 
             @Override
@@ -73,7 +90,8 @@ public class ChooseAddressWindow extends BaseWindow {
         xiangWv.setOnSelectListener(new WheelView.OnSelectListener() {
             @Override
             public void endSelect(int id, String text) {
-
+                xiangIndex = id;
+                getXianList(shiList.get(id));
             }
 
             @Override
@@ -100,22 +118,8 @@ public class ChooseAddressWindow extends BaseWindow {
 
                 dismiss();
 
-                int[] indexs = new int[3];
-                String address;
-                if (xianIndex == 0) {
-                    address = wheelview.getSelectedText();
-                    indexs[0] = xianIndex;
-                    indexs[1] = -1;
-                    indexs[2] = -1;
-                } else {
-                    address = wheelview.getSelectedText() + " " + xiangWv.getSelectedText() + " " + cunWv.getSelectedText();
-                    indexs[0] = xianIndex;
-                    indexs[1] = xiangIndex;
-                    indexs[2] = cunIndex;
-                }
-
                 if (onOkClickListener != null) {
-                    onOkClickListener.onClickOk(indexs, address);
+                    onOkClickListener.onClickOk(shenList.get(xianIndex), shiList.get(xiangIndex), xList.get(cunIndex));
                 }
             }
         });
@@ -140,14 +144,113 @@ public class ChooseAddressWindow extends BaseWindow {
      * 初始化数据
      */
     public void initData() {
-//        mList.clear();
-//        xianList.clear();
-//        xiangList.clear();
-//        cunList.clear();
 
-        wheelview.refreshData(xianList);
-        xiangWv.refreshData(xiangList);
-        cunWv.refreshData(cunList);
+        SoapUtils.Post(mActivity, API.GetSheng, null, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        shenList.add(GsonUtils.fromJson(array.optString(i), AddressListBean.class));
+                    }
+
+                    for (AddressListBean addressListBean : shenList) {
+                        xianList.add(addressListBean.getCodeName());
+                    }
+                    wheelview.refreshData(xianList);
+
+                    getCityList(shenList.get(0).getId());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("error", "");
+            }
+        });
+    }
+
+    /**
+     * 获取市数据
+     *
+     * @param id
+     */
+    private void getCityList(String id) {
+        Map<String, String> params = new HashMap<>();
+        params.put("ParentId", id);
+        SoapUtils.Post(mActivity, API.GetCity, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    shiList.clear();
+                    xiangList.clear();
+                    JSONArray array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        shiList.add(GsonUtils.fromJson(array.optString(i), AddressListBean.class));
+                    }
+
+                    for (AddressListBean addressListBean : shiList) {
+                        xiangList.add(addressListBean.getCodeName().trim());
+                    }
+                    xiangWv.refreshData(xiangList);
+
+                    getXianList(shiList.get(0));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("error", "");
+            }
+        });
+    }
+
+
+    /**
+     * 获取县数据
+     */
+    private void getXianList(final AddressListBean bean) {
+        final AddressListBean listBean = new AddressListBean();
+        listBean.setCodeName("全" + bean.getCodeName().trim());
+        listBean.setId(bean.getId());
+        listBean.setParentId(bean.getParentId());
+        Map<String, String> params = new HashMap<>();
+        params.put("ParentId", bean.getId());
+        SoapUtils.Post(mActivity, API.GetCity, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("error", "");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                try {
+                    xList.clear();
+                    cunList.clear();
+                    JSONArray array = new JSONArray(data);
+                    xList.add(listBean);
+                    for (int i = 0; i < array.length(); i++) {
+                        xList.add(GsonUtils.fromJson(array.optString(i), AddressListBean.class));
+                    }
+
+                    for (AddressListBean addressListBean : xList) {
+                        cunList.add(addressListBean.getCodeName().trim());
+                    }
+                    cunWv.refreshData(cunList);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void dismiss() {
@@ -177,7 +280,7 @@ public class ChooseAddressWindow extends BaseWindow {
     }
 
     public interface OnOkClickListener {
-        void onClickOk(int[] indexs, String address);
+        void onClickOk(AddressListBean sheng, AddressListBean shi, AddressListBean xian);
     }
 
     protected OnDismissListener onDismissListener;

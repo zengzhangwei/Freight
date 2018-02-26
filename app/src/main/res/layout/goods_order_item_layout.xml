@@ -19,10 +19,19 @@
             android:textSize="@dimen/dp_14" />
 
         <TextView
-            android:id="@+id/tv_order_time"
+            android:id="@+id/tv_order_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_order_number"
+            android:layout_marginTop="@dimen/dp_6"
+            android:text="订单状态：司机已装货"
+            android:textSize="@dimen/dp_14" />
+
+        <TextView
+            android:id="@+id/tv_order_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_order_status"
             android:layout_marginTop="@dimen/dp_6"
             android:text="下单时间：0551503621"
             android:textSize="@dimen/dp_14" />

@@ -133,7 +133,6 @@ public class URegisterActivity extends BaseActivity {
                     break;
                 case HANDTYPE:
                     imagePath = data.getStringExtra("path");
-//                    imagePath = MiPictureHelper.getPath(mActivity, data.getData());
                     IMGHANDPATH = imagePath;
                     setImage(ivHandPhoto);
                     break;

@@ -71,6 +71,7 @@
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="@dimen/dp_46"
         android:background="@color/white">
 

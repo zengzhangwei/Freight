@@ -220,14 +220,18 @@ public class FindGoodsFragment extends BaseFragment {
         if (bdLocation == null) return;
         BaseUserEntity userData = SpUtils.getUserData(mActivity);
         Map<String, String> params = new HashMap<>();
-        params.put("CarLong", carLong);
-        params.put("CarType", carType);
+//        params.put("CarLong", carLong);
+//        params.put("CarType", carType);
+
         if (b) {
             page = 1;
         } else {
             page++;
         }
         params.put("UserRole", userData.getUserRole());
+        params.put("UserId", SpUtils.getUserData(mActivity).getId());
+        params.put("IsLine", "1");
+        params.put("LineId", "");
         params.put("CarX", bdLocation.getLatitude() + "");
         params.put("CarY", bdLocation.getLongitude() + "");
         params.put("PageIndex", page + "");

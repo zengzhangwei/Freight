@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
@@ -136,6 +137,14 @@ public class GoodsOrderListFragment extends BaseFragment {
 
             @Override
             public void convert(UniversalViewHolder holder, final int position, final GoodsListBean s) {
+                TextView tvStatus = holder.getView(R.id.tv_order_status);
+                if (s.getIsOver().equals("99")) {
+                    tvStatus.setText("订单状态：司机已装货");
+                } else if (s.getIsOver().equals("1")) {
+                    tvStatus.setText("订单状态：司机完成卸货");
+                } else {
+                    tvStatus.setText("订单状态：无");
+                }
                 holder.setText(R.id.tv_order_number, "运  单  号：" + s.getId());
                 holder.setText(R.id.tv_order_time, "下单时间：" + s.getCreateAt());
                 holder.setText(R.id.tv_order_start, s.getStartPlace());

@@ -36,6 +36,7 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.AddressListBean;
 import com.zl.freight.mode.SearchLocation;
 import com.zl.freight.ui.dialog.AddressSearchDialog;
 import com.zl.freight.ui.window.ChooseAddressWindow;
@@ -92,6 +93,7 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
     private AlertDialog locationErrorDialog;
     private AlertDialog helperDialog;
     private ChooseAddressWindow addressWindow;
+    private AddressListBean startBean, startShiBean;
     private boolean isFocus;
 
     @Override
@@ -133,7 +135,7 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
                 latitude = info.pt.latitude;
                 longitude = info.pt.longitude;
                 address = info.city + "" + info.district + "" + info.key;
-                city = info.city + "" + info.district;
+
             }
         });
         mBaiduMap.setOnMapStatusChangeListener(this);
@@ -141,8 +143,14 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
         mSuggestionSearch.setOnGetSuggestionResultListener(this);
 
         addressWindow.setOnOkClickListener(new ChooseAddressWindow.OnOkClickListener() {
+
             @Override
-            public void onClickOk(int[] indexs, String address) {
+            public void onClickOk(AddressListBean sheng, AddressListBean shi, AddressListBean xian) {
+                //是否是目的地
+                startBean = xian;
+                startShiBean = shi;
+                etSearchData.setText(shi.getCodeName() + xian.getCodeName());
+                city = shi.getCodeName() + xian.getCodeName();
                 search();
             }
         });

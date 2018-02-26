@@ -21,6 +21,8 @@ import com.zl.freight.mode.BaseCompanyEntity;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.mode.UserBean;
+import com.zl.freight.ui.activity.CameraActivity;
+import com.zl.freight.ui.activity.FrontCameraActivity;
 import com.zl.freight.ui.activity.GoodsRegisterActivity;
 import com.zl.freight.ui.activity.RegisterActivity;
 import com.zl.freight.ui.fragment.PushPersonFragment;
@@ -239,6 +241,25 @@ public class UserDataActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == mActivity.RESULT_OK) {
+//            switch (requestCode) {
+//                case PhotoDialog.PICK_FROM_CAMERA:
+//                    imagePath = photoDialog.imagePath;
+//                    break;
+//                case PhotoDialog.SELECT_PHOTO:
+//                    imagePath = MiPictureHelper.getPath(mActivity, data.getData());
+//                    break;
+//            }
+//
+//            switch (type) {
+//                case PERSONTYPE:
+//                    IMGPERSONPATH = imagePath;
+//                    setImage(ivPersonPhoto);
+//                    break;
+//                case HANDTYPE:
+//                    IMGHANDPATH = imagePath;
+//                    setImage(ivHandPhoto);
+//                    break;
+//            }
             switch (requestCode) {
                 case PhotoDialog.PICK_FROM_CAMERA:
                     imagePath = photoDialog.imagePath;
@@ -248,12 +269,14 @@ public class UserDataActivity extends BaseActivity {
                     break;
             }
 
-            switch (type) {
+            switch (requestCode) {
                 case PERSONTYPE:
+                    imagePath = data.getStringExtra("path");
                     IMGPERSONPATH = imagePath;
                     setImage(ivPersonPhoto);
                     break;
                 case HANDTYPE:
+                    imagePath = data.getStringExtra("path");
                     IMGHANDPATH = imagePath;
                     setImage(ivHandPhoto);
                     break;
@@ -294,11 +317,13 @@ public class UserDataActivity extends BaseActivity {
                 break;
             //上传身份证照片
             case R.id.iv_person_photo:
-                choosePhoto(PERSONTYPE, view);
+//                choosePhoto(PERSONTYPE, view);
+                startActivityForResult(new Intent(mActivity, CameraActivity.class), PERSONTYPE);
                 break;
             //上传手持身份证照片
             case R.id.iv_hand_photo:
-                choosePhoto(HANDTYPE, view);
+//                choosePhoto(HANDTYPE, view);
+                startActivityForResult(new Intent(mActivity, FrontCameraActivity.class), HANDTYPE);
                 break;
             //下一步
             case R.id.tv_next:
