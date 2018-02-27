@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -138,13 +139,21 @@ public class GoodsOrderListFragment extends BaseFragment {
             @Override
             public void convert(UniversalViewHolder holder, final int position, final GoodsListBean s) {
                 TextView tvStatus = holder.getView(R.id.tv_order_status);
+
+                String receiveId = s.getReceiveId();
+
+                if (TextUtils.isEmpty(receiveId) || receiveId.equals("0")) {
+                    tvStatus.setText("订单状态：未被接货");
+                }else{
+                    tvStatus.setText("订单状态：已被接货");
+                }
+
                 if (s.getIsOver().equals("99")) {
                     tvStatus.setText("订单状态：司机已装货");
                 } else if (s.getIsOver().equals("1")) {
                     tvStatus.setText("订单状态：司机完成卸货");
-                } else {
-                    tvStatus.setText("订单状态：无");
                 }
+
                 holder.setText(R.id.tv_order_number, "运  单  号：" + s.getId());
                 holder.setText(R.id.tv_order_time, "下单时间：" + s.getCreateAt());
                 holder.setText(R.id.tv_order_start, s.getStartPlace());
