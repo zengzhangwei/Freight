@@ -3,11 +3,13 @@ package com.zl.freight.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.blankj.utilcode.util.SpanUtils;
 import com.google.gson.Gson;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zl.freight.R;
@@ -123,9 +125,27 @@ public class AddPathFragment extends BaseFragment {
     private void initView() {
         mAdapter = new UniversalAdapter<PathListBean>(mActivity, mList, R.layout.path_item_layout) {
             @Override
-            public void convert(UniversalViewHolder holder, int position, PathListBean s) {
+            public void convert(final UniversalViewHolder holder, int position, final PathListBean s) {
                 holder.setText(R.id.tv_origin, s.getLineFrom());
                 holder.setText(R.id.tv_end_point, s.getLineTo());
+                Map<String, String> params = new HashMap<>();
+                Map<String, String> location = SpUtils.getLocation(mActivity);
+                params.put("UserRole", "1");
+                params.put("CarX", location.get("x"));
+                params.put("CarY", location.get("y"));
+                params.put("LineId", s.getId());
+                params.put("UserId", SpUtils.getUserData(mActivity).getId());
+                SoapUtils.Post(mActivity, API.GetLineCount, params, new SoapCallback() {
+                    @Override
+                    public void onError(String error) {
+                        Log.e("error", "");
+                    }
+
+                    @Override
+                    public void onSuccess(String data) {
+                        holder.setText(R.id.tv_car_data, "货源数  " + data);
+                    }
+                });
             }
         };
         myPathListview.setAdapter(mAdapter);

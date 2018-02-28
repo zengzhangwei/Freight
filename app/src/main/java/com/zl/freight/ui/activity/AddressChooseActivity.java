@@ -89,7 +89,7 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
     private double latitude = 0;
     private double longitude = 0;
     private String address;
-    private String city;
+    private String city = "";
     private AlertDialog locationErrorDialog;
     private AlertDialog helperDialog;
     private ChooseAddressWindow addressWindow;
@@ -117,7 +117,6 @@ public class AddressChooseActivity extends BaseActivity implements BaiduMap.OnMa
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
                 address = location.getAddrStr();
-                city = location.getCity() + location.getDistrict();
             }
 
             @Override

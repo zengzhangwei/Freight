@@ -22,7 +22,8 @@
             android:gravity="center_vertical"
             android:text="@string/car_length_type"
             android:textColor="@color/color_black_blue_selector"
-            android:textSize="@dimen/dp_16" />
+            android:textSize="@dimen/dp_16"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_start"

@@ -110,8 +110,8 @@ public class SoapUtils {
                             public void run() {
                                 try {
                                     Log.e("error", soapFault.getMessage() == null ? "" : soapFault.getMessage());
-//                                callback.onError("系统功能维护，请联系管理员");
-                                    callback.onError(soapFault.getMessage() == null ? "" : soapFault.getMessage());
+                                callback.onError("系统功能维护，请联系管理员");
+//                                    callback.onError(soapFault.getMessage() == null ? "" : soapFault.getMessage());
                                 } catch (Exception e) {
 
                                 }
@@ -126,8 +126,8 @@ public class SoapUtils {
                             public void run() {
                                 try {
                                     Log.e("error", e.getMessage() == null ? "" : e.getMessage());
-//                                callback.onError("系统功能维护，请联系管理员");
-                                    callback.onError(e.getMessage() == null ? "" : e.getMessage());
+                                callback.onError("系统功能维护，请联系管理员");
+//                                    callback.onError(e.getMessage() == null ? "" : e.getMessage());
                                 } catch (Exception exception) {
 
                                 }

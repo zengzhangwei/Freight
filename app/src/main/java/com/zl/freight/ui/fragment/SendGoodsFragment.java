@@ -266,7 +266,7 @@ public class SendGoodsFragment extends BaseFragment {
         String weight = etWeight.getText().toString().trim();
         String money = etMoney.getText().toString().trim();
         String infoMoney = etInfoMoney.getText().toString().trim();
-        if (TextUtils.isEmpty(startAddress) || TextUtils.isEmpty(endAddress)) {
+        if (TextUtils.isEmpty(startCity) || TextUtils.isEmpty(endCity)) {
             showToast("请选择起点和终点");
             return;
         }

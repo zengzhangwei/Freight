@@ -39,6 +39,7 @@ import com.zl.zlibrary.utils.SystemUtils;
 import com.zl.zlibrary.view.MRefreshRecyclerView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -225,7 +226,12 @@ public class CheYuanListFragment extends BaseFragment {
             @Override
             public void onError(String error) {
                 Log.e("data", "获取熟车列表时发生异常");
-
+                if (b) {
+                    cheYuanTrl.finishRefreshing();
+                    mList.clear();
+                } else {
+                    cheYuanTrl.finishLoadmore();
+                }
             }
 
             @Override
@@ -430,16 +436,32 @@ public class CheYuanListFragment extends BaseFragment {
         params.put("nameorcarNumber", data);
         params.put("x", mLocation.getLatitude() + "");
         params.put("y", mLocation.getLongitude() + "");
+        params.put("carLong", "");
+        params.put("carType", "");
 
         SoapUtils.Post(mActivity, API.GetDriverList, params, new SoapCallback() {
             @Override
             public void onError(String error) {
                 Log.e("error", error);
+                showToast("暂无此司机");
             }
 
             @Override
             public void onSuccess(String data) {
-                Log.e("error", data);
+                JSONArray array = null;
+                try {
+                    mList.clear();
+                    array = new JSONArray(data);
+                    for (int i = 0; i < array.length(); i++) {
+                        CarUserBean carUserBean = GsonUtils.fromJson(array.optString(i), CarUserBean.class);
+                        mList.add(carUserBean);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    showToast("暂无此司机");
+                }
+
             }
         });
     }

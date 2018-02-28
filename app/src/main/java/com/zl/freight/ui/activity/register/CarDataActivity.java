@@ -1,6 +1,5 @@
 package com.zl.freight.ui.activity.register;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseCarEntity;
-import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.mode.UserBean;
 import com.zl.freight.ui.activity.URegisterActivity;

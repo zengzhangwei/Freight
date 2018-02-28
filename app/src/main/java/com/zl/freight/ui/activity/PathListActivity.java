@@ -95,11 +95,13 @@ public class PathListActivity extends BaseActivity {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 super.onRefresh(refreshLayout);
+                getDataList(true);
             }
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
                 super.onLoadMore(refreshLayout);
+                getDataList(false);
             }
         });
         locationUtils.setOnLocationListener(new LocationUtils.OnLocationListener() {
@@ -154,6 +156,8 @@ public class PathListActivity extends BaseActivity {
         params.put("UserId", SpUtils.getUserData(mActivity).getId());
         params.put("IsLine", "0");
         params.put("LineId", data.getId());
+        params.put("Linefrom", "");
+        params.put("Lineto", "");
         params.put("CarX", bdLocation.getLatitude() + "");
         params.put("CarY", bdLocation.getLongitude() + "");
         params.put("PageIndex", page + "");
@@ -181,6 +185,10 @@ public class PathListActivity extends BaseActivity {
                         mList.add(sendEntity);
                     }
                     mAdapter.notifyDataSetChanged();
+
+                    if (mList.size() <= 0){
+                        showToast("暂无货源");
+                    }
                 } catch (Exception e) {
 
                 }

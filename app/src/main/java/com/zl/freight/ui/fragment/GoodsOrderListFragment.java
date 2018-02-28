@@ -143,9 +143,9 @@ public class GoodsOrderListFragment extends BaseFragment {
                 String receiveId = s.getReceiveId();
 
                 if (TextUtils.isEmpty(receiveId) || receiveId.equals("0")) {
-                    tvStatus.setText("订单状态：未被接货");
+                    tvStatus.setText("订单状态：未被接单");
                 }else{
-                    tvStatus.setText("订单状态：已被接货");
+                    tvStatus.setText("订单状态：已被接单");
                 }
 
                 if (s.getIsOver().equals("99")) {

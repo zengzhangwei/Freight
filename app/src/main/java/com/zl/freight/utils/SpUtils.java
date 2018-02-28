@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 import com.zl.freight.mode.BaseUserEntity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by zhanglei on 2017/12/19.
  */
@@ -87,6 +90,31 @@ public class SpUtils {
         user.setIsCheck(sp.getString("IsCheck", "0"));
         user.setBankaccount(sp.getString("Bankaccount", ""));
         return user;
+    }
+
+    /**
+     * 储存定位信息
+     */
+    public static void setLocation(Context context, double x, double y) {
+        SharedPreferences sp = context.getSharedPreferences("location", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("x", String.valueOf(x));
+        edit.putString("y", String.valueOf(y));
+        edit.commit();
+    }
+
+    /**
+     * 获取定位信息
+     *
+     * @param context
+     * @return
+     */
+    public static Map<String, String> getLocation(Context context) {
+        Map<String, String> map = new HashMap<>();
+        SharedPreferences sp = context.getSharedPreferences("location", Context.MODE_PRIVATE);
+        map.put("x", sp.getString("x", ""));
+        map.put("y", sp.getString("y", ""));
+        return map;
     }
 
     //储存登录信息

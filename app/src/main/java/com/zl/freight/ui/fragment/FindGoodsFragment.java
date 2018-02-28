@@ -20,6 +20,7 @@ import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseWindow;
+import com.zl.freight.mode.AddressListBean;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.GoodsListBean;
 import com.zl.freight.mode.KeyValueBean;
@@ -95,6 +96,8 @@ public class FindGoodsFragment extends BaseFragment {
     private CarLengthDialog carLengthDialog;
     private ChooseAddressWindow addressWindow;
     private TextView mTextView;
+    private String Lineto, Linefrom = "";
+    private boolean isSatrt;
 
     public FindGoodsFragment() {
         // Required empty public constructor
@@ -154,6 +157,7 @@ public class FindGoodsFragment extends BaseFragment {
         locationUtils.setOnLocationListener(new LocationUtils.OnLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
+
                 bdLocation = location;
                 getDataList(true);
             }
@@ -180,6 +184,21 @@ public class FindGoodsFragment extends BaseFragment {
             @Override
             public void onDismiss() {
                 falseCheck();
+            }
+        });
+        addressWindow.setOnOkClickListener(new ChooseAddressWindow.OnOkClickListener() {
+            @Override
+            public void onClickOk(AddressListBean sheng, AddressListBean shi, AddressListBean xian) {
+                String data = shi.getCodeName() + xian.getCodeName();
+                if (mTextView != null) {
+                    mTextView.setText(data);
+                }
+                if (isSatrt) {
+                    Linefrom = data;
+                } else {
+                    Lineto = data;
+                }
+                getDataList(true);
             }
         });
 
@@ -220,8 +239,6 @@ public class FindGoodsFragment extends BaseFragment {
         if (bdLocation == null) return;
         BaseUserEntity userData = SpUtils.getUserData(mActivity);
         Map<String, String> params = new HashMap<>();
-//        params.put("CarLong", carLong);
-//        params.put("CarType", carType);
 
         if (b) {
             page = 1;
@@ -232,6 +249,8 @@ public class FindGoodsFragment extends BaseFragment {
         params.put("UserId", SpUtils.getUserData(mActivity).getId());
         params.put("IsLine", "1");
         params.put("LineId", "");
+        params.put("Linefrom", Linefrom);
+        params.put("Lineto", Lineto);
         params.put("CarX", bdLocation.getLatitude() + "");
         params.put("CarY", bdLocation.getLongitude() + "");
         params.put("PageIndex", page + "");
@@ -366,10 +385,12 @@ public class FindGoodsFragment extends BaseFragment {
             //起点
             case R.id.tv_start:
                 addressWindow.showWindow(view);
+                isSatrt = true;
                 setCheck(tvStart);
                 break;
             //终点
             case R.id.tv_end:
+                isSatrt = false;
                 addressWindow.showWindow(view);
                 setCheck(tvEnd);
                 break;
