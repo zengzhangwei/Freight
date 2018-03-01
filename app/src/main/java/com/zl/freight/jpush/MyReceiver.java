@@ -37,7 +37,7 @@ public class MyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Mp3Utils.paly(context, R.raw.order_account_remind);
+//        Mp3Utils.paly(context, R.raw.order_account_remind);
         Bundle bundle = intent.getExtras();
         String s = printBundle(bundle);
         Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + s);

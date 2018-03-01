@@ -20,6 +20,7 @@ public class PathListBean implements Serializable {
     private String LineFrom;
     private String LineTo;
     private String UserId;
+    private int count = 0;
 
     public String getId() {
         return Id;
@@ -51,5 +52,13 @@ public class PathListBean implements Serializable {
 
     public void setUserId(String UserId) {
         this.UserId = UserId;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

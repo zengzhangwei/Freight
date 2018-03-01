@@ -157,7 +157,7 @@ public class FindGoodsFragment extends BaseFragment {
         locationUtils.setOnLocationListener(new LocationUtils.OnLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
-
+                SpUtils.setLocation(mActivity,location.getLatitude(),location.getLongitude());
                 bdLocation = location;
                 getDataList(true);
             }

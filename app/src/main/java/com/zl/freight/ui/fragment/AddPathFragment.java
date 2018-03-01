@@ -103,7 +103,7 @@ public class AddPathFragment extends BaseFragment {
         SoapUtils.Post(mActivity, API.ShowLine, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                showToast("获取订阅路线失败");
+
             }
 
             @Override
@@ -114,7 +114,28 @@ public class AddPathFragment extends BaseFragment {
                     for (int i = 0; i < array.length(); i++) {
                         mList.add(GsonUtils.fromJson(array.optString(i), PathListBean.class));
                     }
-                    mAdapter.notifyDataSetChanged();
+                    for (int i = 0; i < mList.size(); i++) {
+                        Map<String, String> map = new HashMap<>();
+                        Map<String, String> location = SpUtils.getLocation(mActivity);
+                        map.put("UserRole", "1");
+                        map.put("UserId", SpUtils.getUserData(mActivity).getId());
+                        map.put("CarX", location.get("x"));
+                        map.put("CarY", location.get("y"));
+                        map.put("LineId", mList.get(i).getId());
+                        final int finalI = i;
+                        SoapUtils.Post(mActivity, API.GetLineCount, map, new SoapCallback() {
+                            @Override
+                            public void onError(String error) {
+                                Log.e("error", "");
+                            }
+
+                            @Override
+                            public void onSuccess(String data) {
+                                mList.get(finalI).setCount(Integer.parseInt(data));
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -128,27 +149,19 @@ public class AddPathFragment extends BaseFragment {
             public void convert(final UniversalViewHolder holder, int position, final PathListBean s) {
                 holder.setText(R.id.tv_origin, s.getLineFrom());
                 holder.setText(R.id.tv_end_point, s.getLineTo());
-                Map<String, String> params = new HashMap<>();
-                Map<String, String> location = SpUtils.getLocation(mActivity);
-                params.put("UserRole", "1");
-                params.put("CarX", location.get("x"));
-                params.put("CarY", location.get("y"));
-                params.put("LineId", s.getId());
-                params.put("UserId", SpUtils.getUserData(mActivity).getId());
-                SoapUtils.Post(mActivity, API.GetLineCount, params, new SoapCallback() {
-                    @Override
-                    public void onError(String error) {
-                        Log.e("error", "");
-                    }
-
-                    @Override
-                    public void onSuccess(String data) {
-                        holder.setText(R.id.tv_car_data, "货源数  " + data);
-                    }
-                });
+                holder.setText(R.id.tv_car_data, "货源数  " + s.getCount());
+                Log.e("LineId", s.getId());
             }
         };
         myPathListview.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            initData();
+        }
     }
 
     @Override
