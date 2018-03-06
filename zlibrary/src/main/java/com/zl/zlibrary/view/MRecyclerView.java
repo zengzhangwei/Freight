@@ -25,12 +25,26 @@ public class MRecyclerView extends RecyclerView {
     @Override
     public void onScrolled(int dx, int dy) {
         super.onScrolled(dx, dy);
-        if (!canScrollVertically(1)) {
+        if (isSlideToBottom()) {
             if (onBottomListener != null) {
                 onBottomListener.onBottom();
             }
         }
+
+//        if (!canScrollVertically(1)) {
+//            if (onBottomListener != null) {
+//                onBottomListener.onBottom();
+//            }
+//        }
     }
+
+    private boolean isSlideToBottom() {
+        if (this.computeVerticalScrollExtent() + this.computeVerticalScrollOffset()
+                >= this.computeVerticalScrollRange())
+            return true;
+        return false;
+    }
+
 
     private OnBottomListener onBottomListener;
 

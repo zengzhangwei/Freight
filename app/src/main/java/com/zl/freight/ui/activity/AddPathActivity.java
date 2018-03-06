@@ -1,6 +1,7 @@
 package com.zl.freight.ui.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.AddressListBean;
 import com.zl.freight.mode.KeyValueBean;
 import com.zl.freight.ui.dialog.CarLengthDialog;
+import com.zl.freight.ui.window.AddressDialog;
 import com.zl.freight.ui.window.ChooseAddressWindow;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
@@ -54,9 +56,10 @@ public class AddPathActivity extends BaseActivity {
     TextView tvAddPath;
     private KeyValueBean mLength, mType;
     private CarLengthDialog carLengthDialog;
-    private ChooseAddressWindow addressWindow;
     private boolean isEnd;
-    private AddressListBean endBean, startBean, endShiBean, startShiBean;
+    private AddressDialog addressDialog;
+    private String from;
+    private String to;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,19 +80,16 @@ public class AddPathActivity extends BaseActivity {
                 tvCarLengthTypeName.setText(length.getCodeName() + "米/" + type.getCodeName());
             }
         });
-        addressWindow.setOnOkClickListener(new ChooseAddressWindow.OnOkClickListener() {
-
+        addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
             @Override
-            public void onClickOk(AddressListBean sheng, AddressListBean shi, AddressListBean xian) {
+            public void onAddress(String data) {
                 //是否是目的地
                 if (!isEnd) {
-                    tvStartName.setText(sheng.getCodeName() + shi.getCodeName() + xian.getCodeName());
-                    startBean = xian;
-                    startShiBean = shi;
+                    tvStartName.setText(data);
+                    from = data;
                 } else {
-                    tvEndName.setText(sheng.getCodeName() + shi.getCodeName() + xian.getCodeName());
-                    endBean = xian;
-                    endShiBean = shi;
+                    tvEndName.setText(data);
+                    to = data;
                 }
             }
         });
@@ -102,7 +102,7 @@ public class AddPathActivity extends BaseActivity {
     private void initView() {
         tvTitle.setText("添加路线");
         carLengthDialog = new CarLengthDialog(mActivity, 0);
-        addressWindow = new ChooseAddressWindow(mActivity);
+        addressDialog = new AddressDialog(mActivity, 1);
     }
 
     @OnClick({R.id.iv_back, R.id.linear_start_name, R.id.linear_end_name, R.id.linear_car_length_type, R.id.tv_add_path})
@@ -114,12 +114,12 @@ public class AddPathActivity extends BaseActivity {
                 break;
             //选择出发地
             case R.id.linear_start_name:
-                addressWindow.showWindow(view);
+                addressDialog.show(view);
                 isEnd = false;
                 break;
             //选择目的地
             case R.id.linear_end_name:
-                addressWindow.showWindow(view);
+                addressDialog.show(view);
                 isEnd = true;
                 break;
             //选择车长和车型
@@ -138,17 +138,13 @@ public class AddPathActivity extends BaseActivity {
      */
     private void commit() {
 
-        if (endBean == null || startBean == null) {
+        if (TextUtils.isEmpty(from) || TextUtils.isEmpty(to)) {
             showToast("请选择完整地址");
             return;
         }
-        String from = (startShiBean.getCodeName() + startBean.getCodeName().replace(" ", ""));
-        String to = (endShiBean.getCodeName() + endBean.getCodeName().replace(" ", ""));
         Map<String, String> params = new HashMap<>();
         params.put("From", from);
         params.put("to", to);
-//        params.put("From", "邢台市桥西区");
-//        params.put("to",  "邢台市桥东区");
         params.put("UserId", SpUtils.getUserData(mActivity).getId());
 
         SoapUtils.Post(mActivity, API.AddLine, params, new SoapCallback() {

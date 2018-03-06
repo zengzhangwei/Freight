@@ -18,13 +18,13 @@ import java.util.List;
  * Created by Administrator on 2018/1/24.
  */
 
-public class PriviewImageDialog extends BaseDialog {
+public class PreviewImageDialog extends BaseDialog {
 
     private List<String> imgs;
     private GridView gridView;
     private UniversalAdapter<String> mAdapter;
 
-    public PriviewImageDialog(Activity mActivity, List<String> imgs) {
+    public PreviewImageDialog(Activity mActivity, List<String> imgs) {
         super(mActivity);
         this.imgs = imgs;
         initView();

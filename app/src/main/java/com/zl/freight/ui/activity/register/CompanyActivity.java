@@ -17,7 +17,7 @@ import com.zl.freight.mode.BaseCompanyEntity;
 import com.zl.freight.mode.UserBean;
 import com.zl.freight.ui.activity.AddressChooseActivity;
 import com.zl.freight.ui.activity.URegisterActivity;
-import com.zl.freight.ui.dialog.PriviewImageDialog;
+import com.zl.freight.ui.dialog.PreviewImageDialog;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
@@ -184,7 +184,7 @@ public class CompanyActivity extends BaseActivity {
             //查看其他照片
             case R.id.tv_title_right:
                 if (imgs.size() > 0) {
-                    new PriviewImageDialog(mActivity, imgs).showDialog(view);
+                    new PreviewImageDialog(mActivity, imgs).showDialog(view);
                 } else {
                     showToast("没有其他照片");
                 }

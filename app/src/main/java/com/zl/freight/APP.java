@@ -15,7 +15,8 @@ import cn.jpush.android.api.JPushInterface;
 public class APP extends Application {
 
     {
-        PlatformConfig.setWeixin("wx0b20db818d6a3b52", "2de0e53d09138bf5a0c1de3d1f9a6529");
+//        PlatformConfig.setWeixin("wx0b20db818d6a3b52", "2de0e53d09138bf5a0c1de3d1f9a6529");
+        PlatformConfig.setWeixin("wx4c2275d459244353", "2c0129f33a73b3c04f0fbf0107f206b0");
         PlatformConfig.setQQZone("1106700742", "hm7mqiwacyT1Ywzb");
     }
 

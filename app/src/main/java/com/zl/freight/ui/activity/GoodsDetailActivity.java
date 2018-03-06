@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zhy.autolayout.AutoLinearLayout;
@@ -82,6 +83,10 @@ public class GoodsDetailActivity extends BaseActivity implements TopUpFragment.O
     AutoLinearLayout linearInfoMoney;
     @BindView(R.id.linear_zhuang_xie)
     AutoLinearLayout linearZhuangXie;
+    @BindView(R.id.tv_remark)
+    TextView tvRemark;
+    @BindView(R.id.goods_detail_rl)
+    RelativeLayout goodsDetailRl;
     private GoodsListBean data;
     private AlertDialog alertDialog;
     private AlertDialog messageDialog;
@@ -115,6 +120,7 @@ public class GoodsDetailActivity extends BaseActivity implements TopUpFragment.O
         ImageLoader.loadUserIcon(mActivity, data.getUserIcon(), ivGoodsUserIcon);
         ivGoodsUserName.setText(data.getRealName());
         tvGoodsName.setText(data.getGoodName());
+        tvRemark.setText(TextUtils.isEmpty(data.getRemark()) ? "无" : data.getRemark());
 
         if (!TextUtils.isEmpty(data.getCodeName3())) {
             linearZhuangXie.setVisibility(View.VISIBLE);
@@ -190,7 +196,7 @@ public class GoodsDetailActivity extends BaseActivity implements TopUpFragment.O
             //查看货源位置
             case R.id.tv_goods_location:
                 Intent intent = new Intent(mActivity, LookGoodsLocationActivity.class);
-                intent.putExtra("data",data);
+                intent.putExtra("data", data);
                 startActivity(intent);
                 break;
             //联系货主

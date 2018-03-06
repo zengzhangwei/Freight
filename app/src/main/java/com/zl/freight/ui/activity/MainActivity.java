@@ -30,6 +30,7 @@ import com.zl.freight.ui.fragment.PersonFragment;
 import com.zl.freight.ui.fragment.SendGoodsFragment;
 import com.zl.freight.ui.fragment.SiJiFindGoodsFragment;
 import com.zl.freight.ui.fragment.TopLineFragment;
+import com.zl.freight.ui.fragment.WebFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.BottomNavigationViewHelper;
 import com.zl.freight.utils.ShareUtils;
@@ -92,6 +93,7 @@ public class MainActivity extends BaseActivity {
     private MyGoodsFragment myGoodsFragment;
     private MessageDialog alertDialog;
     private SiJiFindGoodsFragment siJiFindGoodsFragment;
+    private WebFragment webFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +133,9 @@ public class MainActivity extends BaseActivity {
                 switch (item.getItemId()) {
                     case R.id.top_line:
                         helper.showFragment(topLineFragment);
+                        break;
+                    case R.id.bao_xian:
+                        helper.showFragment(webFragment);
                         break;
                     case R.id.send_goods:
                         mainRg.check(R.id.main_rb_send);
@@ -173,6 +178,7 @@ public class MainActivity extends BaseActivity {
         personFragment = PersonFragment.newInstance();
         sendGoodsFragment = SendGoodsFragment.newInstance();
         topLineFragment = TopLineFragment.newInstance();
+        webFragment = WebFragment.newInstance("https://www.baidu.com/");
         noLoginPersonFragment = NoLoginPersonFragment.newInstance();
         myGoodsFragment = MyGoodsFragment.newInstance();
         helper = FragmentHelper.builder(mActivity).attach(R.id.main_rl)
@@ -180,6 +186,7 @@ public class MainActivity extends BaseActivity {
                 .addFragment(personFragment)
                 .addFragment(sendGoodsFragment)
                 .addFragment(topLineFragment)
+                .addFragment(webFragment)
                 .addFragment(noLoginPersonFragment)
                 .addFragment(myGoodsFragment)
                 .commit();

@@ -42,8 +42,25 @@
             android:id="@+id/address_rlv"
             android:layout_width="match_parent"
             android:layout_height="320dp"
+            android:background="#ffffff">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/address_rlv_city"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:visibility="gone"
+            android:background="#ffffff">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/address_rlv_county"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
             android:background="#ffffff"
-            android:numColumns="3">
+            android:visibility="gone">
 
         </android.support.v7.widget.RecyclerView>
 

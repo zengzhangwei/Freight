@@ -88,6 +88,7 @@
     <string name="top_up">充值</string>
     <string name="ali_account">支付宝账号</string>
     <string name="add_path">添加订阅路线</string>
+    <string name="insurance">保险</string>
 
     <string-array name="load_unload_mode_list">
         <item>一装一卸</item>

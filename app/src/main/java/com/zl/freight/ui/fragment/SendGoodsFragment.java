@@ -23,8 +23,11 @@ import com.zl.freight.ui.dialog.ChooseTimeDialog;
 import com.zl.freight.ui.dialog.GoodsTypeDialog;
 import com.zl.freight.ui.dialog.RemarkDialog;
 import com.zl.freight.ui.dialog.SGCarLengthDialog;
+import com.zl.freight.ui.window.AddressDialog;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.AddressUtils;
 import com.zl.freight.utils.DoubleUtils;
+import com.zl.freight.utils.OnDismissListener;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
@@ -97,6 +100,9 @@ public class SendGoodsFragment extends BaseFragment {
     private String goodsName;
     private KeyValueBean l, t, u, g, z, p;
     private AlertDialog alertDialog;
+    private AddressDialog addressDialog;
+    private AddressUtils addressUtils;
+    private int tag;
 
     public SendGoodsFragment() {
         // Required empty public constructor
@@ -157,6 +163,37 @@ public class SendGoodsFragment extends BaseFragment {
                 tvChooseContent.setText(zhuang.getCodeName() + " " + content);
             }
         });
+        addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
+            @Override
+            public void onAddress(String data) {
+                addressUtils.search(data);
+                switch (tag) {
+                    case CHOOSESTART:
+                        startCity = data;
+                        tvChooseStart.setText(data);
+                        break;
+                    case CHOOSEEND:
+                        endCity = data;
+                        tvChooseEnd.setText(data);
+                        break;
+                }
+            }
+        });
+        addressUtils.setOnAddressSearchListener(new AddressUtils.OnAddressSearchListener() {
+            @Override
+            public void onSearch(double x, double y) {
+                switch (tag) {
+                    case CHOOSESTART:
+                        startLatitude = x;
+                        startLongitude = y;
+                        break;
+                    case CHOOSEEND:
+                        endLatitude = x;
+                        endLongitude = y;
+                        break;
+                }
+            }
+        });
     }
 
     private void initView() {
@@ -181,6 +218,8 @@ public class SendGoodsFragment extends BaseFragment {
 
                     }
                 }).create();
+        addressDialog = new AddressDialog(mActivity);
+        addressUtils = new AddressUtils();
     }
 
     @Override
@@ -205,11 +244,15 @@ public class SendGoodsFragment extends BaseFragment {
                 break;
             //选择始发地
             case R.id.tv_choose_start:
-                startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), CHOOSESTART);
+                tag = CHOOSESTART;
+                addressDialog.show(view);
+//                startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), CHOOSESTART);
                 break;
             //选择目的地
             case R.id.tv_choose_end:
-                startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), CHOOSEEND);
+                tag = CHOOSEEND;
+                addressDialog.show(view);
+//                startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), CHOOSEEND);
                 break;
             //选择货车长度
             case R.id.tv_choose_length:
@@ -356,10 +399,15 @@ public class SendGoodsFragment extends BaseFragment {
         }
 
         //计算距离（直线距离）
-        LatLng p1 = new LatLng(startLatitude, startLongitude);
-        LatLng p2 = new LatLng(endLatitude, endLongitude);
-        double distance = DistanceUtil.getDistance(p1, p2);
-        sendEntity.setRange(distance);
+        if (startLatitude == 0 || startLongitude == 0 || endLatitude == 0 || endLongitude == 0) {
+            sendEntity.setRange(0.00);
+        } else {
+            LatLng p1 = new LatLng(startLatitude, startLongitude);
+            LatLng p2 = new LatLng(endLatitude, endLongitude);
+            double distance = DistanceUtil.getDistance(p1, p2);
+            sendEntity.setRange(distance);
+        }
+
 
         //装卸方式
         if (z != null) {

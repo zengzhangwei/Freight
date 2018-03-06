@@ -28,6 +28,7 @@ import com.zl.freight.mode.TopNewsBean;
 import com.zl.freight.ui.activity.GoodsDetailActivity;
 import com.zl.freight.ui.activity.WebActivity;
 import com.zl.freight.ui.dialog.CarLengthDialog;
+import com.zl.freight.ui.window.AddressDialog;
 import com.zl.freight.ui.window.ChooseAddressWindow;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
@@ -98,6 +99,7 @@ public class FindGoodsFragment extends BaseFragment {
     private TextView mTextView;
     private String Lineto, Linefrom = "";
     private boolean isSatrt;
+    private AddressDialog addressDialog;
 
     public FindGoodsFragment() {
         // Required empty public constructor
@@ -157,7 +159,7 @@ public class FindGoodsFragment extends BaseFragment {
         locationUtils.setOnLocationListener(new LocationUtils.OnLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
-                SpUtils.setLocation(mActivity,location.getLatitude(),location.getLongitude());
+                SpUtils.setLocation(mActivity, location.getLatitude(), location.getLongitude());
                 bdLocation = location;
                 getDataList(true);
             }
@@ -180,16 +182,15 @@ public class FindGoodsFragment extends BaseFragment {
                 falseCheck();
             }
         });
-        addressWindow.setOnDismissListener(new OnDismissListener() {
+        addressDialog.setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss() {
                 falseCheck();
             }
         });
-        addressWindow.setOnOkClickListener(new ChooseAddressWindow.OnOkClickListener() {
+        addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
             @Override
-            public void onClickOk(AddressListBean sheng, AddressListBean shi, AddressListBean xian) {
-                String data = shi.getCodeName() + xian.getCodeName();
+            public void onAddress(String data) {
                 if (mTextView != null) {
                     mTextView.setText(data);
                 }
@@ -324,6 +325,7 @@ public class FindGoodsFragment extends BaseFragment {
 
         carLengthDialog = new CarLengthDialog(mActivity);
         addressWindow = new ChooseAddressWindow(mActivity);
+        addressDialog = new AddressDialog(mActivity, 1);
     }
 
     /**
@@ -384,14 +386,14 @@ public class FindGoodsFragment extends BaseFragment {
                 break;
             //起点
             case R.id.tv_start:
-                addressWindow.showWindow(view);
+                addressDialog.show(view);
                 isSatrt = true;
                 setCheck(tvStart);
                 break;
             //终点
             case R.id.tv_end:
                 isSatrt = false;
-                addressWindow.showWindow(view);
+                addressDialog.show(view);
                 setCheck(tvEnd);
                 break;
         }

@@ -6,22 +6,37 @@ package com.zl.zlibrary.mode;
 
 public class AddressBean {
 
-    private String name;
-    private String id;
+    /**
+     * Id : 1
+     * ParentId : 0
+     * CodeName : 安徽省
+     */
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String Id;
+    private String ParentId;
+    private String CodeName;
 
     public String getId() {
-        return id;
+        return Id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String Id) {
+        this.Id = Id;
+    }
+
+    public String getParentId() {
+        return ParentId;
+    }
+
+    public void setParentId(String ParentId) {
+        this.ParentId = ParentId;
+    }
+
+    public String getCodeName() {
+        return CodeName;
+    }
+
+    public void setCodeName(String CodeName) {
+        this.CodeName = CodeName;
     }
 }

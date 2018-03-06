@@ -102,8 +102,13 @@ public class LookGoodsLocationActivity extends BaseActivity implements OnGetRout
 
         startSearch();
 
-        long round = Math.round(Double.valueOf(goodsListBean.getRange()) / 1000);
-        tvDistance.setText("运输距离约为：" + round + "公里");
+        if (Double.valueOf(goodsListBean.getRange()) == 0){
+            tvDistance.setText("运输距离约为：" + 0 + "公里");
+        }else{
+            long round = Math.round(Double.valueOf(goodsListBean.getRange()) / 1000);
+            tvDistance.setText("运输距离约为：" + round + "公里");
+        }
+
     }
 
     private void startSearch() {
@@ -111,8 +116,16 @@ public class LookGoodsLocationActivity extends BaseActivity implements OnGetRout
             showToast("货物起始位置相同，无法导航");
             return;
         }
-        PlanNode stNode = PlanNode.withLocation(new LatLng(Double.parseDouble(goodsListBean.getStartX()), Double.parseDouble(goodsListBean.getStartY())));
-        PlanNode enNode = PlanNode.withLocation(new LatLng(Double.parseDouble(goodsListBean.getEndX()), Double.parseDouble(goodsListBean.getEndY())));
+        double startX = Double.parseDouble(goodsListBean.getStartX());
+        double startY = Double.parseDouble(goodsListBean.getStartY());
+        double endX = Double.parseDouble(goodsListBean.getEndX());
+        double endY = Double.parseDouble(goodsListBean.getEndY());
+        if (startX == 0|| startY == 0 || endX == 0 || endY == 0){
+            showToast("位置信息出错，无法进行导航");
+            return;
+        }
+        PlanNode stNode = PlanNode.withLocation(new LatLng(startX, startY));
+        PlanNode enNode = PlanNode.withLocation(new LatLng(endX, endY));
         mSearch.drivingSearch((new DrivingRoutePlanOption()).from(stNode).to(enNode));
     }
 
