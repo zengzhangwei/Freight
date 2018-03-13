@@ -201,6 +201,11 @@ public class FindGoodsFragment extends BaseFragment {
                 }
                 getDataList(true);
             }
+
+            @Override
+            public void onAddressDetail(String data) {
+
+            }
         });
 
     }

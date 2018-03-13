@@ -1,12 +1,29 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.zl.freight.ui.fragment.WebFragment">
 
     <WebView
         android:id="@+id/fragment_web"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        android:layout_height="match_parent"
+        android:visibility="gone"></WebView>
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/store_iv"
+        android:layout_width="400px"
+        android:layout_height="400px"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/car" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/store_iv"
+        android:layout_centerHorizontal="true"
+        android:text="保险暂未开通，敬请期待..."
+        android:textSize="@dimen/dp_20" />
+
+</com.zhy.autolayout.AutoRelativeLayout>

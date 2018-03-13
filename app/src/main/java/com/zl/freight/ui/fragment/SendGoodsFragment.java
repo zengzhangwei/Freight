@@ -178,6 +178,11 @@ public class SendGoodsFragment extends BaseFragment {
                         break;
                 }
             }
+
+            @Override
+            public void onAddressDetail(String data) {
+
+            }
         });
         addressUtils.setOnAddressSearchListener(new AddressUtils.OnAddressSearchListener() {
             @Override
@@ -442,8 +447,45 @@ public class SendGoodsFragment extends BaseFragment {
             public void onSuccess(String data) {
                 hideDialog();
                 showToast("货物发布成功");
+                resetData();
             }
         });
+    }
+
+    /**
+     * 清空数据
+     */
+    private void resetData() {
+        startLatitude = 0;
+        startLongitude = 0;
+        endLatitude = 0;
+        endLongitude = 0;
+        goDate = "";
+        goTime = "";
+        c = "";
+        goodsName = "";
+        l = null;
+        t = null;
+        u = null;
+        g = null;
+        z = null;
+        p = null;
+        startCity = "";
+        endCity = "";
+        startAddress = "";
+        endAddress = "";
+        tvChooseEnd.setText("");
+        tvChooseStart.setText("");
+        tvChooseLength.setText("");
+        tvChooseType.setText("");
+        etWeight.setText("");
+        etMoney.setText("");
+        etInfoMoney.setText("");
+        tvChooseTime.setText("");
+        tvChooseContent.setText("");
+        tvChongFa.setSelected(true);
+        tvChangFa.setSelected(false);
+        tvTongCheng.setSelected(false);
     }
 
     /**
@@ -455,31 +497,32 @@ public class SendGoodsFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == mActivity.RESULT_OK) {
-            double latitude = data.getDoubleExtra("latitude", 0);
-            double longitude = data.getDoubleExtra("longitude", 0);
-            String addresses = data.getStringExtra("address");
-            String city = data.getStringExtra("city");
-            switch (requestCode) {
-                case CHOOSESTART:
-                    startLatitude = latitude;
-                    startLongitude = longitude;
-                    startAddress = addresses;
-                    startCity = city;
-                    tvChooseStart.setText(city);
-                    break;
-                case CHOOSEEND:
-                    endAddress = addresses;
-                    endLatitude = latitude;
-                    endLongitude = longitude;
-                    endCity = city;
-                    tvChooseEnd.setText(city);
-                    break;
-            }
-        }
-    }
+    //TODO 暂时用不到了（改了业务逻辑，估计以后也用不到）
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == mActivity.RESULT_OK) {
+//            double latitude = data.getDoubleExtra("latitude", 0);
+//            double longitude = data.getDoubleExtra("longitude", 0);
+//            String addresses = data.getStringExtra("address");
+//            String city = data.getStringExtra("city");
+//            switch (requestCode) {
+//                case CHOOSESTART:
+//                    startLatitude = latitude;
+//                    startLongitude = longitude;
+//                    startAddress = addresses;
+//                    startCity = city;
+//                    tvChooseStart.setText(city);
+//                    break;
+//                case CHOOSEEND:
+//                    endAddress = addresses;
+//                    endLatitude = latitude;
+//                    endLongitude = longitude;
+//                    endCity = city;
+//                    tvChooseEnd.setText(city);
+//                    break;
+//            }
+//        }
+//    }
 
 }

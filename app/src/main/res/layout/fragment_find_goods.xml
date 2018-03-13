@@ -35,9 +35,9 @@
             android:layout_toLeftOf="@id/main_img_share"
             android:drawablePadding="@dimen/dp_4"
             android:drawableRight="@drawable/check_bg_selector"
+            android:textColor="@color/color_black_blue_selector"
             android:gravity="center_vertical"
             android:text="始发地"
-            android:textColor="@color/color_black_blue_selector"
             android:textSize="@dimen/dp_16" />
 
         <ImageView

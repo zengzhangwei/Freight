@@ -55,6 +55,7 @@ public class AddressDialog implements View.OnClickListener {
     private List<AddressListBean> countyList = new ArrayList<>();
     private PopupWindow popupWindow;
     private String provinceId = "";
+    private String provinceName = "";
     private String cityId = "";
     //0发货用，没有全省全市 1找货用，有全省全市
     private int type = 0;
@@ -71,7 +72,18 @@ public class AddressDialog implements View.OnClickListener {
     }
 
     public interface OnReturnAddressListener {
+
+        /**
+         * 返回简单的地址 不包含省
+         * @param data
+         */
         void onAddress(String data);
+
+        /**
+         * 返回详细的地址 包含省
+         * @param data
+         */
+        void onAddressDetail(String data);
     }
 
     public AddressDialog(Activity context) {
@@ -105,6 +117,7 @@ public class AddressDialog implements View.OnClickListener {
             public void onItemClick(View view, int position) {
                 tvProvince.setText(mList.get(position).getCodeName());
                 provinceId = mList.get(position).getId();
+                provinceName = mList.get(position).getCodeName();
                 cityId = "";
                 isShowRlv(rlvCity);
                 isShow(tvCity);
@@ -121,6 +134,7 @@ public class AddressDialog implements View.OnClickListener {
                         String codeName = cityList.get(position).getCodeName();
                         String data = codeName.replace("全", "");
                         onReturnAddressListener.onAddress(data);
+                        onReturnAddressListener.onAddressDetail(provinceName+data);
                     }
                     dismiss();
                     return;
@@ -141,6 +155,7 @@ public class AddressDialog implements View.OnClickListener {
                         String codeName = countyList.get(position).getCodeName();
                         String data = codeName.replace("全", "");
                         onReturnAddressListener.onAddress(data);
+                        onReturnAddressListener.onAddressDetail(provinceName+data);
                     }
                     dismiss();
                     return;
@@ -149,6 +164,7 @@ public class AddressDialog implements View.OnClickListener {
                 String city = tvCity.getText().toString().trim();
                 if (onReturnAddressListener != null) {
                     onReturnAddressListener.onAddress(city + countyList.get(position).getCodeName());
+                    onReturnAddressListener.onAddressDetail(provinceName+city + countyList.get(position).getCodeName());
                 }
             }
         });

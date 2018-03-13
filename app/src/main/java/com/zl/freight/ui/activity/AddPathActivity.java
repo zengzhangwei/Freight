@@ -92,6 +92,11 @@ public class AddPathActivity extends BaseActivity {
                     to = data;
                 }
             }
+
+            @Override
+            public void onAddressDetail(String data) {
+
+            }
         });
     }
 
