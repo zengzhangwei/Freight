@@ -3,7 +3,6 @@ package com.zl.freight.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,8 +18,6 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zl.freight.R;
-import com.zl.freight.base.BaseWindow;
-import com.zl.freight.mode.AddressListBean;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.GoodsListBean;
 import com.zl.freight.mode.KeyValueBean;
@@ -38,11 +35,11 @@ import com.zl.freight.utils.OnDismissListener;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
+import com.zl.freight.utils.SystemUtils;
 import com.zl.zlibrary.adapter.RecyclerAdapter;
 import com.zl.zlibrary.adapter.ViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.utils.GsonUtils;
-import com.zl.zlibrary.utils.SystemUtils;
 
 import org.json.JSONArray;
 
@@ -97,7 +94,7 @@ public class FindGoodsFragment extends BaseFragment {
     private CarLengthDialog carLengthDialog;
     private ChooseAddressWindow addressWindow;
     private TextView mTextView;
-    private String Lineto, Linefrom = "";
+    private String Lineto = "", Linefrom = "";
     private boolean isSatrt;
     private AddressDialog addressDialog;
 
@@ -194,17 +191,16 @@ public class FindGoodsFragment extends BaseFragment {
                 if (mTextView != null) {
                     mTextView.setText(data);
                 }
+            }
+
+            @Override
+            public void onAddressDetail(String data) {
                 if (isSatrt) {
                     Linefrom = data;
                 } else {
                     Lineto = data;
                 }
                 getDataList(true);
-            }
-
-            @Override
-            public void onAddressDetail(String data) {
-
             }
         });
 

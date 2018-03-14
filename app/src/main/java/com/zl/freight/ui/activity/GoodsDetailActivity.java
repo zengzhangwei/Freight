@@ -22,7 +22,7 @@ import com.zl.freight.utils.MoneyUtils;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
-import com.zl.zlibrary.utils.SystemUtils;
+import com.zl.freight.utils.SystemUtils;
 
 import java.util.HashMap;
 import java.util.Map;

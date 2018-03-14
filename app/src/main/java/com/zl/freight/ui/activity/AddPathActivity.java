@@ -60,6 +60,8 @@ public class AddPathActivity extends BaseActivity {
     private AddressDialog addressDialog;
     private String from;
     private String to;
+    private String stateTo;
+    private String stateFrom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,12 @@ public class AddPathActivity extends BaseActivity {
 
             @Override
             public void onAddressDetail(String data) {
-
+                //是否是目的地
+                if (!isEnd) {
+                    stateFrom = data;
+                } else {
+                    stateTo = data;
+                }
             }
         });
     }
@@ -148,6 +155,8 @@ public class AddPathActivity extends BaseActivity {
             return;
         }
         Map<String, String> params = new HashMap<>();
+        params.put("StateFrom", stateFrom);
+        params.put("StateTo", stateTo);
         params.put("From", from);
         params.put("to", to);
         params.put("UserId", SpUtils.getUserData(mActivity).getId());

@@ -20,7 +20,25 @@ public class PathListBean implements Serializable {
     private String LineFrom;
     private String LineTo;
     private String UserId;
+    private String StateFrom;
+    private String StateTo;
     private int count = 0;
+
+    public String getStateFrom() {
+        return StateFrom;
+    }
+
+    public void setStateFrom(String stateFrom) {
+        StateFrom = stateFrom;
+    }
+
+    public String getStateTo() {
+        return StateTo;
+    }
+
+    public void setStateTo(String stateTo) {
+        StateTo = stateTo;
+    }
 
     public String getId() {
         return Id;

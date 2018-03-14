@@ -75,12 +75,14 @@ public class AddressDialog implements View.OnClickListener {
 
         /**
          * 返回简单的地址 不包含省
+         *
          * @param data
          */
         void onAddress(String data);
 
         /**
          * 返回详细的地址 包含省
+         *
          * @param data
          */
         void onAddressDetail(String data);
@@ -115,10 +117,18 @@ public class AddressDialog implements View.OnClickListener {
         mAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                cityId = "";
+                if (mList.get(position).getCodeName().equals("全国")) {
+                    if (onReturnAddressListener != null) {
+                        onReturnAddressListener.onAddress("全国");
+                        onReturnAddressListener.onAddressDetail("");
+                    }
+                    dismiss();
+                    return;
+                }
                 tvProvince.setText(mList.get(position).getCodeName());
                 provinceId = mList.get(position).getId();
                 provinceName = mList.get(position).getCodeName();
-                cityId = "";
                 isShowRlv(rlvCity);
                 isShow(tvCity);
                 getCityData();
@@ -134,7 +144,7 @@ public class AddressDialog implements View.OnClickListener {
                         String codeName = cityList.get(position).getCodeName();
                         String data = codeName.replace("全", "");
                         onReturnAddressListener.onAddress(data);
-                        onReturnAddressListener.onAddressDetail(provinceName+data);
+                        onReturnAddressListener.onAddressDetail(data);
                     }
                     dismiss();
                     return;
@@ -155,7 +165,7 @@ public class AddressDialog implements View.OnClickListener {
                         String codeName = countyList.get(position).getCodeName();
                         String data = codeName.replace("全", "");
                         onReturnAddressListener.onAddress(data);
-                        onReturnAddressListener.onAddressDetail(provinceName+data);
+                        onReturnAddressListener.onAddressDetail(provinceName + data);
                     }
                     dismiss();
                     return;
@@ -164,7 +174,7 @@ public class AddressDialog implements View.OnClickListener {
                 String city = tvCity.getText().toString().trim();
                 if (onReturnAddressListener != null) {
                     onReturnAddressListener.onAddress(city + countyList.get(position).getCodeName());
-                    onReturnAddressListener.onAddressDetail(provinceName+city + countyList.get(position).getCodeName());
+                    onReturnAddressListener.onAddressDetail(provinceName + city + countyList.get(position).getCodeName());
                 }
             }
         });
@@ -268,6 +278,11 @@ public class AddressDialog implements View.OnClickListener {
             public void onSuccess(String data) {
                 try {
                     JSONArray array = new JSONArray(data);
+                    AddressListBean addressListBean = new AddressListBean();
+                    addressListBean.setCodeName("全国");
+                    addressListBean.setParentId("0");
+                    addressListBean.setId("0");
+                    mList.add(addressListBean);
                     for (int i = 0; i < array.length(); i++) {
                         mList.add(GsonUtils.fromJson(array.optString(i), AddressListBean.class));
                     }

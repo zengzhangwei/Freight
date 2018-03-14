@@ -104,8 +104,7 @@ public class GoodsTypeDialog extends BaseDialog {
                 if (onReturnDataListener != null) {
                     String data = etInputType.getText().toString().trim();
                     if (TextUtils.isEmpty(data)) {
-                        Toast.makeText(mActivity, "货物名称不能为空", Toast.LENGTH_SHORT).show();
-                        return;
+                        data = "";
                     }
                     dismiss();
                     onReturnDataListener.returnData(mList.get(mPostion), data);

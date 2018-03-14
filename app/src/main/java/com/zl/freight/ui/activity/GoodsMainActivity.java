@@ -108,7 +108,7 @@ public class GoodsMainActivity extends BaseActivity {
 
     private void initData() {
         BaseUserEntity userData = SpUtils.getUserData(mActivity);
-        if (!userData.getIsCheck().equals("1")){
+        if (!userData.getIsCheck().equals("1")) {
             alertDialog.show();
         }
 //        Map<String, String> params = new HashMap<>();
@@ -280,16 +280,26 @@ public class GoodsMainActivity extends BaseActivity {
         }
     }
 
+    //    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            long time = System.currentTimeMillis();
+//            if (time - timecode > 2000) {
+//                showToast("再次点击退出程序");
+//                timecode = time;
+//            } else {
+//                finish();
+//            }
+//        }
+//        return true;
+//    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            long time = System.currentTimeMillis();
-            if (time - timecode > 2000) {
-                showToast("再次点击退出程序");
-                timecode = time;
-            } else {
-                finish();
-            }
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            mActivity.startActivity(intent);
         }
         return true;
     }

@@ -19,6 +19,8 @@ public class CarSendEntity implements Serializable {
     public int UseCarLong;//车长
     public int UseCarClass;//车种类
     public String GoodName = "";//货物名称
+    public String StateFrom = "";//货物名称
+    public String StateTo = "";//货物名称
     public int GoodsType;//货物类别
     public double GoodsWeight;//货物重量
     public String WeightUnit = "";//重量单位
@@ -43,6 +45,22 @@ public class CarSendEntity implements Serializable {
     public String UpdateAt = "";//更新时间
     public int Isdelete;//是否删除
     public double Range;//预计距离
+
+    public String getStateFrom() {
+        return StateFrom;
+    }
+
+    public void setStateFrom(String stateFrom) {
+        StateFrom = stateFrom;
+    }
+
+    public String getStateTo() {
+        return StateTo;
+    }
+
+    public void setStateTo(String stateTo) {
+        StateTo = stateTo;
+    }
 
     public int getId() {
         return Id;

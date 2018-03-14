@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.zl.freight.R;
@@ -27,6 +28,7 @@ import com.zl.freight.ui.window.AddressDialog;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.AddressUtils;
 import com.zl.freight.utils.DoubleUtils;
+import com.zl.freight.utils.LocationUtils;
 import com.zl.freight.utils.OnDismissListener;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
@@ -103,6 +105,7 @@ public class SendGoodsFragment extends BaseFragment {
     private AddressDialog addressDialog;
     private AddressUtils addressUtils;
     private int tag;
+    private LocationUtils locationUtils;
 
     public SendGoodsFragment() {
         // Required empty public constructor
@@ -181,7 +184,14 @@ public class SendGoodsFragment extends BaseFragment {
 
             @Override
             public void onAddressDetail(String data) {
-
+                switch (tag) {
+                    case CHOOSESTART:
+                        startAddress = data;
+                        break;
+                    case CHOOSEEND:
+                        endAddress = data;
+                        break;
+                }
             }
         });
         addressUtils.setOnAddressSearchListener(new AddressUtils.OnAddressSearchListener() {
@@ -197,6 +207,21 @@ public class SendGoodsFragment extends BaseFragment {
                         endLongitude = y;
                         break;
                 }
+            }
+        });
+        locationUtils.setOnLocationListener(new LocationUtils.OnLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation location) {
+                startCity = location.getCity() + location.getDistrict();
+                startAddress = location.getProvince() + location.getCity() + location.getDistrict();
+                tvChooseStart.setText(location.getCity() + location.getDistrict());
+                startLatitude = location.getLatitude();
+                startLongitude = location.getLongitude();
+            }
+
+            @Override
+            public void onConnectHotSpotMessage(String s, int i) {
+
             }
         });
     }
@@ -225,6 +250,8 @@ public class SendGoodsFragment extends BaseFragment {
                 }).create();
         addressDialog = new AddressDialog(mActivity);
         addressUtils = new AddressUtils();
+        locationUtils = new LocationUtils(mActivity);
+        locationUtils.startLocation();
     }
 
     @Override
@@ -346,6 +373,8 @@ public class SendGoodsFragment extends BaseFragment {
 
         CarSendEntity sendEntity = new CarSendEntity();
         sendEntity.setUserId(SpUtils.getUserData(mActivity).getId());
+        sendEntity.setStateFrom(startAddress);
+        sendEntity.setStateTo(endAddress);
         sendEntity.setStartPlace(startCity);
         sendEntity.setStartX(startLatitude + "");
         sendEntity.setStartY(startLongitude + "");

@@ -35,8 +35,7 @@ import com.zl.zlibrary.adapter.UniversalAdapter;
 import com.zl.zlibrary.adapter.UniversalViewHolder;
 import com.zl.zlibrary.base.BaseFragment;
 import com.zl.zlibrary.utils.GsonUtils;
-import com.zl.zlibrary.utils.SystemUtils;
-import com.zl.zlibrary.view.MRefreshRecyclerView;
+import com.zl.freight.utils.SystemUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;

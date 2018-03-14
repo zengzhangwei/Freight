@@ -11,7 +11,7 @@ import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
-import com.zl.zlibrary.utils.SystemUtils;
+import com.zl.freight.utils.SystemUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
