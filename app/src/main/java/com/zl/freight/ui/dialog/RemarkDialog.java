@@ -50,8 +50,8 @@ public class RemarkDialog extends BaseDialog {
     private List<KeyValueBean> tList = new ArrayList<>();
     private UniversalAdapter<KeyValueBean> lAdapter;
     private UniversalAdapter<KeyValueBean> tAdapter;
-    private int lPosition = 0;
-    private int tPosition = 0;
+    private int lPosition = -1;
+    private int tPosition = -1;
     private EditText etContent;
 
     public RemarkDialog(Activity mActivity) {
@@ -71,7 +71,7 @@ public class RemarkDialog extends BaseDialog {
      */
     private void getTData() {
         Map<String, String> parmas = new HashMap<>();
-        parmas.put("CodeName", "支付方式");
+        parmas.put("CodeName", "付款方式");
         SoapUtils.Post(mActivity, API.BaseDict, parmas, new SoapCallback() {
             @Override
             public void onError(String error) {
@@ -142,14 +142,22 @@ public class RemarkDialog extends BaseDialog {
         lGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                lPosition = i;
+                if (lPosition == i) {
+                    lPosition = -1;
+                } else {
+                    lPosition = i;
+                }
                 lAdapter.notifyDataSetChanged();
             }
         });
         tGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                tPosition = i;
+                if (tPosition == i) {
+                    tPosition = -1;
+                } else {
+                    tPosition = i;
+                }
                 tAdapter.notifyDataSetChanged();
             }
         });
@@ -162,11 +170,11 @@ public class RemarkDialog extends BaseDialog {
         dismiss();
         try {
             KeyValueBean l = null;
-            if (lList != null && lList.size() > 0) {
+            if (lList != null && lList.size() > 0 && lPosition != -1) {
                 l = lList.get(lPosition);
             }
             KeyValueBean t = null;
-            if (tList != null && tList.size() > 0) {
+            if (tList != null && tList.size() > 0 && tPosition != -1) {
                 t = tList.get(tPosition);
             }
             String content = etContent.getText().toString().trim();

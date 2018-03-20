@@ -99,7 +99,6 @@ public class SoapUtils {
                                     e.printStackTrace();
                                     callback.onSuccess(result);
                                 }
-
                             }
                         });
                     }
@@ -191,5 +190,4 @@ public class SoapUtils {
             }
         }.start();
     }
-
 }

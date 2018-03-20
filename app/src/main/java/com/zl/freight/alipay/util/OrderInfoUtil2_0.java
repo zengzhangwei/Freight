@@ -81,7 +81,7 @@ public class OrderInfoUtil2_0 {
 
         keyValues.put("sign_type", rsa2 ? "RSA2" : "RSA");
 
-        keyValues.put("timestamp", "2016-07-29 16:55:53");
+        keyValues.put("timestamp", getDateTime());
 
         keyValues.put("version", "1.0");
 
@@ -183,6 +183,19 @@ public class OrderInfoUtil2_0 {
         Random r = new Random();
         key = key + r.nextInt();
         key = key.substring(0, 15);
+        return key;
+    }
+
+    /**
+     * 要求外部订单号必须唯一。
+     *
+     * @return
+     */
+    private static String getDateTime() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String key = format.format(date);
+
         return key;
     }
 

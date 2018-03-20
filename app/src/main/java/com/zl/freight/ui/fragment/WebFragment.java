@@ -66,19 +66,25 @@ public class WebFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        fragmentWeb.onResume();
+        if (fragmentWeb != null){
+            fragmentWeb.onResume();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        fragmentWeb.onPause();
+        if (fragmentWeb != null){
+            fragmentWeb.onPause();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        fragmentWeb.destroy();
+        if (fragmentWeb != null){
+            fragmentWeb.destroy();
+        }
     }
 }

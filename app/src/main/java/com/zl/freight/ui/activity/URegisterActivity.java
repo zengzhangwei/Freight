@@ -1,14 +1,20 @@
 package com.zl.freight.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.RegexUtils;
@@ -28,13 +34,6 @@ import com.zl.zlibrary.utils.MiPictureHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author zhanglei
@@ -69,6 +68,10 @@ public class URegisterActivity extends BaseActivity {
     ImageView ivHandPhoto;
     @BindView(R.id.tv_next)
     TextView tvNext;
+    @BindView(R.id.cb_agreement)
+    CheckBox cbAgreement;
+    @BindView(R.id.uregister_rl)
+    RelativeLayout uregisterRl;
     private PushPersonFragment pushPersonFragment;
     private PhotoDialog photoDialog;
     private String imagePath;
@@ -110,6 +113,8 @@ public class URegisterActivity extends BaseActivity {
         tvTitle.setText("实名认证");
         photoDialog = new PhotoDialog(mActivity);
         pushPersonFragment = PushPersonFragment.newInstance();
+        Spanned spanned = Html.fromHtml(" <font color=\"#1e90ff\">《货物运输协议》</font>点击查看");
+        cbAgreement.setText(spanned);
     }
 
     @Override
@@ -171,7 +176,8 @@ public class URegisterActivity extends BaseActivity {
         photoDialog.show(view);
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_send_code, R.id.tv_choose_push_p, R.id.iv_person_photo, R.id.iv_hand_photo, R.id.tv_next})
+    @OnClick({R.id.iv_back, R.id.tv_send_code, R.id.tv_choose_push_p, R.id.iv_person_photo, R.id.iv_hand_photo,
+            R.id.tv_next, R.id.cb_agreement})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //返回
@@ -201,6 +207,10 @@ public class URegisterActivity extends BaseActivity {
             case R.id.tv_next:
 //                testZip();
                 next();
+                break;
+            //进入货物运输协议界面
+            case R.id.cb_agreement:
+                startActivity(new Intent(mActivity, AgreementActivity.class));
                 break;
         }
     }
@@ -248,6 +258,18 @@ public class URegisterActivity extends BaseActivity {
      * 下一步操作
      */
     private void next() {
+
+        if (!cbAgreement.isChecked()) {
+            new AlertDialog.Builder(mActivity).setMessage("您未同意《货物运输协议》无法进行下一步操作，请先阅读货物运输协议")
+                    .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).show();
+            return;
+        }
+
         String name = etInputName.getText().toString().trim();
         String phone = etInputPhone.getText().toString().trim();
         String code = etInputCode.getText().toString().trim();

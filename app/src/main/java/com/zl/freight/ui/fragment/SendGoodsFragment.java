@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +20,7 @@ import com.baidu.mapapi.utils.DistanceUtil;
 import com.zl.freight.R;
 import com.zl.freight.mode.CarSendEntity;
 import com.zl.freight.mode.KeyValueBean;
-import com.zl.freight.ui.activity.AddressChooseActivity;
+import com.zl.freight.ui.activity.AgreementActivity;
 import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.dialog.ChooseTimeDialog;
 import com.zl.freight.ui.dialog.GoodsTypeDialog;
@@ -29,7 +31,6 @@ import com.zl.freight.utils.API;
 import com.zl.freight.utils.AddressUtils;
 import com.zl.freight.utils.DoubleUtils;
 import com.zl.freight.utils.LocationUtils;
-import com.zl.freight.utils.OnDismissListener;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
@@ -82,6 +83,8 @@ public class SendGoodsFragment extends BaseFragment {
     TextView tvTongCheng;
     @BindView(R.id.et_info_money)
     EditText etInfoMoney;
+    @BindView(R.id.tv_agreement)
+    TextView tvAgreement;
     private SGCarLengthDialog dialog;
     private GoodsTypeDialog goodsTypeDialog;
     private RemarkDialog remarkDialog;
@@ -96,8 +99,8 @@ public class SendGoodsFragment extends BaseFragment {
     private double endLongitude = 0;
     private String endAddress;
     private String endCity;
-    private String goDate;
-    private String goTime;
+    private String goDate = "";
+    private String goTime = "";
     private String c;
     private String goodsName;
     private KeyValueBean l, t, u, g, z, p;
@@ -163,7 +166,21 @@ public class SendGoodsFragment extends BaseFragment {
                 z = zhuang;
                 p = payType;
                 c = content;
-                tvChooseContent.setText(zhuang.getCodeName() + " " + content);
+                StringBuilder builder = new StringBuilder();
+                if (z != null) {
+                    builder.append(z.getCodeName()).append(" ");
+                }
+
+                if (p != null) {
+                    builder.append(p.getCodeName()).append(" ");
+                }
+
+                if (!TextUtils.isEmpty(c)) {
+                    builder.append(c);
+                }
+
+                String data = builder.toString();
+                tvChooseContent.setText(data);
             }
         });
         addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
@@ -252,6 +269,9 @@ public class SendGoodsFragment extends BaseFragment {
         addressUtils = new AddressUtils();
         locationUtils = new LocationUtils(mActivity);
         locationUtils.startLocation();
+
+        Spanned spanned = Html.fromHtml(" <font color=\"#1e90ff\">《货物运输协议》</font>点击查看");
+        tvAgreement.setText(spanned);
     }
 
     @Override
@@ -261,7 +281,8 @@ public class SendGoodsFragment extends BaseFragment {
     }
 
     @OnClick({R.id.tv_tonne, R.id.tv_square, R.id.tv_choose_start, R.id.tv_choose_end, R.id.tv_choose_length,
-            R.id.tv_choose_type, R.id.tv_choose_time, R.id.tv_choose_content, R.id.tv_ok_push, R.id.tv_chong_fa, R.id.tv_chang_fa, R.id.tv_tong_cheng})
+            R.id.tv_choose_type, R.id.tv_choose_time, R.id.tv_choose_content, R.id.tv_ok_push, R.id.tv_chong_fa,
+            R.id.tv_chang_fa, R.id.tv_tong_cheng, R.id.tv_agreement})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //选择吨
@@ -318,6 +339,10 @@ public class SendGoodsFragment extends BaseFragment {
             case R.id.tv_tong_cheng:
                 tvTongCheng.setSelected(!tvTongCheng.isSelected());
                 break;
+            //货物运输协议
+            case R.id.tv_agreement:
+                startActivity(new Intent(mActivity, AgreementActivity.class));
+                break;
         }
     }
 
@@ -366,10 +391,10 @@ public class SendGoodsFragment extends BaseFragment {
             return;
         }
 
-        if (TextUtils.isEmpty(goDate)) {
-            showToast("请选择装车时间");
-            return;
-        }
+//        if (TextUtils.isEmpty(goDate)) {
+//            showToast("请选择装车时间");
+//            return;
+//        }
 
         CarSendEntity sendEntity = new CarSendEntity();
         sendEntity.setUserId(SpUtils.getUserData(mActivity).getId());
@@ -464,11 +489,18 @@ public class SendGoodsFragment extends BaseFragment {
         SoapUtils.Post(mActivity, API.AddSend, params, new SoapCallback() {
             @Override
             public void onError(String error) {
-                if (error.equals("账户余额不足")) {
+                hideDialog();
+                if (error.equals("账户积分不足")) {
+                    if (p != null && p.getCodeName().equals("在线代收")) {
+                        alertDialog.setMessage("对不起您的账户余额不足，由于您选择了在线代收，需要预先将运费支付到货车多财务系统进行保管，" +
+                                "当订单完成时会将运费发送至司机的账户上，请前去充值");
+                    } else {
+                        alertDialog.setMessage("账户余额不足请充值，建议充值100元以上");
+                    }
+
                     alertDialog.show();
                     return;
                 }
-                hideDialog();
                 showToast(error);
             }
 

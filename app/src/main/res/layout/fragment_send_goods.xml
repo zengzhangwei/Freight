@@ -18,6 +18,17 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tv_agreement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_color"
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingLeft="@dimen/dp_12"
+                android:paddingTop="@dimen/dp_10"
+                android:text="《货物运输协议》点击查看"
+                android:visibility="gone" />
+
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_48"

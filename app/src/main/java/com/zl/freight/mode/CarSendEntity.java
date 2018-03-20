@@ -39,7 +39,7 @@ public class CarSendEntity implements Serializable {
     public double InfoMoney;//信息费金额
     public int ReceiveId;//接单人用户Id
     public int Times;//重发次数
-    public int IsPay;//是否支付信息费
+    public int IsPay = 0;//是否支付信息费
     public int PayLimit;//支付限期
     public String CreateAt = "";//创建时间
     public String UpdateAt = "";//更新时间

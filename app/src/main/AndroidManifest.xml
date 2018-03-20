@@ -29,13 +29,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <!--拨打电话的权限-->
+    <!-- 拨打电话的权限 -->
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 调用硬件相机权限 -->
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
 
     <application
         android:name=".APP"
@@ -152,7 +151,7 @@
             </intent-filter>
         </receiver>
 
-        <!--电话拦截-->
+        <!-- 电话拦截 -->
         <receiver android:name=".receiver.PhoneBroadcastReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
@@ -162,7 +161,7 @@
         <!-- 电话拦截服务 -->
         <service android:name=".service.PhoneService">
             <intent-filter>
-                <action android:name="com.xinwang.telesms.PhoneReciever"></action>
+                <action android:name="com.xinwang.telesms.PhoneReciever" />
                 <action android:name="com.xinwang.telesms.server.IMICHAT" />
             </intent-filter>
         </service>
@@ -237,7 +236,8 @@
         <activity
             android:name=".ui.activity.CameraActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".ui.activity.FrontCameraActivity"></activity>
+        <activity android:name=".ui.activity.FrontCameraActivity" />
+        <activity android:name=".ui.activity.AgreementActivity"></activity>
     </application>
 
 </manifest>

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -336,6 +338,7 @@ public class FindGoodsFragment extends BaseFragment {
      */
     private void handleData(ViewHolder holder, final GoodsListBean s, int position) {
         CircleImageView imageView = holder.getView(R.id.iv_user_icon);
+        TextView tv_money = holder.getView(R.id.tv_money);
         ImageLoader.loadUserIcon(mActivity, s.getUserIcon(), imageView);
         holder.getView(R.id.iv_phone).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -356,6 +359,19 @@ public class FindGoodsFragment extends BaseFragment {
         String data = s.getCodeName1() + "米  " + s.getCodeName() + "/" + s.getGoodsWeight() + s.getWeightUnit() + " " + s.getCodeName5() + "\n装车时间"
                 + s.getGoDate() + s.getGoTime() + "  " + s.getCodeName3();
         holder.setText(R.id.tv_car_data, data);
+
+        try {
+            String freight = s.getFreight();
+            if (Double.parseDouble(freight) > 0) {
+                Spanned spanned = Html.fromHtml("运费：<font color=\"#ce2538\">" + freight + "元</font>");
+                tv_money.setVisibility(View.VISIBLE);
+                tv_money.setText(spanned);
+            } else {
+                tv_money.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     @Override

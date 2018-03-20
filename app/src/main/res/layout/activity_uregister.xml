@@ -64,6 +64,15 @@
                     style="@style/RegisterIvStyle"
                     android:src="@mipmap/icon_hand_photo" />
 
+                <CheckBox
+                    android:id="@+id/cb_agreement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingLeft="@dimen/dp_2"
+                    android:paddingTop="@dimen/dp_10"
+                    android:text="《货物运输协议》点击查看" />
+
                 <TextView
                     android:id="@+id/tv_next"
                     style="@style/TextButtonStyle"
@@ -77,6 +86,7 @@
     <RelativeLayout
         android:id="@+id/uregister_rl"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent">
 
     </RelativeLayout>
