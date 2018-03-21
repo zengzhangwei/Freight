@@ -140,7 +140,7 @@ public class MyGoodsListFragment extends BaseFragment {
         //货物发布时间
         holder.setText(R.id.tv_goods_issue_time, s.getCreateAt());
         //货物描述
-        String data = s.getCodeName1() + "米  " + s.getCodeName() + "/" + s.getGoodsWeight() + s.getWeightUnit() + " " + s.getCodeName5() + "\n装车时间"
+        String data = s.getCodeName1() + "米  " + s.getCodeName() + "/" + s.getGoodsWeight() + s.getWeightUnit() + " " + s.getCodeName4() +" " + s.getCodeName5() + "\n装车时间"
                 + s.getGoDate() + s.getGoTime() + "  " + s.getCodeName3();
         holder.setText(R.id.tv_car_data, data);
     }

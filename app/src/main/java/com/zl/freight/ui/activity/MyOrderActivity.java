@@ -38,7 +38,7 @@ public class MyOrderActivity extends BaseActivity {
     TabLayout myNewTab;
     @BindView(R.id.my_new_pager)
     ViewPager myNewPager;
-    private List<String> mList = Arrays.asList("未完成", "待完成", "已完成");
+    private List<String> mList = Arrays.asList("未完成", "装货完成", "待完成", "已完成");
     private List<Fragment> fList = new ArrayList<>();
     private FragmentStatePagerAdapter pagerAdapter;
 
@@ -77,6 +77,7 @@ public class MyOrderActivity extends BaseActivity {
             myNewTab.addTab(myNewTab.newTab().setText(s));
         }
         fList.add(OrderListFragment.newInstance(0));
+        fList.add(OrderListFragment.newInstance(99));
         fList.add(OrderListFragment.newInstance(1));
         fList.add(OrderListFragment.newInstance(2));
         pagerAdapter.notifyDataSetChanged();

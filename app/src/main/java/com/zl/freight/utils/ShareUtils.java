@@ -20,7 +20,7 @@ public class ShareUtils {
 
     public static void share(final Activity context) {
         UMImage thumb = new UMImage(context, R.mipmap.logo_108);
-        UMWeb web = new UMWeb("http://shouji.baidu.com/software/23305418.html");
+        UMWeb web = new UMWeb("http://zhushou.360.cn/detail/index/soft_id/3961228");
         web.setTitle("货车多应用分享");//标题
         web.setThumb(thumb);  //缩略图
         web.setDescription("这里有一款好的软件分享给您，请点击查看");//描述

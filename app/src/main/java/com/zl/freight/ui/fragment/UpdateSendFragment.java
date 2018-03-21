@@ -245,7 +245,21 @@ public class UpdateSendFragment extends BaseFragment {
                 z = zhuang;
                 p = payType;
                 c = content;
-                tvChooseContent.setText(zhuang.getCodeName() + " " + content);
+                StringBuilder builder = new StringBuilder();
+                if (z != null) {
+                    builder.append(z.getCodeName()).append(" ");
+                }
+
+                if (p != null) {
+                    builder.append(p.getCodeName()).append(" ");
+                }
+
+                if (!TextUtils.isEmpty(c)) {
+                    builder.append(c);
+                }
+
+                String data = builder.toString();
+                tvChooseContent.setText(data);
             }
         });
     }

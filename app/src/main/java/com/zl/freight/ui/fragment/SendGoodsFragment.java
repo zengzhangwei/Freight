@@ -186,6 +186,10 @@ public class SendGoodsFragment extends BaseFragment {
         addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
             @Override
             public void onAddress(String data) {
+                if(data.equals("全国")){
+                    showToast("发货时请不要选择全国");
+                    return;
+                }
                 addressUtils.search(data);
                 switch (tag) {
                     case CHOOSESTART:
@@ -201,6 +205,9 @@ public class SendGoodsFragment extends BaseFragment {
 
             @Override
             public void onAddressDetail(String data) {
+                if(data.equals("全国")){
+                    return;
+                }
                 switch (tag) {
                     case CHOOSESTART:
                         startAddress = data;

@@ -87,6 +87,10 @@ public class GoodsDetailActivity extends BaseActivity implements TopUpFragment.O
     TextView tvRemark;
     @BindView(R.id.goods_detail_rl)
     RelativeLayout goodsDetailRl;
+    @BindView(R.id.tv_pay_type)
+    TextView tvPayType;
+    @BindView(R.id.linear_pay_type)
+    AutoLinearLayout linearPayType;
     private GoodsListBean data;
     private AlertDialog alertDialog;
     private AlertDialog messageDialog;
@@ -125,6 +129,11 @@ public class GoodsDetailActivity extends BaseActivity implements TopUpFragment.O
         if (!TextUtils.isEmpty(data.getCodeName3())) {
             linearZhuangXie.setVisibility(View.VISIBLE);
             tvZhuangXieXuQiu.setText(data.getCodeName3());
+        }
+
+        if (!TextUtils.isEmpty(data.getCodeName4())) {
+            linearPayType.setVisibility(View.VISIBLE);
+            tvPayType.setText(data.getCodeName4());
         }
 
         if (Double.valueOf(data.getInfoMoney()) > 0) {

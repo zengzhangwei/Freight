@@ -136,12 +136,13 @@ public class GoodsOrderListFragment extends BaseFragment {
             @Override
             public void convert(UniversalViewHolder holder, final int position, final GoodsListBean s) {
                 TextView tvStatus = holder.getView(R.id.tv_order_status);
+                TextView tvPayType = holder.getView(R.id.tv_pay_type);
 
                 String receiveId = s.getReceiveId();
 
                 if (TextUtils.isEmpty(receiveId) || receiveId.equals("0")) {
                     tvStatus.setText("订单状态：未被接单");
-                }else{
+                } else {
                     tvStatus.setText("订单状态：已被接单");
                 }
 
@@ -149,6 +150,24 @@ public class GoodsOrderListFragment extends BaseFragment {
                     tvStatus.setText("订单状态：司机已装货");
                 } else if (s.getIsOver().equals("1")) {
                     tvStatus.setText("订单状态：司机完成卸货");
+                }
+
+                switch (s.getPayType()) {
+                    case "58":
+                        tvPayType.setText("支付方式：全现金");
+                        break;
+                    case "59":
+                        tvPayType.setText("支付方式：需回单");
+                        break;
+                    case "60":
+                        tvPayType.setText("支付方式：三段付");
+                        break;
+                    case "66":
+                        tvPayType.setText("支付方式：在线支付");
+                        break;
+                    default:
+                        tvPayType.setText("支付方式：无");
+                        break;
                 }
 
                 holder.setText(R.id.tv_order_number, "运  单  号：" + s.getId());

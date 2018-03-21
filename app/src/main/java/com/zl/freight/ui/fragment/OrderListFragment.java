@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
@@ -129,6 +130,7 @@ public class OrderListFragment extends BaseFragment {
 
             @Override
             public void convert(UniversalViewHolder holder, int position, final GoodsListBean s) {
+                TextView tvPayType = holder.getView(R.id.tv_pay_type);
                 holder.setText(R.id.tv_order_number, "运  单  号：" + s.getId());
                 holder.setText(R.id.tv_order_time, "下单时间：" + s.getCreateAt());
                 holder.setText(R.id.tv_order_start, s.getStartPlace());
@@ -141,6 +143,25 @@ public class OrderListFragment extends BaseFragment {
                         SystemUtils.call(mActivity, s.getUserName1());
                     }
                 });
+
+                switch (s.getPayType()) {
+                    case "58":
+                        tvPayType.setText("支付方式：全现金");
+                        break;
+                    case "59":
+                        tvPayType.setText("支付方式：需回单");
+                        break;
+                    case "60":
+                        tvPayType.setText("支付方式：三段付");
+                        break;
+                    case "66":
+                        tvPayType.setText("支付方式：在线支付");
+                        break;
+                    default:
+                        tvPayType.setText("支付方式：无");
+                        break;
+                }
+
                 //我已装货
                 holder.getView(R.id.linear_finish).setOnClickListener(new View.OnClickListener() {
                     @Override
