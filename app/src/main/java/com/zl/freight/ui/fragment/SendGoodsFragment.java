@@ -102,7 +102,7 @@ public class SendGoodsFragment extends BaseFragment {
     private String goDate = "";
     private String goTime = "";
     private String c;
-    private String goodsName;
+    private String goodsName = "";
     private KeyValueBean l, t, u, g, z, p;
     private AlertDialog alertDialog;
     private AddressDialog addressDialog;
@@ -186,7 +186,7 @@ public class SendGoodsFragment extends BaseFragment {
         addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
             @Override
             public void onAddress(String data) {
-                if(data.equals("全国")){
+                if (data.equals("全国")) {
                     showToast("发货时请不要选择全国");
                     return;
                 }
@@ -205,7 +205,7 @@ public class SendGoodsFragment extends BaseFragment {
 
             @Override
             public void onAddressDetail(String data) {
-                if(data.equals("全国")){
+                if (data.equals("全国")) {
                     return;
                 }
                 switch (tag) {
@@ -383,18 +383,8 @@ public class SendGoodsFragment extends BaseFragment {
             return;
         }
 
-        if (g == null) {
-            showToast("请选择货物类型");
-            return;
-        }
-
         if (TextUtils.isEmpty(weight)) {
             showToast("请输入货物重量");
-            return;
-        }
-
-        if (TextUtils.isEmpty(money)) {
-            showToast("请输入运费金额");
             return;
         }
 
@@ -416,9 +406,20 @@ public class SendGoodsFragment extends BaseFragment {
         sendEntity.setUseCarLong(Integer.parseInt(l.getId()));
         sendEntity.setUseCarType(Integer.parseInt(t.getId()));
         sendEntity.setUseCarClass(Integer.parseInt(u.getId()));
-        sendEntity.setGoodsType(Integer.parseInt(g.getId()));
+
+        if (g != null) {
+            sendEntity.setGoodsType(Integer.parseInt(g.getId()));
+        } else {
+            sendEntity.setGoodsType(0);
+        }
+
         sendEntity.setGoodsWeight(Double.parseDouble(weight));
-        sendEntity.setFreight(Double.parseDouble(money));
+        if (!TextUtils.isEmpty(money)) {
+            sendEntity.setFreight(Double.parseDouble(money));
+        } else {
+            sendEntity.setFreight(0);
+        }
+
         sendEntity.setGoodName(goodsName);
         sendEntity.setGoTime(goTime);
         sendEntity.setGoDate(goDate);

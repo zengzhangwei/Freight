@@ -3,6 +3,8 @@ package com.zl.freight.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +23,9 @@ import com.zl.freight.ui.dialog.ChooseTimeDialog;
 import com.zl.freight.ui.dialog.GoodsTypeDialog;
 import com.zl.freight.ui.dialog.RemarkDialog;
 import com.zl.freight.ui.dialog.SGCarLengthDialog;
+import com.zl.freight.ui.window.AddressDialog;
 import com.zl.freight.utils.API;
+import com.zl.freight.utils.AddressUtils;
 import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
@@ -88,12 +92,15 @@ public class UpdateSendFragment extends BaseFragment {
     private double endLongitude = 0;
     private String endAddress;
     private String endCity;
-    private String goDate;
-    private String goTime;
+    private String goDate = "";
+    private String goTime = "";
     private String c;
-    private String goodsName;
+    private String goodsName = "";
     private KeyValueBean l, t, u, g, z, p;
     private CarSendEntity sendEntity = new CarSendEntity();
+    private AddressDialog addressDialog;
+    private AddressUtils addressUtils;
+    private int tag;
 
     public UpdateSendFragment() {
         // Required empty public constructor
@@ -137,7 +144,6 @@ public class UpdateSendFragment extends BaseFragment {
                 tvTonne.setSelected(false);
                 tvSquare.setSelected(true);
             }
-            etMoney.setText(listBean.getFreight());
             tvChooseTime.setText(listBean.getGoDate() + listBean.getGoTime());
             if (!TextUtils.isEmpty(listBean.getCodeName4()) || !TextUtils.isEmpty(listBean.getCodeName5()) || !TextUtils.isEmpty(listBean.getRemark())) {
                 tvChooseContent.setText(listBean.getCodeName4() + " " + listBean.getCodeName5() + " " + listBean.getRemark());
@@ -164,10 +170,23 @@ public class UpdateSendFragment extends BaseFragment {
                 tvTongCheng.setSelected(false);
             }
 
+            //信息费
             if (Double.valueOf(listBean.getInfoMoney()) <= 0) {
                 etInfoMoney.setText("");
             } else {
                 etInfoMoney.setText(listBean.getInfoMoney());
+            }
+
+            //运费
+            try {
+                String freight = listBean.getFreight();
+                if (Double.parseDouble(freight) > 0) {
+                    etMoney.setText(listBean.getFreight());
+                } else {
+                    etMoney.setText("");
+                }
+            } catch (Exception e) {
+
             }
 
             //赋值始发地和目的地
@@ -262,6 +281,57 @@ public class UpdateSendFragment extends BaseFragment {
                 tvChooseContent.setText(data);
             }
         });
+
+        addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
+            @Override
+            public void onAddress(String data) {
+                if (data.equals("全国")) {
+                    showToast("发货时请不要选择全国");
+                    return;
+                }
+                addressUtils.search(data);
+                switch (tag) {
+                    case CHOOSESTART:
+                        startCity = data;
+                        tvChooseStart.setText(data);
+                        break;
+                    case CHOOSEEND:
+                        endCity = data;
+                        tvChooseEnd.setText(data);
+                        break;
+                }
+            }
+
+            @Override
+            public void onAddressDetail(String data) {
+                if (data.equals("全国")) {
+                    return;
+                }
+                switch (tag) {
+                    case CHOOSESTART:
+                        startAddress = data;
+                        break;
+                    case CHOOSEEND:
+                        endAddress = data;
+                        break;
+                }
+            }
+        });
+        addressUtils.setOnAddressSearchListener(new AddressUtils.OnAddressSearchListener() {
+            @Override
+            public void onSearch(double x, double y) {
+                switch (tag) {
+                    case CHOOSESTART:
+                        startLatitude = x;
+                        startLongitude = y;
+                        break;
+                    case CHOOSEEND:
+                        endLatitude = x;
+                        endLongitude = y;
+                        break;
+                }
+            }
+        });
     }
 
     private void initView() {
@@ -270,6 +340,8 @@ public class UpdateSendFragment extends BaseFragment {
         remarkDialog = new RemarkDialog(mActivity);
         timeDialog = new ChooseTimeDialog(mActivity);
         tvOkPush.setText("修改并发布");
+        addressDialog = new AddressDialog(mActivity);
+        addressUtils = new AddressUtils();
     }
 
     @Override
@@ -295,11 +367,13 @@ public class UpdateSendFragment extends BaseFragment {
                 break;
             //选择始发地
             case R.id.tv_choose_start:
-                startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), CHOOSESTART);
+                tag = CHOOSESTART;
+                addressDialog.show(view);
                 break;
             //选择目的地
             case R.id.tv_choose_end:
-                startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), CHOOSEEND);
+                tag = CHOOSEEND;
+                addressDialog.show(view);
                 break;
             //选择货车长度
             case R.id.tv_choose_length:
@@ -356,10 +430,15 @@ public class UpdateSendFragment extends BaseFragment {
 
         if (!TextUtils.isEmpty(weight)) {
             sendEntity.setGoodsWeight(Double.parseDouble(weight));
+        }else{
+            showToast("货物数量不能为空");
+            return;
         }
 
         if (!TextUtils.isEmpty(money)) {
             sendEntity.setFreight(Double.parseDouble(money));
+        }else{
+            sendEntity.setFreight(0);
         }
 
         if (!TextUtils.isEmpty(goDate)) {
@@ -443,37 +522,37 @@ public class UpdateSendFragment extends BaseFragment {
             @Override
             public void onSuccess(String data) {
                 hideDialog();
-                showToast("货物发布成功");
-                getFragmentManager().popBackStack();
+                showToast("货物修改成功");
+                mActivity.finish();
             }
         });
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == mActivity.RESULT_OK) {
-            double latitude = data.getDoubleExtra("latitude", 0);
-            double longitude = data.getDoubleExtra("longitude", 0);
-            String addresses = data.getStringExtra("address");
-            String city = data.getStringExtra("city");
-            switch (requestCode) {
-                case CHOOSESTART:
-                    startLatitude = latitude;
-                    startLongitude = longitude;
-                    startAddress = addresses;
-                    startCity = city;
-                    tvChooseStart.setText(city);
-                    break;
-                case CHOOSEEND:
-                    endAddress = addresses;
-                    endLatitude = latitude;
-                    endLongitude = longitude;
-                    endCity = city;
-                    tvChooseEnd.setText(city);
-                    break;
-            }
-        }
-    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == mActivity.RESULT_OK) {
+//            double latitude = data.getDoubleExtra("latitude", 0);
+//            double longitude = data.getDoubleExtra("longitude", 0);
+//            String addresses = data.getStringExtra("address");
+//            String city = data.getStringExtra("city");
+//            switch (requestCode) {
+//                case CHOOSESTART:
+//                    startLatitude = latitude;
+//                    startLongitude = longitude;
+//                    startAddress = addresses;
+//                    startCity = city;
+//                    tvChooseStart.setText(city);
+//                    break;
+//                case CHOOSEEND:
+//                    endAddress = addresses;
+//                    endLatitude = latitude;
+//                    endLongitude = longitude;
+//                    endCity = city;
+//                    tvChooseEnd.setText(city);
+//                    break;
+//            }
+//        }
+//    }
 
 }

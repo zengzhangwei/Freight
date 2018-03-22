@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--<item-->
+        <!--android:id="@+id/top_line"-->
+        <!--android:icon="@drawable/ic_top"-->
+        <!--android:title="@string/top_line" /> -->
     <item
-        android:id="@+id/top_line"
-        android:icon="@drawable/ic_top"
-        android:title="@string/top_line" />
+        android:id="@+id/bao_xian"
+        android:icon="@drawable/ic_bao_xian"
+        android:title="@string/insurance" />
     <item
         android:id="@+id/find_goods"
         android:icon="@drawable/ic_find_goods"

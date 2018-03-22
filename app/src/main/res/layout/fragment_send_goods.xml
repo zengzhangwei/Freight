@@ -128,7 +128,7 @@
                 <TextView
                     style="@style/SendGoodsTextStyle"
                     android:drawableLeft="@mipmap/icon_weight"
-                    android:text="@string/goods_weight" />
+                    android:text="货物数量" />
 
                 <EditText
                     android:id="@+id/et_weight"

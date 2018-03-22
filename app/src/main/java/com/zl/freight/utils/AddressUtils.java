@@ -34,7 +34,7 @@ public class AddressUtils implements OnGetSuggestionResultListener {
         double latitude = 0, longitude = 0;
         if (suggestionResult != null || suggestionResult.getAllSuggestions() != null) {
             List<SuggestionResult.SuggestionInfo> allSuggestions = suggestionResult.getAllSuggestions();
-            if (allSuggestions.size() > 0){
+            if (allSuggestions != null && allSuggestions.size() > 0) {
                 SuggestionResult.SuggestionInfo suggestionInfo = allSuggestions.get(0);
                 latitude = suggestionInfo.pt.latitude;
                 longitude = suggestionInfo.pt.longitude;

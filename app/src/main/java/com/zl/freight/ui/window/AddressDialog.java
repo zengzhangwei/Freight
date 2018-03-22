@@ -148,6 +148,14 @@ public class AddressDialog implements View.OnClickListener {
                     }
                     dismiss();
                     return;
+                } else if (provinceName.contains("北京市") || provinceName.contains("天津市") || provinceName.contains("上海市") || provinceName.contains("重庆市")) {
+                    if (onReturnAddressListener != null) {
+                        String codeName = cityList.get(position).getCodeName();
+                        onReturnAddressListener.onAddress(provinceName + codeName);
+                        onReturnAddressListener.onAddressDetail(provinceName + codeName);
+                    }
+                    dismiss();
+                    return;
                 }
                 cityId = cityList.get(position).getId();
                 isShowRlv(rlvCounty);

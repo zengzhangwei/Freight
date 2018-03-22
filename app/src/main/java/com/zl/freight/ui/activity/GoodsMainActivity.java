@@ -33,6 +33,7 @@ import com.zl.freight.ui.fragment.OftenFragment;
 import com.zl.freight.ui.fragment.PersonFragment;
 import com.zl.freight.ui.fragment.SendGoodsFragment;
 import com.zl.freight.ui.fragment.TopLineFragment;
+import com.zl.freight.ui.fragment.WebFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.BottomNavigationViewHelper;
 import com.zl.freight.utils.ShareUtils;
@@ -94,6 +95,7 @@ public class GoodsMainActivity extends BaseActivity {
     private MyGoodsFragment myGoodsFragment;
     private OftenFragment oftenFragment;
     private MessageDialog alertDialog;
+    private WebFragment webFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,9 +145,13 @@ public class GoodsMainActivity extends BaseActivity {
 
                 switch (item.getItemId()) {
 
-                    //头条
-                    case R.id.top_line:
-                        helper.showFragment(topLineFragment);
+//                    //头条
+//                    case R.id.top_line:
+//                        helper.showFragment(topLineFragment);
+//                        break;
+                    //保险
+                    case R.id.bao_xian:
+                        helper.showFragment(webFragment);
                         break;
                     //发货
                     case R.id.send_goods:
@@ -199,17 +205,19 @@ public class GoodsMainActivity extends BaseActivity {
         findGoodsFragment = FindGoodsFragment.newInstance();
         personFragment = PersonFragment.newInstance();
         sendGoodsFragment = SendGoodsFragment.newInstance();
-        topLineFragment = TopLineFragment.newInstance();
+//        topLineFragment = TopLineFragment.newInstance();
         noLoginPersonFragment = NoLoginPersonFragment.newInstance();
         cheYuanFragment = CheYuanFragment.newInstance();
         myGoodsFragment = MyGoodsFragment.newInstance();
         oftenFragment = OftenFragment.newInstance();
+        webFragment = WebFragment.newInstance("https://www.baidu.com/");
         helper = FragmentHelper.builder(mActivity).attach(R.id.main_rl)
                 .addFragment(findGoodsFragment)
                 .addFragment(personFragment)
                 .addFragment(sendGoodsFragment)
-                .addFragment(topLineFragment)
+//                .addFragment(topLineFragment)
                 .addFragment(noLoginPersonFragment)
+                .addFragment(webFragment)
                 .addFragment(cheYuanFragment)
                 .addFragment(myGoodsFragment)
                 .addFragment(oftenFragment)

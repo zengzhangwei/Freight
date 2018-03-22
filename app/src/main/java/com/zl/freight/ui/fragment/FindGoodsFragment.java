@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -357,7 +358,7 @@ public class FindGoodsFragment extends BaseFragment {
         //货物描述
 //        holder.setText(R.id.tv_car_data, getResources().getString(R.string.data));
         String data = s.getCodeName1() + "米  " + s.getCodeName() + "/" + s.getGoodsWeight() + s.getWeightUnit() + " "
-                + s.getCodeName5() +" " + s.getCodeName4() + "\n装车时间" + s.getGoDate() + s.getGoTime() + "  " + s.getCodeName3();
+                + s.getCodeName5() + " " + s.getCodeName4() + (TextUtils.isEmpty(s.getGoDate()) ? "" : "\n装车时间" + s.getGoDate() + s.getGoTime()) + "  " + s.getCodeName3();
         holder.setText(R.id.tv_car_data, data);
 
         try {

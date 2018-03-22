@@ -1,8 +1,11 @@
 package com.zl.freight.ui.fragment;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,8 @@ import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.zl.freight.R;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.GoodsListBean;
+import com.zl.freight.mode.RefreshGoodBean;
+import com.zl.freight.ui.activity.MyMoneyActivity;
 import com.zl.freight.ui.activity.UpdateSendActivity;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.SoapCallback;
@@ -49,8 +54,10 @@ public class MyGoodsListFragment extends BaseFragment {
     Unbinder unbinder;
     private int type;
     private List<GoodsListBean> mList = new ArrayList<>();
+    private List<RefreshGoodBean> gList = new ArrayList<>();
     private UniversalAdapter<GoodsListBean> mAdapter;
     private int position;
+    private AlertDialog alertDialog;
 
     public MyGoodsListFragment() {
         // Required empty public constructor
@@ -119,6 +126,19 @@ public class MyGoodsListFragment extends BaseFragment {
         myGoodsListView.setAdapter(mAdapter);
         myGoodsTrl.setHeaderView(new ProgressLayout(mActivity));
         myGoodsTrl.setEnableLoadmore(false);
+        alertDialog = new AlertDialog.Builder(mActivity).setMessage("账户余额不足请充值，建议充值100元以上")
+                .setPositiveButton("充值", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(mActivity, MyMoneyActivity.class));
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).create();
     }
 
     @Override
@@ -132,7 +152,7 @@ public class MyGoodsListFragment extends BaseFragment {
      *
      * @param holder
      */
-    private void handleData(UniversalViewHolder holder, final GoodsListBean s, int position) {
+    private void handleData(UniversalViewHolder holder, final GoodsListBean s, final int position) {
         //出发地
         holder.setText(R.id.tv_origin, s.getStartPlace());
         //目的地
@@ -140,9 +160,127 @@ public class MyGoodsListFragment extends BaseFragment {
         //货物发布时间
         holder.setText(R.id.tv_goods_issue_time, s.getCreateAt());
         //货物描述
-        String data = s.getCodeName1() + "米  " + s.getCodeName() + "/" + s.getGoodsWeight() + s.getWeightUnit() + " " + s.getCodeName4() +" " + s.getCodeName5() + "\n装车时间"
-                + s.getGoDate() + s.getGoTime() + "  " + s.getCodeName3();
+        String data = s.getCodeName1() + "米  " + s.getCodeName() + "/" + s.getGoodsWeight() + s.getWeightUnit() + " " + s.getCodeName4() + " " + s.getCodeName5()
+                + (TextUtils.isEmpty(s.getGoDate()) ? "" : "\n装车时间" + s.getGoDate() + s.getGoTime()) + "  " + s.getCodeName3();
         holder.setText(R.id.tv_car_data, data);
+
+        holder.getView(R.id.linear_delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                delete(s, position);
+            }
+        });
+        holder.getView(R.id.linear_refresh).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refresh(s, position);
+            }
+        });
+        holder.getView(R.id.linear_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                close(s, position);
+            }
+        });
+    }
+
+    /**
+     * 关闭货源
+     *
+     * @param s
+     * @param position
+     */
+    private void close(GoodsListBean s, final int position) {
+        if (s.getIsdelete().equals("1")) {
+            showToast("该订单已关闭");
+            return;
+        }
+        //TODO 在这里要加上一个判断，判断该订单是否被接，若被接则不能关闭
+        Map<String, String> params = new HashMap<>();
+        params.put("SendId", s.getId());
+        SoapUtils.Post(mActivity, API.DeleteSend, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                showToast("关闭成功");
+                mList.remove(position);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    /**
+     * 重发货源
+     *
+     * @param s
+     * @param position
+     */
+    private void refresh(final GoodsListBean s, int position) {
+        Map<String, String> params = new HashMap<>();
+        RefreshGoodBean goodBean = gList.get(position);
+        goodBean.setGoodsPic("");
+        goodBean.setId("");
+        params.put("sendJson", GsonUtils.toJson(goodBean));
+        params.put("UserRole", SpUtils.getUserData(mActivity).getUserRole());
+
+        showDialog("货物发布中...");
+        SoapUtils.Post(mActivity, API.AddSend, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                hideDialog();
+                if (error.equals("账户积分不足")) {
+                    if (!s.getPayType().equals("0") && s.getPayType().equals("66")) {
+                        alertDialog.setMessage("对不起您的账户余额不足，由于您选择了在线代收，需要预先将运费支付到货车多财务系统进行保管，" +
+                                "当订单完成时会将运费发送至司机的账户上，请前去充值");
+                    } else {
+                        alertDialog.setMessage("账户余额不足请充值，建议充值100元以上");
+                    }
+
+                    alertDialog.show();
+                    return;
+                }
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                hideDialog();
+                showToast("货物重发成功");
+            }
+        });
+    }
+
+    /**
+     * 删除货源
+     *
+     * @param s
+     * @param position
+     */
+    private void delete(GoodsListBean s, final int position) {
+        if (s.getIsdelete().equals("1")) {
+            showToast("该订单已关闭");
+            return;
+        }
+        //TODO 在这里要加上一个判断，判断该订单是否被接，若被接则不能关闭
+        Map<String, String> params = new HashMap<>();
+        params.put("SendId", s.getId());
+        SoapUtils.Post(mActivity, API.DeleteSend, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                showToast("关闭成功");
+                mList.remove(position);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     /**
@@ -170,6 +308,7 @@ public class MyGoodsListFragment extends BaseFragment {
             public void onSuccess(String data) {
                 if (b) {
                     mList.clear();
+                    gList.clear();
                     myGoodsTrl.finishRefreshing();
                 } else {
                     myGoodsTrl.finishLoadmore();
@@ -178,7 +317,9 @@ public class MyGoodsListFragment extends BaseFragment {
                     JSONArray array = new JSONArray(data);
                     for (int i = 0; i < array.length(); i++) {
                         GoodsListBean sendEntity = GsonUtils.fromJson(array.optString(i), GoodsListBean.class);
+                        RefreshGoodBean goodBean = GsonUtils.fromJson(array.optString(i), RefreshGoodBean.class);
                         mList.add(sendEntity);
+                        gList.add(goodBean);
                     }
                     mAdapter.notifyDataSetChanged();
                 } catch (Exception e) {
