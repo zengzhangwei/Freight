@@ -114,10 +114,14 @@ public class API {
     public static final String ReceiveSend = "ReceiveSend";
 
     /**
+     * 关闭订单 参数 SendId
+     */
+    public static final String CloseSend = "CloseSend";
+
+    /**
      * 删除订单 参数 SendId
      */
     public static final String DeleteSend = "DeleteSend";
-
     /**
      * 插入jpushid
      */

@@ -373,7 +373,7 @@ public class SendGoodsFragment extends BaseFragment {
         String weight = etWeight.getText().toString().trim();
         String money = etMoney.getText().toString().trim();
         String infoMoney = etInfoMoney.getText().toString().trim();
-        if (TextUtils.isEmpty(startCity) || TextUtils.isEmpty(endCity)) {
+        if (TextUtils.isEmpty(startCity) ||TextUtils.isEmpty(endCity) ||TextUtils.isEmpty(startAddress) || TextUtils.isEmpty(endAddress)) {
             showToast("请选择起点和终点");
             return;
         }
@@ -398,9 +398,9 @@ public class SendGoodsFragment extends BaseFragment {
         sendEntity.setStateFrom(startAddress);
         sendEntity.setStateTo(endAddress);
         sendEntity.setStartPlace(startCity);
+        sendEntity.setEndPlace(endCity);
         sendEntity.setStartX(startLatitude + "");
         sendEntity.setStartY(startLongitude + "");
-        sendEntity.setEndPlace(endCity);
         sendEntity.setEndX(endLatitude + "");
         sendEntity.setEndY(endLongitude + "");
         sendEntity.setUseCarLong(Integer.parseInt(l.getId()));

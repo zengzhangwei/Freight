@@ -191,14 +191,14 @@ public class MyGoodsListFragment extends BaseFragment {
      * @param position
      */
     private void close(GoodsListBean s, final int position) {
-        if (s.getIsdelete().equals("1")) {
+        if (s.getIsdelete().equals("2")) {
             showToast("该订单已关闭");
             return;
         }
         //TODO 在这里要加上一个判断，判断该订单是否被接，若被接则不能关闭
         Map<String, String> params = new HashMap<>();
-        params.put("SendId", s.getId());
-        SoapUtils.Post(mActivity, API.DeleteSend, params, new SoapCallback() {
+        params.put("sendId", s.getId());
+        SoapUtils.Post(mActivity, API.CloseSend, params, new SoapCallback() {
             @Override
             public void onError(String error) {
                 showToast(error);
@@ -222,6 +222,8 @@ public class MyGoodsListFragment extends BaseFragment {
     private void refresh(final GoodsListBean s, int position) {
         Map<String, String> params = new HashMap<>();
         RefreshGoodBean goodBean = gList.get(position);
+        goodBean.setCreateAt("");
+        goodBean.setUpdateAt("");
         goodBean.setGoodsPic("");
         goodBean.setId("");
         params.put("sendJson", GsonUtils.toJson(goodBean));
@@ -262,7 +264,7 @@ public class MyGoodsListFragment extends BaseFragment {
      */
     private void delete(GoodsListBean s, final int position) {
         if (s.getIsdelete().equals("1")) {
-            showToast("该订单已关闭");
+            showToast("该订单已删除");
             return;
         }
         //TODO 在这里要加上一个判断，判断该订单是否被接，若被接则不能关闭
@@ -276,7 +278,7 @@ public class MyGoodsListFragment extends BaseFragment {
 
             @Override
             public void onSuccess(String data) {
-                showToast("关闭成功");
+                showToast("成功删除订单");
                 mList.remove(position);
                 mAdapter.notifyDataSetChanged();
             }

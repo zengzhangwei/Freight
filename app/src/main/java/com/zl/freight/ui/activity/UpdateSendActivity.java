@@ -67,14 +67,14 @@ public class UpdateSendActivity extends BaseActivity {
      */
     private void deleteOrder() {
         if (listBean == null) return;
-        if (listBean.getIsdelete().equals("1")) {
+        if (listBean.getIsdelete().equals("2")) {
             showToast("该订单已关闭");
             return;
         }
         //TODO 在这里要加上一个判断，判断该订单是否被接，若被接则不能关闭
         Map<String, String> params = new HashMap<>();
-        params.put("SendId", listBean.getId());
-        SoapUtils.Post(mActivity, API.DeleteSend, params, new SoapCallback() {
+        params.put("sendId", listBean.getId());
+        SoapUtils.Post(mActivity, API.CloseSend, params, new SoapCallback() {
             @Override
             public void onError(String error) {
                 showToast(error);
