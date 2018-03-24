@@ -113,4 +113,39 @@
     </com.zhy.autolayout.AutoLinearLayout>
 
     <TextView style="@style/LineTextStyle" />
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/RegisterTextStyle"
+            android:text="推介人" />
+
+        <EditText
+            android:id="@+id/et_input_push_name"
+            style="@style/RegisterEtStyle"
+            android:hint="请输入推介人姓名（可选）"
+            android:maxLength="50" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView style="@style/LineTextStyle" />
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/RegisterTextStyle"
+            android:text="手机号" />
+
+        <EditText
+            android:id="@+id/et_input_push_phone"
+            style="@style/RegisterEtStyle"
+            android:hint="请输入推介人手机号（可选）"
+            android:inputType="phone"
+            android:maxLength="11" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView style="@style/LineTextStyle" />
 </com.zhy.autolayout.AutoLinearLayout>

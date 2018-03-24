@@ -95,7 +95,6 @@ public class FindGoodsFragment extends BaseFragment {
     private String carType;
     private TopNewsBean carInformationEntity;
     private CarLengthDialog carLengthDialog;
-    private ChooseAddressWindow addressWindow;
     private TextView mTextView;
     private String Lineto = "", Linefrom = "";
     private boolean isSatrt;
@@ -328,7 +327,6 @@ public class FindGoodsFragment extends BaseFragment {
         carType = userData.getCarType();
 
         carLengthDialog = new CarLengthDialog(mActivity);
-        addressWindow = new ChooseAddressWindow(mActivity);
         addressDialog = new AddressDialog(mActivity, 1);
     }
 

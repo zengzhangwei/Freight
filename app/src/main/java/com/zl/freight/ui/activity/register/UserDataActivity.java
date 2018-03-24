@@ -2,15 +2,17 @@ package com.zl.freight.ui.activity.register;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.RegexUtils;
@@ -21,11 +23,9 @@ import com.zl.freight.mode.BaseCompanyEntity;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.CarUserBean;
 import com.zl.freight.mode.UserBean;
+import com.zl.freight.ui.activity.AgreementActivity;
 import com.zl.freight.ui.activity.CameraActivity;
 import com.zl.freight.ui.activity.FrontCameraActivity;
-import com.zl.freight.ui.activity.GoodsRegisterActivity;
-import com.zl.freight.ui.activity.RegisterActivity;
-import com.zl.freight.ui.fragment.PushPersonFragment;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SendCodeUtils;
@@ -34,8 +34,6 @@ import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.dialog.PhotoDialog;
 import com.zl.zlibrary.utils.GsonUtils;
-import com.zl.zlibrary.utils.GzipUtils;
-import com.zl.zlibrary.utils.ImageFactory;
 import com.zl.zlibrary.utils.MiPictureHelper;
 
 import org.json.JSONArray;
@@ -75,7 +73,14 @@ public class UserDataActivity extends BaseActivity {
     ImageView ivHandPhoto;
     @BindView(R.id.tv_next)
     TextView tvNext;
-    private PushPersonFragment pushPersonFragment;
+    @BindView(R.id.et_input_push_name)
+    EditText etInputPushName;
+    @BindView(R.id.et_input_push_phone)
+    EditText etInputPushPhone;
+    @BindView(R.id.cb_agreement)
+    CheckBox cbAgreement;
+    @BindView(R.id.uregister_rl)
+    RelativeLayout uregisterRl;
     private PhotoDialog photoDialog;
     private String imagePath;
     private String IMGPERSONPATH = "";
@@ -140,6 +145,8 @@ public class UserDataActivity extends BaseActivity {
         userEntity.setId(carUserBean.getId());
         userEntity.setReferral(carUserBean.getReferral());
         userEntity.setReferralTel(carUserBean.getReferralTel());
+        Referral = carUserBean.getReferral();
+        ReferralTel = carUserBean.getReferralTel();
         userEntity.setRealName(carUserBean.getRealName());
         userEntity.setUserName(carUserBean.getUserName());
         userEntity.setPassWord(carUserBean.getPassWord());
@@ -180,6 +187,8 @@ public class UserDataActivity extends BaseActivity {
         etInputPhone.setText(carUserBean.getUserName());
         etInputPassword.setText(carUserBean.getPassWord());
         tvChoosePushP.setText(carUserBean.getReferral() + "  " + carUserBean.getReferralTel());
+        etInputPushName.setText(carUserBean.getReferral());
+        etInputPushPhone.setText(carUserBean.getReferralTel());
         ImageLoader.loadImageUrl(mActivity, carUserBean.getIdCard1(), ivPersonPhoto);
         ImageLoader.loadImageUrl(mActivity, carUserBean.getIdCard2(), ivHandPhoto);
 
@@ -200,22 +209,15 @@ public class UserDataActivity extends BaseActivity {
 
 
     private void initListener() {
-        //获取推介人信息的回调
-        pushPersonFragment.setOnRetrunDataListener(new PushPersonFragment.OnReturnDataListener() {
-            @Override
-            public void onReturnData(String name, String phone) {
-                Referral = name;
-                ReferralTel = phone;
-                tvChoosePushP.setText(name + "  " + phone);
-            }
-        });
+
     }
 
     private void initView() {
         userDataActivity = this;
         tvTitle.setText("实名认证");
         photoDialog = new PhotoDialog(mActivity);
-        pushPersonFragment = PushPersonFragment.newInstance();
+        Spanned spanned = Html.fromHtml(" <font color=\"#1e90ff\">《货物运输协议》</font>点击查看");
+        cbAgreement.setText(spanned);
     }
 
     private void sendCode() {
@@ -341,11 +343,26 @@ public class UserDataActivity extends BaseActivity {
      * 下一步操作
      */
     private void next() {
+
+        if (!cbAgreement.isChecked()) {
+            new AlertDialog.Builder(mActivity).setMessage("您未同意《货物运输协议》无法进行下一步操作，请先阅读货物运输协议")
+                    .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            cbAgreement.setChecked(true);
+                            startActivity(new Intent(mActivity, AgreementActivity.class));
+                        }
+                    }).show();
+            return;
+        }
+
         String name = etInputName.getText().toString().trim();
         String phone = etInputPhone.getText().toString().trim();
         String code = etInputCode.getText().toString().trim();
         String password = etInputPassword.getText().toString().trim();
         String personCode = etPersonCode.getText().toString().trim();
+        Referral = etInputPushName.getText().toString().trim();
+        ReferralTel = etInputPushPhone.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
             showToast("请输入真实姓名");
@@ -399,6 +416,10 @@ public class UserDataActivity extends BaseActivity {
 
         //都不为空时进行数据的添加
         if (!TextUtils.isEmpty(Referral) && !TextUtils.isEmpty(ReferralTel)) {
+            if (!RegexUtils.isMobileExact(ReferralTel)) {
+                showToast(getResources().getString(R.string.please_input_ok_phone));
+                return;
+            }
             userEntity.setReferral(Referral);
             userEntity.setReferralTel(ReferralTel);
         }
@@ -434,10 +455,6 @@ public class UserDataActivity extends BaseActivity {
      * 进入输入推介人信息界面
      */
     private void startPersonFragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack("no")
-                .replace(R.id.uregister_rl, pushPersonFragment)
-                .commit();
+
     }
 }

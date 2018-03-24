@@ -18,6 +18,7 @@ import com.zl.freight.mode.UserBean;
 import com.zl.freight.ui.activity.AddressChooseActivity;
 import com.zl.freight.ui.activity.URegisterActivity;
 import com.zl.freight.ui.dialog.PreviewImageDialog;
+import com.zl.freight.ui.window.AddressDialog;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
@@ -67,8 +68,6 @@ public class CompanyActivity extends BaseActivity {
     private ArrayList<String> imgs = new ArrayList<>();
     private final int REQUEST_CAMERA_CODE = 0x427;
     private UniversalAdapter<String> mAdapter;
-    private double latitude;
-    private double longitude;
     private String address;
     private PhotoDialog photoDialog;
     private String imagePath;
@@ -77,6 +76,7 @@ public class CompanyActivity extends BaseActivity {
     private String idCard2;
     private String companyPic;
     private BaseCompanyEntity companyEntity;
+    private AddressDialog addressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,22 @@ public class CompanyActivity extends BaseActivity {
     }
 
     private void initListener() {
+        addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
+            @Override
+            public void onAddress(String data, String city, String county) {
+                if (data.equals("全国")) {
+                    showToast("请不要选择全国");
+                    return;
+                }
+            }
 
+            @Override
+            public void onAddressDetail(String data) {
+                if (TextUtils.isEmpty(data)) return;
+                address = data;
+                tvChooseAddress.setText(data);
+            }
+        });
     }
 
     private void initView() {
@@ -123,6 +138,8 @@ public class CompanyActivity extends BaseActivity {
         if (!TextUtils.isEmpty(companyEntity.getStorePic2())) {
             imgs.add(companyEntity.getStorePic2());
         }
+
+        addressDialog = new AddressDialog(mActivity);
     }
 
     @Override
@@ -134,12 +151,6 @@ public class CompanyActivity extends BaseActivity {
                     photoList.clear();
                     photoList.addAll(data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT));
                     mAdapter.notifyDataSetChanged();
-                    break;
-                case 666:
-                    latitude = data.getDoubleExtra("latitude", 0);
-                    longitude = data.getDoubleExtra("longitude", 0);
-                    address = data.getStringExtra("address");
-                    tvChooseAddress.setText(address);
                     break;
                 case PhotoDialog.PICK_FROM_CAMERA:
                     imagePath = photoDialog.imagePath;
@@ -175,7 +186,7 @@ public class CompanyActivity extends BaseActivity {
                 break;
             //选择地址
             case R.id.tv_choose_address:
-                startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), 666);
+                addressDialog.show(view);
                 break;
             //上传营业执照
             case R.id.iv_person_photo:

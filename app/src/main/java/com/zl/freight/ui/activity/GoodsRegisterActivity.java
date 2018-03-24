@@ -1,11 +1,8 @@
 package com.zl.freight.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,8 +13,11 @@ import com.foamtrace.photopicker.SelectModel;
 import com.foamtrace.photopicker.intent.PhotoPickerIntent;
 import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
+import com.zl.freight.mode.AddressListBean;
 import com.zl.freight.mode.BaseCompanyEntity;
 import com.zl.freight.mode.BaseUserEntity;
+import com.zl.freight.ui.window.AddressDialog;
+import com.zl.freight.ui.window.ChooseAddressWindow;
 import com.zl.freight.utils.API;
 import com.zl.freight.utils.ImageLoader;
 import com.zl.freight.utils.SoapCallback;
@@ -37,12 +37,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author zhanglei
@@ -76,8 +70,6 @@ public class GoodsRegisterActivity extends BaseActivity {
     private ArrayList<String> photoList = new ArrayList<>();
     private final int REQUEST_CAMERA_CODE = 0x427;
     private UniversalAdapter<String> mAdapter;
-    private double latitude;
-    private double longitude;
     private String address;
     private PhotoDialog photoDialog;
     private String imagePath;
@@ -85,6 +77,7 @@ public class GoodsRegisterActivity extends BaseActivity {
     private String idCard1;
     private String idCard2;
     private String companyPic;
+    private AddressDialog addressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +89,22 @@ public class GoodsRegisterActivity extends BaseActivity {
     }
 
     private void initListener() {
+        addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
+            @Override
+            public void onAddress(String data, String city, String county) {
+                if (data.equals("全国")) {
+                    showToast("请不要选择全国");
+                    return;
+                }
+            }
 
+            @Override
+            public void onAddressDetail(String data) {
+                if (TextUtils.isEmpty(data)) return;
+                address = data;
+                tvChooseAddress.setText(data);
+            }
+        });
     }
 
     private void initView() {
@@ -113,6 +121,7 @@ public class GoodsRegisterActivity extends BaseActivity {
         userEntity = (BaseUserEntity) getIntent().getSerializableExtra("userEntity");
         idCard1 = userEntity.getIdCard1();
         idCard2 = userEntity.getIdCard2();
+        addressDialog = new AddressDialog(mActivity, 1);
     }
 
     @Override
@@ -124,12 +133,6 @@ public class GoodsRegisterActivity extends BaseActivity {
                     photoList.clear();
                     photoList.addAll(data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT));
                     mAdapter.notifyDataSetChanged();
-                    break;
-                case 666:
-                    latitude = data.getDoubleExtra("latitude", 0);
-                    longitude = data.getDoubleExtra("longitude", 0);
-                    address = data.getStringExtra("address");
-                    tvChooseAddress.setText(address);
                     break;
                 case PhotoDialog.PICK_FROM_CAMERA:
                     imagePath = photoDialog.imagePath;
@@ -165,7 +168,7 @@ public class GoodsRegisterActivity extends BaseActivity {
                 break;
             //选择地址
             case R.id.tv_choose_address:
-                startActivityForResult(new Intent(mActivity, AddressChooseActivity.class), 666);
+                addressDialog.show(view);
                 break;
             //上传营业执照
             case R.id.iv_person_photo:
@@ -184,7 +187,7 @@ public class GoodsRegisterActivity extends BaseActivity {
         }
 
         if (TextUtils.isEmpty(address)) {
-            showToast("请选择公司地址");
+            showToast("请选择公司所在位置");
             return;
         }
 

@@ -28,8 +28,8 @@ public class API {
     //图片存储父路径
     public static final String image_file_path = Environment.getExternalStorageDirectory().getPath() + "/HuoCheDuo/";
 
-//    public static final String BaseUrl = "http://172.16.18.17";
-    public static final String BaseUrl = "http://139.129.131.31:8088/";
+    public static final String BaseUrl = "http://172.16.18.17";
+//    public static final String BaseUrl = "http://139.129.131.31:8088/";
 //    public static final String BaseUrl = "http://60.6.221.233:8888/";
 
     /**

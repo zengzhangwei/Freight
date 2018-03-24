@@ -121,13 +121,30 @@
                         android:background="@color/white"
                         android:drawableRight="@mipmap/icon_right"
                         android:gravity="center_vertical"
-                        android:hint="请选择公司地址"
+                        android:hint="选择公司所在位置"
                         android:paddingLeft="@dimen/dp_32"
                         android:textSize="@dimen/dp_16" />
 
                 </com.zhy.autolayout.AutoLinearLayout>
 
                 <TextView style="@style/LineTextStyle" />
+
+                <!--<com.zhy.autolayout.AutoLinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+
+                    <!--<TextView-->
+                        <!--style="@style/RegisterTextStyle"-->
+                        <!--android:text="详细地址" />-->
+
+                    <!--<EditText-->
+                        <!--android:id="@+id/et_company_address"-->
+                        <!--style="@style/RegisterEtStyle"-->
+                        <!--android:hint="请输入公司详细地址" />-->
+
+                <!--</com.zhy.autolayout.AutoLinearLayout>-->
+
+                <!--<TextView style="@style/LineTextStyle" />-->
 
                 <ImageView
                     android:id="@+id/iv_person_photo"

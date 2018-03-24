@@ -149,12 +149,13 @@ public class PathListActivity extends BaseActivity {
         } else {
             page++;
         }
+
         params.put("UserRole", userData.getUserRole());
         params.put("UserId", SpUtils.getUserData(mActivity).getId());
-        params.put("IsLine", "0");
-        params.put("LineId", data.getId());
-        params.put("Linefrom", "");
-        params.put("Lineto", "");
+        params.put("IsLine", "1");
+        params.put("LineId", "");
+        params.put("Linefrom", data.getStateFrom());
+        params.put("Lineto", data.getStateTo());
         params.put("CarX", bdLocation.getLatitude() + "");
         params.put("CarY", bdLocation.getLongitude() + "");
         params.put("PageIndex", page + "");

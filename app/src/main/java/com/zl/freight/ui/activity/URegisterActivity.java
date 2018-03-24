@@ -72,7 +72,10 @@ public class URegisterActivity extends BaseActivity {
     CheckBox cbAgreement;
     @BindView(R.id.uregister_rl)
     RelativeLayout uregisterRl;
-    private PushPersonFragment pushPersonFragment;
+    @BindView(R.id.et_input_push_name)
+    EditText etInputPushName;
+    @BindView(R.id.et_input_push_phone)
+    EditText etInputPushPhone;
     private PhotoDialog photoDialog;
     private String imagePath;
     private String IMGPERSONPATH = "";
@@ -96,15 +99,7 @@ public class URegisterActivity extends BaseActivity {
     }
 
     private void initListener() {
-        //获取推介人信息的回调
-        pushPersonFragment.setOnRetrunDataListener(new PushPersonFragment.OnReturnDataListener() {
-            @Override
-            public void onReturnData(String name, String phone) {
-                Referral = name;
-                ReferralTel = phone;
-                tvChoosePushP.setText(name + "  " + phone);
-            }
-        });
+
     }
 
     private void initView() {
@@ -112,7 +107,6 @@ public class URegisterActivity extends BaseActivity {
         role = getIntent().getIntExtra("role", API.DRIVER);
         tvTitle.setText("实名认证");
         photoDialog = new PhotoDialog(mActivity);
-        pushPersonFragment = PushPersonFragment.newInstance();
         Spanned spanned = Html.fromHtml(" <font color=\"#1e90ff\">《货物运输协议》</font>点击查看");
         cbAgreement.setText(spanned);
     }
@@ -194,18 +188,14 @@ public class URegisterActivity extends BaseActivity {
                 break;
             //上传身份证照片
             case R.id.iv_person_photo:
-//                choosePhoto(PERSONTYPE, view);
                 startActivityForResult(new Intent(mActivity, CameraActivity.class), PERSONTYPE);
-
                 break;
             //上传手持身份证照片
             case R.id.iv_hand_photo:
-//                choosePhoto(HANDTYPE, view);
                 startActivityForResult(new Intent(mActivity, FrontCameraActivity.class), HANDTYPE);
                 break;
             //下一步
             case R.id.tv_next:
-//                testZip();
                 next();
                 break;
             //进入货物运输协议界面
@@ -264,7 +254,8 @@ public class URegisterActivity extends BaseActivity {
                     .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-
+                            cbAgreement.setChecked(true);
+                            startActivity(new Intent(mActivity, AgreementActivity.class));
                         }
                     }).show();
             return;
@@ -275,7 +266,8 @@ public class URegisterActivity extends BaseActivity {
         String code = etInputCode.getText().toString().trim();
         String password = etInputPassword.getText().toString().trim();
         String personCode = etPersonCode.getText().toString().trim();
-
+        Referral = etInputPushName.getText().toString().trim();
+        ReferralTel = etInputPushPhone.getText().toString().trim();
         if (TextUtils.isEmpty(name)) {
             showToast("请输入真实姓名");
             return;
@@ -334,6 +326,10 @@ public class URegisterActivity extends BaseActivity {
         BaseUserEntity userEntity = new BaseUserEntity();
         //都不为空时进行数据的添加
         if (!TextUtils.isEmpty(Referral) && !TextUtils.isEmpty(ReferralTel)) {
+            if (!RegexUtils.isMobileExact(ReferralTel)) {
+                showToast(getResources().getString(R.string.please_input_ok_phone));
+                return;
+            }
             userEntity.setReferral(Referral);
             userEntity.setReferralTel(ReferralTel);
         }
@@ -359,10 +355,6 @@ public class URegisterActivity extends BaseActivity {
      * 进入输入推介人信息界面
      */
     private void startPersonFragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack("no")
-                .replace(R.id.uregister_rl, pushPersonFragment)
-                .commit();
+
     }
 }
