@@ -29,6 +29,12 @@ public class AddressUtils implements OnGetSuggestionResultListener {
                 .city(city));
     }
 
+    public void search(String city,String county) {
+        mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
+                .keyword(city)
+                .city(county));
+    }
+
     @Override
     public void onGetSuggestionResult(SuggestionResult suggestionResult) {
         double latitude = 0, longitude = 0;

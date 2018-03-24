@@ -196,6 +196,8 @@ public class UpdateSendFragment extends BaseFragment {
             endCity = listBean.getEndPlace();
             endLatitude = Double.parseDouble(listBean.getEndX());
             endLongitude = Double.parseDouble(listBean.getEndY());
+            startAddress = listBean.getStateFrom();
+            endAddress = listBean.getStateTo();
 
             //初始化参数
             sendEntity.setId(Integer.parseInt(listBean.getId()));
@@ -284,12 +286,12 @@ public class UpdateSendFragment extends BaseFragment {
 
         addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
             @Override
-            public void onAddress(String data) {
+            public void onAddress(String data, String city, String county) {
                 if (data.equals("全国")) {
                     showToast("发货时请不要选择全国");
                     return;
                 }
-                addressUtils.search(data);
+                addressUtils.search(city,county);
                 switch (tag) {
                     case CHOOSESTART:
                         startCity = data;
@@ -423,6 +425,11 @@ public class UpdateSendFragment extends BaseFragment {
             sendEntity.setUseCarClass(Integer.parseInt(u.getId()));
         }
 
+        if (TextUtils.isEmpty(startCity) || TextUtils.isEmpty(endCity) || TextUtils.isEmpty(startAddress) || TextUtils.isEmpty(endAddress)) {
+            showToast("请选择起点和终点");
+            return;
+        }
+
         if (g != null) {
             sendEntity.setGoodsType(Integer.parseInt(g.getId()));
             sendEntity.setGoodName(goodsName);
@@ -430,14 +437,14 @@ public class UpdateSendFragment extends BaseFragment {
 
         if (!TextUtils.isEmpty(weight)) {
             sendEntity.setGoodsWeight(Double.parseDouble(weight));
-        }else{
+        } else {
             showToast("货物数量不能为空");
             return;
         }
 
         if (!TextUtils.isEmpty(money)) {
             sendEntity.setFreight(Double.parseDouble(money));
-        }else{
+        } else {
             sendEntity.setFreight(0);
         }
 
@@ -458,9 +465,11 @@ public class UpdateSendFragment extends BaseFragment {
         }
 
         sendEntity.setStartPlace(startCity);
+        sendEntity.setEndPlace(endCity);
+        sendEntity.setStateFrom(startAddress);
+        sendEntity.setStateTo(endAddress);
         sendEntity.setStartX(startLatitude + "");
         sendEntity.setStartY(startLongitude + "");
-        sendEntity.setEndPlace(endCity);
         sendEntity.setEndX(endLatitude + "");
         sendEntity.setEndY(endLongitude + "");
         //是否标记为常发货源

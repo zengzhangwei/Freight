@@ -144,6 +144,24 @@ public class GoodsListBean implements Serializable {
     private String CodeName4;
     private String CodeName5;
     private String UserName1;
+    public String StateFrom = "";//货物名称
+    public String StateTo = "";//货物名称
+
+    public String getStateFrom() {
+        return StateFrom;
+    }
+
+    public void setStateFrom(String stateFrom) {
+        StateFrom = stateFrom;
+    }
+
+    public String getStateTo() {
+        return StateTo;
+    }
+
+    public void setStateTo(String stateTo) {
+        StateTo = stateTo;
+    }
 
     public String getIsOver() {
         return IsOver;

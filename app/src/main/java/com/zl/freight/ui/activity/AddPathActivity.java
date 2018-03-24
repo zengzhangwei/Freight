@@ -84,7 +84,7 @@ public class AddPathActivity extends BaseActivity {
         });
         addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
             @Override
-            public void onAddress(String data) {
+            public void onAddress(String data, String city, String county) {
                 //是否是目的地
                 if (!isEnd) {
                     tvStartName.setText(data);

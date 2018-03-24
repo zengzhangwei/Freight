@@ -185,12 +185,12 @@ public class SendGoodsFragment extends BaseFragment {
         });
         addressDialog.setOnReturnAddressListener(new AddressDialog.OnReturnAddressListener() {
             @Override
-            public void onAddress(String data) {
+            public void onAddress(String data, String city, String county) {
                 if (data.equals("全国")) {
                     showToast("发货时请不要选择全国");
                     return;
                 }
-                addressUtils.search(data);
+                addressUtils.search(city,county);
                 switch (tag) {
                     case CHOOSESTART:
                         startCity = data;
@@ -373,7 +373,7 @@ public class SendGoodsFragment extends BaseFragment {
         String weight = etWeight.getText().toString().trim();
         String money = etMoney.getText().toString().trim();
         String infoMoney = etInfoMoney.getText().toString().trim();
-        if (TextUtils.isEmpty(startCity) ||TextUtils.isEmpty(endCity) ||TextUtils.isEmpty(startAddress) || TextUtils.isEmpty(endAddress)) {
+        if (TextUtils.isEmpty(startCity) || TextUtils.isEmpty(endCity) || TextUtils.isEmpty(startAddress) || TextUtils.isEmpty(endAddress)) {
             showToast("请选择起点和终点");
             return;
         }

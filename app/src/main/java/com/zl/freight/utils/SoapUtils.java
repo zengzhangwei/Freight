@@ -29,9 +29,9 @@ public class SoapUtils {
     // 命名空间
     public static final String nameSpace = "http://tempuri.org/";
     // EndPoint
-//    public static final String endPoint = "http://139.129.131.31:8088/WebService1.asmx";
+    public static final String endPoint = "http://139.129.131.31:8088/WebService1.asmx";
 //    public static final String endPoint = "http://60.6.221.233:8888/WebService1.asmx";
-    public static final String endPoint = "http://172.16.18.17/WebService1.asmx";
+//    public static final String endPoint = "http://172.16.18.17/WebService1.asmx";
 
     /**
      * @param mActivity
