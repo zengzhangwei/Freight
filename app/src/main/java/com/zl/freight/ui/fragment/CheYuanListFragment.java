@@ -309,19 +309,24 @@ public class CheYuanListFragment extends BaseFragment {
      * 移除熟车
      */
     private void remove() {
+        CarUserBean carUserBean = mList.get(mPosition);
         Map<String, String> params = new HashMap<>();
-        //TODO 先注释掉，等接口
-//        SoapUtils.Post(mActivity, API.BaseDict, params, new SoapCallback() {
-//            @Override
-//            public void onError(String error) {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(String data) {
-//
-//            }
-//        });
+        params.put("ShipperId", SpUtils.getUserData(mActivity).getId());
+        params.put("DriverId", carUserBean.getId());
+        SoapUtils.Post(mActivity, API.DeleteRelation, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                Log.e("", "");
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                Log.e("", "");
+                showToast("成功移除熟车");
+                mList.remove(mPosition);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     /**
@@ -340,7 +345,11 @@ public class CheYuanListFragment extends BaseFragment {
 
             @Override
             public void onSuccess(String data) {
-                showToast("成功添加熟车");
+                if (data.equals("熟车关系已经存在")) {
+                    showToast("该司机已经是您的熟车了");
+                } else {
+                    showToast("成功添加熟车");
+                }
                 Log.e("data", data);
             }
         });
@@ -351,7 +360,7 @@ public class CheYuanListFragment extends BaseFragment {
      *
      * @param holder
      */
-    private void handleData(UniversalViewHolder holder, final CarUserBean bean, int position) {
+    private void handleData(UniversalViewHolder holder, final CarUserBean bean, final int position) {
         mPosition = position;
         if (type == 0) {
             ImageView view = holder.getView(R.id.iv_item_icon);
@@ -396,6 +405,7 @@ public class CheYuanListFragment extends BaseFragment {
         holder.getView(R.id.linear_car).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mPosition = position;
                 if (type == 0) {
                     removeDialog.show();
                 } else {

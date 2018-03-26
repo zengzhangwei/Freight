@@ -57,7 +57,7 @@ public class AddressDialog implements View.OnClickListener {
     private String provinceId = "";
     private String provinceName = "";
     private String cityId = "";
-    //0发货用，没有全省全市 1找货用，有全省全市
+    //0、发货用，没有全省全市 1、找货用，有全省全市 2、有全市没全省
     private int type = 0;
 
     private OnReturnAddressListener onReturnAddressListener;
@@ -177,6 +177,15 @@ public class AddressDialog implements View.OnClickListener {
                     }
                     dismiss();
                     return;
+                }else if (type == 2 && position == 0){
+                    if (onReturnAddressListener != null) {
+                        String codeName = countyList.get(position).getCodeName();
+                        String data = codeName.replace("全", "");
+                        onReturnAddressListener.onAddress(data, data, "");
+                        onReturnAddressListener.onAddressDetail(provinceName + data);
+                    }
+                    dismiss();
+                    return;
                 }
                 dismiss();
                 String city = tvCity.getText().toString().trim();
@@ -217,7 +226,7 @@ public class AddressDialog implements View.OnClickListener {
             public void onSuccess(String data) {
                 try {
                     cityList.clear();
-                    if (type == 1) {
+                    if (type == 1) { //需要加入全省item
                         AddressListBean listBean = new AddressListBean();
                         String name = tvProvince.getText().toString().trim();
                         listBean.setCodeName("全" + name);
@@ -252,7 +261,7 @@ public class AddressDialog implements View.OnClickListener {
             public void onSuccess(String data) {
                 try {
                     countyList.clear();
-                    if (type == 1) {
+                    if (type == 1 || type == 2) {//需要加入全市item
                         AddressListBean listBean = new AddressListBean();
                         String name = tvCity.getText().toString().trim();
                         listBean.setCodeName("全" + name);

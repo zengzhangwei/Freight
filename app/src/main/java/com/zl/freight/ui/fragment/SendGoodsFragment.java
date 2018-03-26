@@ -190,7 +190,7 @@ public class SendGoodsFragment extends BaseFragment {
                     showToast("发货时请不要选择全国");
                     return;
                 }
-                addressUtils.search(city,county);
+                addressUtils.search(city, county);
                 switch (tag) {
                     case CHOOSESTART:
                         startCity = data;
@@ -272,7 +272,7 @@ public class SendGoodsFragment extends BaseFragment {
 
                     }
                 }).create();
-        addressDialog = new AddressDialog(mActivity);
+        addressDialog = new AddressDialog(mActivity, 2);
         addressUtils = new AddressUtils();
         locationUtils = new LocationUtils(mActivity);
         locationUtils.startLocation();

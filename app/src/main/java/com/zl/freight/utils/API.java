@@ -133,6 +133,11 @@ public class API {
     public static final String InsertRelation = "InsertRelation";
 
     /**
+     * 删除熟车
+     */
+    public static final String DeleteRelation = "DeleteRelation";
+
+    /**
      * 提交反馈意见
      */
     public static final String InsertOpinion = "InsertOpinion";

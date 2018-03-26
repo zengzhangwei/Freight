@@ -342,7 +342,7 @@ public class UpdateSendFragment extends BaseFragment {
         remarkDialog = new RemarkDialog(mActivity);
         timeDialog = new ChooseTimeDialog(mActivity);
         tvOkPush.setText("修改并发布");
-        addressDialog = new AddressDialog(mActivity);
+        addressDialog = new AddressDialog(mActivity,2);
         addressUtils = new AddressUtils();
     }
 
