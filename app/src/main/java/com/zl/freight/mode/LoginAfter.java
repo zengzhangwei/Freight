@@ -16,12 +16,12 @@ public class LoginAfter {
      * DriverSend : 1
      */
 
-    private String Realname;
-    private String Company;
-    private String Car;
-    private String Referral;
-    private String InfoMoney;
-    private String DriverSend;
+    private String Realname; //实名认证
+    private String Company;//公司认证
+    private String Car;//车辆认证
+    private String Referral;//简绍注册增加积分
+    private String InfoMoney;//发布消息收费
+    private String DriverSend;//司机临时发货收费
 
     public String getRealname() {
         return Realname;
