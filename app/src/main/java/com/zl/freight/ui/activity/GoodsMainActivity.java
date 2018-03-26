@@ -22,6 +22,7 @@ import com.zl.freight.R;
 import com.zl.freight.base.BaseActivity;
 import com.zl.freight.mode.BaseUserEntity;
 import com.zl.freight.mode.KeyValueBean;
+import com.zl.freight.mode.LoginAfter;
 import com.zl.freight.ui.dialog.CarLengthDialog;
 import com.zl.freight.ui.dialog.DriverSearchDialog;
 import com.zl.freight.ui.dialog.MessageDialog;
@@ -41,6 +42,7 @@ import com.zl.freight.utils.SoapCallback;
 import com.zl.freight.utils.SoapUtils;
 import com.zl.freight.utils.SpUtils;
 import com.zl.zlibrary.utils.FragmentHelper;
+import com.zl.zlibrary.utils.GsonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -113,21 +115,21 @@ public class GoodsMainActivity extends BaseActivity {
         if (!userData.getIsCheck().equals("1")) {
             alertDialog.show();
         }
-//        Map<String, String> params = new HashMap<>();
-//        params.put("UserName", SpUtils.getUserData(mActivity).getUserName());
-//        SoapUtils.Post(mActivity, API.SaveCheck, params, new SoapCallback() {
-//            @Override
-//            public void onError(String error) {
-//
-//                SpUtils.setIsReal(mActivity,false);
-//            }
-//
-//            @Override
-//            public void onSuccess(String data) {
-//                SpUtils.setIsReal(mActivity,true);
-//                alertDialog.show();
-//            }
-//        });
+
+        //储存配置信息如：临时发货要多少钱等
+        Map<String, String> params = new HashMap<>();
+        SoapUtils.Post(mActivity, API.Loginafter, params, new SoapCallback() {
+            @Override
+            public void onError(String error) {
+                SpUtils.setIsReal(mActivity, false);
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                LoginAfter loginAfter = GsonUtils.fromJson(data, LoginAfter.class);
+                Log.e("data",data);
+            }
+        });
     }
 
     private void initListener() {

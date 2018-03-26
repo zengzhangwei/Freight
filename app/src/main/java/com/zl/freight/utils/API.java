@@ -38,6 +38,11 @@ public class API {
     public static final String Login = "Login";
 
     /**
+     * 获取应用的配置信息
+     */
+    public static final String Loginafter = "Loginafter";
+
+    /**
      * 获取各种字典项
      * 参数：CodeName （用车类型、车长、车型、货物类型、装卸方式、付款方式、发货备注）
      */
